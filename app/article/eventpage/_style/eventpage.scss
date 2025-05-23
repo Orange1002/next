@@ -1,0 +1,51 @@
+.event-card-group::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 576px) {
+  .event-card-group {
+    justify-content: flex-start;
+    padding: 15px 3px;
+  }
+}
+
+.event-card {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 1px 6px 25.5px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+  overflow: hidden;
+  width: 480px;
+  height: 280px;
+}
+
+.event-card:hover {
+  cursor: pointer;
+}
+
+@media (max-width: 576px) {
+  .event-card {
+    width: 303px;
+    height: 205px;
+    box-shadow: 1px 3px 5.5px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.event-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  width: 480px;
+  height: 210px;
+}
+
+.event-card-content {
+  padding: 21px;
+  color: #505050;
+  font-family: 'Kiwi Maru', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 3.52px;
+}

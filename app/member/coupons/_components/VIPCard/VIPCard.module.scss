@@ -1,0 +1,234 @@
+.myCardSection {
+  background-color: #fff;
+  padding: 60px 20px 40px;
+}
+
+.memberCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.cardInfo {
+  display: flex;
+  gap: 50px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.cardBox {
+  position: relative;
+  width: clamp(240px, 30vw, 350px);
+  height: auto;
+  aspect-ratio: 3 / 2;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.vipCardImg {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.cardText {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 100%;
+  width: 526px;
+  font-family: "Kiwi Maru", serif;
+}
+
+.helloText {
+  margin-bottom: 12px;
+  letter-spacing: 0.22em;
+  font: 400 20px/24px "Inria Sans";
+  color: #929292;
+}
+
+.highlight {
+  color: #ed784a;
+  font: 400 20px/29px "Kiwi Maru";
+}
+
+.memberLevel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #444;
+  font-size: 15px;
+}
+
+.pawIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.levelText {
+  margin: 0 6px;
+  font: 400 20px/29px "Kiwi Maru";
+  color: #505050;
+}
+
+.levelCurrent {
+  font: 400 20px/29px "Kiwi Maru";
+  color: #929292;
+}
+
+.levelExtra {
+  font-size: 13px;
+  color: #999;
+  margin: 0 4px;
+}
+
+.cardPoints {
+  margin-top: 30px;
+}
+
+.pointBanner {
+  width: 292px;
+  height: 48px;
+  background-color: #f3f3f3;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.pointBannerText {
+  font: 400 20px/29px "Kiwi Maru";
+  color: #929292;
+}
+
+.pointAmount {
+  font: 400 32px/38px "Inria Sans";
+  letter-spacing: 0.22em;
+  color: #ed784a;
+}
+
+.pointHint {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+  font-size: 13px;
+  color: #999;
+}
+
+.pointHintText {
+  font: 400 16px/23px "Kiwi Maru";
+  color: #929292;
+}
+
+.pointHintCurrent {
+  font: 400 16px/19px "Inria Sans";
+  color: #505050;
+  letter-spacing: 0.22em;
+}
+
+.cardMenu {
+  display: flex;
+  flex-direction: column;
+  font-family: "Inria Sans", sans-serif;
+  width: 217px;
+  height: 70px;
+  min-width: 150px;
+}
+
+.menuItem {
+  padding: 21px 10px;
+  background-color: #fff;
+  border-left: 2px solid transparent;
+  cursor: pointer;
+  font: 400 16px "Kiwi Maru";
+  color: #929292;
+}
+
+.menuItem.active {
+  background-color: #f5f5f5;
+  border-left: 2px solid #ed784a;
+  font-size: 20px;
+}
+
+.menuArrow {
+  width: 20px;
+  height: 20px;
+}
+
+.menuLine {
+  border-bottom: 1px solid #999;
+  margin-top: 8px;
+}
+
+@media (max-width: 576px) {
+  .memberCard {
+    justify-content: center;
+  }
+
+  .cardBox {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .cardInfo {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .cardText {
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .cardMenu {
+    width: 100%;
+    margin-top: 24px;
+  }
+
+  .pointBanner {
+    width: 100%;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    box-sizing: border-box;
+  }
+
+  .pointBannerText,
+  .pointAmount {
+    white-space: nowrap;
+  }
+
+  .pointAmount {
+    font-size: 26px;
+  }
+
+  .pointHint {
+    font-size: 13px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    margin-top: 16px;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .pointHintText,
+  .pointHintCurrent {
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  .menuItem {
+    text-align: center;
+  }
+}

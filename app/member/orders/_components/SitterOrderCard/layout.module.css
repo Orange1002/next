@@ -1,0 +1,73 @@
+.btnCustom {
+  width: 225px;
+  height: 50px;
+  border: 1px solid #ED784A;
+  color: #ED784A;
+  background-color: #fff;
+  padding: 12px 75px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-family: "Kiwi Maru";
+  text-wrap: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ED784A;
+    border-color: darken(#ED784A, 5%);
+    color: #fff;
+  }
+
+  &.active {
+    background-color: #ED784A;
+    border-color: darken(#ED784A, 5%);
+    color: #fff;
+  }
+}
+
+.blockOut {
+    border: 2px solid #D9D9D999;
+}
+
+.blockIn {
+    border: 2px solid #D9D9D999;
+    border-radius: 10px;
+}
+
+.productImg {
+    max-width: 80px;
+}
+
+.memberButton {
+    width: 96px;
+    height: 66px;
+}
+
+.mobileList {
+    li {
+        padding: 10px 20px;
+        border-bottom: 1px solid #D9D9D999;
+    }
+}
+
+.en {
+    font-family: "Inria Sans", sans-serif;
+    font-weight: 500;
+    display: inline-block;
+    line-height: 0.9;
+    font-size: 20px;
+}
+
+.zh {
+    font-family: "Kiwi Maru", serif;
+    font-weight: 500;
+    margin-right: 0.25rem;
+    display: inline-block;
+    line-height: 1;
+}
+
+.span {
+    color: #ED784A;
+}

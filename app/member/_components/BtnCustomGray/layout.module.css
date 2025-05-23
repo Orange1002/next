@@ -1,0 +1,27 @@
+.btnCustom {
+  width: 225px;
+  height: 50px;
+  border: 1px solid #505050;
+  background: #fff;
+  color: #505050;
+  text-decoration: none;
+  border-radius: 5px;
+  font-family: "Kiwi Maru";
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.btnCustom:hover,
+.btnCustom.active {
+  background-color: #505050;
+  border-color: #505050;
+  color: #fff;
+}
+
+/* 手機版響應式 */
+@media (max-width: 576px) {
+  .btnCustom {
+    width: 135px;
+    height: 45px;
+  }
+}

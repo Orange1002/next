@@ -1,0 +1,74 @@
+.post-art {
+  background-color: #fef9f5;
+  border-radius: 16px;
+  max-width: 1050px;
+  margin: 0 auto;
+
+  h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  .form-label {
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 6px;
+  }
+
+  .form-control,
+  textarea {
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: 0.3s ease;
+  }
+
+  .form-control:focus,
+  textarea:focus {
+    border-color: #ed784a;
+    box-shadow: 0 0 0 0.2rem rgba(237, 120, 74, 0.25);
+  }
+
+  .preview-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .preview-img {
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  .replay-btn {
+    background-color: #ed784a;
+    border: none;
+    border-radius: 8px;
+    width: 120px;
+    height: 40px;
+    font-size: 15px;
+    letter-spacing: 1px;
+    font-weight: 600;
+    color: white;
+    transition: all 0.25s ease-in-out;
+
+    &:hover {
+      background-color: #d7633d;
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}

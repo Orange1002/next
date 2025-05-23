@@ -1,0 +1,116 @@
+html {
+  font-family: 'Kiwi Maru', serif;
+}
+
+.article-p {
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.custom-letter-spacing {
+  margin-top: 32px;
+  letter-spacing: 0.05em;
+  max-width: 620px;
+  line-height: 1.8;
+  text-align: left;
+  font-size: 18px;
+}
+
+.replay-btn {
+  background-color: #ed784a;
+  border: none;
+  width: 60px;
+  height: 35px;
+  font-size: 14px;
+  letter-spacing: 3px;
+
+  &:hover {
+    background-color: #d7633d;
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: all 0.3s ease;
+  }
+}
+
+.replay-area {
+  padding: 0 10rem;
+}
+
+.comment-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #f8f9fa;
+  border-top: 1px solid #ddd;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+  z-index: 999;
+
+  textarea {
+    resize: none;
+    height: 2rem;
+  }
+}
+
+.share-area {
+  padding: 0 240px;
+
+  a {
+    color: #505050;
+    font-size: 20px;
+  }
+}
+
+.share-heart {
+  font-size: 20px;
+  color: #505050;
+  &:hover {
+    color: #d7633d; // 懸停時改變顏色
+    transform: scale(1.1); // 略微放大
+    cursor: pointer; // 當滑鼠懸停時，顯示手指光標
+    transition: all 0.3s ease; // 添加平滑過渡效果
+  }
+}
+.detail-bread {
+  margin-top: 100px;
+  a,
+  svg {
+    color: #929292;
+  }
+}
+.custom-card {
+  max-width: 500px;
+  height: 180px;
+}
+.custom-card-photo {
+  margin-left: -15px;
+  height: 180px;
+}
+.card-text {
+  line-height: 1.4;
+  font-size: 14px;
+  p {
+    margin-bottom: 0.1rem;
+  }
+}
+
+.fab-container .fab-option {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  background-color: white;
+}
+
+.fab-container .fab-option:hover {
+  background-color: #d7633d;
+  color: white;
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.fab-container .fab-option.show {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}

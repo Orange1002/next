@@ -1,0 +1,130 @@
+.mainWrapper {
+  background: var(--Frame-20, #f3f3f3);
+}
+
+.main {
+  display: flex;
+  box-sizing: border-box;
+  padding: 93px 50px 85px 50px;
+  flex-direction: column;
+  align-items: center;
+  gap: 70px;
+  flex-shrink: 0;
+
+  @media (max-width: 500px) {
+    gap: 0px;
+    padding: 0px;
+  }
+}
+
+// section1
+.productDetailSection1 {
+  display: flex;
+  width: 100%;
+  padding: 80px 0px 0px 0px;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 40px;
+  flex-shrink: 0;
+
+  @media (max-width: 500px) {
+    padding: 130px 0 30px 0;
+    align-items: center;
+  }
+}
+
+// section11
+.productDetailSection11 {
+  display: flex;
+  width: 1440px;
+  padding: 30px 0px 0px 0px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border-bottom: 1px solid #929292;
+
+  @media (max-width: 500px) {
+    padding: 0px 0;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+  }
+}
+
+.productContainer {
+  display: flex;
+  width: 1194px;
+  height: 738px;
+  padding: 0px 60px;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--Ellipse-9, #929292);
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    padding: 0;
+    gap: 24px;
+  }
+}
+
+// section2
+.productDetailSection2 {
+  display: flex;
+  width: 100%;
+  padding: 0px 50px 85px 50px;
+  flex-direction: column;
+  align-items: center;
+  gap: 70px;
+  flex-shrink: 0;
+
+  @media (max-width: 500px) {
+    padding: 0px 15px;
+    gap: 40px;
+  }
+}
+
+.section2Container {
+  display: flex;
+  width: 1440px;
+  padding: 0px 50px;
+  justify-content: center;
+  align-items: flex-start;
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+  }
+}
+
+.descriptionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  @media (max-width: 500px) {
+    width: 100%;
+  }
+}
+
+.productInfo {
+  display: flex;
+  width: 1035px;
+  padding: 20px 0px 80px 0px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 50px;
+  border-bottom: 1px solid var(--Ellipse-9, #929292);
+
+  @media (max-width: 500px) {
+    width: 100%;
+    padding: 0px 30px 50px 30px;
+    gap: 40px;
+  }
+}

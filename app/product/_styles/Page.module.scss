@@ -1,0 +1,30 @@
+.productPage {
+  .main {
+    display: flex;
+    box-sizing: border-box;
+    padding: 70px 50px 85px 50px;
+    flex-direction: column;
+    align-items: center;
+    gap: 45px;
+    flex-shrink: 0;
+
+    @media (max-width: 500px) {
+      gap: 0px;
+      padding: 0px;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .categoryWrapper {
+      display: none;
+    }
+
+    .productSidebar {
+      display: none;
+    }
+
+    :global(aside) {
+      display: none;
+    }
+  }
+}

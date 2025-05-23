@@ -1,0 +1,147 @@
+.productBanner {
+  padding-top: 93px;
+  display: flex;
+  width: 100%;
+
+  img {
+    width: 100%;
+  }
+}
+
+.categoryHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  row-gap: 10px;
+  align-self: stretch;
+  flex-wrap: nowrap;
+}
+
+.pageHeading {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 15px;
+  min-width: 600px;
+}
+
+.categoryTitle {
+  display: flex;
+  padding-left: 50px;
+  align-items: flex-start;
+}
+
+.categoryTitleContainer {
+  display: flex;
+  padding: 0px 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  flex: 1 0 0;
+}
+
+.line {
+  width: 83px;
+  height: 6px;
+  background: #505050;
+}
+
+.categoryTitleText {
+  color: var(--Ellipse-9, #929292);
+  font-family: 'Inria Sans';
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 7.92px;
+}
+
+.breadcrumbNav {
+  ol {
+    display: flex;
+    padding: 0px 60px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+
+  li {
+    a {
+      text-decoration: none;
+      color: var(--Ellipse-9, #929292);
+      font-family: 'Inria Sans';
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      letter-spacing: 3.52px;
+    }
+  }
+}
+
+// 📱 RWD：手機版
+@media (max-width: 500px) {
+  .productBanner {
+    padding-top: 93px;
+
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  .categoryHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 30px 16px;
+    gap: 20px;
+  }
+
+  .pageHeading {
+    min-width: auto;
+    width: 100%;
+    align-items: center;
+  }
+
+  .categoryTitle {
+    padding-left: 0;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .categoryTitleContainer {
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .categoryTitleText {
+    font-size: 20px;
+    letter-spacing: 3px;
+    text-align: center;
+  }
+
+  .breadcrumbNav {
+    ol {
+      flex-wrap: wrap;
+      gap: 5px;
+      padding: 0;
+      justify-content: center;
+    }
+
+    li a {
+      font-size: 12px;
+      letter-spacing: 1.5px;
+    }
+  }
+
+  .line {
+    width: 40px;
+    height: 3px;
+  }
+}

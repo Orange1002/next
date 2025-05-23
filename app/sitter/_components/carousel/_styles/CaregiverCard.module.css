@@ -1,0 +1,45 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  /* width: 379px; */
+  box-shadow: 1px 6px 25.5px rgba(0, 0, 0, 0.25);
+}
+
+.imageContainer {
+  width: 100%;
+  height: 280px;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content {
+  background-color: #f3f3f3;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 18px 19px;
+}
+
+.name {
+  color: #505050;
+  letter-spacing: 3.96px;
+  font-family: 'Kiwi Maru', serif;
+  font-size: 18px;
+}
+
+.description {
+  color: #cc543a;
+  letter-spacing: 4.4px;
+  font-family: 'Inria Sans', sans-serif;
+  font-size: 20px;
+  opacity: 0.6;
+}
+
+.iconContainer {
+  display: flex;
+  justify-content: flex-end;
+}

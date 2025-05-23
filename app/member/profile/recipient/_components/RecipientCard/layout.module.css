@@ -1,0 +1,58 @@
+.block {
+    border: 2px solid #D9D9D999;
+    border-radius: 10px;
+    border-radius: 10px;
+}
+
+.name {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.phone,
+.address {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.editButton {
+    font-size: 1rem;
+    background-color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+
+        color: #ED784A;
+    }
+
+    &:active {
+        transform: scale(1.05);
+        color: #ED784A;
+    }
+}
+
+.deleteButton {
+    font-size: 1.5rem;
+    background-color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+
+        color: #ED784A;
+    }
+
+    &:active {
+        transform: scale(1.05);
+        color: #ED784A;
+    }
+}

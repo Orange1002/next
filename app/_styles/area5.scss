@@ -1,0 +1,202 @@
+// 第五區塊
+.product-title {
+  color: #929292;
+  font-family: 'Kiwi Maru', sans-serif;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 3.96px;
+  margin-bottom: 58px;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 82px;
+    height: 6px;
+    background: #505050;
+    margin-right: 25px;
+  }
+
+  &::after {
+    content: '●';
+    color: #505050;
+    font-size: 15px;
+    margin-left: 25px;
+  }
+
+  @media (max-width: 575.98px) {
+    font-size: 24px;
+    letter-spacing: 5.28px;
+    margin-bottom: 0;
+    justify-content: center;
+    padding-left: 0;
+
+    &::before {
+      width: 34px;
+      padding-left: 10px;
+    }
+  }
+}
+
+.product-body {
+  gap: 31px;
+  align-self: stretch;
+
+  @media (max-width: 575.98px) {
+    margin-top: 30px;
+  }
+}
+
+.product-card-group {
+  width: 1095px;
+  height: 480px;
+  padding-inline: 15px;
+  gap: 30px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (max-width: 575.98px) {
+    width: 342px;
+    height: 615px;
+    padding: 0;
+    gap: 12px;
+    overflow-x: visible;
+    scroll-behavior: auto;
+    scrollbar-width: auto;
+    scroll-snap-type: none;
+    overflow: hidden;
+  }
+}
+
+.product-card {
+  display: flex;
+  width: 243.75px;
+  height: 448px;
+  padding: 0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  @media (max-width: 575.98px) {
+    width: 165px;
+    height: 305px;
+    padding: 0;
+  }
+
+  &:hover {
+    box-shadow: var(--shadow-x, 1px) var(--shadow-y, 6px) var(--shadow-blur, 25.5px) 0 rgba(0, 0, 0, 0.25);
+
+    .product-card-content {
+      background: var(--Frame-20, #f3f3f3);
+    }
+  }
+
+  .product-card-img {
+    width: 244px;
+    height: 288px;
+
+    @media (max-width: 575.98px) {
+      width: 165px;
+      height: 190px;
+    }
+  }
+
+  .product-card-content {
+    display: flex;
+    width: 243.75px;
+    height: 168px;
+    padding: 18px 19px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    flex-shrink: 0;
+
+    @media (max-width: 575.98px) {
+      width: auto;
+      height: auto;
+      // padding: 5px;
+    }
+  }
+
+  .product-card-name {
+    align-self: stretch;
+    color: var(--Ellipse-8, #505050);
+    font-family: 'Kiwi Maru';
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 3.96px;
+
+    @media (max-width: 575.98px) {
+      font-size: 14px;
+      letter-spacing: 3.08px;
+    }
+  }
+
+  .product-card-price {
+    flex: 1 0 0;
+    align-self: stretch;
+    color: var(--unnamed, #cc543a);
+    font-family: 'Inria Sans';
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 4.4px;
+
+    @media (max-width: 575.98px) {
+      font-size: 15px;
+      letter-spacing: 3.3px;
+    }
+  }
+
+  .product-card-icon {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+    flex: 1 0 0;
+    align-self: stretch;
+    font-size: 24px;
+
+    svg:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.product-arrow {
+  width: 50px;
+  height: 50px;
+  font-size: 50px;
+  color: #818181;
+
+  i:hover {
+    cursor: pointer;
+  }
+
+  @media (max-width: 575.98px) {
+    display: none !important;
+  }
+}
+
+.product-btn {
+  width: 225px;
+  height: 50px;
+  padding: 12px 75px;
+  border-radius: 5px;
+  border: 1px solid #505050;
+
+  &:hover {
+    border: 1px solid #000;
+    transform: scale(1.05);
+  }
+}

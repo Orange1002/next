@@ -1,0 +1,65 @@
+.container {
+  width: 100%;
+  min-height: 692px;
+  vertical-align: content-center;
+  border-width: 0px solid #fb966e;
+  background-color: #fbce984d;
+  border-radius: 35px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 19px;
+  padding: 0 30px;
+  display: flex;
+}
+
+.wrapper {
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  max-width: 1432px;
+  display: flex;
+}
+
+.hero {
+  width: 100%;
+  max-width: 1380px;
+}
+
+.heroTitle {
+  color: #000;
+  letter-spacing: 10.56px;
+  text-align: center;
+  font-family: 'Kiwi Maru';
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.servicesGrid {
+  justify-content: center;
+  align-items: center;
+  gap: 19px;
+  width: 100%;
+  margin-top: 40px;
+  display: flex;
+}
+
+@media (width <= 991px) {
+  .heroTitle {
+    font-size: 36px;
+  }
+
+  .servicesGrid {
+    flex-direction: column;
+    gap: 30px;
+  }
+}
+
+@media (width <= 640px) {
+  .heroTitle {
+    letter-spacing: 5px;
+    font-size: 24px;
+  }
+}

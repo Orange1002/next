@@ -1,0 +1,64 @@
+.orderNotice {
+  display: flex;
+  width: 818px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 51px;
+
+  @media (max-width: 500px) {
+    width: 100%;
+    gap: 30px;
+  }
+}
+
+.descTitle {
+  display: flex;
+  padding: 0px 10px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #fff;
+
+  span {
+    color: var(--Ellipse-8, #505050);
+    font-family: "Kiwi Maru";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 4.4px;
+
+    @media (max-width: 500px) {
+      font-size: 18px;
+      letter-spacing: 2.4px;
+    }
+  }
+}
+
+.notice {
+  display: flex;
+  padding: 0px 8px;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+
+  p {
+    flex: 1 0 0;
+    color: var(--Ellipse-8, #505050);
+    font-family: "Kiwi Maru";
+    font-size: 16px;
+    font-style: normal;
+    line-height: 30px;
+    letter-spacing: 1.6px;
+
+    @media (max-width: 500px) {
+      font-size: 14px;
+      line-height: 26px;
+      letter-spacing: 1.2px;
+    }
+  }
+
+  @media (max-width: 500px) {
+    padding: 0 4px;
+  }
+}

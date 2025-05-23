@@ -1,0 +1,94 @@
+.block {
+    border: 2px solid #D9D9D999;
+    border-radius: 10px;
+}
+
+.btnRadio {
+    border: 1px solid #ED784A;
+    color: #ED784A;
+    border-radius: 5px;
+    font-family: "Kiwi Maru";
+    white-space: nowrap;
+
+    &:hover {
+        background-color: #ED784A !important;
+        color: #fff !important;
+        border-color: #ED784A !important;
+    }
+}
+
+.btnCheck {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.btnImg1 {
+    border: 1px solid #ED784A;
+    color: #ED784A;
+    background: #fff;
+    border-radius: 5px;
+    font-family: "Kiwi Maru";
+    white-space: nowrap;
+    padding: 6px 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #ED784A;
+        color: #fff;
+    }
+}
+
+.btnImg2 {
+    border: 1px solid #505050;
+    color: #505050;
+    background-color: #fff;
+    border-radius: 5px;
+    font-family: "Kiwi Maru";
+    white-space: nowrap;
+    padding: 6px 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+        background-color: #505050;
+        color: #fff;
+    }
+}
+
+.active {
+    background-color: #ED784A;
+    color: #fff;
+    border-color: #ED784A;
+}
+
+.label {
+    color: #505050;
+    font-family: "Kiwi Maru", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+    color: #505050;
+    font-family: "Kiwi Maru", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.memberImg {
+    width: 100px;
+    height: 100px;
+    background-color: var(--color-gray-light);
+}

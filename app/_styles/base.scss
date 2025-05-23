@@ -1,0 +1,17 @@
+// 定義字體用
+body {
+  font-family: 'Inria Sans', 'Kiwi Maru', sans-serif;
+}
+
+// 第六區塊
+.bigImg-wrapper {
+  width: 100%;
+  overflow: hidden;
+  padding-inline: 25%;
+}
+
+.bigImgCard {
+  width: 952px;
+  scroll-snap-align: center;
+  flex-shrink: 0;
+}

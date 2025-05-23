@@ -1,0 +1,146 @@
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.couponTabGroup {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+  max-width: 1300px;
+  width: 100%;
+  margin: 0 auto 24px;
+  padding: 0 1rem;
+  border-bottom: none;
+  background-color: transparent;
+}
+
+.couponTabItem {
+  display: flex;
+  flex: 1 1 33.33%;
+  max-width: 425px;
+  min-width: 100px;
+  padding: 5px;
+  margin-bottom: 12px;
+}
+
+.couponTab {
+  min-width: 284px;
+  max-width: 425px;
+  width: 100%;
+  aspect-ratio: 425 / 70;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  line-height: 1;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: url('./img/coupon-02.png') center/100% 100% no-repeat;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  outline: none;
+  box-shadow: none;
+
+  transition: all 0.3s ease;
+
+  &:hover,
+  &:focus {
+    color: #ff6600;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 102, 0, 0.3);
+    outline: none;
+  }
+}
+
+.active {
+  background-image: url('./img/coupon.png');
+  color: #555 !important;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
+}
+
+.tabText {
+  &.desktop {
+    display: inline;
+  }
+
+  &.mobile {
+    display: none;
+  }
+}
+
+.myCouponHeadingWrapper {
+  display: none;
+  padding: 16px 16px 8px 50px;
+  height: 100px;
+  background-color: #fff;
+}
+
+.myCouponTitle {
+  font-family: 'Inria Sans', sans-serif;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  gap: 10px;
+}
+
+@media (max-width: 1200px) {
+  .tabText {
+    &.desktop {
+      display: none;
+    }
+    &.mobile {
+      display: inline-block;
+      max-width: 100%;
+      font-size: 15px;
+      letter-spacing: 1px;
+      line-height: 1.2;
+      padding: 0 4px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .couponTab {
+    background: none !important;
+    background-color: transparent !important;
+    border-bottom: 2px solid transparent;
+    padding: 8px 4px;
+    justify-content: center;
+    min-width: 100px;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
+  .active {
+    border-bottom: 2px solid #ff6600 !important;
+    color: #ff6600 !important;
+    box-shadow: none !important;
+  }
+
+  .myCouponHeadingWrapper {
+    display: block;
+  }
+
+  .couponTabGroup {
+    margin-bottom: 10px;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 500px) {
+  .couponTabGroup {
+    margin-bottom: 0;
+  }
+
+  .myCouponHeadingWrapper {
+    display: block;
+  }
+}

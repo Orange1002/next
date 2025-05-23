@@ -1,0 +1,176 @@
+// 第三區塊
+.bg-gray {
+  background-color: #f3f3f3;
+}
+
+// Padding / Margin Utilities
+.py-96 {
+  padding-block: 96px;
+}
+
+.my-96 {
+  margin-block: 96px;
+}
+
+// Wrapper 區塊
+// .event-wrapper {
+//   @media (max-width: 575.98px) {
+//     padding: 20px 0;
+//   }
+// }
+
+// 標題區塊
+.event-title {
+  color: #929292;
+  font-family: 'Kiwi Maru', sans-serif;
+  font-size: 36px;
+  font-weight: 400;
+  letter-spacing: 3.96px;
+  padding-left: 110px;
+  margin-bottom: 58px;
+  display: flex;
+  align-items: center;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 82px;
+    height: 6px;
+    background: #505050;
+    margin-right: 25px;
+  }
+
+  &::after {
+    content: '●';
+    color: #505050;
+    font-size: 15px;
+    margin-left: 25px;
+  }
+
+  @media (max-width: 575.98px) {
+    font-size: 24px;
+    letter-spacing: 5.28px;
+    margin-bottom: 0px;
+    padding-left: 0;
+    justify-content: center;
+
+    &::before {
+      width: 34px;
+      padding-left: 10px;
+    }
+  }
+}
+
+// 主內容區塊
+.event-body {
+  gap: 31px;
+  align-self: stretch;
+
+  @media (max-width: 575.98px) {
+    padding-inline: 30px;
+  }
+}
+
+// 輪播外框
+.carousel {
+  width: 1530px;
+  height: 330px;
+  padding-inline: 15px;
+  overflow: hidden;
+
+  @media (max-width: 575.98px) {
+    height: 270px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    padding-inline: 0px;
+  }
+}
+
+// 卡片群組
+.event-card-group {
+  gap: 30px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (max-width: 575.98px) {
+    justify-content: flex-start;
+    padding: 15px 3px;
+  }
+}
+
+// 單張卡片
+.event-card {
+  background: white;
+  border-radius: 15px;
+  flex-shrink: 0;
+  overflow: hidden;
+  height: 270px;
+  transition: box-shadow 0.3s;
+
+  &:hover {
+    box-shadow: 1px 6px 25.5px rgba(0, 0, 0, 0.15);
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  @media (max-width: 575.98px) {
+    width: 303px;
+    height: 205px;
+    box-shadow: 1px 3px 5.5px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// 卡片文字內容
+.event-card-content {
+  padding: 21px;
+  color: #505050;
+  font-family: 'Kiwi Maru', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 3.52px;
+}
+
+// 箭頭控制按鈕
+.event-arrow {
+  width: 50px;
+  height: 50px;
+  font-size: 50px;
+  color: #818181;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  @media (max-width: 575.98px) {
+    display: none !important;
+  }
+}
+
+// 輪播指示器區塊
+.event-indicators {
+  bottom: 2%;
+  right: 2%;
+  gap: 10px;
+}
+
+.event-indicator-dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background-color: #ffffffcc;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+
+  &.active {
+    background-color: #fb966e;
+  }
+}

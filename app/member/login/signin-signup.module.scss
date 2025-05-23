@@ -1,0 +1,293 @@
+.logContainer {
+    position: relative;
+    background-color: #D9D9D999;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.formsContainer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.signinSignup {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    left: 75%;
+    width: 50%;
+    transition: 1s 1s ease-in-out;
+    display: grid;
+    grid-template-columns: 1fr;
+    z-index: 5;
+}
+
+.panelsContainer {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+.logContainer:before {
+    content: "";
+    position: absolute;
+    height: 2000px;
+    width: 2000px;
+    top: -10%;
+    right: 48%;
+    transform: translateY(-50%);
+    background-image: linear-gradient(-45deg, #ED784A 0%, #ED784A 100%);
+    transition: 1.8s ease-in-out;
+    border-radius: 50%;
+    z-index: 6;
+}
+
+.image {
+    width: 50%;
+    transition: transform 1s ease-in-out;
+    transition-delay: 0.6s;
+}
+
+.panel {
+    // justify-content: center;
+    // text-align: center;
+    z-index: 6;
+}
+
+.leftPanel {
+    pointer-events: all;
+}
+
+.rightPanel {
+    pointer-events: none;
+}
+
+.panel .content {
+    color: #fff;
+    transition: transform 1s ease-in-out;
+    transition-delay: 0.6s;
+}
+
+.panel h3 {
+    font-weight: 600;
+    line-height: 1;
+    font-size: 1.5rem;
+}
+
+.panel p {
+    font-size: 0.95rem;
+    padding: 0.7rem 0;
+}
+
+.btn.transparent {
+    margin: 0;
+    background: #ED784A;
+    border: 2px solid #fff;
+    width: 130px;
+    height: 41px;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #fff;
+}
+
+.btn.transparent:hover {
+    background: #f39a6e;
+    color: #fff;
+}
+
+.rightPanel .image,
+.rightPanel .content {
+    transform: translateX(1000px);
+}
+
+/* ANIMATION */
+
+.logContainer.signUpMode:before {
+    transform: translate(100%, -50%);
+    right: 52%;
+}
+
+.logContainer.signUpMode .leftPanel .image,
+.logContainer.signUpMode .leftPanel .content {
+    transform: translateX(-1000px);
+}
+
+.logContainer.signUpMode .signinSignup {
+    left: 25%;
+}
+
+
+
+.logContainer.signUpMode .rightPanel .image,
+.logContainer.signUpMode .rightPanel .content {
+    transform: translateX(0%);
+}
+
+.logContainer.signUpMode .leftPanel {
+    pointer-events: none;
+}
+
+.logContainer.signUpMode .rightPanel {
+    pointer-events: all;
+}
+
+@media (max-width: 870px) {
+    .logContainer {
+        min-height: 100%;
+        height: 100vh;
+    }
+
+    .signinSignup {
+        width: 100%;
+        top: 95%;
+        transform: translate(-50%, -180%);
+        transition: 1s 1s ease-in-out;
+    }
+
+    .signinSignup,
+    .logContainer.signUpMode .signinSignup {
+        left: 50%;
+    }
+
+    .panel {
+        padding: 2.5rem 8%;
+    }
+
+    .image {
+        width: 200px;
+        transition: transform 1s ease-in-out;
+        transition-delay: 0.6s;
+    }
+
+    .panel .content {
+        padding-right: 15%;
+        transition: transform 1s ease-in-out;
+        transition-delay: 0.6s;
+    }
+
+    .panel h3 {
+        font-size: 1.2rem;
+    }
+
+    .panel p {
+        font-size: 0.7rem;
+        padding: 0.5rem 0;
+    }
+
+    .btn.transparent {
+        width: 110px;
+        height: 35px;
+        font-size: 0.7rem;
+    }
+
+    .logContainer:before {
+        width: 1500px;
+        height: 1000px;
+        transform: translateX(-50%);
+        left: 30%;
+        bottom: 68%;
+        right: initial;
+        top: initial;
+        transition: 2s ease-in-out;
+    }
+
+    .logContainer.signUpMode:before {
+        transform: translate(-50%, 100%);
+        bottom: 32%;
+        right: initial;
+    }
+
+    .rightPanel {
+        order: 1;
+    }
+
+    .leftPanel {
+        order: 1;
+    }
+
+    .leftPanel .image,
+    .leftPanel .content {
+        position: absolute;
+        top: 30px;
+        left: 50%;
+        transform: translate(-50%, -10%);
+        opacity: 1;
+        transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+    }
+
+    .logContainer.signUpMode .leftPanel .image,
+    .logContainer.signUpMode .leftPanel .content {
+        transform: translate(-50%, 100%);
+        opacity: 0;
+        transition: transform 1s ease-in-out , opacity 1s ease-in-out;
+    }
+
+    .rightPanel .image,
+    .rightPanel .content {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translate(-50%, -100%);
+        opacity: 0;
+        transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+    }
+
+    .logContainer.signUpMode .rightPanel .image,
+    .logContainer.signUpMode .rightPanel .content {
+        transform: translate(-50%, 20%);
+        opacity: 1;
+        transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+    }
+
+
+    .logContainer.signUpMode .signinSignup {
+        top: 50%;
+        transform: translate(-50%, -90%);
+    }
+}
+
+@media (max-width: 570px) {
+    .logContainer {
+        height: 100vh;
+        padding: 0;
+    }
+
+    .formsContainer {
+        position: absolute;
+        width: 100%;
+        height: 90%;
+        top: 0;
+        left: 0;
+    }
+
+    .panelsContainer {
+        height: 100%;
+    }
+
+    .image {
+        display: none;
+    }
+
+    .panel .content {
+        padding: 0.5rem 1rem;
+    }
+
+    .logContainer {
+        padding: 1.5rem;
+    }
+
+    .logContainer:before {
+        bottom: 80%;
+        left: 50%;
+    }
+
+    .logContainer.signUpMode:before {
+        bottom: 17%;
+        left: 50%;
+    }
+}

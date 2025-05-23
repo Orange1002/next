@@ -1,0 +1,180 @@
+.section2 {
+  display: flex;
+  width: 1440px;
+  padding: 0px 50px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.productList {
+  display: flex;
+  padding-top: 82px;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end; 
+  gap: 20px;
+}
+
+.listFilter {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 25px;
+}
+
+.listFilterText {
+  color: var(--Ellipse-8, #505050);
+  font-family: "Inria Sans";
+  font-size: 16px;
+  letter-spacing: 3.52px;
+}
+
+.customSelect {
+  display: flex;
+  width: 174px;
+  height: 34px;
+  padding-left: 10px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
+  border: 0.75px solid var(--Ellipse-9, #929292);
+  color: var(--Ellipse-8, #505050);
+  font-family: "Kiwi Maru";
+  font-size: 14px;
+  letter-spacing: 3.08px;
+}
+
+.mobileCategorySelect {
+  display: none; // 桌機預設隱藏
+}
+
+.cardGroup {
+  display: flex;
+  padding-bottom: 30px;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 30px 20px;
+  flex-wrap: wrap;
+}
+
+/* 📱 手機版 */
+@media (max-width: 500px) {
+  .productList {
+    padding: 10px 20px 20px 20px;
+    gap: 40px;
+  }
+
+  .listFilter {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .mobileCategorySelect {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-family: "Kiwi Maru";
+    color: #505050;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+  }
+
+  .cardGroup {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 70px 20px;
+    padding-bottom: 20px;
+  }
+}
+
+// 📱 手機版樣式
+@media (max-width: 500px) {
+  .section2 {
+    flex-direction: column;
+    width: 100%;
+    padding: 0 16px;
+    align-items: center;
+
+    .product-list {
+      padding: 10px 20px 20px 20px;
+      gap: 40px;
+    }
+
+    .card-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 25px 20px;
+      padding-bottom: 20px;
+    }
+
+    .list-filter {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .mobile-category-select {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 14px;
+      font-family: "Kiwi Maru", sans-serif;
+      color: #505050;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #fff;
+      cursor: pointer;
+
+      &::after {
+        content: "▼";
+        font-size: 10px;
+        margin-left: 6px;
+      }
+    }
+  }
+}
+
+// 🖥️ 桌機版隱藏 mobile 專用篩選按鈕
+@media (min-width: 441px) {
+
+  .mobile-filter-btn,
+  .mobile-category-select {
+    display: none;
+  }
+}
+
+// aside
+.productSidebar {
+  display: flex;
+  width: 217px;
+  padding-top: 60px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  flex-shrink: 0;
+
+  .sidebarTextContainer {
+    display: flex;
+    height: 76px;
+    padding: 0px 10px;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-self: stretch;
+    margin-bottom: 4px;
+    border-bottom: 2px solid var(--Ellipse-8, #505050);
+
+    .sidebarTextProduct {
+      color: var(--Ellipse-9, #929292);
+      text-align: center;
+      font-family: "Inria Sans";
+      font-size: 25px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      letter-spacing: 2.5px;
+    }
+  }
+}

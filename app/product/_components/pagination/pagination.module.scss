@@ -1,0 +1,98 @@
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+
+  span {
+    line-height: 28px;
+    padding-left: 20px;
+  }
+}
+
+.pagination {
+  ul {
+    gap: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  li {
+    cursor: pointer;
+  }
+}
+
+.page {
+  color: var(--Ellipse-9, #929292);
+  text-align: center;
+  font-family: "Inria Sans", sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 4.4px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.current {
+  color: var(--Ellipse-8, #505050);
+  font-size: 22px;
+  letter-spacing: 4.84px;
+}
+
+.pageArrow {
+  cursor: pointer;
+  width: 20px;
+}
+
+
+@media (max-width: 500px) {
+  .pagination {
+    ul {
+      padding: 20px 0 30px 0;
+    }
+  }
+
+  .paginationContainer {
+    flex-direction: column;
+    align-items: center;
+    
+    span {
+      padding: 0 10px 0 0;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+  }
+
+  .pagination {
+    ul {
+      flex-wrap: wrap; // 換行避免項目太擠
+      gap: 10px;
+      padding: 10px 0 20px 0;
+      justify-content: center;
+    }
+  }
+
+  .page,
+  .current,
+  .pageArrow,
+  .pageText {
+    font-size: 14px !important;
+    letter-spacing: 1px !important;
+  }
+
+  .pageArrow {
+    width: 16px;
+
+    svg {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+}

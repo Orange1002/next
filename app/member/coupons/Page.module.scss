@@ -1,0 +1,28 @@
+.pageContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px; // 控制元件之間的間距（可調整）
+}
+
+.paginationContainer{
+    display: flex;
+    justify-content: center;
+}
+
+.couponList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 16px;
+  padding-bottom: 100px;
+
+  @media (max-width: 576px) {
+    // 如果你還是想控制 Bootstrap 的 .container 行為，可以這樣巢狀寫法
+    :global(.container) {
+      padding: 10px 5px !important;
+    }
+  }
+}

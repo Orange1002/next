@@ -1,0 +1,144 @@
+// 文章區塊樣式
+
+.article-title {
+  color: #929292;
+  font-family: 'Kiwi Maru', sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 5.28px;
+  margin-bottom: 30px;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 34px;
+    height: 6px;
+    background: #505050;
+    margin-right: 25px;
+    padding-left: 10px;
+  }
+
+  &::after {
+    content: '●';
+    color: #505050;
+    font-size: 15px;
+    margin-left: 25px;
+  }
+}
+
+.article-list {
+  height: 76px;
+  width: 180px;
+  border-bottom: 1px solid #000000;
+
+  p {
+    font-size: 25px;
+    font-weight: 300;
+    letter-spacing: 2px;
+  }
+
+  .al-circle {
+    width: 15px;
+    height: 15px;
+    background-color: #505050;
+    border-radius: 50%;
+  }
+}
+
+.article-list-group {
+  width: 180px;
+  border-bottom: 1px solid #000000;
+
+  .article-list-group-item {
+    border-bottom: 0.5px solid #cc543a;
+    border-left: none;
+    border-top: none;
+    border-right: none;
+    border-radius: 0;
+    width: 180px;
+    height: 80px;
+    font-size: 16px;
+
+    span {
+      color: #cc543a;
+      font-size: 35px;
+      padding-bottom: 10px;
+    }
+  }
+}
+
+.article-text-color {
+  color: #212529;
+}
+
+
+// 卡片樣式
+.card-s {
+  background-color: #f3f3f3;
+
+  &:hover {
+    background-color: #ffffff;
+    color: #cc543a;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+    svg {
+      fill: #cc543a;
+      transform: scale(1.2);
+    }
+  }
+
+  img {
+    height: 10rem;
+  }
+
+  p {
+    width: 160px;
+  }
+
+
+}
+
+// 單一卡片樣式
+.card-1 {
+  max-width: 1076px;
+  height: 250px;
+  width: 1076px;
+  overflow: hidden;
+  background-color: #f3f3f3;
+
+  &:hover {
+    background-color: #ffffff;
+    color: #cc543a;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+    svg {
+      fill: #cc543a;
+      transform: scale(1.2);
+    }
+  }
+
+  img {
+    height: 250px;
+    object-fit: cover;
+  }
+
+  // .card-1:hover h5 {
+  //     color: #CC543A;
+  // }
+}
+
+// 讀更多按鈕
+.read-more {
+  color: #818181;
+  font-size: 25px;
+  text-decoration: none;
+
+  i {
+    font-size: 15px;
+  }
+
+}

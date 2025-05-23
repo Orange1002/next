@@ -1,0 +1,28 @@
+.container {
+  /* background-color: #fff; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  padding: 20px;
+}
+
+.cardContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+@media (max-width: 991px) {
+  .cardContainer {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .cardContainer {
+    gap: 10px;
+  }
+}

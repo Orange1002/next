@@ -1,0 +1,55 @@
+footer {
+  /* margin-top: 150px; */
+  background-color: #505050;
+  height: 400px;
+
+  .list-group {
+    color: #d9d9d9;
+    font-size: 14px;
+
+    a {
+      color: #d9d9d9;
+    }
+  }
+
+  .list-group-item {
+    border: none !important;
+    /* 可選，移除邊框線 */
+    color: #d9d9d9 !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+    margin-bottom: 16px !important;
+  }
+
+  h5 {
+    font-size: 14px;
+    color: #d9d9d9;
+  }
+
+  .box {
+    height: 158px;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  #footer-desktop {
+    display: none;
+  }
+
+  #footer-mobile {
+    display: block;
+  }
+
+  #desktop {
+    display: none;
+  }
+
+  #mobile {
+    display: block;
+    margin-top: 150px;
+  }
+}
+
+.mt-30 {
+  margin-top: 30px;
+}

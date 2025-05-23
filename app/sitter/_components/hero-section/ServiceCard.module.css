@@ -1,0 +1,43 @@
+.card {
+  border-radius: 15px;
+  flex: 1;
+  max-width: 707px;
+  height: 327px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlay {
+  background-color: #0000004d;
+  position: absolute;
+  inset: 0;
+}
+
+.cardTitle {
+  transform: translate(-50%, -50%);
+  color: #fff;
+  letter-spacing: 0.22em;
+  font-family: 'Kiwi Maru';
+  font-size: 48px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+@media (width <= 991px) {
+  .cardTitle {
+    font-size: 36px;
+  }
+}
+
+@media (width <= 640px) {
+  .cardTitle {
+    font-size: 28px;
+  }
+}

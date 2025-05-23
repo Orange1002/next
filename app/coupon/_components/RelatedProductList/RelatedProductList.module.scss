@@ -1,0 +1,71 @@
+.relatedProducts {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 35px;
+  padding: 40px 0;
+
+  @media (max-width: 500px) {
+    padding: 30px;
+    gap: 20px;
+  }
+}
+
+.titleBarContainer {
+  display: flex;
+  align-items: flex-start;
+}
+
+.titleBar {
+  display: flex;
+  padding: 0 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+
+.titleLine {
+  width: 64px;
+  height: 4px;
+  background: #505050;
+
+  @media (max-width: 500px) {
+    width: 40px;
+  }
+}
+
+.titleText {
+  color: var(--Ellipse-9, #929292);
+  font-family: 'Inria Sans';
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 4.4px;
+
+  @media (max-width: 500px) {
+    font-size: 18px;
+    letter-spacing: 2.4px;
+  }
+}
+
+.relatedProductCardContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 20px;
+  padding-bottom: 30px;
+
+  @media (max-width: 500px) {
+    justify-content: center;
+    padding: 10px 30px 30px 30px;
+  }
+}
+
+.cardWrapper {
+  flex: 0 0 auto;
+  width: 244px;
+}
+
+.dragging {
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+}

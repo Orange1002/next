@@ -1,0 +1,42 @@
+.pagination {
+  ul {
+    display: flex;
+    width: 239px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+}
+
+.page {
+  color: var(--Ellipse-9, #929292);
+  text-align: center;
+  font-family: "Inria Sans", sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 4.4px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.current {
+  color: var(--Ellipse-8, #505050);
+  font-size: 22px;
+  letter-spacing: 4.84px;
+}
+
+.pageArrow {
+  cursor: pointer;
+}
+
+@media (max-width: 500px) {
+  .pagination {
+    ul {
+      padding: 20px 0 30px 0;
+    }
+  }
+}

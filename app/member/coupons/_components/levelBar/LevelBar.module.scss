@@ -1,0 +1,149 @@
+.membershipLevelSection {
+  background-color: #f8f8f8;
+  padding-top: 100px;
+}
+
+.levelWrapper {
+  max-width: 900px;
+  width: calc(100% - 80px);
+  margin: 40px auto;
+  position: relative;
+  height: 80px;
+}
+
+.levelLine {
+  position: absolute;
+  top: 50%;
+  height: 4px;
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+.grayLine {
+  left: 0;
+  width: 33.33%;
+  background-color: #ccc;
+}
+
+.orangeLine {
+  left: 33.33%;
+  width: 33.33%;
+  background-image: repeating-linear-gradient(
+    to right,
+    #ffb199 0,
+    #ffb199 8px,
+    transparent 8px,
+    transparent 16px
+  );
+}
+
+.yellowLine {
+  left: 66.66%;
+  width: 33.34%;
+  background-image: repeating-linear-gradient(
+    to right,
+    #d9cb6f 0,
+    #d9cb6f 8px,
+    transparent 8px,
+    transparent 16px
+  );
+}
+
+.levelNode {
+  position: absolute;
+  width: 100px;
+  left: 0;
+  transform: translateX(-50%);
+  top: 50%;
+  z-index: 1;
+}
+
+.entry {
+  left: 0%;
+}
+
+.start {
+  left: 33.33%;
+}
+
+.middle {
+  left: 66.66%;
+}
+
+.end {
+  left: 100%;
+}
+
+.circleStart {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 3px solid #ccc;
+  background-color: #f8f8f8;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.circleIcon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  margin: 0 auto;
+  transform: translateY(-50%);
+  border: 3px solid #f8f8f8;
+}
+
+.circleBlack {
+  background-color: #505050;
+}
+.circleOrange {
+  background-color: #ffb199;
+}
+.circleYellow {
+  background-color: #d9cb6f;
+}
+
+.levelLabel {
+  font-family: 'Kiwi Maru', serif;
+  font-size: 15px;
+  margin-top: 5px;
+  text-align: center;
+  color: #505050;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.labelGray {
+  color: #505050;
+}
+.labelOrange {
+  color: #ffb199;
+}
+.labelYellow {
+  color: #d9cb6f;
+}
+
+.labelIcon {
+  width: 25px;
+  height: 25px;
+}
+
+.levelSvgBadge {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  width: 60px;
+  height: auto;
+
+  img,
+  svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}

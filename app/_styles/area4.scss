@@ -1,0 +1,47 @@
+// 第四區塊
+.p-30 {
+  padding: 30px;
+}
+
+.img-siez1 {
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+@media (max-width: 575.98px) {
+  .img-siez1 {
+    height: 50px;
+  }
+}
+
+.overlay {
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 15px;
+  z-index: 1;
+}
+
+.label {
+  color: #fff;
+  font-family: 'Inria Sans', sans-serif;
+  font-size: 48px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 10.56px;
+  top: 40%;
+  left: 40px;
+  z-index: 2;
+}
+
+@media (max-width: 575.98px) {
+  .label {
+    font-size: 24px;
+    letter-spacing: 5.28px;
+    top: 30%;
+    left: 40px;
+  }
+}
+
+.transform-size1:hover {
+  transform: scale(1.05);
+}

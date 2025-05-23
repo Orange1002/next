@@ -1,0 +1,19 @@
+.productSpecs {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  align-self: stretch;
+
+  color: var(--Ellipse-8, #505050);
+  font-family: "Kiwi Maru";
+  font-size: 16px;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 3.52px;
+
+  ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+}

@@ -1,0 +1,18 @@
+.eventTitle {
+    color: #929292;
+    font-family: 'Kiwi Maru', sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 3.96px;
+}
+
+.eventTitle::before {
+    content: '';
+    display: inline-block;
+    width: 82px;
+    height: 6px;
+    background: #505050;
+    margin-right: 25px;
+}
