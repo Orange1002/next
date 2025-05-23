@@ -1,32 +1,55 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import DogCard from './_components/DogCard/layout'
 import styles from './member-dogs.module.scss'
 import SectionTitle from '../../_components/SectionTitle/layout'
 
-const dummyDogs = [
-  {
-    id: 1,
-    name: '阿福',
-    description: '活潑又親人，喜歡散步。',
-    image: '/member/dogs_images/dog1.jpg',
-  },
-  {
-    id: 2,
-    name: '小白',
-    description: '安靜的女孩，愛撒嬌。',
-    image: '',
-  },
-]
+const DEFAULT_IMAGE = '/member/dogs_images/default-dog.png'
 
 export default function DogsPage() {
-  const [dogs, setDogs] = useState(dummyDogs)
+  const [dogs, setDogs] = useState([])
   const router = useRouter()
 
-  const handleDelete = (id) => {
-    setDogs((prev) => prev.filter((dog) => dog.id !== id))
+  // 🐶 取得狗狗資料
+  useEffect(() => {
+    const fetchDogs = async () => {
+      try {
+        const res = await fetch('http://localhost:3005/api/member/dogs', {
+          credentials: 'include',
+        })
+        if (!res.ok) throw new Error('無法取得狗狗資料')
+        const data = await res.json()
+        // 若 image 為空就給預設圖
+        const fixedDogs = data.data.map((dog) => ({
+          ...dog,
+          image: dog.photos?.[0] || DEFAULT_IMAGE,
+        }))
+        setDogs(fixedDogs)
+      } catch (err) {
+        console.error('取得狗狗資料錯誤:', err)
+      }
+    }
+
+    fetchDogs()
+  }, [])
+
+  // 🗑 刪除狗狗（後端請求 + 前端移除）
+  const handleDelete = async (id) => {
+    if (!window.confirm('確定要刪除這隻狗狗嗎？')) return
+
+    try {
+      const res = await fetch(`http://localhost:3005/api/member/dogs/${id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      })
+      if (!res.ok) throw new Error('刪除失敗')
+      setDogs((prev) => prev.filter((dog) => dog.id !== id))
+    } catch (err) {
+      console.error('刪除錯誤:', err)
+      alert('刪除失敗，請稍後再試')
+    }
   }
 
   return (

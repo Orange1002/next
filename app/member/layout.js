@@ -1,4 +1,5 @@
 'use client'
+import { MemberProvider } from './Context/MemberContext'
 
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -104,16 +105,18 @@ export default function MemberLayout({ children }) {
   if (!isAuthenticated) return null
 
   return (
-    <main>
-      <Breadcrumb items={generateBreadcrumbItems()} />
-      <div className="container mt-4">
-        <div className="row g-0 mb-5 justify-content-end">
-          <Sidebar />
-          <section className="col-12 col-lg-10 ps-lg-4 mt-lg-5 d-flex flex-column justify-content-start">
-            {children}
-          </section>
+    <MemberProvider>
+      <main>
+        <Breadcrumb items={generateBreadcrumbItems()} />
+        <div className="container mt-4">
+          <div className="row g-0 mb-5 justify-content-end">
+            <Sidebar />
+            <section className="col-12 col-lg-10 ps-lg-4 mt-lg-5 d-flex flex-column justify-content-start">
+              {children}
+            </section>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </MemberProvider>
   )
 }

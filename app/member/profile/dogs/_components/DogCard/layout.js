@@ -7,11 +7,22 @@ import { useRouter } from 'next/navigation'
 export default function DogCard({ dog, onDelete }) {
   const router = useRouter()
 
+  // 解析 JSON 字串的 dogs_images
+  let imagePath = '/member/dogs_images/default-dog.png'
+  try {
+    const images = JSON.parse(dog.dogs_images || '[]')
+    if (Array.isArray(images) && images.length > 0) {
+      imagePath = `http://localhost:3005${images[0]}`
+    }
+  } catch (err) {
+    // 若 JSON.parse 出錯，維持使用預設圖片
+  }
+
   return (
     <div className={`${styles.card} card`}>
-      <div className="position-relative">
+      <div className={`${styles.img} position-relative`}>
         <Image
-          src={dog.image || '/member/dogs_images/default-dog.png'}
+          src={imagePath}
           alt={dog.name}
           width={100}
           height={100}

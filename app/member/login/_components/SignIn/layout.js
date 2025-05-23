@@ -5,12 +5,15 @@ import styles from './layout.module.css'
 import Image from 'next/image'
 import { FaEnvelope, FaLock, FaGoogle } from 'react-icons/fa'
 import { useRouter } from 'next/navigation'
+import { useAuth } from '../../../../../hooks/use-auth' // ✅ 引入 useAuth
 
 export default function SignInForm({ isSignUpMode }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
   const router = useRouter()
+
+  const { login } = useAuth() // ✅ 取得 login 方法
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -23,7 +26,6 @@ export default function SignInForm({ isSignUpMode }) {
 
     try {
       const res = await fetch('http://localhost:3005/api/member/login', {
-        // 後端 .env檔要加上JWT_SECRET=YOUR_PASSWORD
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -33,10 +35,9 @@ export default function SignInForm({ isSignUpMode }) {
       const data = await res.json()
 
       if (res.ok) {
-        // 登入成功，導向首頁或會員頁
-        router.push('/member')
+        login(data.member) // ✅ 呼叫 login 更新 context 狀態
+        router.push('/') // ✅ 跳轉首頁
       } else {
-        // 登入失敗，顯示錯誤訊息
         setErrorMsg(data.message || '登入失敗')
       }
     } catch (error) {

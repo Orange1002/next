@@ -13,6 +13,8 @@ export default function MemberViewPage() {
   const [error, setError] = useState(null)
   const router = useRouter()
 
+  const baseUrl = 'http://localhost:3005'
+
   useEffect(() => {
     fetch('http://localhost:3005/api/member/profile', {
       method: 'GET',
@@ -36,6 +38,16 @@ export default function MemberViewPage() {
   if (loading) return <p>載入中...</p>
   if (error) return <p>錯誤：{error}</p>
   if (!member) return null
+
+  const timestamp = new Date().getTime()
+
+  const imageSrc =
+    member.image_url && member.image_url !== ''
+      ? member.image_url.startsWith('http')
+        ? `${member.image_url}?t=${timestamp}`
+        : `${baseUrl}${member.image_url}?t=${timestamp}`
+      : '/member/member_images/user-img.svg'
+
   return (
     <>
       <SectionTitle>會員基本資料</SectionTitle>
@@ -48,7 +60,7 @@ export default function MemberViewPage() {
                 className={`rounded-circle border overflow-hidden d-flex justify-content-center align-items-center ${styles.memberImg}`}
               >
                 <Image
-                  src={member.image_url || '/member/member_images/user-img.svg'}
+                  src={imageSrc}
                   alt="使用者頭貼"
                   className="object-fit-cover h-100 w-100"
                   width={100}

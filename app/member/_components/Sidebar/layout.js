@@ -4,16 +4,26 @@ import Link from 'next/link'
 import styles from './layout.module.css'
 import Image from 'next/image'
 import { usePathname, useSearchParams } from 'next/navigation'
-import useMember from '../../../../hooks/usemember'
+import { useMemberContext } from '../../Context/MemberContext'
 
 export default function Sidebar() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const type = searchParams.get('type')
 
-  const member = useMember()
+  const { member } = useMemberContext()
+  const baseUrl = 'http://localhost:3005'
 
   if (!member) return null // 或顯示 loading
+
+  const timestamp = new Date().getTime()
+
+  const imageSrc =
+    member.image_url && member.image_url !== ''
+      ? member.image_url.startsWith('http')
+        ? `${member.image_url}?t=${timestamp}`
+        : `${baseUrl}${member.image_url}?t=${timestamp}`
+      : '/member/member_images/user-img.svg'
   return (
     <aside
       className={`col-2 d-none d-lg-flex flex-column p-3 mt-5 ${styles.aside}`}
@@ -24,7 +34,7 @@ export default function Sidebar() {
           className={`rounded-circle border-3 overflow-hidden d-flex justify-content-center align-items-center ${styles.memberImg}`}
         >
           <Image
-            src={member.image_url || '/member/member_images/user-img.svg'}
+            src={imageSrc}
             alt="使用者頭貼"
             width={100}
             height={100}
@@ -32,9 +42,7 @@ export default function Sidebar() {
             priority
           />
         </div>
-        <p className="fs-5 fw-light mb-0 mt-3">
-          hi, {member.username || '訪客'}
-        </p>
+        <p className="fs-5 fw-light mb-0 mt-3">hi, {member.username}</p>
       </div>
 
       {/* 選單列表 */}

@@ -8,38 +8,65 @@ import CancelButton from '../../../../_components/BtnCustomGray/layout'
 
 export default function RecipientForm({
   initialData = {},
-  onSubmit,
   redirectTo = '/member/profile/recipient',
   submitLabel = '送出',
+  onSubmit, // ✅ 可選傳入 onSubmit 處理編輯情境
 }) {
-  const [name, setName] = useState(initialData.name || '')
+  const [realname, setRealname] = useState(initialData.realname || '')
   const [phone, setPhone] = useState(initialData.phone || '')
+  const [email, setEmail] = useState(initialData.email || '')
   const [address, setAddress] = useState(initialData.address || '')
+
   const router = useRouter()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!name || !phone || !address) {
-      alert('請填寫完整姓名、電話與地址')
+
+    if (!realname || !phone || !email || !address) {
+      alert('請填寫完整資訊')
       return
     }
 
-    onSubmit?.({ name, phone, address }) // 呼叫外部提交邏輯
-    router.push(redirectTo) // 導向指定頁面
+    const formData = { realname, phone, email, address }
+
+    if (onSubmit) {
+      // ✅ 編輯情境，使用外部傳入的 onSubmit 處理
+      onSubmit(formData)
+    } else {
+      // ✅ 新增情境，預設行為
+      try {
+        const res = await fetch('http://localhost:3005/api/member/recipients', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include', // for cookie-based JWT
+          body: JSON.stringify(formData),
+        })
+
+        const data = await res.json()
+        if (data.success) {
+          router.push(redirectTo)
+        } else {
+          alert(data.message || '新增失敗')
+        }
+      } catch (err) {
+        console.error(err)
+        alert('新增收件人發生錯誤')
+      }
+    }
   }
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
       <div className="mb-3">
-        <label htmlFor="name" className="form-label">
+        <label htmlFor="realname" className="form-label">
           姓名
         </label>
         <input
-          id="name"
+          id="realname"
           type="text"
           className="form-control"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={realname}
+          onChange={(e) => setRealname(e.target.value)}
           placeholder="請輸入姓名"
           required
         />
@@ -56,6 +83,21 @@ export default function RecipientForm({
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           placeholder="請輸入電話"
+          required
+        />
+      </div>
+
+      <div className="mb-3">
+        <label htmlFor="email" className="form-label">
+          Email
+        </label>
+        <input
+          id="email"
+          type="email"
+          className="form-control"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="請輸入 email"
           required
         />
       </div>
