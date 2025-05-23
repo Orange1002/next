@@ -11,8 +11,14 @@ import styles from './_styles/Page.module.scss'
 import section1Styles from './_styles/product-section1.module.scss'
 import section2Styles from './_styles/product-section2.module.scss'
 import ProductList from './_components/ProductList/ProductList.jsx'
+import { useState } from 'react'
 
 export default function ProductPage() {
+  const [price, setPrice] = useState({
+    priceGte: undefined,
+    priceLte: undefined,
+  })
+
   return (
     <>
       <div className={styles.productPage}>
@@ -51,7 +57,10 @@ export default function ProductPage() {
               </div>
 
               {/* 麵包屑 */}
-              <nav className={section1Styles.breadcrumbNav} aria-label="breadcrumb">
+              <nav
+                className={section1Styles.breadcrumbNav}
+                aria-label="breadcrumb"
+              >
                 <ol>
                   <li>
                     <Link href="/">HOME</Link>
@@ -100,7 +109,7 @@ export default function ProductPage() {
                   <circle cx="7.5" cy="7.5" r="7.5" fill="#505050" />
                 </svg>
               </div>
-              <SidebarFilter />
+              <SidebarFilter onPriceChange={setPrice} />
             </aside>
 
             <div className={section2Styles.productList}>
@@ -138,10 +147,12 @@ export default function ProductPage() {
                 </select>
               </div>
 
-              <ProductList />
+              <ProductList
+                priceGte={price.priceGte}
+                priceLte={price.priceLte}
+              />
             </div>
           </section>
-
         </main>
       </div>
     </>

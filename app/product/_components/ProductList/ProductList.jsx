@@ -4,7 +4,12 @@ import section2Styles from './ProductList.module.scss'
 import ProductCard from '../card/ProductCard'
 import Pagination from '../pagination/Pagination'
 
-export default function ProductList({ categoryId, subcategoryId }) {
+export default function ProductList({
+  categoryId,
+  subcategoryId,
+  priceGte,
+  priceLte,
+}) {
   const [products, setProducts] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
@@ -16,8 +21,10 @@ export default function ProductList({ categoryId, subcategoryId }) {
     params.set('perpage', perPage)
     if (categoryId) params.set('category_ids', categoryId)
     if (subcategoryId) params.set('subcategory_ids', subcategoryId)
+    if (priceGte) params.set('price_gte', priceGte)
+    if (priceLte) params.set('price_lte', priceLte)
 
-    const fetchUrl = `http://localhost:3005/api/products?${params.toString()}`
+    const fetchUrl = `http://localhost:3005/api/product/products?${params.toString()}`
 
     fetch(fetchUrl)
       .then((res) => res.json())
@@ -29,8 +36,7 @@ export default function ProductList({ categoryId, subcategoryId }) {
         console.error('❌ API 錯誤:', err)
         setProducts([])
       })
-
-  }, [categoryId, subcategoryId, currentPage])
+  }, [categoryId, subcategoryId, priceGte, priceLte, currentPage])
 
   if (!products.length) return <div>尚無商品</div>
 
