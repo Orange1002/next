@@ -17,7 +17,7 @@ export default function ProductList({ categoryId, subcategoryId }) {
     if (categoryId) params.set('category_ids', categoryId)
     if (subcategoryId) params.set('subcategory_ids', subcategoryId)
 
-    const fetchUrl = `http://localhost:3005/api/products?${params.toString()}`
+    const fetchUrl = `http://localhost:3005/api/product/products?${params.toString()}`
 
     fetch(fetchUrl)
       .then((res) => res.json())
@@ -29,7 +29,6 @@ export default function ProductList({ categoryId, subcategoryId }) {
         console.error('❌ API 錯誤:', err)
         setProducts([])
       })
-
   }, [categoryId, subcategoryId, currentPage])
 
   if (!products.length) return <div>尚無商品</div>
