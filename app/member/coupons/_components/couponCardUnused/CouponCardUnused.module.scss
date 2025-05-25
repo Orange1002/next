@@ -1,10 +1,10 @@
 .couponCard {
   display: flex;
   align-items: stretch; // 確保左右等高
-  justify-self: center;
   gap: 10px;
   border-radius: 4px;
-width: 90%;
+
+  background-color: #fff;
   position: relative;
 }
 
@@ -40,10 +40,10 @@ width: 90%;
   align-items: flex-start;
   gap: clamp(8px, 2vw, 20px);
   padding: clamp(8px, 2vw, 20px);
+  border: 1px solid #ddd;
   background: none;
-  width: 80%;
+  width: 100%;
   box-sizing: border-box;
-  background-color: #fff;
 }
 
 .couponBody {
@@ -134,7 +134,13 @@ width: 90%;
   }
 }
 
-
+/* RWD 響應式 */
+@media (max-width: 768px) {
+  .couponLeft {
+    width: 50%;
+    max-width: 300px;
+  }
+}
 
 @media (max-width: 576px) {
   .couponLeft {

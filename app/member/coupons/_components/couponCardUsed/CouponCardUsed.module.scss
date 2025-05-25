@@ -1,10 +1,10 @@
 .couponCard {
   display: flex;
   align-items: stretch; // 確保左右等高
-  justify-self: center;
   gap: 10px;
   border-radius: 4px;
-width: 90%;
+
+  background-color: #fff;
   position: relative;
 }
 
@@ -40,10 +40,10 @@ width: 90%;
   align-items: flex-start;
   gap: clamp(8px, 2vw, 20px);
   padding: clamp(8px, 2vw, 20px);
+  border: 1px solid #ddd;
   background: none;
-  width: 80%;
+  width: 100%;
   box-sizing: border-box;
-  background-color: #fff;
 }
 
 .couponBody {
@@ -114,9 +114,9 @@ width: 90%;
 }
 
 .btnUse {
-  color: #cc543a;
+  color: #888;
   background: #fff;
-  border: 1px solid #cc543a;
+  border: 1px solid #ddd;
   border-radius: 5px;
   cursor: pointer;
   transition: 0.2s;
@@ -128,13 +128,15 @@ width: 90%;
   width: clamp(72px, 14vw, 108px);
   padding: 4px clamp(10px, 3vw, 30px);
 
-  &:hover {
-    background-color: #cc543a;
-    color: #fff;
-  }
 }
 
-
+/* RWD 響應式 */
+@media (max-width: 768px) {
+  .couponLeft {
+    width: 50%;
+    max-width: 300px;
+  }
+}
 
 @media (max-width: 576px) {
   .couponLeft {

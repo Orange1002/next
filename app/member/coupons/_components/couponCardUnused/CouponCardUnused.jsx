@@ -1,4 +1,4 @@
-import styles from './CouponCard.module.scss';
+import styles from './CouponCardUnused.module.scss';
 import Image from 'next/image';
 import ticketLeft1 from './img/coupon-1.png';
 import ticketLeft2 from './img/coupon-2.png';
@@ -15,15 +15,15 @@ const imageMap = {
   5: ticketLeft5,
 };
 
-const CouponCard = ({ title, date, minSpend, multiplier, imageIndex }) => {
-  const selectedImage = imageMap[imageIndex] || ticketLeft1; // 預設顯示 ticketLeft1
+const CouponCardUnused = ({ title, date, minSpend, multiplier, imageIndex }) => {
+  const selectedImage = imageMap[imageIndex] || ticketLeft1;
 
   return (
     <div className={styles.couponCard}>
       <div className={styles.couponLeft}>
         <Image
           src={selectedImage}
-          alt="優惠券圖"
+          alt="可使用優惠券圖"
           width={100}
           height={100}
         />
@@ -42,24 +42,26 @@ const CouponCard = ({ title, date, minSpend, multiplier, imageIndex }) => {
             <div className={styles.badgeMultiplier}>{multiplier}</div>
           )}
         </div>
-
+        <div className={styles.couponActions}>
+          <button className={styles.btnUse}>使用</button>
+        </div>
       </div>
     </div>
   );
 };
 
-CouponCard.propTypes = {
+CouponCardUnused.propTypes = {
   title: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   minSpend: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     .isRequired,
   multiplier: PropTypes.string,
-  imageIndex: PropTypes.number, // 新增圖片 index
+  imageIndex: PropTypes.number, // <== 新增圖片索引
 };
 
-CouponCard.defaultProps = {
+CouponCardUnused.defaultProps = {
   multiplier: null,
-  imageIndex: 1, // 預設為第 1 張
+  imageIndex: 1, // 預設使用第一張圖
 };
 
-export default CouponCard;
+export default CouponCardUnused;

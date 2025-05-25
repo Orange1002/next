@@ -1,14 +1,9 @@
 'use client'
 
 import Breadcrumb from './_components/Breadcrumb/Breadcrumb'
-import OrderNotice from './_components/OrderNotice/OrderNotice'
 import ProductDescription from './_components/ProductDescription/ProductDescription'
-import ProductDetailPanel from './_components/ProductDetailPanel/ProductDetailPanel'
-import ProductImages from './_components/ProductImages/ProductImages'
-import ProductSidebar from './_components/ProductSidebar/ProductSidebar'
 import ProductSpecs from './_components/ProductSpecs/ProductSpecs'
 import RelatedProductList from './_components/RelatedProductList/RelatedProductList'
-import UserVoiceList from './_components/UserVoiceList/UserVoiceList'
 import styles from './_styles/Page.module.scss'
 import CouponCard from './_components/couponCard/CouponCard'
 
@@ -42,16 +37,14 @@ export default function ProductDetailPage() {
         <section className={styles.productDetailSection1}>
           <Breadcrumb />
 
-          
-            <div className={`${styles.couponList} container`}>
-              {/* 在這裡放你的 coupon 元件 */}
-              <CouponCard
-                title="6/01 限時 7-ELEVEN 免運券"
-                date="2025.06.01 起生效"
-                minSpend={399}
-                multiplier="x2"
-              />
-            </div>
+          <div className={`${styles.couponList} container`}>
+            {/* 在這裡放你的 coupon 元件 */}
+            <CouponCard
+              title="6/01 限時 7-ELEVEN 免運券"
+              date="2025.06.01 起生效"
+              minSpend={399}
+            />
+          </div>
           <section className={styles.productDetailSection11}></section>
         </section>
 
@@ -61,12 +54,22 @@ export default function ProductDetailPage() {
               <div className={styles.productInfo}>
                 <ProductSpecs
                   specs={[
-                    { title: '有效期限', items: ['2025年6月1日 00:00 - 2025年6月15日 23:59'] },
+                    {
+                      title: '有效期限',
+                      items: ['2025年6月1日 00:00 - 2025年6月15日 23:59'],
+                    },
                     {
                       title: '優惠內容',
-                      items: ['數量有限，先用先贏！5% 螞幣回饋，低消 $2,000，最高回饋 400 螞幣'],
+                      items: [
+                        '數量有限，先用先贏！5% 螞幣回饋，低消 $2,000，最高回饋 400 螞幣',
+                      ],
                     },
-                    { title: '商品', items: ['1按照您所在國家／地區的法規；或此商品有參加品牌會員專享購，因此無法參加促銷活動。'] },
+                    {
+                      title: '商品',
+                      items: [
+                        '1按照您所在國家／地區的法規；或此商品有參加品牌會員專享購，因此無法參加促銷活動。',
+                      ],
+                    },
                     { title: '付款', items: ['適用於所有付款方式'] },
                     { title: '物流', items: ['適用於所有物流方式'] },
                   ]}
@@ -78,7 +81,10 @@ export default function ProductDetailPage() {
                   ]}
                 />
               </div>
-              <RelatedProductList title="此優惠卷可用的商品" products={products} />
+              <RelatedProductList
+                title="此優惠卷可用的商品"
+                products={products}
+              />
             </div>
           </div>
         </section>
