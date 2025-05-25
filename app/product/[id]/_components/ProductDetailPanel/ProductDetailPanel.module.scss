@@ -38,7 +38,7 @@
 
 .productId {
   color: var(--Ellipse-9, #929292);
-  font-family: "Inria Sans";
+  font-family: 'Inria Sans';
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -52,7 +52,7 @@
   align-items: flex-start;
   gap: 10px;
   color: var(--Ellipse-9, #929292);
-  font-family: "Inria Sans";
+  font-family: 'Inria Sans';
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -71,6 +71,8 @@
   flex-shrink: 0;
   aspect-ratio: 1/1;
   color: #929292;
+  text-decoration: none;
+  
 }
 
 .titleContainer {
@@ -83,7 +85,7 @@
 
 .productTitle {
   color: #000;
-  font-family: "Inria Sans";
+  font-family: 'Inria Sans';
   font-size: 20px;
   font-style: normal;
   font-weight: 400;
@@ -101,7 +103,7 @@
 
   span {
     color: var(--unnamed, #cc543a);
-    font-family: "Inria Sans";
+    font-family: 'Inria Sans';
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
@@ -119,7 +121,7 @@
 
 .productPrice {
   color: var(--unnamed, #cc543a);
-  font-family: "Inria Sans";
+  font-family: 'Inria Sans';
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
@@ -164,7 +166,7 @@
 .colorText {
   align-self: stretch;
   color: var(--Ellipse-8, #505050);
-  font-family: "Inria Sans";
+  font-family: 'Inria Sans';
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -203,7 +205,7 @@
 .sizeText {
   align-self: stretch;
   color: var(--Ellipse-8, #505050);
-  font-family: "Inria Sans";
+  font-family: 'Inria Sans';
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -213,7 +215,7 @@
 
 .sizeOptions {
   display: flex;
-  justify-content: space-between;
+  gap: 8px;
   align-items: center;
   align-self: stretch;
 }
@@ -235,13 +237,59 @@
   }
 }
 
+.packPicker,
+.contentPicker {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+.packText,
+.contentText {
+  align-self: stretch;
+  color: var(--Ellipse-8, #505050);
+  font-family: 'Inria Sans';
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 2.8px;
+}
+
+.packOptions,
+.contentOptions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+}
+
+.packBox,
+.contentBox {
+  display: flex;
+  height: 30px;
+  padding: 0 12px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid var(--Ellipse-9, #929292);
+  cursor: pointer;
+
+  &.selected {
+    background: #fff;
+  }
+}
+
 .productQuantity {
   display: flex;
   align-items: center;
   gap: 10px;
   align-self: stretch;
   color: var(--Ellipse-8, #505050);
-  font-family: "Inria Sans";
+  font-family: 'Inria Sans';
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -292,7 +340,7 @@
   border: none;
   background: var(--Ellipse-8, #505050);
   color: #fff;
-  font-family: "Inria Sans";
+  font-family: 'Inria Sans';
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -315,7 +363,7 @@
   align-self: stretch;
   border: 1px solid var(--Ellipse-9, #929292);
   color: var(--Ellipse-8, #505050);
-  font-family: "Kiwi Maru";
+  font-family: 'Kiwi Maru';
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -344,7 +392,7 @@
 
   a {
     color: var(--Ellipse-8, #505050);
-    font-family: "Kiwi Maru";
+    font-family: 'Kiwi Maru';
     font-size: 13px;
     font-style: normal;
     font-weight: 400;

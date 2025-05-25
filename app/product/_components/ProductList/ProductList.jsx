@@ -9,6 +9,7 @@ export default function ProductList({
   subcategoryId,
   priceGte,
   priceLte,
+  sortBy,
 }) {
   const [products, setProducts] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
@@ -23,6 +24,8 @@ export default function ProductList({
     if (subcategoryId) params.set('subcategory_ids', subcategoryId)
     if (priceGte) params.set('price_gte', priceGte)
     if (priceLte) params.set('price_lte', priceLte)
+    if (sortBy?.sort) params.set('sort', sortBy.sort)
+    if (sortBy?.order) params.set('order', sortBy.order)
 
     const fetchUrl = `http://localhost:3005/api/product/products?${params.toString()}`
 
@@ -36,7 +39,7 @@ export default function ProductList({
         console.error('❌ API 錯誤:', err)
         setProducts([])
       })
-  }, [categoryId, subcategoryId, priceGte, priceLte, currentPage])
+  }, [categoryId, subcategoryId, priceGte, priceLte, currentPage, sortBy])
 
   if (!products.length) return <div>尚無商品</div>
 
@@ -52,12 +55,14 @@ export default function ProductList({
             price={`NT$${product.price}`}
             avgRating={
               product.rating?.count > 0
-                ? `${product.rating.avg} (${product.rating.count}則)`
+                ? `${product.rating.avg} (${product.rating.count})`
                 : '尚無評價'
             }
+            isFavorite={product.isFavorite}
           />
         ))}
       </div>
+
       <Pagination
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}

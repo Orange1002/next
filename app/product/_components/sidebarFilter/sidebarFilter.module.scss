@@ -242,8 +242,8 @@
 }
 
 .priceSubmitContainer {
+  padding-top: 10px;
   display: flex;
-  flex-direction: column;
   justify-content: flex-end;
   align-items: flex-end;
   gap: 10px;
@@ -270,6 +270,7 @@
   border: none;
   cursor: pointer;
 }
+
 .mainCategoryName {
   flex: 1;
   color: var(--Ellipse-8, #505050);

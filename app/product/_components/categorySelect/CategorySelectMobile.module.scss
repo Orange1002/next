@@ -1,0 +1,48 @@
+.mobileCategorySelect {
+  display: none; // 桌機預設隱藏
+}
+
+/* 📱 手機版 */
+@media (max-width: 991.98px) {
+  .mobileCategorySelect {
+    display: inline-block;
+    padding: 6px 12px;
+    width: 30%;
+    font-size: 14px;
+    font-family: 'Kiwi Maru';
+    color: #505050;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+  }
+}
+
+// 📱 手機版樣式
+@media (max-width: 500px) {
+  .mobile-category-select {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-family: 'Kiwi Maru', sans-serif;
+    color: #505050;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+
+    &::after {
+      content: '▼';
+      font-size: 10px;
+      margin-left: 6px;
+    }
+  }
+}
+
+// 🖥️ 桌機版隱藏 mobile 專用篩選按鈕
+@media (min-width: 441px) {
+  .mobile-filter-btn,
+  .mobile-category-select {
+    display: none;
+  }
+}

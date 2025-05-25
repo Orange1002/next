@@ -15,13 +15,16 @@ import styles from '../../../_styles/Page.module.scss'
 import section1Styles from '../../../_styles/product-section1.module.scss'
 import section2Styles from '../../../_styles/product-section2.module.scss'
 import { useState } from 'react'
+import CategorySelectMobile from '@/app/product/_components/categorySelect/CategorySelectMobile.jsx'
+import CategoryBanner from '@/app/product/_components/CategoryBanner/CategoryBanner.jsx'
+import SortSelect from '@/app/product/_components/sortSelect/SortSelect.jsx'
 
 export default function ProductSubCategoryPage() {
   const [price, setPrice] = useState({
     priceGte: undefined,
     priceLte: undefined,
   })
-
+  const [sortBy, setSortBy] = useState({ sort: 'created_at', order: 'desc' })
   const { main, sub } = useParams()
 
   const category = categorySlugMap[main]
@@ -38,17 +41,7 @@ export default function ProductSubCategoryPage() {
 
   return (
     <div className={styles.productPage}>
-      <div className={section1Styles.productBanner}>
-        <Image
-          src="/product-img/productBanner.png"
-          alt="banner"
-          width={1440}
-          height={400}
-          style={{ width: '100%', height: 'auto' }}
-          sizes="(max-width: 440px) 100vw, 100vw"
-          priority
-        />
-      </div>
+      <CategoryBanner />
 
       <main className={styles.main}>
         {/* 第一部分 */}
@@ -153,30 +146,13 @@ export default function ProductSubCategoryPage() {
             <div className={section2Styles.listFilter}>
               <div className={section2Styles.listFilterText}>1-24 items |</div>
 
-              <select
-                className={section2Styles.mobileCategorySelect}
-                defaultValue={sub}
-              >
-                <option value="" disabled>
-                  篩選
-                </option>
-                <option value="dry-food">乾飼料</option>
-                <option value="snack">零食</option>
-                {/* 根據需要加入更多 subcategory 選項 */}
-              </select>
+              <CategorySelectMobile />
 
-              <select
-                className={section2Styles.customSelect}
-                defaultValue="latest"
-              >
-                <option value="latest">最新上架</option>
-                <option value="popular">人氣排序</option>
-                <option value="price_low">價格低到高</option>
-                <option value="price_high">價格高到低</option>
-              </select>
+              <SortSelect onChange={setSortBy} />
             </div>
 
             <ProductList
+              sortBy={sortBy}
               categoryId={categoryId}
               subcategoryId={subcategoryId}
               priceGte={price.priceGte}
