@@ -36,11 +36,11 @@ export default function ProductCard({
         <div className="product-card-price">{price}</div>
         <div className="product-card-icon">
           <div className="product-card-star">
-            <FaStar style={{ color: 'orange' }} />
+            <FaStar style={{ color: 'orange' }} className='CardIcon'/>
             <p>{avgRating || '0'}</p>
           </div>
-          <HeartIcon productId={id} isActive={isFavorite} />
-          <CartIcon />
+          <HeartIcon productId={id} isActive={isFavorite} className='CardHeartIcon'/>
+          <CartIcon className='CardIcon'/>
         </div>
       </div>
     </div>

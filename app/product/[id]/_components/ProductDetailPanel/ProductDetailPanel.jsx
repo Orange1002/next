@@ -10,6 +10,7 @@ import {
 } from 'react-icons/fa6'
 import { BsHeart, BsHeartFill } from 'react-icons/bs'
 import styles from './ProductDetailPanel.module.scss'
+import HeartIcon from '@/app/product/_components/card/HeartIcon'
 
 export default function ProductDetailPanel({
   productId = 'FS-XXXXX',
@@ -23,9 +24,9 @@ export default function ProductDetailPanel({
   variantCombinations = [],
   optionMap = {},
   basePrice = 0,
+  isFavorite = false,
 }) {
   const [quantity, setQuantity] = useState(1)
-  const [isLiked, setIsLiked] = useState(false)
 
   const [selectedColor, setSelectedColor] = useState('')
   const [selectedSize, setSelectedSize] = useState('')
@@ -44,6 +45,8 @@ export default function ProductDetailPanel({
       selectedOptionIds.length === combo.optionIds.length &&
       selectedOptionIds.every((id) => combo.optionIds.includes(id))
   )
+
+  const [isLiked, setIsLiked] = useState(isFavorite)
 
   useEffect(() => {
     if (sizeOptions.length > 0) {
@@ -70,6 +73,23 @@ export default function ProductDetailPanel({
   }, [contentOptions])
 
   const finalPrice = basePrice + Number(matchedCombination?.price || 0)
+
+  const toggleFavorite = async () => {
+    try {
+      const res = await fetch('http://localhost:3005/api/product/favorite', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', // 如果你有用 cookie 驗證會員登入
+        body: JSON.stringify({ productId }),
+      })
+      const result = await res.json()
+      setIsLiked(result.favorite)
+    } catch (err) {
+      console.error('收藏操作失敗：', err)
+    }
+  }
 
   return (
     <div className={styles.productDetail}>
@@ -121,20 +141,8 @@ export default function ProductDetailPanel({
             NT${finalPrice.toLocaleString()}
           </div>
 
-          <div
-            className={styles.heartIcon}
-            onClick={() => setIsLiked(!isLiked)}
-            style={{ cursor: 'pointer' }}
-            title={isLiked ? '取消收藏' : '加入收藏'}
-          >
-            {isLiked ? (
-              <BsHeartFill
-                className="fa-solid fa-heart"
-                style={{ color: '#ed784a', transition: 'color 0.2s ease' }}
-              />
-            ) : (
-              <BsHeart className="fa-solid fa-heart" />
-            )}
+          <div className={styles.heartIcon}>
+            <HeartIcon productId={productId} isActive={isFavorite} />
           </div>
         </div>
       </div>

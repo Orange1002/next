@@ -27,7 +27,7 @@ export default function ProductDetailPage() {
         )
         const data = await res.json()
         console.log('⚠️ 抓到的資料:', data)
-        setProduct(data.data.product) // ✅ 修正這裡！
+        setProduct(data.data.product)
       } catch (err) {
         console.error('❌ 抓商品失敗', err)
       } finally {
@@ -136,6 +136,7 @@ export default function ProductDetailPage() {
               variantCombinations={product.variantCombinations}
               optionMap={allOptionMap}
               basePrice={Number(product.price)}
+              isFavorite={product.isFavorite}
             />
           </div>
         </section>

@@ -56,7 +56,7 @@ export default function ProductList({
             avgRating={
               product.rating?.count > 0
                 ? `${product.rating.avg} (${product.rating.count})`
-                : '尚無評價'
+                : '0'
             }
             isFavorite={product.isFavorite}
           />
