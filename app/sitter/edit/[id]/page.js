@@ -214,7 +214,7 @@ export default function EditSitterPage() {
             onChange={handleAvatarChange}
           />
         </div>
-        <div className="border rounded p-4 mb-4">
+        {/* <div className="border rounded p-4 mb-4">
           <h5 className="mb-3">📸 其他圖片</h5>
           <div className="d-flex flex-wrap gap-3 mb-2">
             {galleryImages
@@ -251,7 +251,7 @@ export default function EditSitterPage() {
             className="form-control"
             onChange={handleGalleryChange}
           />
-        </div>
+        </div> */}
         <div className="d-flex justify-content-between">
           <button
             className="btn btn-success px-4"
