@@ -23,10 +23,12 @@ export default function ProductDetailPage() {
     const fetchProduct = async () => {
       try {
         const res = await fetch(
-          `http://localhost:3005/api/product/products/${id}`
+          `http://localhost:3005/api/product/products/${id}`,
+          {
+            credentials: 'include',
+          }
         )
         const data = await res.json()
-        console.log('⚠️ 抓到的資料:', data)
         setProduct(data.data.product)
       } catch (err) {
         console.error('❌ 抓商品失敗', err)
@@ -125,7 +127,7 @@ export default function ProductDetailPage() {
           <div className={styles.productContainer}>
             <ProductImages images={product.product_images} />
             <ProductDetailPanel
-              productId={product.sn || `PRD-${product.id}`}
+              productSN={product.sn || `PRD-${product.id}`}
               productName={product.name}
               productNote="超取滿NT$1,000免運"
               price={`NT$${product.price}`}
@@ -137,6 +139,7 @@ export default function ProductDetailPage() {
               optionMap={allOptionMap}
               basePrice={Number(product.price)}
               isFavorite={product.isFavorite}
+              productId={product.id}
             />
           </div>
         </section>

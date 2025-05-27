@@ -29,7 +29,9 @@ export default function ProductList({
 
     const fetchUrl = `http://localhost:3005/api/product/products?${params.toString()}`
 
-    fetch(fetchUrl)
+    fetch(fetchUrl, {
+      credentials: 'include', // ✅ 加這行，才能帶 cookie
+    })
       .then((res) => res.json())
       .then((data) => {
         setProducts(data.data.products || [])

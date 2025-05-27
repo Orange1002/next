@@ -8,12 +8,12 @@ import {
   FaMinus,
   FaPlus,
 } from 'react-icons/fa6'
-import { BsHeart, BsHeartFill } from 'react-icons/bs'
 import styles from './ProductDetailPanel.module.scss'
 import HeartIcon from '@/app/product/_components/card/HeartIcon'
 
 export default function ProductDetailPanel({
-  productId = 'FS-XXXXX',
+  productId = '',
+  productSN = 'FS-XXXXX',
   productName = '預設商品名稱',
   productNote = '超取滿NT$1,000免運',
   price = 'NT$0',
@@ -96,7 +96,7 @@ export default function ProductDetailPanel({
       {/* 商品 ID 與分享 */}
       <div className={styles.detailContainer1}>
         <div className={styles.idShareContainer}>
-          <div className={styles.productId}>{productId}</div>
+          <div className={styles.productId}>{productSN}</div>
           <div className={styles.share}>
             Share :
             <a

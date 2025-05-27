@@ -1,7 +1,6 @@
 'use client'
 
 import { useParams, notFound } from 'next/navigation'
-import Image from 'next/image'
 import Link from 'next/link'
 
 import CategorySlider from '../../../_components/categorySlider/CategorySlider.jsx'
