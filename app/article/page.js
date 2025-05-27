@@ -9,7 +9,7 @@ import Cardbig from './_components/card-1.js'
 import Cardarea from './_components/card-s-area.js'
 import CardSlider from './_components/eventSlider.js'
 import VideoCard from './_components/videoCard.js'
-import PetQA from './_components/petQASection.js'
+
 import Image from 'next/image'
 import FloatingActionButton from '../article/list/_components/floatingActionButton.js'
 import Link from 'next/link'
@@ -34,7 +34,9 @@ function ArticleHeaderPhoto() {
     setLoading(true)
     setError(null)
     try {
-      const res = await fetch('http://localhost:3005/api/article/article-detail')
+      const res = await fetch(
+        'http://localhost:3005/api/article/article-detail'
+      )
       const data = await res.json()
       if (data.success) {
         // 按收藏數排序（降冪）
@@ -141,7 +143,6 @@ function ArticleHeaderPhoto() {
             title="6個方法，徹底防衛致命的寄生蟲 | 狗主人必看必懂的一集！"
           />
         </div>
-        <PetQA />
         <FloatingActionButton />
       </div>
 

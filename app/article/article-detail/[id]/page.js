@@ -8,6 +8,7 @@ import Image from 'next/image'
 import { FaRegHeart, FaInstagram, FaYoutube, FaLine } from 'react-icons/fa'
 import EditButton from '../_components/editBtn.js'
 import CommentSection from '../_components/commentSection'
+import Author from '../../_components/author-1'
 const ArticlePage = () => {
   const { id } = useParams()
   const [article, setArticle] = useState(null)
@@ -40,8 +41,6 @@ const ArticlePage = () => {
   if (error)
     return <p className="text-center mt-5 text-danger">錯誤：{error}</p>
   if (!article) return null
-
-
 
   // 處理圖片
   let images = []
@@ -134,7 +133,7 @@ const ArticlePage = () => {
               </div>
             </div>
           </div> */}
-          
+          <Author />
         </div>
 
         {/* 文章圖片 */}
