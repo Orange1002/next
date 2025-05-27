@@ -1,118 +1,83 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { useEffect, useState } from 'react'
 import styles from './ProductImages.module.scss'
 
-const defaultImages = [
-  '/product-img/image8.png',
-  '/product-img/image9.png',
-  '/product-img/image10.png',
-  '/product-img/image11.png',
-  '/product-img/image12.png',
-  '/product-img/image13.png',
-]
+export default function ProductImages({ images = [] }) {
+  // 自動處理圖片資料：從物件陣列中取出 image 屬性
+  const imageUrls = images.length > 0
+    ? images.map(img => typeof img === 'string' ? img : img.image)
+    : ['/product-img/default.jpg']
 
-export default function ProductImages({ images = defaultImages }) {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const imageRef = useRef(null)
-  const touchStartX = useRef(0)
-  const isDragging = useRef(false)
+  const [fade, setFade] = useState(false)
 
-  const showImage = (index) => {
-    const newIndex = (index + images.length) % images.length
-    const img = imageRef.current
-
-    if (img) {
-      img.classList.add(styles.fadeOut)
-
+  const handleThumbnailClick = (index) => {
+    if (index !== currentIndex) {
+      setFade(true)
       setTimeout(() => {
-        setCurrentIndex(newIndex)
-        img.classList.remove(styles.fadeOut)
-      }, 150)
-    } else {
-      setCurrentIndex(newIndex)
+        setCurrentIndex(index)
+        setFade(false)
+      }, 200)
     }
   }
 
   useEffect(() => {
-    if (typeof window === 'undefined' || window.innerWidth > 440) return
-    const img = imageRef.current
-    if (!img) return
+    const swiper = document.querySelector(`.${styles.thumbnailList}`)
+    let isDown = false
+    let startX
+    let scrollLeft
 
-    const onTouchStart = (e) => {
-      isDragging.current = true
-      touchStartX.current = e.touches[0].clientX
+    const startScroll = (e) => {
+      isDown = true
+      startX = e.pageX - swiper.offsetLeft
+      scrollLeft = swiper.scrollLeft
     }
 
-    const onTouchEnd = (e) => {
-      if (!isDragging.current) return
-      const endX = e.changedTouches[0].clientX
-      const diff = endX - touchStartX.current
-
-      if (Math.abs(diff) > 50) {
-        if (diff < 0) showImage(currentIndex + 1)
-        else showImage(currentIndex - 1)
-      }
-
-      isDragging.current = false
+    const stopScroll = () => {
+      isDown = false
     }
 
-    img.addEventListener('touchstart', onTouchStart)
-    img.addEventListener('touchend', onTouchEnd)
+    const moveScroll = (e) => {
+      if (!isDown) return
+      e.preventDefault()
+      const x = e.pageX - swiper.offsetLeft
+      const walk = (x - startX) * 2
+      swiper.scrollLeft = scrollLeft - walk
+    }
+
+    swiper.addEventListener('mousedown', startScroll)
+    swiper.addEventListener('mouseleave', stopScroll)
+    swiper.addEventListener('mouseup', stopScroll)
+    swiper.addEventListener('mousemove', moveScroll)
 
     return () => {
-      img.removeEventListener('touchstart', onTouchStart)
-      img.removeEventListener('touchend', onTouchEnd)
+      swiper.removeEventListener('mousedown', startScroll)
+      swiper.removeEventListener('mouseleave', stopScroll)
+      swiper.removeEventListener('mouseup', stopScroll)
+      swiper.removeEventListener('mousemove', moveScroll)
     }
-  }, [currentIndex, images])
+  }, [])
 
   return (
-    <div className={styles.imagesContainer}>
+    <div className={styles.productImages}>
       <div className={styles.mainImgWrapper}>
         <img
-          className={styles.mainImg}
-          src={images[currentIndex]}
-          ref={imageRef}
-          alt="主圖片"
+          className={`${styles.mainImg} ${fade ? styles.fadeOut : styles.fadeIn}`}
+          src={imageUrls[currentIndex]}
+          alt={`商品圖片 ${currentIndex + 1}`}
         />
       </div>
-
-      <div className={styles.sliderDots}>
-        {images.map((_, i) => (
-          <span
-            key={i}
-            className={`${styles.dot} ${i === currentIndex ? styles.active : ''}`}
-            onClick={() => showImage(i)}
-          ></span>
+      <div className={styles.thumbnailList}>
+        {imageUrls.map((imgUrl, index) => (
+          <img
+            key={index}
+            className={`${styles.thumbnail} ${index === currentIndex ? styles.active : ''}`}
+            src={imgUrl}
+            alt={`商品縮圖 ${index + 1}`}
+            onClick={() => handleThumbnailClick(index)}
+          />
         ))}
-      </div>
-
-      <div className={styles.thumbnailContainer}>
-        <FaChevronLeft
-          className={`fa-solid fa-chevron-left ${styles.imgArrow}`}
-          onClick={() => showImage(currentIndex - 1)}
-          style={{ cursor: 'pointer' }}
-        />
-
-        {images.slice(1).map((src, i) => {
-          const actualIndex = i + 1
-          return (
-            <img
-              key={i}
-              src={src}
-              className={`${styles.thumbnailImg} ${actualIndex === currentIndex ? styles.active : ''}`}
-              alt={`縮圖${i + 1}`}
-              onClick={() => showImage(actualIndex)}
-            />
-          )
-        })}
-
-        <FaChevronRight
-          className={`fa-solid fa-chevron-right ${styles.imgArrow}`}
-          onClick={() => showImage(currentIndex + 1)}
-          style={{ cursor: 'pointer' }}
-        />
       </div>
     </div>
   )

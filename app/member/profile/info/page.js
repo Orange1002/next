@@ -5,7 +5,8 @@ import styles from './member-Info.module.scss'
 import Image from 'next/image'
 import SectionTitle from '../../_components/SectionTitle/layout'
 import BtnCustom from '../../_components/BtnCustom/layout'
-import { FaEnvelope } from 'react-icons/fa'
+import { HiOutlineEnvelope } from 'react-icons/hi2'
+import { LiaBirthdayCakeSolid } from 'react-icons/lia'
 
 export default function MemberViewPage() {
   const [member, setMember] = useState(null)
@@ -97,7 +98,7 @@ export default function MemberViewPage() {
 
             {/* Email */}
             <div className={`${styles.inputField} mb-2`}>
-              <FaEnvelope className={`${styles.icon} ms-3 h-50 w-50`} />
+              <HiOutlineEnvelope className={`${styles.icon} ms-3 h-50 w-50`} />
               <input
                 type="text"
                 placeholder="電子信箱"
@@ -119,7 +120,9 @@ export default function MemberViewPage() {
 
             {/* 生日 */}
             <div className={`${styles.inputField} mb-2`}>
-              <i className={`${styles.icon} bi bi-calendar fs-3`}></i>
+              <LiaBirthdayCakeSolid
+                className={`${styles.icon} ms-3 h-50 w-50`}
+              />
               <input
                 type="text"
                 placeholder="生日"
@@ -131,7 +134,13 @@ export default function MemberViewPage() {
             {/* 編輯按鈕 */}
             <div className="mt-4">
               <BtnCustom
-                onClick={() => router.push('/member/profile/info/edit')}
+                onClick={() => {
+                  if (member?.id) {
+                    router.push(`/member/profile/info/edit/${member.id}`)
+                  } else {
+                    alert('找不到會員 ID')
+                  }
+                }}
               >
                 編輯資料
               </BtnCustom>

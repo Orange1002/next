@@ -38,7 +38,7 @@
 .voiceDate {
   align-self: stretch;
   color: var(--Ellipse-8, #505050);
-  font-family: "Inria Sans";
+  font-family: 'Inria Sans';
   font-size: 15px;
   font-style: normal;
   font-weight: 400;
@@ -49,7 +49,7 @@
 .voiceRate {
   align-self: stretch;
   color: var(--Ellipse-8, #505050);
-  font-family: "Inria Sans";
+  font-family: 'Inria Sans';
   font-size: 15px;
   font-style: normal;
   font-weight: 400;
@@ -72,7 +72,7 @@
 
 .voiceTitle {
   color: var(--Ellipse-8, #505050);
-  font-family: "Kiwi Maru";
+  font-family: 'Kiwi Maru';
   font-size: 15px;
   font-style: normal;
   font-weight: 400;
@@ -86,10 +86,26 @@
 }
 
 .voiceContent {
+  white-space: pre-wrap;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 3; 
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &.expanded {
+    -webkit-line-clamp: unset;
+    display: block;
+  }
+}
+
+.voiceContent {
   overflow: hidden;
   color: var(--Ellipse-8, #505050);
   text-overflow: ellipsis;
-  font-family: "Kiwi Maru";
+  font-family: 'Kiwi Maru';
   font-size: 12px;
   font-style: normal;
   font-weight: 300;
@@ -98,6 +114,8 @@
   cursor: pointer;
   width: 495px;
   max-height: 72px;
+  white-space: pre-wrap; 
+  word-break: break-word; 
 
   &.expanded {
     max-height: 1000px;

@@ -1,12 +1,44 @@
-import { useState } from 'react';
+'use client'
+import { useEffect, useState } from 'react'
 
-export default function HeartIcon() {
-  const [liked, setLiked] = useState(false);
+export default function HeartIcon({ productId, isActive = false }) {
+  const [liked, setLiked] = useState(isActive)
+
+  useEffect(() => {
+    setLiked(isActive)
+  }, [isActive])
+
+  const toggleFavorite = async () => {
+    try {
+      const res = await fetch('http://localhost:3005/api/product/favorite', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ productId }),
+      })
+
+      if (res.status === 401) {
+        alert('請先登入才能收藏喔')
+        return
+      }
+
+      const result = await res.json()
+      setLiked(result.data.favorite)
+    } catch (err) {
+      console.error('收藏失敗', err)
+    }
+  }
 
   return (
-    <div onClick={() => setLiked(!liked)} style={{ cursor: 'pointer' }}>
+    <div
+      onClick={(e) => {
+        e.stopPropagation() // ✅ 防止點擊愛心時跳轉卡片
+        toggleFavorite()
+      }}
+      style={{ cursor: 'pointer' }}
+    >
       {liked ? (
-        // ❤️ 點亮的愛心（紅色實心）
+        // ❤️ 點亮
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="27"
@@ -22,7 +54,7 @@ export default function HeartIcon() {
           />
         </svg>
       ) : (
-        // 🖤 沒點亮的愛心（灰色線條版）
+        // 🖤 未點亮
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="28"
@@ -37,5 +69,5 @@ export default function HeartIcon() {
         </svg>
       )}
     </div>
-  );
+  )
 }

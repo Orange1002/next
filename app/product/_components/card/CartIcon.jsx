@@ -35,7 +35,7 @@ export default function CartIcon() {
             </g>
             <defs>
                 <clipPath id="clip0_762_1277">
-                    <rect width="28" height="28" fill="white" transform="translate(0.75 0.5)" />
+                    <rect width="29" height="29" fill="white" transform="translate(0.75 0.5)" />
                 </clipPath>
             </defs>
         </svg>

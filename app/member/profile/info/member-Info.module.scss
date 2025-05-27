@@ -1,54 +1,63 @@
 .block {
-    border: 2px solid #D9D9D999;
-    border-radius: 10px;
+  border: 2px solid #d9d9d999;
+  border-radius: 10px;
 }
 
 .active {
-    background-color: #ED784A;
-    color: #fff;
-    border-color: #ED784A;
+  background-color: #ed784a;
+  color: #fff;
+  border-color: #ed784a;
 }
 
 .inputField {
-    max-width: 380px;
-    width: 100%;
-    background-color: #f0f0f0;
-    margin: 10px 0;
-    height: 55px;
-    border-radius: 55px;
-    display: grid;
-    grid-template-columns: 15% 85%;
-    padding: 0 0.4rem;
-    position: relative;
-    align-items: center;
+  max-width: 380px;
+  width: 100%;
+  background-color: #f0f0f0;
+  margin: 10px 0;
+  height: 55px;
+  border-radius: 55px;
+  display: grid;
+  grid-template-columns: 15% 85%;
+  padding: 0 0.4rem;
+  position: relative;
+  align-items: center;
 }
 
 .inputField .icon {
-    text-align: center;
-    line-height: 55px;
-    color: #acacac;
-    transition: 0.5s;
-    font-size: 1.1rem;
+  text-align: center;
+  line-height: 55px;
+  color: #acacac;
+  transition: 0.5s;
+  font-size: 1.1rem;
 }
 
 .inputField input {
-    background: none;
-    outline: none;
-    border: none;
-    line-height: 1;
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: #9d9d9d;
+  background: none;
+  outline: none;
+  border: none;
+  line-height: 1;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #9d9d9d;
 }
 
 .inputField input::placeholder {
-    color: #aaa;
-    font-weight: 500;
+  color: #aaa;
+  font-weight: 500;
 }
 
+.inputField .birthday {
+  text-align: center;
+  line-height: 55px;
+  color: #acacac;
+  transition: 0.5s;
+  font-size: 1.1rem;
+}
 
 .memberImg {
-    width: 100px;
-    height: 100px;
-    background-color: var(--color-gray-light);
+  width: 100px;
+  height: 100px;
+  background-color: var(--color-gray-light);
 }
+
+

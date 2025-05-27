@@ -7,7 +7,10 @@ import Link from 'next/link'
 export default function ComponentsSectionIntro(props) {
   return (
     <>
-      <div className="container py-5 text-center">
+      <div
+        className="container py-5 text-center"
+        style={{ fontFamily: 'Kiwi Maru' }}
+      >
         <div className="text-center mb-5">
           <div className="d-inline-flex align-items-center gap-3">
             <div className="flex-grow-1 border-top border-3 border-dark title-line" />

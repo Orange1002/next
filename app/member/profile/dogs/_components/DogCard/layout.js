@@ -7,6 +7,13 @@ import { useRouter } from 'next/navigation'
 export default function DogCard({ dog, onDelete }) {
   const router = useRouter()
 
+  const sizeLabels = {
+    1: '迷你型（4公斤以下）',
+    2: '小型（5~10公斤）',
+    3: '中型（11~25公斤）',
+    4: '大型（26~44公斤）',
+    5: '超大型（45公斤以上）',
+  }
   // 解析 JSON 字串的 dogs_images
   let imagePath = '/member/dogs_images/default-dog.png'
   try {
@@ -38,6 +45,9 @@ export default function DogCard({ dog, onDelete }) {
         </p>
         <p className="card-text mb-1">
           <strong>品種：</strong> {dog.breed || '未填寫'}
+        </p>
+        <p className="card-text mb-1">
+          <strong>體型：</strong> {sizeLabels[dog.size_id] || '未填寫'}
         </p>
         <p className="card-text">
           <strong>備註：</strong> {dog.description || '未填寫'}

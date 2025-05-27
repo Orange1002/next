@@ -1,9 +1,15 @@
-// components/UserVoiceList.jsx
-
+'use client'
+import { useState } from 'react'
 import UserVoiceCard from './UserVoiceCard'
 import styles from './UserVoiceList.module.scss'
 
 export default function UserVoiceList({ data = [] }) {
+  const [visibleCount, setVisibleCount] = useState(3)
+
+  const handleReadMore = () => {
+    setVisibleCount((prev) => Math.min(prev + 5, data.length))
+  }
+
   return (
     <div className={styles.userVoice}>
       <div className={styles.titleBarContainer}>
@@ -17,7 +23,7 @@ export default function UserVoiceList({ data = [] }) {
       </div>
 
       <div className={styles.voiceContainer}>
-        {data.map((item, i) => (
+        {data.slice(0, visibleCount).map((item, i) => (
           <UserVoiceCard
             key={i}
             date={item.date}
@@ -27,10 +33,12 @@ export default function UserVoiceList({ data = [] }) {
           />
         ))}
 
-        <div className={styles.voiceMore}>
-          <div className={styles.voiceMoreText}>Read more</div>
-          <i className={`fa-solid fa-chevron-right ${styles.moreIcon}`}></i>
-        </div>
+        {visibleCount < data.length && (
+          <div className={styles.voiceMore} onClick={handleReadMore}>
+            <div className={styles.voiceMoreText}>Read more</div>
+            <i className={`fa-solid fa-chevron-right ${styles.moreIcon}`}></i>
+          </div>
+        )}
       </div>
     </div>
   )

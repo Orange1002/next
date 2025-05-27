@@ -2,7 +2,11 @@
 import styles from './pagination.module.scss'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
 
-export default function Pagination({ currentPage, setCurrentPage, totalPages }) {
+export default function Pagination({
+  currentPage,
+  setCurrentPage,
+  totalPages,
+}) {
   // 顯示最多 3 頁碼，根據 currentPage 動態計算範圍
   const pageWindow = 3
   const start = Math.max(1, currentPage - 1)
@@ -12,7 +16,7 @@ export default function Pagination({ currentPage, setCurrentPage, totalPages }) 
   const goToPage = (page) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page)
-      window.scrollTo(0, 0)
+      window.scrollTo({ top: 650, behavior: 'smooth' })
     }
   }
 
@@ -72,6 +76,5 @@ export default function Pagination({ currentPage, setCurrentPage, totalPages }) 
         <span className={styles.totalText}>共 {totalPages} 頁</span>
       </div>
     </>
-
   )
 }

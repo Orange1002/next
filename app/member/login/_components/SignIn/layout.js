@@ -1,22 +1,27 @@
-'use client'
-
 import React, { useState } from 'react'
 import styles from './layout.module.css'
 import Image from 'next/image'
 import { FaEnvelope, FaLock, FaGoogle } from 'react-icons/fa'
 import { useRouter } from 'next/navigation'
-import { useAuth } from '../../../../../hooks/use-auth' // ✅ 引入 useAuth
+import { useAuth } from '../../../../../hooks/use-auth'
+import useFirebase from '../../../../../hooks/use-firebase'
 
 export default function SignInForm({ isSignUpMode }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
   const router = useRouter()
+  const { loginGoogle } = useFirebase()
+  const [isLoading, setIsLoading] = useState(false)
 
-  const { login } = useAuth() // ✅ 取得 login 方法
+  const { login, refreshMember, signInWithGoogle } = useAuth()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    if (isLoading) return
+    setIsLoading(true)
+
     setErrorMsg('')
 
     if (!email || !password) {
@@ -35,13 +40,51 @@ export default function SignInForm({ isSignUpMode }) {
       const data = await res.json()
 
       if (res.ok) {
-        login(data.member) // ✅ 呼叫 login 更新 context 狀態
-        router.push('/') // ✅ 跳轉首頁
+        login(data.data)
+        await refreshMember()
+        router.push('/')
       } else {
         setErrorMsg(data.message || '登入失敗')
       }
     } catch (error) {
       setErrorMsg('伺服器錯誤，請稍後再試')
+    }
+  }
+
+  const handleGoogleLogin = async (e) => {
+    e.preventDefault()
+    if (isLoading) return // 防止重複觸發
+    setIsLoading(true)
+    setErrorMsg('')
+
+    try {
+      await loginGoogle(async (providerData) => {
+        const res = await fetch(
+          'http://localhost:3005/api/member/login/google-login',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify(providerData),
+          }
+        )
+
+        const resData = await res.json()
+
+        if (res.ok && resData.status === 'success') {
+          login(resData.data)
+          console.log('Google 登入 API 回傳：', resData)
+          await refreshMember()
+          router.push('/')
+        } else {
+          setErrorMsg(resData.message || 'Google 登入失敗')
+        }
+      })
+    } catch (error) {
+      console.error(error)
+      setErrorMsg('Google 登入失敗，請稍後再試')
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -82,10 +125,20 @@ export default function SignInForm({ isSignUpMode }) {
       <input type="submit" className={`${styles.btn} solid`} value="登入" />
       <p className={`${styles.socialText} my-3`}>或</p>
       <div className={styles.socialMedia}>
-        <a href="#" className={`${styles.socialIcon} my-1 p-2`}>
+        {/* 這裡改成 button 並加 onClick */}
+        <button
+          type="button"
+          onClick={handleGoogleLogin}
+          className={`${styles.socialIcon} my-1 p-2 d-flex align-items-center`}
+          disabled={isLoading}
+          aria-busy={isLoading}
+          aria-disabled={isLoading}
+        >
           <FaGoogle className={`${styles.icon}`} />
-          <p className={`${styles.socialText} mb-0 ms-2`}>使用Google登入</p>
-        </a>
+          <span className={`${styles.socialText} mb-0 ms-2`}>
+            {isLoading ? '登入中...' : '使用 Google 登入'}
+          </span>
+        </button>
       </div>
     </form>
   )

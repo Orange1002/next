@@ -1,0 +1,23 @@
+.productBanner {
+  padding-top: 93px;
+  display: flex;
+  width: 100%;
+  max-height: 700px;
+
+  img {
+    width: 100%;
+  }
+}
+
+@media (max-width: 500px) {
+  .productBanner {
+    padding-top: 93px;
+
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      display: block;
+    }
+  }
+}

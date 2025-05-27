@@ -1,20 +1,32 @@
 'use client'
 
-import { useEffect } from 'react'
+'use client'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '../../../hooks/use-auth'
 
 export default function LoginLayout({ children }) {
-  const { isAuth, loading } = useAuth()
+  const { isAuth, isReady, refreshMember } = useAuth()
+  const [hasRefreshed, setHasRefreshed] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
-    if (!loading && isAuth) {
-      router.push('/') // 已登入導回首頁
+    if (!hasRefreshed) {
+      refreshMember().finally(() => {
+        setHasRefreshed(true)
+      })
     }
-  }, [isAuth, loading, router])
+  }, [hasRefreshed, refreshMember])
 
-  if (loading) return null // 還在檢查登入狀態，不顯示內容
+  useEffect(() => {
+    if (!isReady || !hasRefreshed) return
+    if (isAuth) {
+      router.replace('/')
+    }
+  }, [isAuth, isReady, hasRefreshed, router])
+
+  if (!isReady || !hasRefreshed) return <div>載入中...</div>
+  if (isAuth) return null
 
   return <div className="login-layout">{children}</div>
 }

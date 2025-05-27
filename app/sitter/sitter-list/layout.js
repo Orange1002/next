@@ -7,7 +7,6 @@ export default function SitterListLayout({ children }) {
   return (
     <>
       <div>{children}</div>
-      <div>SitterList Layout</div>
     </>
   )
 }

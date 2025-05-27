@@ -9,7 +9,6 @@ import CancelButton from '../../../../_components/BtnCustomGray/layout'
 export default function RecipientForm({
   initialData = {},
   redirectTo = '/member/profile/recipient',
-  submitLabel = '送出',
   onSubmit, // ✅ 可選傳入 onSubmit 處理編輯情境
 }) {
   const [realname, setRealname] = useState(initialData.realname || '')
@@ -56,45 +55,42 @@ export default function RecipientForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
-      <div className="mb-3">
-        <label htmlFor="realname" className="form-label">
-          姓名
-        </label>
+    <form
+      onSubmit={handleSubmit}
+      className={`${styles.form} mt-3 h-100 justify-content-center d-flex flex-column align-items-center`}
+    >
+      {/* 姓名 */}
+      <div className={`${styles.inputField} mb-3`}>
+        <i className={`${styles.icon} bi bi-person fs-3`}></i>
         <input
           id="realname"
           type="text"
-          className="form-control"
           value={realname}
           onChange={(e) => setRealname(e.target.value)}
-          placeholder="請輸入姓名"
+          placeholder="請輸入收件人姓名"
           required
         />
       </div>
 
-      <div className="mb-3">
-        <label htmlFor="phone" className="form-label">
-          電話
-        </label>
+      {/* 電話 */}
+      <div className={`${styles.inputField} mb-3`}>
+        <i className={`${styles.icon} bi bi-phone fs-3`}></i>
         <input
           id="phone"
           type="tel"
-          className="form-control"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          placeholder="請輸入電話"
+          placeholder="請輸入聯絡電話"
           required
         />
       </div>
 
-      <div className="mb-3">
-        <label htmlFor="email" className="form-label">
-          Email
-        </label>
+      {/* Email */}
+      <div className={`${styles.inputField} mb-3`}>
+        <i className={`${styles.icon} bi bi-envelope fs-3`}></i>
         <input
           id="email"
           type="email"
-          className="form-control"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="請輸入 email"
@@ -102,24 +98,25 @@ export default function RecipientForm({
         />
       </div>
 
-      <div className="mb-3">
-        <label htmlFor="address" className="form-label">
-          地址
-        </label>
-        <textarea
+      {/* 地址 */}
+      <div className={`${styles.inputField} mb-3`}>
+        <i className={`${styles.icon} bi bi-geo-alt fs-3`}></i>
+        <input
           id="address"
-          className="form-control"
+          aria-label="收件地址"
+          placeholder="請輸入收件地址"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
-          placeholder="請輸入地址"
           required
-          rows={3}
+          spellCheck="false"
+          autoComplete="street-address"
         />
       </div>
 
+      {/* 按鈕區塊 */}
       <div className="d-flex justify-content-center gap-5 mt-4">
         <CancelButton to={redirectTo}>取消</CancelButton>
-        <SubmitButton>{submitLabel}</SubmitButton>
+        <SubmitButton>新增</SubmitButton>
       </div>
     </form>
   )

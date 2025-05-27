@@ -1,0 +1,14 @@
+.customSelect {
+  display: flex;
+  width: 174px;
+  height: 34px;
+  padding-left: 10px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
+  border: 0.75px solid var(--Ellipse-9, #929292);
+  color: var(--Ellipse-8, #505050);
+  font-family: "Kiwi Maru";
+  font-size: 14px;
+  letter-spacing: 3.08px;
+}

@@ -25,9 +25,28 @@ function ArticleHeaderPhoto() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
+  const [keyword, setKeyword] = useState('')
+  const [category, setCategory] = useState('')
 
+  // 初始載入所有文章
   useEffect(() => {
-    fetch('http://localhost:3005/api/article/article-detail')
+    fetchArticles()
+  }, [])
+
+  const fetchArticles = (searchKeyword = '', selectedCategory = '') => {
+    setLoading(true)
+    // 使用 URLSearchParams 組合查詢字串，避免錯誤
+    const params = new URLSearchParams()
+    if (searchKeyword) {
+      params.append('keyword', searchKeyword)
+    }
+    if (selectedCategory) {
+      params.append('category_name', selectedCategory)
+    }
+
+    const url = `http://localhost:3005/api/article/article-detail?${params.toString()}`
+
+    fetch(url)
       .then((res) => {
         if (!res.ok) {
           throw new Error('抓取文章列表失敗')
@@ -37,6 +56,7 @@ function ArticleHeaderPhoto() {
       .then((data) => {
         if (data.success && data.result) {
           setArticles(data.result)
+          setCurrentPage(1) // 搜尋後回第一頁
         } else {
           throw new Error(data.message || '未知錯誤')
         }
@@ -46,7 +66,21 @@ function ArticleHeaderPhoto() {
         setError(err.message)
         setLoading(false)
       })
-  }, [])
+  }
+
+  const handleCategorySelect = (selectedCategory) => {
+    setCategory(selectedCategory)
+    fetchArticles(keyword, selectedCategory)
+    const el = document.getElementsByClassName('stophere')[0]
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
+  const handleSearch = (e) => {
+    e.preventDefault()
+    fetchArticles(keyword, category)
+  }
 
   // 總頁數
   const totalPages = Math.ceil(articles.length / PAGE_SIZE)
@@ -60,7 +94,10 @@ function ArticleHeaderPhoto() {
     if (page < 1) page = 1
     else if (page > totalPages) page = totalPages
     setCurrentPage(page)
-    window.scrollTo({ top: 900, behavior: 'smooth' })
+    const el = document.getElementsByClassName('stophere')[0]
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' })
+    }
   }
 
   if (loading) {
@@ -97,6 +134,7 @@ function ArticleHeaderPhoto() {
             <form
               className="d-flex card-search ms-auto gap-2 mt-5"
               role="search"
+              onSubmit={handleSearch}
             >
               <div className="input-group">
                 <input
@@ -104,6 +142,8 @@ function ArticleHeaderPhoto() {
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
+                  value={keyword}
+                  onChange={(e) => setKeyword(e.target.value)}
                 />
                 <button
                   className="btn position-absolute top-50 end-0 translate-middle-y me-3 p-0 border-0 bg-transparent"
@@ -119,13 +159,13 @@ function ArticleHeaderPhoto() {
           <div className="col-2">
             <Articlelist />
           </div>
-          <div className="col-10">
-            <ButtonGroup />
-            {/* 只顯示當前頁文章 */}
+          <div className="col-10 stophere">
+            <ButtonGroup onCategorySelect={handleCategorySelect} />
+            {/* 顯示目前頁面的文章 */}
             {currentArticles.map((article) => (
               <Card2 key={article.id} article={article} />
             ))}
-            {/* 分頁元件，傳入控制參數與事件 */}
+            {/* 分頁元件 */}
             <ChangePage
               currentPage={currentPage}
               totalPages={totalPages}
@@ -141,6 +181,8 @@ function ArticleHeaderPhoto() {
 
 export default ArticleHeaderPhoto
 
+
+
 // 'use client'
 
 // import React, { useEffect, useState } from 'react'
@@ -154,7 +196,8 @@ export default ArticleHeaderPhoto
 // import Image from 'next/image.js'
 // import '../_style/article.scss'
 // import './_style/list.scss'
-// // import { Pagination } from 'react-bootstrap'; // 如果您需要分頁
+
+// const PAGE_SIZE = 6
 
 // const images = [
 //   '/article_img/d1e21f1a-4730-472b-8531-51b3c7b7890a.jpg',
@@ -166,9 +209,22 @@ export default ArticleHeaderPhoto
 //   const [articles, setArticles] = useState([])
 //   const [loading, setLoading] = useState(true)
 //   const [error, setError] = useState(null)
+//   const [currentPage, setCurrentPage] = useState(1)
+//   const [keyword, setKeyword] = useState('')
 
+//   // 初始載入所有文章
 //   useEffect(() => {
-//     fetch('http://localhost:3005/api/article/article-detail')
+//     fetchArticles()
+//   }, [])
+
+//   const fetchArticles = (searchKeyword = '') => {
+//     setLoading(true)
+//     let url = 'http://localhost:3005/api/article/article-detail'
+//     if (searchKeyword) {
+//       url += `?keyword=${encodeURIComponent(searchKeyword)}`
+//     }
+
+//     fetch(url)
 //       .then((res) => {
 //         if (!res.ok) {
 //           throw new Error('抓取文章列表失敗')
@@ -178,6 +234,7 @@ export default ArticleHeaderPhoto
 //       .then((data) => {
 //         if (data.success && data.result) {
 //           setArticles(data.result)
+//           setCurrentPage(1) // 搜尋後回第一頁
 //         } else {
 //           throw new Error(data.message || '未知錯誤')
 //         }
@@ -187,7 +244,27 @@ export default ArticleHeaderPhoto
 //         setError(err.message)
 //         setLoading(false)
 //       })
-//   }, [])
+//   }
+
+//   const handleSearch = (e) => {
+//     e.preventDefault()
+//     fetchArticles(keyword)
+//   }
+
+//   // 總頁數
+//   const totalPages = Math.ceil(articles.length / PAGE_SIZE)
+
+//   // 當前頁面文章切片
+//   const startIndex = (currentPage - 1) * PAGE_SIZE
+//   const currentArticles = articles.slice(startIndex, startIndex + PAGE_SIZE)
+
+//   // 換頁事件
+//   const handlePageChange = (page) => {
+//     if (page < 1) page = 1
+//     else if (page > totalPages) page = totalPages
+//     setCurrentPage(page)
+//     window.scrollTo({ top: 900, behavior: 'smooth' })
+//   }
 
 //   if (loading) {
 //     return <p className="text-center mt-5">讀取文章列表中...</p>
@@ -223,6 +300,7 @@ export default ArticleHeaderPhoto
 //             <form
 //               className="d-flex card-search ms-auto gap-2 mt-5"
 //               role="search"
+//               onSubmit={handleSearch}
 //             >
 //               <div className="input-group">
 //                 <input
@@ -230,6 +308,8 @@ export default ArticleHeaderPhoto
 //                   type="search"
 //                   placeholder="Search"
 //                   aria-label="Search"
+//                   value={keyword}
+//                   onChange={(e) => setKeyword(e.target.value)}
 //                 />
 //                 <button
 //                   className="btn position-absolute top-50 end-0 translate-middle-y me-3 p-0 border-0 bg-transparent"
@@ -247,10 +327,16 @@ export default ArticleHeaderPhoto
 //           </div>
 //           <div className="col-10">
 //             <ButtonGroup />
-//             {articles.map((article) => (
+//             {/* 顯示目前頁面的文章 */}
+//             {currentArticles.map((article) => (
 //               <Card2 key={article.id} article={article} />
 //             ))}
-//             <ChangePage />
+//             {/* 分頁元件 */}
+//             <ChangePage
+//               currentPage={currentPage}
+//               totalPages={totalPages}
+//               onPageChange={handlePageChange}
+//             />
 //           </div>
 //         </div>
 //         <FloatingActionButton />
@@ -260,3 +346,4 @@ export default ArticleHeaderPhoto
 // }
 
 // export default ArticleHeaderPhoto
+
