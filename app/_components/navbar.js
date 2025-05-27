@@ -6,7 +6,7 @@ import { BiSearch } from 'react-icons/bi'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import NotificationBell from './NotificationBell'
+// import NotificationBell from './NotificationBell'
 
 export default function MyNavbar() {
   const pathname = usePathname()
@@ -191,7 +191,7 @@ export default function MyNavbar() {
             <Link href="/shopcart" passHref legacyBehavior>
               <i className="bi bi-cart nav-icon" />
             </Link>
-            <NotificationBell />
+            {/* <NotificationBell /> */}
           </div>
         </Navbar.Collapse>
       </Container>
