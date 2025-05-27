@@ -76,7 +76,7 @@ export default function CreateSitterPage() {
           router.push(`/sitter/edit/${sitterId}`)
         })
       } else {
-        Swal.fire('錯誤', data.message || '新增失敗', 'error')
+        Swal.fire('錯誤', data.message || '新增成功但未取得保母id', 'error')
       }
     } catch (err) {
       console.error('新增保母失敗', err)
@@ -114,7 +114,7 @@ export default function CreateSitterPage() {
 
         {/* 大頭照上傳 + 預覽 */}
         <div className="mb-3">
-          <label className="form-label">大頭照</label>
+          <label className="form-label">大頭貼</label>
           <input
             type="file"
             className="form-control"
@@ -125,7 +125,7 @@ export default function CreateSitterPage() {
           {avatarPreview && (
             <Image
               src={avatarPreview}
-              alt="大頭照預覽"
+              alt="大頭貼預覽"
               width={200}
               height={200}
               style={{ height: 'auto' }}
@@ -134,7 +134,7 @@ export default function CreateSitterPage() {
         </div>
 
         {/* 圖片集上傳 + 預覽 */}
-        <div className="mb-3">
+        {/* <div className="mb-3">
           <label className="form-label">其他圖片（可多選）</label>
           <input
             type="file"
@@ -158,7 +158,7 @@ export default function CreateSitterPage() {
               ))}
             </div>
           )}
-        </div>
+        </div> */}
 
         {/* 送出按鈕 */}
         <button className="btn btn-primary" type="submit" disabled={loading}>

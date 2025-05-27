@@ -30,7 +30,8 @@
     "react-toastify": "^11.0.5",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.21.2",
-    "sweetalert2-react-content": "^5.1.0"
+    "sweetalert2-react-content": "^5.1.0",
+    "swiper": "^11.2.8"
   },
   "devDependencies": {
     "@eslint/compat": "^1.2.6",

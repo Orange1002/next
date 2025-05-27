@@ -1,17 +1,37 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
 
-// 其他元件 import
 import PetCareServices from './_components/hero-section/PetCareServices'
 import ComponentsSectionIntro from './_components/section-intro'
 import InputDesign from './_components/carousel/InputDesign'
 import ComponentsCustomerFeedback from './_components/customer-feedback'
 import CommonQuestions from './_components/CommonQuestions/CommonQuestions'
+import ReviewsSection from './reviewsSection/page'
 
 export default function SitterPage() {
   const router = useRouter()
+  const [hasSitter, setHasSitter] = useState(false)
+
+  useEffect(() => {
+    const fetchSitter = async () => {
+      try {
+        const res = await fetch('http://localhost:3005/api/sitter/manage', {
+          credentials: 'include',
+        })
+        const data = await res.json()
+        if (res.ok && data.sitter && data.sitter.id) {
+          setHasSitter(true)
+        }
+      } catch (err) {
+        console.error('查詢保母失敗', err)
+      }
+    }
+
+    fetchSitter()
+  }, [])
 
   const handleSwitchToSitter = async () => {
     try {
@@ -43,20 +63,31 @@ export default function SitterPage() {
 
   return (
     <>
-      <div className="container text-end py-4">
-        <button
-          className="btn btn-outline-primary"
-          onClick={handleSwitchToSitter}
-        >
-          🔁 切換為保母模式
-        </button>
-      </div>
+      <div className="container py-4">
+        <div className="d-flex justify-content-end gap-2">
+          {!hasSitter && (
+            <button
+              className="btn btn-outline-primary"
+              onClick={() => router.push('/sitter/create')}
+            >
+              📝 申請成為保母
+            </button>
+          )}
+          <button
+            className="btn btn-outline-primary"
+            onClick={handleSwitchToSitter}
+          >
+            🔁 切換為保母模式
+          </button>
+        </div>
 
-      <PetCareServices />
-      <ComponentsSectionIntro />
-      <InputDesign />
-      <ComponentsCustomerFeedback />
-      <CommonQuestions />
+        <PetCareServices />
+        <ComponentsSectionIntro />
+        <ReviewsSection />
+        <InputDesign />
+        <ComponentsCustomerFeedback />
+        <CommonQuestions />
+      </div>
     </>
   )
 }
