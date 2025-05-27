@@ -1,22 +1,9 @@
-import styles from './CouponCardUnused.module.scss';
-import Image from 'next/image';
-import ticketLeft1 from './img/coupon-1.png';
-import ticketLeft2 from './img/coupon-2.png';
-import ticketLeft3 from './img/coupon-3.png';
-import ticketLeft4 from './img/coupon-4.png';
-import ticketLeft5 from './img/coupon-5.png';
-import PropTypes from 'prop-types';
+import styles from './CouponCardUnused.module.scss'
+import Image from 'next/image'
+import PropTypes from 'prop-types'
 
-const imageMap = {
-  1: ticketLeft1,
-  2: ticketLeft2,
-  3: ticketLeft3,
-  4: ticketLeft4,
-  5: ticketLeft5,
-};
-
-const CouponCardUnused = ({ title, date, minSpend, multiplier, imageIndex }) => {
-  const selectedImage = imageMap[imageIndex] || ticketLeft1;
+const CouponCardUnused = ({ title, date, minSpend, multiplier, image }) => {
+  const selectedImage = image || '/coupon_img/DefaultCoupon.png'
 
   return (
     <div className={styles.couponCard}>
@@ -47,8 +34,8 @@ const CouponCardUnused = ({ title, date, minSpend, multiplier, imageIndex }) => 
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 CouponCardUnused.propTypes = {
   title: PropTypes.string.isRequired,
@@ -56,12 +43,12 @@ CouponCardUnused.propTypes = {
   minSpend: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     .isRequired,
   multiplier: PropTypes.string,
-  imageIndex: PropTypes.number, // <== 新增圖片索引
-};
+  image: PropTypes.string,
+}
 
 CouponCardUnused.defaultProps = {
   multiplier: null,
-  imageIndex: 1, // 預設使用第一張圖
-};
+  image: '/coupon_img/DefaultCoupon.png',
+}
 
-export default CouponCardUnused;
+export default CouponCardUnused

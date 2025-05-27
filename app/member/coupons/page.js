@@ -11,12 +11,13 @@ import Pagination from './_components/pagination/Pagination'
 import styles from './Page.module.scss'
 
 export default function CouponPage() {
-  const [activeTab, setActiveTab] = useState('available') // 預設顯示「可領取」
+  const [activeTab, setActiveTab] = useState('available')
   const [member, setMember] = useState(null)
   const [coupons, setCoupons] = useState([])
   const [loading, setLoading] = useState(true)
+  const [currentPage, setCurrentPage] = useState(1)
+  const perPage = 3
 
-  // 抓取登入會員資訊
   useEffect(() => {
     const fetchMember = async () => {
       try {
@@ -33,7 +34,6 @@ export default function CouponPage() {
     fetchMember()
   }, [])
 
-  // 根據 activeTab 抓取對應優惠券清單
   useEffect(() => {
     if (!member) return
 
@@ -41,9 +41,9 @@ export default function CouponPage() {
       setLoading(true)
       try {
         const endpointMap = {
-          available: 'claimable', // 尚未領取
-          usable: 'available', // 已領可用
-          used: 'used', // 已使用
+          available: 'claimable',
+          usable: 'available',
+          used: 'used',
         }
 
         const res = await fetch(
@@ -53,7 +53,7 @@ export default function CouponPage() {
           }
         )
         const data = await res.json()
-        setCoupons(data.coupons || [])
+        setCoupons(data.data?.coupons || [])
       } catch (err) {
         console.error('❌ 抓優惠券失敗', err)
         setCoupons([])
@@ -65,13 +65,44 @@ export default function CouponPage() {
     fetchCoupons()
   }, [activeTab, member])
 
+  const renderCouponCard = (coupon) => {
+    const isUsed = activeTab === 'used'
+    const date = isUsed
+      ? coupon.usedAt
+        ? `使用於 ${new Date(coupon.usedAt).toLocaleDateString('zh-TW')}`
+        : '使用時間不明'
+      : coupon.endAt
+        ? `${new Date(coupon.endAt).toLocaleDateString('zh-TW')} 前使用`
+        : '無期限'
+
+    const formatted = {
+      title: coupon.title || '未命名優惠券',
+      date,
+      minSpend: isNaN(parseFloat(coupon.minPurchase))
+        ? '不限'
+        : Math.floor(Number(coupon.minPurchase)),
+      multiplier: coupon.vipLevelId ? 'VIP' : null,
+      image: coupon.image || '/coupon_img/DefaultCoupon.png',
+    }
+
+    if (activeTab === 'available') {
+      return <CouponCard key={coupon.id} {...formatted} />
+    } else if (activeTab === 'usable') {
+      return <CouponCardUnused key={coupon.id} {...formatted} />
+    } else {
+      return <CouponCardUsed key={coupon.id} {...formatted} />
+    }
+  }
+
+  const startIdx = (currentPage - 1) * perPage
+  const endIdx = startIdx + perPage
+  const currentCoupons = coupons.slice(startIdx, endIdx)
+  const totalPages = Math.ceil(coupons.length / perPage)
+
   return (
     <>
       <LevelBar />
-
       <VIPCard userName="李小明" accumulatedPoints={3000} />
-
-      {/* Tab 選單 */}
       <SelectCard activeTab={activeTab} setActiveTab={setActiveTab} />
 
       <div className={styles.couponList}>
@@ -80,21 +111,19 @@ export default function CouponPage() {
         ) : coupons.length === 0 ? (
           <p>目前沒有優惠券喔！</p>
         ) : (
-          coupons.map((coupon) => {
-            if (activeTab === 'available') {
-              return <CouponCard key={coupon.id} {...coupon} />
-            } else if (activeTab === 'usable') {
-              return <CouponCardUnused key={coupon.id} {...coupon} />
-            } else {
-              return <CouponCardUsed key={coupon.id} {...coupon} />
-            }
-          })
+          currentCoupons.map(renderCouponCard)
         )}
       </div>
 
-      <div className={styles.paginationContainer}>
-        <Pagination />
-      </div>
+      {totalPages > 1 && (
+        <div className={styles.paginationContainer}>
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalPages={totalPages}
+          />
+        </div>
+      )}
     </>
   )
 }
