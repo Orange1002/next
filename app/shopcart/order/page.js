@@ -1,10 +1,11 @@
 'use client'
 import '../_styles/shopcart.scss'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useCart } from '@/hooks/use-cart'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/use-auth'
 import Swal from 'sweetalert2'
+import { useSearchParams } from 'next/navigation'
 
 export default function OrderPage() {
   const {
@@ -44,10 +45,44 @@ export default function OrderPage() {
     ),
   })
 
+  useEffect(() => {
+    const handleMessage = (event) => {
+      if (event.data.storeName && event.data.storeAddress) {
+        setFormData((prev) => ({
+          ...prev,
+          storeName: event.data.storeName,
+          storeAddress: event.data.storeAddress,
+        }))
+      }
+    }
+
+    window.addEventListener('message', handleMessage)
+
+    return () => {
+      window.removeEventListener('message', handleMessage)
+    }
+  }, [])
+
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
+
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    const storeName = searchParams.get('storeName')
+    const storeAddress = searchParams.get('storeAddress')
+
+    if (storeName && storeAddress) {
+      setFormData((prev) => ({
+        ...prev,
+        storeName,
+        storeAddress,
+        deliveryMethod: '超商取貨',
+      }))
+    }
+  }, [searchParams])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -308,7 +343,17 @@ export default function OrderPage() {
                 {formData.deliveryMethod === '超商取貨' && (
                   <div className="mb-3">
                     <div className="mb-3">
-                      <button className="btn box11 d-flex align-items-center justify-content-center w-100">
+                      <button
+                        type="button"
+                        className="btn box11 d-flex align-items-center justify-content-center w-100"
+                        onClick={() => {
+                          window.open(
+                            `https://emap.presco.com.tw/c2cemap.ashx?eshopid=870&&servicetype=1&url=http://localhost:3005/api/shopcart/store-callback`,
+                            'store',
+                            'width=500,height=600'
+                          )
+                        }}
+                      >
                         請選擇取貨門市
                       </button>
                     </div>

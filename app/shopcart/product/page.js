@@ -12,32 +12,42 @@ const initialProducts = [
   {
     product_id: 1,
     type: 'product',
+    image: '',
     name: '小熊餅乾',
     color: '黑色',
-    size: 'S',
+    size: '',
+    packing: '小包裝',
+    items_group: '3入',
     price: 50,
   },
   {
     product_id: 80,
     type: 'product',
-    name: '巧克力豆餅乾',
+    image: '',
+    name: '棒球帽',
     color: '紅色',
     size: 'M',
+    packing: '',
+    items_group: '2入',
     price: 100,
   },
   {
     product_id: 129,
     type: 'product',
+    image: '',
     name: '小老板海苔',
     color: '白色',
-    size: 'L',
+    size: '',
+    packing: '大包裝',
+    items_group: '4入',
     price: 150,
   },
   {
     sitter_id: 2,
     type: 'sitter',
+    image: '',
     name: '陳小美',
-    pet_id: 6,
+    pet_id: 2,
     petname: '小白',
     start_time: '04/10',
     end_time: '04/11',
@@ -46,6 +56,7 @@ const initialProducts = [
   {
     sitter_id: 6,
     type: 'sitter',
+    image: '',
     name: '王大明',
     pet_id: 1,
     petname: '小黑',
@@ -71,7 +82,8 @@ export default function ProductPage() {
                 <li key={product.product_id}>
                   {product.product_id}
                   {product.name} ({product.color})(
-                  {product.size})(NT${product.price})
+                  {product.size})({product.packing})({product.items_group})(NT$
+                  {product.price})
                   <button
                     onClick={() => {
                       // 加入購物車狀態(context)

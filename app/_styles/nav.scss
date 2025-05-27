@@ -41,7 +41,7 @@ body {
 
 .navbar .nav-link {
   font-family: 'Kiwi Maru';
-  font-size: 13px;
+  font-size: 16px;
   letter-spacing: 0.22em;
   transition: color 0.2s ease;
 
@@ -125,7 +125,6 @@ body {
 }
 
 .search-btn {
-
   &:focus,
   &:active,
   &:focus-visible {
