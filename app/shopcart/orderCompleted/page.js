@@ -42,7 +42,7 @@ export default function OrderComplete() {
               我們已收到您的訂單
             </div>
           </div>
-          <div className="bg-white px-400 py-10">
+          {/* <div className="bg-white px-400 py-10">
             <div>
               <div className="d-flex align-items-center mb-10">
                 <div className="w-72 me-30">訂單編號:</div>
@@ -77,7 +77,7 @@ export default function OrderComplete() {
                 <div>NT$3560</div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className="shopfooter mt-3 mb-5">

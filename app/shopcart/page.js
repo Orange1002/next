@@ -239,8 +239,13 @@ export default function ShopcartPage() {
                   <div className="flex-item d-flex align-items-center justify-content-center ">
                     <div>
                       <div className="mb-2">顏色:{item.color}</div>
-                      <div className="mb-2">尺寸:{item.size}</div>
-                      <div className="mb-2">包裝:{item.packing}</div>
+                      {item.size && (
+                        <div className="mb-2">尺寸: {item.size}</div>
+                      )}
+                      {item.packing && (
+                        <div className="mb-2">包裝: {item.packing}</div>
+                      )}
+
                       <div>內容物:{item.items_group}</div>
                     </div>
                   </div>
@@ -279,7 +284,7 @@ export default function ShopcartPage() {
                   <div
                     role="button"
                     tabIndex={0}
-                    className="flex-item text-center cursor-pointer"
+                    className="flex-item cursor-pointer d-flex align-items-center justify-content-center"
                     onClick={() =>
                       confirmAndRemove('product', item.name, item.product_id)
                     }
@@ -306,8 +311,15 @@ export default function ShopcartPage() {
                 .map((item) => (
                   <div
                     key={`product-${item.product_id}`}
-                    className="d-flex position-relative p-12 mb-2 mb-lg-0"
+                    className="d-flex position-relative p-12 mb-2 mb-lg-0 border-gray2"
                   >
+                    <div className="w-30 d-flex align-items-center">
+                      <input
+                        type="checkbox"
+                        checked={selectedProductIds.includes(item.product_id)}
+                        onChange={() => toggleSelectProduct(item.product_id)}
+                      />
+                    </div>
                     <div className="box6 me-10">
                       <Image
                         width={100}
@@ -317,55 +329,57 @@ export default function ShopcartPage() {
                         className=""
                       />
                     </div>
-                    <div className="w-217">
-                      <div className="box7 h-25 d-flex align-items-center">
+                    <div className="w-187">
+                      <div className="box7 h-20 d-flex align-items-center">
                         {item.name}
                       </div>
-                      <div className="h-25 d-flex align-items-center">
+                      <div className="h-2 d-flex align-items-center">
                         顏色:{item.color}
                       </div>
-                      <div className="h-25 d-flex align-items-center">
-                        尺寸:{item.size}
+                      {item.size && (
+                        <div className="h-20 d-flex align-items-center">
+                          尺寸: {item.size}
+                        </div>
+                      )}
+
+                      {item.packing && (
+                        <div className="h-20 d-flex align-items-center">
+                          包裝: {item.packing}
+                        </div>
+                      )}
+                      <div className="h-20 d-flex align-items-center">
+                        內容物:{item.items_group}
                       </div>
-                      <div className="h-25 d-flex align-items-center justify-content-between">
+                      <div className="h-20 d-flex align-items-center justify-content-between">
                         <div>NT${item.price * (item.count || 1)}</div>
                         <div className="text-center d-flex justify-content-center align-items-center gap-1">
                           <button
-                            className="btn box3 d-flex align-items-center justify-content-center"
-                            onClick={() => onDecrease(item.id)}
+                            className="btn box3 d-flex justify-content-center align-items-center"
+                            onClick={() => {
+                              if (item.count <= 1) {
+                                confirmAndRemove(
+                                  'product',
+                                  item.name,
+                                  item.product_id
+                                )
+                              } else {
+                                onDecrease('product', item.product_id)
+                              }
+                            }}
                           >
                             -
                           </button>
                           {item.count || 1}
                           <button
-                            className="btn box3 d-flex align-items-center justify-content-center"
-                            onClick={() => onIncrease(item.id)}
+                            className="btn box3 d-flex justify-content-center align-items-center"
+                            onClick={() =>
+                              onIncrease('product', item.product_id)
+                            }
                           >
                             +
                           </button>
                         </div>
                       </div>
-                    </div>
-                    <div
-                      role="button"
-                      tabIndex={0}
-                      className="text-center position-absolute position1 p-0"
-                      onClick={() =>
-                        confirmAndRemove('product', item.name, item.product_id)
-                      }
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault()
-                          confirmAndRemove(
-                            'product',
-                            item.name,
-                            item.product_id
-                          )
-                        }
-                      }}
-                      aria-label={`刪除 ${item.name}`}
-                    >
-                      <FaTrash />
                     </div>
                   </div>
                 ))}
@@ -458,7 +472,7 @@ export default function ShopcartPage() {
                   <div
                     role="button"
                     tabIndex={0}
-                    className="flex-item2 text-center cursor-pointer"
+                    className="flex-item2 cursor-pointer d-flex align-items-center justify-content-center"
                     onClick={() =>
                       confirmAndRemove('sitter', item.name, item.sitter_id)
                     }
@@ -485,8 +499,15 @@ export default function ShopcartPage() {
                 .map((item) => (
                   <div
                     key={`product-${item.sitter_id}`}
-                    className="d-flex position-relative p-12 mb-2 mb-lg-0"
+                    className="d-flex position-relative p-12 mb-2 mb-lg-0 border-gray2"
                   >
+                    <div className="w-30 d-flex align-items-center">
+                      <input
+                        type="checkbox"
+                        checked={selectedSitterIds.includes(item.sitter_id)}
+                        onChange={() => toggleSelectSitter(item.sitter_id)}
+                      />
+                    </div>
                     <div className="box6 me-10">
                       <Image
                         width={100}
@@ -496,7 +517,7 @@ export default function ShopcartPage() {
                         className=""
                       />
                     </div>
-                    <div className="w-217">
+                    <div className="w-187">
                       <div className="box7 h-25 d-flex align-items-center">
                         {item.name}
                       </div>
@@ -508,22 +529,32 @@ export default function ShopcartPage() {
                       </div>
                       <div className="h-25 d-flex align-items-center justify-content-between">
                         <div>NT${item.price}</div>
+                        <div
+                          role="button"
+                          tabIndex={0}
+                          className="flex-item2 cursor-pointer d-flex align-items-center justify-content-center"
+                          onClick={() =>
+                            confirmAndRemove(
+                              'sitter',
+                              item.name,
+                              item.sitter_id
+                            )
+                          }
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault()
+                              confirmAndRemove(
+                                'sitter',
+                                item.name,
+                                item.sitter_id
+                              )
+                            }
+                          }}
+                          aria-label={`刪除 ${item.name}`}
+                        >
+                          <FaTrash size={16} />
+                        </div>
                       </div>
-                    </div>
-                    <div
-                      role="button"
-                      tabIndex={0}
-                      className="text-center position-absolute position1 p-0"
-                      onClick={() => confirmAndRemove(item.name, item.id)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault()
-                          confirmAndRemove(item.name, item.id)
-                        }
-                      }}
-                      aria-label={`刪除 ${item.name}`}
-                    >
-                      <FaTrash />
                     </div>
                   </div>
                 ))}
