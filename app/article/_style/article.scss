@@ -351,6 +351,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  margin-right: 1000px;
 }
 
 /* 關閉按鈕 */
@@ -370,7 +371,7 @@
 .chat-header,
 .chat-footer {
   padding: 10px;
-  background: #929292;
+  background: #7f86f5;
 }
 
 .chat-body {

@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import Link from 'next/link'
-import '../_style/list.scss'
+import '../_style/myarticle.scss'
 import { FaPaw } from 'react-icons/fa'
 
 const FloatingActionButton = () => {
@@ -11,29 +10,16 @@ const FloatingActionButton = () => {
   }
 
   return (
-    <div className="fab-container position-fixed bottom-0 end-0 p-4 floating-button">
+    <div className="fab-container position-fixed end-0 p-4 floating-button">
       {/* 發文按鈕 */}
       {isOpen && (
-        <Link
-          href="/article/post"
+        <button
           className="btn mb-2 fab-option show d-flex align-items-center"
           id="postBtn"
         >
           <FaPaw className="me-1" />
           <span>我要發文</span>
-        </Link>
-      )}
-
-      {/* 管理文章按鈕 */}
-      {isOpen && (
-        <Link
-          href="/article/myarticle"
-          className="btn mb-2 fab-option show d-flex align-items-center"
-          id="editBtn"
-        >
-          <FaPaw className="me-1" />
-          <span>我的文章</span>
-        </Link>
+        </button>
       )}
 
       {/* 主 FAB 按鈕 */}
@@ -44,8 +30,8 @@ const FloatingActionButton = () => {
         onClick={toggleMenu}
       >
         <div className="d-flex justify-content-center align-items-center gap-1">
-          <FaPaw className="me-1" />
-          <p>{isOpen ? '關閉' : '編輯文章'}</p>
+          <FaPaw className=" me-1" />
+          <p className="">{isOpen ? '關閉' : '編輯文章'}</p>
         </div>
       </button>
     </div>
