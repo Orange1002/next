@@ -5,13 +5,16 @@ import styles from './member-Info.module.scss'
 import Image from 'next/image'
 import SectionTitle from '../../_components/SectionTitle/layout'
 import BtnCustom from '../../_components/BtnCustom/layout'
-import { FaEnvelope } from 'react-icons/fa'
+import { HiOutlineEnvelope } from 'react-icons/hi2'
+import { LiaBirthdayCakeSolid } from 'react-icons/lia'
 
 export default function MemberViewPage() {
   const [member, setMember] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const router = useRouter()
+
+  const baseUrl = 'http://localhost:3005'
 
   useEffect(() => {
     fetch('http://localhost:3005/api/member/profile', {
@@ -36,6 +39,16 @@ export default function MemberViewPage() {
   if (loading) return <p>載入中...</p>
   if (error) return <p>錯誤：{error}</p>
   if (!member) return null
+
+  const timestamp = new Date().getTime()
+
+  const imageSrc =
+    member.image_url && member.image_url !== ''
+      ? member.image_url.startsWith('http')
+        ? `${member.image_url}?t=${timestamp}`
+        : `${baseUrl}${member.image_url}?t=${timestamp}`
+      : '/member/member_images/user-img.svg'
+
   return (
     <>
       <SectionTitle>會員基本資料</SectionTitle>
@@ -48,7 +61,7 @@ export default function MemberViewPage() {
                 className={`rounded-circle border overflow-hidden d-flex justify-content-center align-items-center ${styles.memberImg}`}
               >
                 <Image
-                  src={member.image_url || '/member/member_images/user-img.svg'}
+                  src={imageSrc}
                   alt="使用者頭貼"
                   className="object-fit-cover h-100 w-100"
                   width={100}
@@ -85,7 +98,7 @@ export default function MemberViewPage() {
 
             {/* Email */}
             <div className={`${styles.inputField} mb-2`}>
-              <FaEnvelope className={`${styles.icon} ms-3 h-50 w-50`} />
+              <HiOutlineEnvelope className={`${styles.icon} ms-3 h-50 w-50`} />
               <input
                 type="text"
                 placeholder="電子信箱"
@@ -107,7 +120,9 @@ export default function MemberViewPage() {
 
             {/* 生日 */}
             <div className={`${styles.inputField} mb-2`}>
-              <i className={`${styles.icon} bi bi-calendar fs-3`}></i>
+              <LiaBirthdayCakeSolid
+                className={`${styles.icon} ms-3 h-50 w-50`}
+              />
               <input
                 type="text"
                 placeholder="生日"
@@ -119,7 +134,13 @@ export default function MemberViewPage() {
             {/* 編輯按鈕 */}
             <div className="mt-4">
               <BtnCustom
-                onClick={() => router.push('/member/profile/info/edit')}
+                onClick={() => {
+                  if (member?.id) {
+                    router.push(`/member/profile/info/edit/${member.id}`)
+                  } else {
+                    alert('找不到會員 ID')
+                  }
+                }}
               >
                 編輯資料
               </BtnCustom>

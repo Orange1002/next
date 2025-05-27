@@ -34,7 +34,7 @@ export default function MyNavbar() {
   }, [])
 
   // admin 頁面不顯示 navbar
-  if (pathname.includes('/admin')) return null
+  if (pathname.includes('/member/login')) return null
 
   return (
     <Navbar

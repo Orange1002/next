@@ -8,3 +8,8 @@
         transform: scale(1.01);
     }
 }
+
+.img {
+    width: 100%;
+    height: 200px;
+}
