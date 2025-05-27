@@ -16,6 +16,7 @@
   display: flex;
   height: 76px;
   padding: 0px 10px;
+  margin-bottom: 3px;
   justify-content: space-between;
   align-items: flex-start;
   align-self: stretch;
@@ -25,7 +26,7 @@
 .sidebarTextProduct {
   color: var(--Ellipse-9, #929292);
   text-align: center;
-  font-family: "Inria Sans";
+  font-family: 'Inria Sans';
   font-size: 25px;
   font-style: normal;
   font-weight: 400;
@@ -59,7 +60,7 @@
   height: 85px;
   color: var(--Ellipse-8, #505050);
   align-items: center;
-  font-family: "Inria Sans";
+  font-family: 'Inria Sans';
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -96,7 +97,7 @@
       align-self: stretch;
       text-decoration: none;
       color: var(--Ellipse-9, #929292);
-      font-family: "Inria Sans";
+      font-family: 'Inria Sans';
       font-size: 16px;
     }
 
@@ -109,7 +110,7 @@
         justify-content: center;
         align-items: center;
         gap: 10px;
-        border-bottom: 1.2px solid var(--unnamed, #CC543A);
+        border-bottom: 1.2px solid var(--unnamed, #cc543a);
       }
     }
   }
@@ -127,7 +128,7 @@
   a {
     text-decoration: none;
     color: var(--Ellipse-9, #929292);
-    font-family: "Inria Sans";
+    font-family: 'Inria Sans';
     font-size: 16px;
     padding-left: 5px;
   }
@@ -141,7 +142,7 @@
       justify-content: center;
       align-items: center;
       gap: 10px;
-      border-bottom: 1.2px solid var(--unnamed, #CC543A);
+      border-bottom: 1.2px solid var(--unnamed, #cc543a);
     }
   }
 }
@@ -173,7 +174,7 @@
 .priceTitle {
   align-self: stretch;
   color: var(--Ellipse-8, #505050);
-  font-family: "Kiwi Maru";
+  font-family: 'Kiwi Maru';
   font-size: 16px;
   letter-spacing: 1.6px;
 }
@@ -197,7 +198,7 @@
 
   input::placeholder {
     color: var(--Ellipse-9, #929292);
-    font-family: "Kiwi Maru";
+    font-family: 'Kiwi Maru';
     font-size: 12px;
     letter-spacing: 1.2px;
   }
@@ -206,14 +207,14 @@
 .priceNote {
   align-self: stretch;
   color: var(--Ellipse-8, #505050);
-  font-family: "Kiwi Maru";
+  font-family: 'Kiwi Maru';
   font-size: 12px;
   letter-spacing: 2.4px;
 }
 
 .priceRangeNote {
-  color: var(--unnamed, #ED784A);
-  font-family: "Inria Sans";
+  color: var(--unnamed, #ed784a);
+  font-family: 'Inria Sans';
   font-size: 12px;
   letter-spacing: 2.4px;
 }
@@ -235,9 +236,9 @@
   align-items: center;
   gap: 10px;
   border-radius: 5px;
-  background: var(--unnamed, #ED784A);
-  color: #FFF;
-  font-family: "Kiwi Maru";
+  background: var(--unnamed, #ed784a);
+  color: #fff;
+  font-family: 'Kiwi Maru';
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 2.8px;

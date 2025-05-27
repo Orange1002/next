@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 
 import CategorySlider from './_components/categorySlider/CategorySlider.jsx'
@@ -11,22 +10,21 @@ import styles from './_styles/Page.module.scss'
 import section1Styles from './_styles/product-section1.module.scss'
 import section2Styles from './_styles/product-section2.module.scss'
 import ProductList from './_components/ProductList/ProductList.jsx'
+import { useState } from 'react'
+import CategorySelectMobile from './_components/categorySelect/CategorySelectMobile.jsx'
+import SortSelect from './_components/sortSelect/SortSelect.jsx'
+import CategoryBanner from './_components/CategoryBanner/CategoryBanner'
 
 export default function ProductPage() {
+  const [price, setPrice] = useState({
+    priceGte: undefined,
+    priceLte: undefined,
+  })
+  const [sortBy, setSortBy] = useState({ sort: 'created_at', order: 'desc' })
   return (
     <>
       <div className={styles.productPage}>
-        <div className={section1Styles.productBanner}>
-          <Image
-            src="/product-img/productBanner.png"
-            alt="banner"
-            width={1440}
-            height={400}
-            style={{ width: '100%', height: 'auto' }}
-            sizes="(max-width: 440px) 100vw, 100vw"
-            priority // 如果這是頁面最上方的 banner 建議加上
-          />
-        </div>
+        <CategoryBanner />
         <main className={styles.main}>
           {/* 第一部分 */}
           <section className={section1Styles.categoryHeader}>
@@ -51,7 +49,10 @@ export default function ProductPage() {
               </div>
 
               {/* 麵包屑 */}
-              <nav className={section1Styles.breadcrumbNav} aria-label="breadcrumb">
+              <nav
+                className={section1Styles.breadcrumbNav}
+                aria-label="breadcrumb"
+              >
                 <ol>
                   <li>
                     <Link href="/">HOME</Link>
@@ -100,7 +101,7 @@ export default function ProductPage() {
                   <circle cx="7.5" cy="7.5" r="7.5" fill="#505050" />
                 </svg>
               </div>
-              <SidebarFilter />
+              <SidebarFilter onPriceChange={setPrice} />
             </aside>
 
             <div className={section2Styles.productList}>
@@ -109,39 +110,18 @@ export default function ProductPage() {
                   1-24 items |
                 </div>
 
-                <select
-                  className={section2Styles.mobileCategorySelect}
-                  defaultValue=""
-                >
-                  <option value="" disabled>
-                    篩選
-                  </option>
-                  <option value="food">Food</option>
-                  <option value="can">Can</option>
-                  <option value="snack">Snack</option>
-                  <option value="bed">Bed</option>
-                  <option value="bath">Bath</option>
-                  <option value="toy">Toy</option>
-                  <option value="cloth">Cloth</option>
-                  <option value="collar">Collar</option>
-                  <option value="accessory">Accessory</option>
-                </select>
+                <CategorySelectMobile />
 
-                <select
-                  className={section2Styles.customSelect}
-                  defaultValue="latest"
-                >
-                  <option value="latest">最新上架</option>
-                  <option value="popular">人氣排序</option>
-                  <option value="price_low">價格低到高</option>
-                  <option value="price_high">價格高到低</option>
-                </select>
+                <SortSelect onChange={setSortBy} />
               </div>
 
-              <ProductList />
+              <ProductList
+                sortBy={sortBy}
+                priceGte={price.priceGte}
+                priceLte={price.priceLte}
+              />
             </div>
           </section>
-
         </main>
       </div>
     </>

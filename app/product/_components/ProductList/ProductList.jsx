@@ -4,7 +4,13 @@ import section2Styles from './ProductList.module.scss'
 import ProductCard from '../card/ProductCard'
 import Pagination from '../pagination/Pagination'
 
-export default function ProductList({ categoryId, subcategoryId }) {
+export default function ProductList({
+  categoryId,
+  subcategoryId,
+  priceGte,
+  priceLte,
+  sortBy,
+}) {
   const [products, setProducts] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
@@ -16,10 +22,16 @@ export default function ProductList({ categoryId, subcategoryId }) {
     params.set('perpage', perPage)
     if (categoryId) params.set('category_ids', categoryId)
     if (subcategoryId) params.set('subcategory_ids', subcategoryId)
+    if (priceGte) params.set('price_gte', priceGte)
+    if (priceLte) params.set('price_lte', priceLte)
+    if (sortBy?.sort) params.set('sort', sortBy.sort)
+    if (sortBy?.order) params.set('order', sortBy.order)
 
     const fetchUrl = `http://localhost:3005/api/product/products?${params.toString()}`
 
-    fetch(fetchUrl)
+    fetch(fetchUrl, {
+      credentials: 'include', // ✅ 加這行，才能帶 cookie
+    })
       .then((res) => res.json())
       .then((data) => {
         setProducts(data.data.products || [])
@@ -29,7 +41,7 @@ export default function ProductList({ categoryId, subcategoryId }) {
         console.error('❌ API 錯誤:', err)
         setProducts([])
       })
-  }, [categoryId, subcategoryId, currentPage])
+  }, [categoryId, subcategoryId, priceGte, priceLte, currentPage, sortBy])
 
   if (!products.length) return <div>尚無商品</div>
 
@@ -45,12 +57,14 @@ export default function ProductList({ categoryId, subcategoryId }) {
             price={`NT$${product.price}`}
             avgRating={
               product.rating?.count > 0
-                ? `${product.rating.avg} (${product.rating.count}則)`
-                : '尚無評價'
+                ? `${product.rating.avg} (${product.rating.count})`
+                : '0'
             }
+            isFavorite={product.isFavorite}
           />
         ))}
       </div>
+
       <Pagination
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}

@@ -1,9 +1,11 @@
 .cardGroup {
   display: flex;
   padding-bottom: 30px;
-  justify-content: flex-end;
+  padding-left: 86px;
   align-items: center;
   gap: 30px 20px;
   flex-wrap: wrap;
-  
+  @media (max-width: 500px) {
+    padding-left: 5px;
+  }
 }

@@ -22,6 +22,10 @@
   }
 }
 
+.categoryItemLink {
+  text-decoration: none;
+}
+
 .categoryArrow {
   all: unset;
   position: relative;
@@ -132,6 +136,8 @@
   align-items: center;
   justify-content: center;
   transition: transform 0.2s ease;
+  color: #555;
+  transition: 0.2s;
   cursor: pointer;
 
   &:active {
@@ -144,5 +150,16 @@
     object-fit: contain;
     margin: 0 auto;
     display: block;
+  }
+}
+.categoryItem:hover {
+  background-color: #f3f3f3;
+  border-radius: 8px;
+}
+.categoryItem.active {
+  div {
+    padding-bottom: 2px;
+    border-bottom: 2px solid #cc543a;
+    color: #cc543a;
   }
 }

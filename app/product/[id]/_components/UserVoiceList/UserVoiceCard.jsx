@@ -6,14 +6,20 @@ export default function UserVoiceCard({
   date = '2021/10/26 18:33:11',
   rate = 5,
   title = '光亮的設計很方便',
-  content = `雖然我在兩款項圈之間猶豫，但我選擇了會發光的款式。\n有一次在家裡找不到它，正當我感到很困擾時，突然看到一道反射光閃現。\n\n結果成功發現了剛來到我們家的約克夏，牠藏在窗簾縫隙裡！未來牠的成長真的讓人期待。非常感謝這個美好的活動！`
+  content = `雖然我在兩款項圈之間猶豫，但我選擇了會發光的款式。\n有一次在家裡找不到它，正當我感到很困擾時，突然看到一道反射光閃現。\n\n結果成功發現了剛來到我們家的約克夏，牠藏在窗簾縫隙裡！未來牠的成長真的讓人期待。非常感謝這個美好的活動！`,
 }) {
   const [isExpanded, setIsExpanded] = useState(false)
 
   return (
     <div className={styles.voiceCard}>
       <div className={styles.voiceCardLeft}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="40"
+          height="40"
+          viewBox="0 0 40 40"
+          fill="none"
+        >
           <g clipPath="url(#clip0_92_3165)">
             <path
               d="M27.5 15C27.5 16.9891 26.7098 18.8968 25.3033 20.3033C23.8968 21.7098 21.9891 22.5 20 22.5C18.0109 22.5 16.1032 21.7098 14.6967 20.3033C13.2902 18.8968 12.5 16.9891 12.5 15C12.5 13.0109 13.2902 11.1032 14.6967 9.6967C16.1032 8.29018 18.0109 7.5 20 7.5C21.9891 7.5 23.8968 8.29018 25.3033 9.6967C26.7098 11.1032 27.5 13.0109 27.5 15Z"
@@ -48,10 +54,10 @@ export default function UserVoiceCard({
         <div className={styles.voiceTitle}>{title}</div>
         <div
           className={`${styles.voiceContent} ${isExpanded ? styles.expanded : ''}`}
-          onClick={() => setIsExpanded(prev => !prev)}
+          onClick={() => setIsExpanded((prev) => !prev)}
         >
           {content.split('\n').map((line, i) => (
-            <span key={i}>
+            <span key={i} className={styles.voiceText}>
               {line}
               <br />
             </span>

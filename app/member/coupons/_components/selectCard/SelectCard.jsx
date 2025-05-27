@@ -1,8 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import styles from './SelectCard.module.scss';
 import classNames from 'classnames';
+import styles from './SelectCard.module.scss';
 
 const tabs = [
   { id: 'available', desktop: '可領取的優惠券', mobile: '可領取' },
@@ -10,9 +9,7 @@ const tabs = [
   { id: 'used', desktop: '已使用的優惠券', mobile: '已使用' },
 ];
 
-const SelectCard = () => {
-  const [activeTab, setActiveTab] = useState('available');
-
+const SelectCard = ({ activeTab, setActiveTab }) => {
   return (
     <div className={styles.container}>
       <ul className={styles.couponTabGroup} role="tablist">

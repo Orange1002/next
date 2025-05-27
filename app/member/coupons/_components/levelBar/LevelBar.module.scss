@@ -147,3 +147,16 @@
     display: block;
   }
 }
+@media (max-width: 768px) {
+  .grayLine,
+  .circleStart {
+    display: none;
+  }
+
+  .levelWrapper {
+    width: 100% !important;
+    margin: 0 auto;
+    padding: 0 16px; // 或視需求調整左右留白
+    right: 15%;
+  }
+}
