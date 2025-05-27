@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import '../../_styles/sitter-detail.module.css'
 import Image from 'next/image'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
@@ -10,15 +9,21 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import { Pagination } from 'swiper/modules'
+import '../../_styles/sitter-detail.module.css'
 
 export default function SitterDetailPage() {
   const [sitter, setSitter] = useState()
   const [rating, setRating] = useState(0)
   const [comment, setComment] = useState('')
   const [canReview, setCanReview] = useState(false)
+  const [isClient, setIsClient] = useState(false)
   const { id } = useParams()
 
   useEffect(() => {
+    if (!id) return
+
+    setIsClient(true)
+
     const fetchData = async () => {
       const res = await fetch(`http://localhost:3005/api/sitter/${id}`)
       const data = await res.json()
@@ -27,7 +32,7 @@ export default function SitterDetailPage() {
     }
 
     fetchData()
-  }, [])
+  }, [id])
 
   const handleSubmit = async () => {
     if (!rating || !comment.trim()) return alert('請填寫評分與留言')
@@ -132,49 +137,51 @@ export default function SitterDetailPage() {
 
       {/* 評論區 */}
       <section className="container p-5" style={{ maxWidth: '1080px' }}>
-        <h2 className="reviews-title mb-3">
+        <h2 className="reviews-title mb-3 fs-5">
           用戶評論 [{sitter?.reviews?.length || 0}]
         </h2>
-        <Swiper
-          className="w-100 overflow-visible"
-          modules={[Pagination]}
-          pagination={{ clickable: true }}
-          spaceBetween={20}
-          slidesPerView={1}
-          breakpoints={{
-            768: { slidesPerView: 2 },
-            992: { slidesPerView: 3 },
-          }}
-        >
-          {sitter?.reviews?.map((review, i) => (
-            <SwiperSlide key={i} className="d-flex justify-content-center">
-              <div
-                className="card border shadow-sm p-3 bg-white"
-                style={{
-                  width: '100%',
-                  maxWidth: '300px',
-                  minHeight: '180px',
-                }}
-              >
-                <StarRating
-                  value={review.rating}
-                  readOnly
-                  fillColor="#f5b301"
-                  emptyColor="#ddd"
-                  size={20}
-                />
-                <div className="text-muted small mt-2">
-                  {review.username} ・{' '}
-                  {review.created_at &&
-                    new Date(review.created_at).toLocaleDateString()}
+        {isClient && sitter?.reviews?.length > 0 && (
+          <Swiper
+            className="w-100 overflow-visible"
+            modules={[Pagination]}
+            pagination={{ clickable: true }}
+            spaceBetween={20}
+            slidesPerView={1}
+            breakpoints={{
+              768: { slidesPerView: 2 },
+              992: { slidesPerView: 3 },
+            }}
+          >
+            {sitter.reviews.map((review, i) => (
+              <SwiperSlide key={i} className="d-flex justify-content-center">
+                <div
+                  className="card border shadow-sm p-3 bg-white"
+                  style={{
+                    width: '100%',
+                    maxWidth: '300px',
+                    minHeight: '180px',
+                  }}
+                >
+                  <StarRating
+                    value={review.rating}
+                    readOnly
+                    fillColor="#f5b301"
+                    emptyColor="#ddd"
+                    size={20}
+                  />
+                  <div className="text-muted small mt-2">
+                    {review.username} ・{' '}
+                    {review.created_at &&
+                      new Date(review.created_at).toLocaleDateString()}
+                  </div>
+                  <p className="text-secondary small mt-4 mb-0">
+                    {review.comment}
+                  </p>
                 </div>
-                <p className="text-secondary small mt-4 mb-0">
-                  {review.comment}
-                </p>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
       </section>
 
       {/* 留下評論區塊 */}
