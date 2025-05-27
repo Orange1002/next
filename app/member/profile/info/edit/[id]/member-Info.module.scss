@@ -1,0 +1,131 @@
+.block {
+  border: 2px solid #d9d9d999;
+  border-radius: 10px;
+}
+
+.btnRadio {
+  border: 1px solid #ed784a;
+  color: #ed784a;
+  border-radius: 20px;
+  width: 180px;
+  font-family: 'Kiwi Maru';
+  white-space: nowrap;
+
+  &:hover {
+    background-color: #ed784a !important;
+    color: #fff !important;
+    border-color: #ed784a !important;
+  }
+}
+
+.btnCheck {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.btnImg1 {
+  border: 1px solid #ed784a;
+  color: #ed784a;
+  background: #fff;
+  border-radius: 5px;
+  font-family: 'Kiwi Maru';
+  white-space: nowrap;
+  padding: 6px 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ed784a;
+    color: #fff;
+  }
+}
+
+.btnImg2 {
+  border: 1px solid #505050;
+  color: #505050;
+  background-color: #fff;
+  border-radius: 5px;
+  font-family: 'Kiwi Maru';
+  white-space: nowrap;
+  padding: 6px 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background-color: #505050;
+    color: #fff;
+  }
+}
+
+.active {
+  background-color: #ed784a;
+  color: #fff;
+  border-color: #ed784a;
+}
+
+.label {
+  color: #505050;
+  font-family: 'Kiwi Maru', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: #505050;
+  font-family: 'Kiwi Maru', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.memberImg {
+  width: 100px;
+  height: 100px;
+  background-color: var(--color-gray-light);
+}
+.inputField {
+  max-width: 380px;
+  width: 100%;
+  background-color: #f0f0f0;
+  margin: 10px 0;
+  height: 55px;
+  border-radius: 55px;
+  display: grid;
+  grid-template-columns: 15% 85%;
+  padding: 0 0.4rem;
+  position: relative;
+  align-items: center;
+}
+
+.inputField .icon {
+  text-align: center;
+  line-height: 55px;
+  color: #acacac;
+  transition: 0.5s;
+  font-size: 1.1rem;
+}
+
+.inputField input {
+  background: none;
+  outline: none;
+  border: none;
+  line-height: 1;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #9d9d9d;
+}
+
+.inputField input::placeholder {
+  color: #aaa;
+  font-weight: 500;
+}

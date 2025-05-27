@@ -6,6 +6,7 @@ import BtnCustom from '../../_components/BtnCustom/layout'
 import { useRouter } from 'next/navigation'
 import SectionTitle from '../../_components/SectionTitle/layout'
 import { useAuth } from '../../../../hooks/use-auth.js'
+import styles from './member-recipient.module.scss'
 
 export default function RecipientPage() {
   const router = useRouter()
@@ -66,21 +67,25 @@ export default function RecipientPage() {
   return (
     <>
       <SectionTitle>常用收件人</SectionTitle>
-      <div className="row justify-content-center g-0 mt-3">
-        {recipients.length === 0 ? (
-          <p className="text-center">尚無常用收件人</p>
-        ) : (
-          recipients.map((recipient) => (
-            <div key={recipient.id} className="col-12">
-              <RecipientCard
-                recipient={recipient}
-                onDeleteSuccess={fetchRecipients} // ✅ 傳遞刷新函式
-              />
-            </div>
-          ))
-        )}
-        <div className="col-12 d-flex justify-content-center mt-4">
-          <BtnCustom onClick={handleAddRecipient}>新增常用收件人</BtnCustom>
+      <div className="row justify-content-center g-0 mt-3 h-100">
+        <div
+          className={`${styles.block} d-flex flex-column justify-content-start g-0 ps-lg-3 pe-lg-3 pt-lg-3 pb-lg-3 p-3 h-100`}
+        >
+          {recipients.length === 0 ? (
+            <p className="text-center">尚無常用收件人</p>
+          ) : (
+            recipients.map((recipient) => (
+              <div key={recipient.id} className="col-12">
+                <RecipientCard
+                  recipient={recipient}
+                  onDeleteSuccess={fetchRecipients} // ✅ 傳遞刷新函式
+                />
+              </div>
+            ))
+          )}
+          <div className="col-12 d-flex justify-content-center mt-4">
+            <BtnCustom onClick={handleAddRecipient}>新增常用收件人</BtnCustom>
+          </div>
         </div>
       </div>
     </>

@@ -44,8 +44,15 @@ export default function DogsPage() {
         method: 'DELETE',
         credentials: 'include',
       })
-      if (!res.ok) throw new Error('刪除失敗')
-      setDogs((prev) => prev.filter((dog) => dog.id !== id))
+
+      const result = await res.json()
+
+      if (res.ok && result.status === 'success') {
+        setDogs((prev) => prev.filter((dog) => dog.id !== id))
+        alert('刪除成功！')
+      } else {
+        alert('刪除失敗：' + (result.message || '未知錯誤'))
+      }
     } catch (err) {
       console.error('刪除錯誤:', err)
       alert('刪除失敗，請稍後再試')
@@ -57,18 +64,22 @@ export default function DogsPage() {
       <SectionTitle>狗狗資料</SectionTitle>
       <div className="mt-lg-3 h-100">
         <div
-          className={`${styles.block} d-flex flex-column justify-content-between g-0 ps-lg-3 pe-lg-3 pt-lg-3 pb-lg-3 p-3 h-100`}
+          className={`${styles.block} d-flex flex-column justify-content-start g-0 ps-lg-3 pe-lg-3 pt-lg-3 pb-lg-3 p-3 h-100`}
         >
-          <div className="d-flex flex-row row g-0 mb-lg-3">
-            {dogs.slice(0, 6).map((dog) => (
-              <div className="col-12 col-md-6 col-lg-4 p-2" key={dog.id}>
-                <DogCard dog={dog} onDelete={handleDelete} />
-              </div>
-            ))}
+          <div className="d-flex flex-row row g-0">
+            {dogs.length === 0 ? (
+              <p className="text-center">尚無狗狗資料</p>
+            ) : (
+              dogs.slice(0, 6).map((dog) => (
+                <div className="col-12 col-md-6 col-lg-4 p-2" key={dog.id}>
+                  <DogCard dog={dog} onDelete={handleDelete} />
+                </div>
+              ))
+            )}
           </div>
 
           {dogs.length < 6 ? (
-            <div className="d-flex justify-content-center mt-2 mt-lg-0">
+            <div className="d-flex justify-content-center mt-2 mt-lg-4">
               <button
                 className={styles.btnCustom}
                 onClick={() => router.push('/member/profile/dogs/add')}

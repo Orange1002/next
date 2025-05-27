@@ -1,10 +1,9 @@
 'use client'
-import { MemberProvider } from './Context/MemberContext'
-
+import { useAuth } from '../../hooks/use-auth'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
 import Breadcrumb from './_components/BreadCrumb/layout'
 import Sidebar from './_components/Sidebar/layout'
+import { useEffect } from 'react'
 
 const breadcrumbMap = {
   '/member': '會員中心',
@@ -29,51 +28,21 @@ const breadcrumbMap = {
 }
 
 export default function MemberLayout({ children }) {
+  const { isAuth, isReady } = useAuth()
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const router = useRouter()
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [loading, setLoading] = useState(true)
 
   const query = searchParams.toString()
   const fullPath = query ? `${pathname}?${query}` : pathname
   const isLoginPage = pathname === '/member/login'
 
   useEffect(() => {
-    if (isLoginPage) {
-      setLoading(false)
-      return
+    if (!isReady) return
+    if (!isAuth && !isLoginPage) {
+      router.replace('/member/login')
     }
-
-    const checkLogin = async () => {
-      try {
-        const res = await fetch('http://localhost:3005/api/member/profile', {
-          method: 'GET',
-          credentials: 'include',
-        })
-        if (res.status === 401) {
-          router.replace('/member/login')
-        } else if (!res.ok) {
-          throw new Error('驗證失敗')
-        } else {
-          const data = await res.json()
-          // 假設有 user.id 就算通過
-          if (data && data.id) {
-            setIsAuthenticated(true)
-          } else {
-            router.replace('/member/login')
-          }
-        }
-      } catch (err) {
-        console.error('登入驗證失敗:', err)
-        router.replace('/member/login')
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    checkLogin()
-  }, [isLoginPage, router])
+  }, [isAuth, isReady, isLoginPage, router])
 
   const generateBreadcrumbItems = () => {
     const items = [{ label: '首頁', href: '/' }]
@@ -95,28 +64,22 @@ export default function MemberLayout({ children }) {
     return items
   }
 
-  // 顯示 Loading
-  if (loading) return null
-
-  // 是登入頁 → 直接顯示
+  // 尚未準備好資料時不渲染
+  if (!isReady) return null
   if (isLoginPage) return children
-
-  // 不是登入頁但未登入 → 不顯示內容（保險）
-  if (!isAuthenticated) return null
+  if (!isAuth) return null
 
   return (
-    <MemberProvider>
-      <main>
-        <Breadcrumb items={generateBreadcrumbItems()} />
-        <div className="container mt-4">
-          <div className="row g-0 mb-5 justify-content-end">
-            <Sidebar />
-            <section className="col-12 col-lg-10 ps-lg-4 mt-lg-5 d-flex flex-column justify-content-start">
-              {children}
-            </section>
-          </div>
+    <main>
+      <Breadcrumb items={generateBreadcrumbItems()} />
+      <div className="container mt-4">
+        <div className="row g-0 mb-5 justify-content-end">
+          <Sidebar />
+          <section className="col-12 col-lg-10 ps-lg-4 mt-lg-5 d-flex flex-column justify-content-start">
+            {children}
+          </section>
         </div>
-      </main>
-    </MemberProvider>
+      </div>
+    </main>
   )
 }

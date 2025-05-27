@@ -2,13 +2,13 @@
 
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import styles from './favorite.module.scss'
+// import styles from './favorite.module.scss'
 import SectionTitle from '../_components/SectionTitle/layout'
 import Pagination from '../_components/Pagination/layout'
-import ProductFavoriteCard from './_components/ProductFavoriteCard'
+// import ProductFavoriteCard from './_components/ProductFavoriteCard'
 // import SitterFavoriteCard from './_components/SitterFavoriteCard'
-import ArticleFavoriteCard from './_components/ArticleFavoriteCard'
-import EventFavoriteCard from './_components/EventFavoriteCard'
+// import ArticleFavoriteCard from './_components/ArticleFavoriteCard'
+import EventFavoriteCard from './_components/EventFavoriteCard/layout'
 
 export default function FavoriteSection() {
   const searchParams = useSearchParams()

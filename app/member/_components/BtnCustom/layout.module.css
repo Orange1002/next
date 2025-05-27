@@ -1,21 +1,21 @@
 .btnCustom {
   width: 225px;
   height: 50px;
-  border: 1px solid #ED784A;
-  background: #fff;
-  color: #ED784A;
+  border: 1px solid #ed784a;
+  background: transparent;
+  color: #ed784a;
   text-decoration: none;
   border-radius: 5px;
-  font-family: "Kiwi Maru";
+  font-family: 'Kiwi Maru';
   white-space: nowrap;
   transition: all 0.2s ease;
 }
 
 .btnCustom:hover,
 .btnCustom.active {
-  background-color: #ED784A;
+  background-color: #ed784a;
   border-color: #d96a3c;
-  color: #fff;
+  color: transparent;
 }
 
 /* 手機版響應式 */
