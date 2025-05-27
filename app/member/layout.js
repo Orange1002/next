@@ -4,6 +4,7 @@ import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Breadcrumb from './_components/BreadCrumb/layout'
 import Sidebar from './_components/Sidebar/layout'
+import { useAuth } from '../../hooks/use-auth'
 
 const breadcrumbMap = {
   '/member': '會員中心',

@@ -16,27 +16,29 @@ export default function ProductSection() {
   const type = searchParams.get('type') || 'products'
   const [activeTab, setActiveTab] = useState(type)
 
-  const { member } = useAuth()
+  const { member, loading } = useAuth()
   const [orderData, setOrderData] = useState([])
 
+  console.log(member)
+
   useEffect(() => {
-    if (!member?.id) return
-
-    const fetchOrders = async () => {
-      try {
-        const res = await axios.post(
-          'http://localhost:3005/api/shopcart/order-list',
-          { memberId: member.id }
-        )
-        setOrderData(res.data)
-        console.log('取得訂單資料:', res.data)
-      } catch (err) {
-        console.error('載入訂單失敗', err)
+    if (!loading && member?.id) {
+      const fetchOrders = async () => {
+        try {
+          const res = await axios.post(
+            'http://localhost:3005/api/shopcart/order-list',
+            { memberId: member.id }
+          )
+          setOrderData(res.data)
+          console.log('取得訂單資料:', res.data)
+        } catch (err) {
+          console.error('載入訂單失敗', err)
+        }
       }
-    }
 
-    fetchOrders()
-  }, [member?.id])
+      fetchOrders()
+    }
+  }, [loading, member])
 
   useEffect(() => {
     setActiveTab(type)

@@ -95,8 +95,8 @@ export default function SitterOrderCard({
                       style={{ width: 80 }}
                     >
                       <Image
-                        src={sitter.img}
-                        alt={sitter.name}
+                        src={sitter.image}
+                        alt={sitter.sitter_name}
                         width={80}
                         height={80}
                         className="object-fit-cover h-100 w-100 rounded-circle"
@@ -104,10 +104,15 @@ export default function SitterOrderCard({
                     </div>
                     <div className="d-flex flex-column justify-content-between flex-grow-1">
                       <div>
-                        <p>保母名稱 : {sitter.name}</p>
+                        <p>保母名稱 : {sitter.sitter_name}</p>
+                      </div>
+                      <div>
+                        <p>預約的狗 : {sitter.dog_name}</p>
                       </div>
                       <div className="d-flex justify-content-between">
-                        <p>預約時段 : {sitter.spec}</p>
+                        <p>
+                          預約時段 : {sitter.start_time} ~ {sitter.end_time}
+                        </p>
                       </div>
                       <div className="d-flex justify-content-end gap-1">
                         {sitter.originalPrice && <s>${sitter.originalPrice}</s>}
