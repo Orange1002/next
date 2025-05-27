@@ -20,7 +20,7 @@ export default function SitterCard({ sitter }) {
           height={100}
         />
         <div className="card-body card-body-bg">
-          <h5 className="card-title card-title-custom">{sitter.name}</h5>
+          <h5 className="card-title card-title-custom fs-5">{sitter.name}</h5>
           <p className="card-text text-danger card-text-custom">
             {sitter.short_intro}
           </p>

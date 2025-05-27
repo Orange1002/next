@@ -1,0 +1,31 @@
+.scene {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: linear-gradient(to top, #a3d977 30%, #87ceeb 100%);
+}
+
+.grass {
+  position: absolute;
+  bottom: 0;
+  width: 200%;
+  height: 80px;
+  background: url('/images/grass.jpg') repeat-x;
+  animation: scrollGrass 5s linear infinite;
+}
+
+@keyframes scrollGrass {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.corgi {
+  position: absolute;
+  bottom: 20px;
+  width: 100px;
+}
