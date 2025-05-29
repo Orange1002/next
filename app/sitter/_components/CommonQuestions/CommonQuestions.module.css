@@ -1,15 +1,18 @@
 .container {
+  margin-top: 50px;
   max-width: 960px;
   justify-content: center;
+  text-align: center;
 }
 
 .header {
+  text-align: center;
   color: #141414;
   text-transform: uppercase;
-  flex-direction: column;
-  justify-content: flex-start;
+  /* flex-direction: column; */
+  justify-content: center;
   align-items: flex-start;
-  padding-right: 102px;
+  padding-right: 80px;
   font-family:
     Inter,
     -apple-system,
@@ -30,13 +33,15 @@
 
 .mainTitle {
   white-space: nowrap;
-  width: 589px;
+  /* width: 568px; */
   min-width: 240px;
   padding-top: 17px;
   padding-bottom: 17px;
-  font-size: 96px;
+  font-size: 48px;
   line-height: 1;
   overflow: hidden;
+  display: flex;
+  justify-content: left;
 }
 
 .subtitleWrapper {
@@ -45,7 +50,7 @@
   justify-content: flex-start;
   align-items: flex-start;
   width: 192px;
-  padding-top: 68px;
+  padding-top: 60px;
   padding-bottom: 8px;
   padding-right: 25px;
   display: flex;
@@ -73,32 +78,37 @@
 
 .secondaryTitle {
   white-space: nowrap;
-  width: 706px;
+  /* width: 706px; */
   max-width: 100%;
   padding-top: 14px;
   padding-bottom: 14px;
-  font-size: 96px;
+  font-size: 48px;
   line-height: 1;
   overflow: hidden;
 }
 
 .questionsContainer {
   width: 100%;
-  margin-top: 81px;
+  margin: 81px auto 0 auto; /* 置中 */
+  max-width: 800px; /* 限制內容寬度，可視情況調整 */
 }
 
 .questionItem {
+  /* 既有設定 */
   border-color: #e5e5e5;
   border-top-width: 1px;
   border-bottom-width: 1px;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: stretch;
+  align-items: center; /* 垂直置中對齊 */
   gap: 20px;
   width: 100%;
   padding: 28px 3px;
   display: flex;
   cursor: pointer;
+
+  /* 新增設定 */
+  text-align: center;
 }
 
 .questionText {
@@ -111,7 +121,7 @@
     Roboto,
     Helvetica,
     sans-serif;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 500;
   line-height: 1;
 }

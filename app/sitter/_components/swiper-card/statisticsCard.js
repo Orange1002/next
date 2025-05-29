@@ -12,11 +12,11 @@ export default function StatisticsCard() {
   return (
     <div className="d-flex justify-content-between gap-4 mt-3 px-3">
       <div className="flex-fill">
-        <h3 className="text-white fw-bold display-6 lh-1">4.8</h3>
+        <h3 className="text-white fw-bold fs-2 lh-1">4.8</h3>
         <p className="text-white fs-6 lh-base">1000+ reviews on TripAdvisor.</p>
       </div>
       <div className="flex-fill">
-        <h3 className="text-white fw-bold display-6 lh-1">16M</h3>
+        <h3 className="text-white fw-bold fs-2 lh-1">16M</h3>
         <p className="text-white fs-6 lh-base">Happy customers</p>
       </div>
     </div>

@@ -4,10 +4,12 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
 import Link from 'next/link'
+import { useNotification } from '@/contexts/NotificationContext' // ✅ 引入通知 context
 
 export default function SitterBookingPage() {
   const { sitterId } = useParams()
   const router = useRouter()
+  const { addNotification } = useNotification() // ✅ 使用 addNotification
 
   const [dogs, setDogs] = useState([])
   const [status, setStatus] = useState('loading') // loading, success, empty, error
@@ -17,11 +19,9 @@ export default function SitterBookingPage() {
   const [dogId, setDogId] = useState('')
   const [loading, setLoading] = useState(false)
 
-  // 新增狗狗欄位
   const [newDogName, setNewDogName] = useState('')
   const [addingDog, setAddingDog] = useState(false)
 
-  // 取得狗狗清單
   const fetchDogs = async () => {
     try {
       const res = await fetch('http://localhost:3005/api/sitter-booking/dogs', {
@@ -51,7 +51,6 @@ export default function SitterBookingPage() {
     fetchDogs()
   }, [])
 
-  // 新增狗狗處理
   const handleAddDog = async () => {
     if (!newDogName.trim()) {
       Swal.fire('錯誤', '請輸入狗狗名字', 'error')
@@ -62,10 +61,7 @@ export default function SitterBookingPage() {
     try {
       const res = await fetch('http://localhost:3005/api/sitter-booking/dogs', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
+        headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify({ name: newDogName }),
       })
@@ -86,7 +82,6 @@ export default function SitterBookingPage() {
     }
   }
 
-  // 預約提交
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -102,10 +97,7 @@ export default function SitterBookingPage() {
         `http://localhost:3005/api/sitter-booking/${sitterId}/bookings`,
         {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            // Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
+          headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
           body: JSON.stringify({ sitterId, startDate, endDate, petId: dogId }),
         }
@@ -124,6 +116,11 @@ export default function SitterBookingPage() {
           end_date,
         } = data.booking
 
+        // ✅ 新增通知：即時顯示在鈴鐺上
+        addNotification(
+          `您已成功預約 ${sitter_name} 的服務，寵物：${dog_name}，期間：${start_date} ~ ${end_date}`
+        )
+
         Swal.fire({
           icon: 'success',
           title: '預約成功',
@@ -135,7 +132,7 @@ export default function SitterBookingPage() {
             <p>期間：<strong>${start_date} ~ ${end_date}</strong></p>
           `,
         }).then(() => {
-          router.push('/member/bookings')
+          router.push('/shopcart')
         })
       } else {
         Swal.fire('錯誤', data.message || '預約失敗', 'error')

@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import '../_styles/style-sitter-list.scss'
 
 export default function ComponentsCustomerFeedback(props) {
   return (
@@ -112,7 +113,7 @@ export default function ComponentsCustomerFeedback(props) {
         <div className="text-center mt-5">
           <a
             href="#"
-            className="btn btn-lg btn-warning text-white fw-bold px-5 py-3"
+            className="btn btn-lg bgc-primary text-white fw-bold px-5 py-3"
             style={{ letterSpacing: 5 }}
           >
             查看更多

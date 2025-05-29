@@ -115,7 +115,7 @@ export default function SitterDetailPage() {
             {/* 服務時段與預約 */}
             <div className="row mt-4">
               <section className="col-12 col-md-6">
-                <h3 className="bg-warning text-white p-2 rounded service-badge">
+                <h3 className="bgc-primary text-white p-2 rounded service-badge">
                   服務時段
                 </h3>
                 <p className="fs-5 text-secondary m-3">
@@ -204,7 +204,7 @@ export default function SitterDetailPage() {
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           />
-          <button className="btn btn-primary" onClick={handleSubmit}>
+          <button className="btn bgc-primary" onClick={handleSubmit}>
             提交評價
           </button>
         </section>

@@ -33,7 +33,7 @@ const CommonQuestions = () => {
   ]
 
   return (
-    <div className="container py-5 ">
+    <div className="container py-5 text-center">
       <div className="text-center mb-5">
         <div className="d-inline-flex align-items-center gap-3">
           <div className="flex-grow-1 border-top border-3 border-dark title-line" />
@@ -41,28 +41,30 @@ const CommonQuestions = () => {
           <div className="rounded-circle bg-dark dot-circle" />
         </div>
       </div>
-      <section className={styles.container}>
-        <header className={styles.header}>
-          <div className={styles.titleWrapper}>
-            <h1 className={styles.mainTitle}>COMMON</h1>
-            <div className={styles.subtitleWrapper}>
-              <p className={styles.subtitleSmall}>Some questions</p>
-              <p className={styles.subtitleLarge}>PEOPLE USUALLY ASK</p>
-            </div>
-          </div>
-          <h2 className={styles.secondaryTitle}>questions</h2>
-        </header>
 
-        <div className={styles.questionsContainer}>
-          {questions.map((item, index) => (
-            <QuestionItem
-              key={index}
-              question={item.question}
-              imageUrl={item.imageUrl}
-            />
-          ))}
+      <header className={styles.header}>
+        <div className={styles.titleWrapper}>
+          <div>
+            <h1 className={styles.mainTitle}>COMMON</h1>
+            <h2 className={styles.secondaryTitle}>questions</h2>
+          </div>
+
+          <div className={styles.subtitleWrapper}>
+            <p className={styles.subtitleSmall}>Some questions</p>
+            <p className={styles.subtitleLarge}>PEOPLE USUALLY ASK</p>
+          </div>
         </div>
-      </section>
+      </header>
+
+      <div className={styles.questionsContainer}>
+        {questions.map((item, index) => (
+          <QuestionItem
+            key={index}
+            question={item.question}
+            imageUrl={item.imageUrl}
+          />
+        ))}
+      </div>
     </div>
   )
 }
