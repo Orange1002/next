@@ -250,7 +250,7 @@ export default function ShopcartPage() {
                     </div>
                   </div>
                   <div className="flex-item d-flex align-items-center justify-content-center">
-                    NT${item.price}
+                    NT${item.price.toLocaleString()}
                   </div>
                   <div className="flex-item text-center d-flex justify-content-center align-items-center gap-1">
                     <button
@@ -351,7 +351,9 @@ export default function ShopcartPage() {
                         內容物:{item.items_group}
                       </div>
                       <div className="h-20 d-flex align-items-center justify-content-between">
-                        <div>NT${item.price * (item.count || 1)}</div>
+                        <div>
+                          NT${item.price * (item.count || 1).toLocaleString()}
+                        </div>
                         <div className="text-center d-flex justify-content-center align-items-center gap-1">
                           <button
                             className="btn box3 d-flex justify-content-center align-items-center"
@@ -467,7 +469,7 @@ export default function ShopcartPage() {
                     </div>
                   </div>
                   <div className="flex-item2 d-flex align-items-center justify-content-center">
-                    NT${item.price}
+                    NT${item.price.toLocaleString()}
                   </div>
                   <div
                     role="button"
@@ -528,7 +530,7 @@ export default function ShopcartPage() {
                         {item.start_time}~{item.end_time}
                       </div>
                       <div className="h-25 d-flex align-items-center justify-content-between">
-                        <div>NT${item.price}</div>
+                        <div>NT${item.price.toLocaleString()}</div>
                         <div
                           role="button"
                           tabIndex={0}
@@ -586,7 +588,7 @@ export default function ShopcartPage() {
             <div className="text-center fs-20 mb-3">購物車總計</div>
             <div className="d-flex justify-content-between mb-2">
               <div>小記</div>
-              <div>NT${totalAmount}</div>
+              <div>NT${totalAmount.toLocaleString()}</div>
             </div>
             <div className="d-flex justify-content-between mb-2">
               <div>運費</div>
@@ -594,7 +596,9 @@ export default function ShopcartPage() {
             </div>
             <div className="d-flex justify-content-between mb-2">
               <div>總金額</div>
-              <div className="text-color2">NT${totalAmount + 60}</div>
+              <div className="text-color2">
+                NT${(totalAmount + 60).toLocaleString()}
+              </div>
             </div>
             <button
               onClick={handleCheckout}
