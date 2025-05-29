@@ -1,12 +1,12 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import styles from './pagination.module.scss'
 
-export default function Pagination() {
-  const [currentPage, setCurrentPage] = useState(1)
-  const totalPages = 3
-
+export default function Pagination({
+  currentPage,
+  setCurrentPage,
+  totalPages,
+}) {
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1)
 
   const goToPage = (page) => {
@@ -27,7 +27,10 @@ export default function Pagination() {
           viewBox="0 0 15 16"
           fill="none"
           onClick={() => goToPage(currentPage - 1)}
-          style={{ opacity: currentPage === 1 ? 0.5 : 1, pointerEvents: currentPage === 1 ? 'none' : 'auto' }}
+          style={{
+            opacity: currentPage === 1 ? 0.5 : 1,
+            pointerEvents: currentPage === 1 ? 'none' : 'auto',
+          }}
         >
           <path
             fillRule="evenodd"
@@ -37,7 +40,7 @@ export default function Pagination() {
           />
         </svg>
 
-        {/* 頁碼 */}
+        {/* 頁碼列表 */}
         {pages.map((page) => (
           <li
             key={page}
@@ -57,7 +60,10 @@ export default function Pagination() {
           viewBox="0 0 15 16"
           fill="none"
           onClick={() => goToPage(currentPage + 1)}
-          style={{ opacity: currentPage === totalPages ? 0.5 : 1, pointerEvents: currentPage === totalPages ? 'none' : 'auto' }}
+          style={{
+            opacity: currentPage === totalPages ? 0.5 : 1,
+            pointerEvents: currentPage === totalPages ? 'none' : 'auto',
+          }}
         >
           <path
             fillRule="evenodd"

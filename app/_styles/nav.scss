@@ -188,11 +188,11 @@ button:focus-visible {
   border: 1px solid #ddd;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1000;
+  flex-direction: column; /* 加這行以確保 .show 顯示時是直排 */
 }
 
-.member-dropdown:hover .dropdown-menu {
+.dropdown-menu.show {
   display: flex;
-  flex-direction: column;
 }
 
 .dropdown-item {
@@ -221,5 +221,16 @@ button:focus-visible {
   background-color: #ed784a;
   cursor: pointer;
   color: #fff;
-  /* 紅色風格 */
+}
+
+.signup-btn {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  padding: 0.5rem 2rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #929292;
+  cursor: pointer;
+  color: #fff;
 }

@@ -7,13 +7,14 @@ import SubmitButton from '../../../../_components/BtnCustom/layout'
 import { useAuth } from '../../../../../../hooks/use-auth.js'
 
 const DEFAULT_IMAGE = '/member/dogs_images/default-dog.png'
+const BASE_URL = 'http://localhost:3005' // 調整為你的後端 domain
 
 export default function DogForm({
   initialData = {},
   onSubmit,
   isEdit = false,
 }) {
-  const { isAuth, member, loading } = useAuth()
+  const { isAuth } = useAuth()
   const inputRef = useRef(null)
 
   const [formData, setFormData] = useState({
@@ -23,13 +24,15 @@ export default function DogForm({
     breed: '',
     description: '',
     size_id: '',
-    photos: [],
-    previews: [DEFAULT_IMAGE],
+    existingPhotos: [], // ✅ 相對路徑
+    newPhotos: [],
+    photosToDelete: [],
   })
 
-  // 這裡同步 initialData 到 formData
   useEffect(() => {
     if (!initialData || Object.keys(initialData).length === 0) return
+
+    const photos = Array.isArray(initialData.photos) ? initialData.photos : []
 
     setFormData({
       id: initialData.id || '',
@@ -38,11 +41,9 @@ export default function DogForm({
       breed: initialData.breed || '',
       description: initialData.description || '',
       size_id: initialData.size_id || '',
-      photos: [],
-      previews:
-        Array.isArray(initialData.photos) && initialData.photos.length > 0
-          ? initialData.photos
-          : [DEFAULT_IMAGE],
+      existingPhotos: photos, // ✅ 相對路徑保留
+      newPhotos: [],
+      photosToDelete: [],
     })
   }, [initialData])
 
@@ -52,22 +53,16 @@ export default function DogForm({
   }
 
   const handleFileChange = (e) => {
-    const newFiles = Array.from(e.target.files)
-    if (newFiles.length === 0) return
+    const files = Array.from(e.target.files)
+    if (files.length === 0) return
 
-    const maxFiles = 5 - formData.photos.length
-    const selectedFiles = newFiles.slice(0, maxFiles)
-
-    const newPreviews = selectedFiles.map((file) => URL.createObjectURL(file))
+    const maxFiles =
+      5 - (formData.existingPhotos.length + formData.newPhotos.length)
+    const selected = files.slice(0, maxFiles)
 
     setFormData((prev) => ({
       ...prev,
-      id: initialData.id ?? '',
-      photos: [...prev.photos, ...selectedFiles],
-      previews: [
-        ...prev.previews.filter((p) => p !== DEFAULT_IMAGE),
-        ...newPreviews,
-      ],
+      newPhotos: [...prev.newPhotos, ...selected],
     }))
   }
 
@@ -75,40 +70,52 @@ export default function DogForm({
     if (inputRef.current) inputRef.current.click()
   }
 
-  const removePreviewAt = (index) => {
+  const removeImage = (type, index) => {
     setFormData((prev) => {
-      const newPhotos = prev.photos.filter((_, i) => i !== index)
-      const newPreviews = prev.previews.filter((_, i) => i !== index)
-      return {
-        ...prev,
-        photos: newPhotos,
-        previews: newPreviews.length > 0 ? newPreviews : [DEFAULT_IMAGE],
+      if (type === 'existing') {
+        const removed = prev.existingPhotos[index]
+        return {
+          ...prev,
+          existingPhotos: prev.existingPhotos.filter((_, i) => i !== index),
+          photosToDelete: [...prev.photosToDelete, removed],
+        }
+      } else {
+        return {
+          ...prev,
+          newPhotos: prev.newPhotos.filter((_, i) => i !== index),
+        }
       }
     })
   }
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log('送出的 formData', formData)
     if (!isAuth) return alert('請先登入')
     if (!formData.name.trim()) return alert('請輸入狗狗的名字')
     if (isEdit && !formData.id) return alert('缺少狗狗 ID')
 
-    onSubmit?.(formData) // 將 formData 回傳給父層
+    onSubmit?.(formData)
   }
+
   return (
     <form
       className={`${styles.form} h-100 d-flex flex-column justify-content-between align-items-center mt-lg-3`}
       onSubmit={handleSubmit}
     >
-      {/* 頭貼區塊 */}
-      <div className="">
+      {/* 照片區塊 */}
+      <div>
         <label className="form-label">狗狗照片（最多可上傳 5 張）</label>
         <div className="d-flex gap-2 flex-wrap mb-2">
-          {formData.previews.map((preview, index) => (
-            <div key={index} className={styles.imageWrapper}>
+          {/* 舊照片 */}
+          {formData.existingPhotos.map((url, index) => (
+            <div key={`old-${index}`} className={styles.imageWrapper}>
               <Image
-                src={preview}
-                alt={`預覽圖 ${index + 1}`}
+                src={
+                  url.startsWith('http')
+                    ? url
+                    : `${BASE_URL}${url.startsWith('/') ? '' : '/'}${url}`
+                }
+                alt={`舊圖 ${index + 1}`}
                 width={80}
                 height={80}
                 className={styles.previewImage}
@@ -116,14 +123,35 @@ export default function DogForm({
               <button
                 type="button"
                 className={styles.removeButton}
-                onClick={() => removePreviewAt(index)}
+                onClick={() => removeImage('existing', index)}
               >
                 ×
               </button>
             </div>
           ))}
 
-          {formData.photos.length < 5 && (
+          {/* 新照片 */}
+          {formData.newPhotos.map((file, index) => (
+            <div key={`new-${index}`} className={styles.imageWrapper}>
+              <Image
+                src={URL.createObjectURL(file)}
+                alt={`新圖 ${index + 1}`}
+                width={80}
+                height={80}
+                className={styles.previewImage}
+              />
+              <button
+                type="button"
+                className={styles.removeButton}
+                onClick={() => removeImage('new', index)}
+              >
+                ×
+              </button>
+            </div>
+          ))}
+
+          {/* 新增按鈕 */}
+          {formData.existingPhotos.length + formData.newPhotos.length < 5 && (
             <button
               type="button"
               onClick={triggerFileSelect}
@@ -134,8 +162,6 @@ export default function DogForm({
             </button>
           )}
         </div>
-
-        {/* 隱藏 input */}
         <input
           type="file"
           accept="image/*"
@@ -147,7 +173,6 @@ export default function DogForm({
       </div>
 
       {/* 表單欄位 */}
-      {/* 名字 */}
       <div className={`${styles.inputField} mb-2`}>
         <p className="d-flex justify-content-center">名字</p>
         <input
@@ -159,7 +184,6 @@ export default function DogForm({
         />
       </div>
 
-      {/* 年齡 */}
       <div className={`${styles.inputField} mb-2`}>
         <p className="d-flex justify-content-center">年齡</p>
         <select
@@ -179,7 +203,6 @@ export default function DogForm({
         </select>
       </div>
 
-      {/* 品種 */}
       <div className={`${styles.inputField} mb-2`}>
         <p className="d-flex justify-content-center">品種</p>
         <input
@@ -191,7 +214,6 @@ export default function DogForm({
         />
       </div>
 
-      {/* 體型選擇 */}
       <div className={`${styles.inputField} mb-2`}>
         <p className="d-flex justify-content-center">體型</p>
         <select
@@ -212,7 +234,6 @@ export default function DogForm({
         </select>
       </div>
 
-      {/* 備註欄位 */}
       <div className={`${styles.inputField} mb-2`}>
         <p className="d-flex justify-content-center">備註</p>
         <textarea
@@ -227,7 +248,6 @@ export default function DogForm({
         />
       </div>
 
-      {/* 按鈕 */}
       <div className="d-flex justify-content-center gap-5">
         <CancelButton to="/member/profile/dogs">取消</CancelButton>
         <SubmitButton>{isEdit ? '更新' : '新增'}</SubmitButton>

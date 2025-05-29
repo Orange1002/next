@@ -168,7 +168,7 @@ export default function InfoPage() {
                         document.getElementById('upload-img')?.click()
                       }
                     >
-                      上傳頭貼
+                      上傳照片
                     </button>
                     <button
                       type="button"
@@ -223,7 +223,7 @@ export default function InfoPage() {
                 </div>
               </div>
 
-              <div className={`${styles.inputField} mb-2`}>
+              <div className={`${styles.inputFieldN} mb-2`}>
                 <i className={`${styles.icon} bi bi-envelope fs-3`}></i>
                 <input
                   type="email"
@@ -231,6 +231,8 @@ export default function InfoPage() {
                   value={formData.email}
                   onChange={handleChange}
                   name="email"
+                  readOnly
+                  disabled
                 />
               </div>
 

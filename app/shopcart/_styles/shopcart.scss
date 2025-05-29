@@ -1,6 +1,6 @@
 body {
   background-color: #f3f3f3;
-  font-family: "Inria Sans", "Kiwi Maru", sans-serif;
+  font-family: 'Inria Sans', 'Kiwi Maru', sans-serif;
 }
 
 .mt-30 {
@@ -59,6 +59,10 @@ body {
   padding-block: 10px;
 }
 
+.w-30 {
+  width: 30px;
+}
+
 .w-85 {
   width: 85px;
 }
@@ -67,8 +71,8 @@ body {
   width: 72px;
 }
 
-.w-217 {
-  width: 217px;
+.w-187 {
+  width: 187px;
 }
 
 .w-250 {
@@ -89,6 +93,10 @@ body {
 
 .border-gray {
   border-bottom: 1px solid #929292;
+}
+
+.border-gray2 {
+  border-bottom: 1px solid #e2e2e2;
 }
 
 .text-color1 {
@@ -238,7 +246,6 @@ body {
   }
 }
 
-
 .box11 {
   height: 30px;
   border: 1px solid #dee2e6;
@@ -250,7 +257,6 @@ body {
     transform: scale(1.1);
   }
 }
-
 
 .icon-size1 {
   width: 100px;

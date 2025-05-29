@@ -17,7 +17,7 @@ export default function DogAddPage() {
       data.append('breed', formData.breed)
       data.append('description', formData.description)
       data.append('size_id', formData.size_id)
-      formData.photos.forEach((file) => {
+      formData.newPhotos.forEach((file) => {
         data.append('dog_images', file)
       })
 

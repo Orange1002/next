@@ -15,30 +15,58 @@ export default function DogCard({ dog, onDelete }) {
     5: '超大型（45公斤以上）',
   }
   // 解析 JSON 字串的 dogs_images
-  let imagePath = '/member/dogs_images/default-dog.png'
+  const DEFAULT_IMAGE = '/member/dogs_images/default-dog.png'
+  let imagePath = []
+
   try {
-    const images = JSON.parse(dog.dogs_images || '[]')
-    if (Array.isArray(images) && images.length > 0) {
-      imagePath = `http://localhost:3005${images[0]}`
+    const parsed = JSON.parse(dog.dogs_images || '[]')
+    if (Array.isArray(parsed) && parsed.length > 0) {
+      imagePath = parsed.map((img) =>
+        img.startsWith('http')
+          ? img
+          : `http://localhost:3005${img.startsWith('/') ? '' : '/'}${img}`
+      )
     }
   } catch (err) {
-    // 若 JSON.parse 出錯，維持使用預設圖片
+    // 若解析失敗，保持 imagePath 為空陣列
   }
 
   return (
-    <div className={`${styles.card} card`}>
-      <div className={`${styles.img} position-relative`}>
-        <Image
-          src={imagePath}
-          alt={dog.name}
-          width={100}
-          height={100}
-          priority
-          className="h-100 w-100 card-img-top object-fit-cover"
-        />
+    <div className={`${styles.card}`}>
+      <div className={`${styles.img} d-flex flex-column w-100`}>
+        {/* 左側大圖 */}
+        <div className={`w-100 h-100`}>
+          <Image
+            src={imagePath.length > 0 ? imagePath[0] : DEFAULT_IMAGE}
+            alt={dog.name}
+            width={200}
+            height={200}
+            className="w-100 h-100 object-fit-cover"
+            priority
+          />
+        </div>
+        <div>
+          {/* 右側直排最多 4 張小圖（當有舊照片時） */}
+          {imagePath.length > 1 && (
+            <div className="d-flex">
+              {imagePath.slice(1, 5).map((src, idx) => (
+                <div key={idx} style={{ width: '80px', height: '80px' }}>
+                  <Image
+                    src={src}
+                    alt={`${dog.name} 小圖 ${idx + 1}`}
+                    width={80}
+                    height={80}
+                    className="w-100 h-100 object-fit-cover"
+                    priority
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
-      <div className="card-body">
+      <div className="card-body p-3">
         <h5 className="card-title">{dog.name || '（未命名）'}</h5>
         <p className="card-text mb-1">
           <strong>年齡：</strong> {dog.age || '未填寫'}

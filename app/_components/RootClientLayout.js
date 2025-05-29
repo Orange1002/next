@@ -43,8 +43,9 @@ export default function RootClientLayout({ children }) {
     return null
   }
 
-  // 判斷是否隱藏 navbar/footer
-  const hideLayout = /^\/member\/login(\/)?$/.test(pathname)
+  const hiddenRoutes = ['/member/login', '/forgetpassword']
+
+  const hideLayout = hiddenRoutes.includes(pathname)
 
   return (
     <>
