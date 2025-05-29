@@ -60,12 +60,24 @@ export default function DogsEditPage() {
     data.append('breed', formData.breed)
     data.append('size_id', formData.size_id)
     data.append('description', formData.description)
-    if (formData.dog_images && formData.dog_images.length) {
-      formData.dog_images.forEach((file) => data.append('dog_images', file))
+
+    if (formData.newPhotos?.length) {
+      formData.newPhotos.forEach((file) => data.append('dog_images', file))
+    }
+
+    data.append('existingPhotos', JSON.stringify(formData.existingPhotos || []))
+
+    if (formData.photosToDelete?.length) {
+      const photosToDeleteRelative = formData.photosToDelete.map((url) =>
+        url.replace('http://localhost:3005', '')
+      )
+      data.append('photosToDelete', JSON.stringify(photosToDeleteRelative))
+    } else {
+      data.append('photosToDelete', JSON.stringify([]))
     }
 
     const res = await fetch(
-      `http://localhost:3005/api/member/dogs/edit/${id}`,
+      `http://localhost:3005/api/member/dogs/edit/${formData.id}`,
       {
         method: 'PUT',
         body: data,

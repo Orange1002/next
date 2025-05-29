@@ -145,10 +145,17 @@
   line-height: 1;
   font-weight: 600;
   font-size: 1.1rem;
-  color: #9d9d9d;
+  color: #505050;
 }
 
 .inputField input::placeholder {
-  color: #aaa;
+  color: #505050;
   font-weight: 500;
+}
+
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px #f0f0f0 inset !important;
+  -webkit-text-fill-color: #000 !important;
+  font-size: inherit !important;
+  font-family: inherit !important;
 }

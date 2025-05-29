@@ -13,7 +13,7 @@ export default function RecipientAddPage() {
   useEffect(() => {
     if (!loading && !isAuth) {
       alert('請先登入')
-      router.push('/member/login')
+      router.push('/member/login?type=signin')
     }
   }, [loading, isAuth, router])
 

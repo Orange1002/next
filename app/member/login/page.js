@@ -1,13 +1,37 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import SignInForm from './_components/SignIn/layout'
 import SignUpForm from './_components/SignUp/layout'
 import styles from './signin-signup.module.scss'
 import Image from 'next/image'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 export default function SignInSignUpPage() {
-  const [isSignUpMode, setIsSignUpMode] = useState(false) // 控制 class 切換
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
+  // 根據網址參數初始化模式
+  const [isSignUpMode, setIsSignUpMode] = useState(false)
+
+  useEffect(() => {
+    const type = searchParams.get('type')
+
+    // 如果沒有 type 參數，預設導向 signin
+    if (!type) {
+      router.replace('?type=signin')
+      return
+    }
+
+    setIsSignUpMode(type === 'signup')
+  }, [searchParams])
+
+  // 切換模式並更新網址參數
+  const handleSwitch = (toSignUp) => {
+    setIsSignUpMode(toSignUp)
+    const nextType = toSignUp ? 'signup' : 'signin'
+    router.replace(`?type=${nextType}`)
+  }
 
   return (
     <div
@@ -31,7 +55,7 @@ export default function SignInSignUpPage() {
             </h3>
             <button
               className={`mt-2 mt-lg-3 ${styles.btn} ${styles.transparent}`}
-              onClick={() => setIsSignUpMode(true)}
+              onClick={() => handleSwitch(true)}
             >
               去註冊
             </button>
@@ -55,7 +79,7 @@ export default function SignInSignUpPage() {
             <h3 className="text-nowrap">已經是我們的會員了?</h3>
             <button
               className={`mt-2 mt-lg-3 ${styles.btn} ${styles.transparent}`}
-              onClick={() => setIsSignUpMode(false)}
+              onClick={() => handleSwitch(false)}
             >
               去登入
             </button>

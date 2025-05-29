@@ -31,15 +31,18 @@ export default function SignUpForm({ isSignUpMode }) {
       const res = await fetch('http://localhost:3005/api/member/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ username, email, password }),
       })
 
       const data = await res.json()
 
-      if (res.ok) {
-        setMessage('註冊成功，可以登入了！')
-        // 或自動導向首頁
-        // router.push('/')
+      if (res.ok && data.status === 'success') {
+        setMessage('註冊成功!')
+        login(data.data) // 儲存登入狀態
+        await refreshMember() // 如果你想同步資料
+        const memberId = data.data.id
+        router.replace(`/member/profile/info/edit/${memberId}`)
       } else {
         setMessage(data.message || '註冊失敗')
       }
@@ -71,7 +74,7 @@ export default function SignUpForm({ isSignUpMode }) {
         if (res.ok && resData.status === 'success') {
           login(resData.data)
           await refreshMember()
-          router.push('/')
+          router.push('/member/profile/info/edit/${memberId}')
         } else {
           setMessage(resData.message || 'Google 註冊失敗')
         }

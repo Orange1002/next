@@ -27,6 +27,14 @@ const breadcrumbMap = {
   '/member/profile/changepassword': '修改密碼',
 }
 
+// 公開頁面白名單
+const publicPages = [
+  '/member/login',
+  '/member/forgot-password',
+  '/member/reset-password',
+  '/member/register',
+]
+
 export default function MemberLayout({ children }) {
   const { isAuth, isReady } = useAuth()
   const pathname = usePathname()
@@ -35,14 +43,16 @@ export default function MemberLayout({ children }) {
 
   const query = searchParams.toString()
   const fullPath = query ? `${pathname}?${query}` : pathname
-  const isLoginPage = pathname === '/member/login'
+
+  // 檢查是否為公開頁
+  const isPublicPage = publicPages.includes(pathname)
 
   useEffect(() => {
     if (!isReady) return
-    if (!isAuth && !isLoginPage) {
-      router.replace('/member/login')
+    if (!isAuth && !isPublicPage) {
+      router.replace('/member/login?type=signin')
     }
-  }, [isAuth, isReady, isLoginPage, router])
+  }, [isAuth, isReady, isPublicPage, router])
 
   const generateBreadcrumbItems = () => {
     const items = [{ label: '首頁', href: '/' }]
@@ -66,7 +76,11 @@ export default function MemberLayout({ children }) {
 
   // 尚未準備好資料時不渲染
   if (!isReady) return null
-  if (isLoginPage) return children
+
+  // 若是公開頁面（例如登入、忘記密碼等）直接渲染，不顯示 sidebar 與麵包屑
+  if (isPublicPage) return children
+
+  // 不是公開頁又沒登入，不渲染（避免閃一下再導轉）
   if (!isAuth) return null
 
   return (
