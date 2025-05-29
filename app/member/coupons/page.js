@@ -86,7 +86,14 @@ export default function CouponPage() {
     }
 
     if (activeTab === 'available') {
-      return <CouponCard key={coupon.id} {...formatted} />
+      return (
+        <CouponCard
+          key={coupon.id}
+          couponId={coupon.id}
+          memberId={member?.id}
+          {...formatted}
+        />
+      )
     } else if (activeTab === 'usable') {
       return <CouponCardUnused key={coupon.id} {...formatted} />
     } else {

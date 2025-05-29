@@ -229,7 +229,7 @@ export default function ShopcartPage() {
                   <Image
                     width={150}
                     height={150}
-                    src={null}
+                    src={item.image}
                     alt=""
                     className="me-3"
                   />

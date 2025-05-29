@@ -49,7 +49,7 @@ export default function Breadcrumb({
               <ChevronIcon />
             </li>
             <li>
-              <Link href={`/product/subcategory/${subcategorySlug}`}>
+              <Link href={`/product/category/${categorySlug}/${subcategorySlug}`}>
                 {subcategoryName}
               </Link>
             </li>

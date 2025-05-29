@@ -45,19 +45,33 @@ export function CartProvider({ children }) {
 
   // 處理新增
   const onAdd = (itemType, newItem) => {
-    const foundIndex = items.findIndex((v) => {
-      if (itemType === 'product') return v.product_id == newItem.product_id
-      if (itemType === 'sitter') return v.sitter_id == newItem.sitter_id
-      return false
-    })
+    let foundIndex = -1
+
+    if (itemType === 'product') {
+      foundIndex = items.findIndex((v) => {
+        return (
+          v.type === 'product' &&
+          v.product_id === newItem.product_id &&
+          v.color === newItem.color &&
+          v.size === newItem.size &&
+          v.packing === newItem.packing &&
+          v.items_group === newItem.items_group
+        )
+      })
+    }
+
+    if (itemType === 'sitter') {
+      foundIndex = items.findIndex((v) => {
+        return v.type === 'sitter' && v.sitter_id === newItem.sitter_id
+      })
+    }
 
     if (foundIndex !== -1) {
-      onIncrease(
-        itemType,
-        itemType === 'product' ? newItem.product_id : newItem.sitter_id
-      )
+      const nextItems = [...items]
+      nextItems[foundIndex].count += newItem.count || 1 // 預設加 1
+      setItems(nextItems)
     } else {
-      const itemWithCount = { ...newItem, count: 1 }
+      const itemWithCount = { ...newItem, count: newItem.count || 1 }
       const nextItems = [itemWithCount, ...items]
       setItems(nextItems)
     }

@@ -129,7 +129,11 @@ export default function ProductDetailPage() {
             <ProductDetailPanel
               productSN={product.sn || `PRD-${product.id}`}
               productName={product.name}
-              productNote="超取滿NT$1,000免運"
+              productNote={
+                product.coupons?.length > 0
+                  ? `${product.coupons.map((c) => c.title).join('、')}`
+                  : '超取滿NT$1,000免運'
+              }
               price={`NT$${product.price}`}
               colorOptions={colorOptions}
               sizeOptions={sizeOptions}
@@ -140,6 +144,7 @@ export default function ProductDetailPage() {
               basePrice={Number(product.price)}
               isFavorite={product.isFavorite}
               productId={product.id}
+              productImage={product.product_images}
             />
           </div>
         </section>
@@ -149,29 +154,35 @@ export default function ProductDetailPage() {
             <ProductSidebar />
             <div className={styles.descriptionContainer}>
               <div className={styles.productInfo}>
-                <ProductSpecs
-                  specs={product.product_specifications.map((s) => ({
-                    title: s.title,
-                    items: s.value.split('\n'),
-                  }))}
-                />
+                <div id="guide" className={styles.scrollAnchor}>
+                  <ProductSpecs
+                    specs={product.product_specifications.map((s) => ({
+                      title: s.title,
+                      items: s.value.split('\n'),
+                    }))}
+                  />
+                </div>
                 <ProductDescription
                   title={product.name}
                   content={product.description?.split('\n') || []}
                 />
-
-                <OrderNotice content={product.notice?.split('\n') || []} />
+                <div id="notice" className={styles.scrollAnchor}>
+                  <OrderNotice content={product.notice?.split('\n') || []} />
+                </div>
               </div>
-              <UserVoiceList
-                data={
-                  product.reviews?.map((r) => ({
-                    date: new Date(r.created_at).toLocaleDateString('zh-TW'),
-                    rate: r.rating,
-                    title: `來自會員 #${r.memberId}`,
-                    content: r.comment || '（無留言）',
-                  })) || []
-                }
-              />
+
+              <div id="comments" className={styles.scrollAnchor}>
+                <UserVoiceList
+                  data={
+                    product.reviews?.map((r) => ({
+                      date: new Date(r.created_at).toLocaleDateString('zh-TW'),
+                      rate: r.rating,
+                      title: `來自會員 #${r.memberId}`,
+                      content: r.comment || '（無留言）',
+                    })) || []
+                  }
+                />
+              </div>
               <RelatedProductList title="推薦商品" products={relatedProducts} />
             </div>
           </div>

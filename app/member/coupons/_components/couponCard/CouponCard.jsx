@@ -2,9 +2,36 @@ import styles from './CouponCard.module.scss'
 import Image from 'next/image'
 import PropTypes from 'prop-types'
 
-const CouponCard = ({ title, date, minSpend, multiplier, image }) => {
+const CouponCard = ({
+  title,
+  date,
+  minSpend,
+  multiplier,
+  image,
+  couponId,
+  memberId,
+}) => {
   const selectedImage = image || '/coupon_img/DefaultCoupon.png' // fallback 預設圖
-console.log('🧾 CouponCard props', { title, date, minSpend, multiplier, image })
+  const handleClaim = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:3005/api/coupon/members/${memberId}/claim/${couponId}`,
+        {
+          method: 'POST',
+          credentials: 'include',
+        }
+      )
+      const data = await res.json()
+      if (data.status === 'success') {
+        alert('已成功領取優惠券！')
+      } else {
+        alert(`領取失敗：${data.message}`)
+      }
+    } catch (err) {
+      console.error('領取失敗', err)
+      alert('伺服器錯誤，請稍後再試')
+    }
+  }
   return (
     <div className={styles.couponCard}>
       <div className={styles.couponLeft}>
@@ -25,7 +52,9 @@ console.log('🧾 CouponCard props', { title, date, minSpend, multiplier, image 
           )}
         </div>
         <div className={styles.couponActions}>
-          <button className={styles.btnUse}>領取</button>
+          <button className={styles.btnUse} onClick={handleClaim}>
+            領取
+          </button>
         </div>
       </div>
     </div>
