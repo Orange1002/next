@@ -23,7 +23,7 @@ export default function MemberViewPage() {
     })
       .then((res) => {
         if (res.status === 401) {
-          router.replace('/member/login')
+          router.replace('/member/login?type=signin')
           return null
         }
         if (!res.ok) throw new Error('無法取得會員資料')
@@ -77,7 +77,7 @@ export default function MemberViewPage() {
               <i className={`${styles.icon} bi bi-person fs-3`}></i>
               <input
                 type="text"
-                placeholder="使用者名稱"
+                placeholder="請輸入使用者名稱"
                 value={member.username || ''}
                 readOnly
               />
@@ -112,7 +112,7 @@ export default function MemberViewPage() {
               <i className={`${styles.icon} bi bi-phone fs-3`}></i>
               <input
                 type="text"
-                placeholder="手機號碼"
+                placeholder="請輸入手機號碼"
                 value={member.phone || ''}
                 readOnly
               />

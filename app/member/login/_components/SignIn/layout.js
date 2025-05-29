@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styles from './layout.module.css'
 import Image from 'next/image'
+import Link from 'next/link'
 import { FaEnvelope, FaLock, FaGoogle } from 'react-icons/fa'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '../../../../../hooks/use-auth'
@@ -139,6 +140,11 @@ export default function SignInForm({ isSignUpMode }) {
             {isLoading ? '登入中...' : '使用 Google 登入'}
           </span>
         </button>
+      </div>
+      <div className="mt-3">
+        <Link href="/forgetpassword" className="text-decoration-none">
+          忘記密碼？
+        </Link>
       </div>
     </form>
   )

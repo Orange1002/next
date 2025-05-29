@@ -19,6 +19,7 @@
   align-items: center;
 }
 
+
 .inputField .icon {
   text-align: center;
   line-height: 55px;
@@ -34,10 +35,10 @@
   line-height: 1;
   font-weight: 600;
   font-size: 1.1rem;
-  color: #9d9d9d;
+  color: #505050;
 }
 
 .inputField input::placeholder {
-  color: #aaa;
+  color: #505050;
   font-weight: 500;
 }

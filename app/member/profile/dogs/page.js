@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import DogCard from './_components/DogCard/layout'
 import styles from './member-dogs.module.scss'
@@ -58,26 +58,59 @@ export default function DogsPage() {
       alert('刪除失敗，請稍後再試')
     }
   }
+  const scrollRef = useRef(null)
+
+  const scrollLeft = () => {
+    scrollRef.current?.scrollBy({ left: -500, behavior: 'smooth' })
+  }
+
+  const scrollRight = () => {
+    scrollRef.current?.scrollBy({ left: 500, behavior: 'smooth' })
+  }
 
   return (
     <>
       <SectionTitle>狗狗資料</SectionTitle>
       <div className="mt-lg-3 h-100">
         <div
-          className={`${styles.block} d-flex flex-column justify-content-start g-0 ps-lg-3 pe-lg-3 pt-lg-3 pb-lg-3 p-3 h-100`}
+          className={`${styles.block} d-flex flex-column justify-content-start g-0 p-5 h-100`}
         >
-          <div className="d-flex flex-row row g-0">
+          {/* 左右按鈕（浮動在外層） */}
+          <button
+            className={`${styles['scroll-btn']} ${styles['scroll-btn-left']}`}
+            onClick={scrollLeft}
+          >
+            ←
+          </button>
+          <button
+            className={`${styles['scroll-btn']} ${styles['scroll-btn-right']}`}
+            onClick={scrollRight}
+          >
+            →
+          </button>
+
+          {/* 卡片列 */}
+          <div
+            ref={scrollRef}
+            className={`${styles.scrollContainer} d-flex flex-nowrap overflow-auto`}
+            style={{ gap: '1rem', paddingBottom: '1rem' }}
+          >
             {dogs.length === 0 ? (
               <p className="text-center">尚無狗狗資料</p>
             ) : (
               dogs.slice(0, 6).map((dog) => (
-                <div className="col-12 col-md-6 col-lg-4 p-2" key={dog.id}>
+                <div
+                  className="col-12 col-md-6 col-lg-4 p-2"
+                  key={dog.id}
+                  style={{ flex: '0 0 auto' }} // 避免被壓縮
+                >
                   <DogCard dog={dog} onDelete={handleDelete} />
                 </div>
               ))
             )}
           </div>
 
+          {/* 新增按鈕 */}
           {dogs.length < 6 ? (
             <div className="d-flex justify-content-center mt-2 mt-lg-4">
               <button
