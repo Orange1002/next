@@ -164,7 +164,7 @@ const ArticlePage = () => {
 
         {/* 分享與留言 */}
         <div className="share-area">
-          <div className="col-12 d-flex justify-content-between align-items-center border-bottom pb-2">
+          <div className="col-12 d-flex justify-content-between align-items-center border-bottom pb-2 ">
             <p className="mt-3">{formatDate(article.created_date)}</p>
             <div className="d-flex align-items-center py-1">
               <FaRegHeart className="share-heart me-5" />
@@ -181,7 +181,9 @@ const ArticlePage = () => {
             </div>
           </div>
         </div>
-        <CommentSection articleId={article.id} />
+        <div className='mb-footer-gap'>
+          <CommentSection articleId={article.id} />
+        </div>
       </div>
     </main>
   )
