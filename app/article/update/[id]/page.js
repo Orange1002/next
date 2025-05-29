@@ -13,7 +13,11 @@ const images = [
   '/article_img/d1e21f1a-4730-472b-8531-51b3c7b7890a.jpg',
   '/article_img/istockphoto-1300658241-612x612.jpg',
 ]
-
+const breadcrumbItems = [
+  { name: '首頁', href: '/' },
+  { name: '文章', href: '/article' },
+  { name: '發表新文章', href: '/article/update' },
+]
 function ArticleHeaderPhoto() {
   const currentIndex = useHeaderPhoto(images.length)
 
@@ -36,11 +40,11 @@ function ArticleHeaderPhoto() {
       <div className="container desktop mb-5">
         <div className="row">
           <div className="col-6">
-            <Breadcrumb />
+            <Breadcrumb items={breadcrumbItems} />
           </div>
 
           <div className="col-6 d-flex justify-content-end">
-            <form
+            {/* <form
               className="d-flex card-search ms-auto gap-2 mt-5"
               role="search"
             >
@@ -58,7 +62,7 @@ function ArticleHeaderPhoto() {
                   <i className="bi bi-search"></i>
                 </button>
               </div>
-            </form>
+            </form> */}
           </div>
         </div>
         <div className="mt-5 row">

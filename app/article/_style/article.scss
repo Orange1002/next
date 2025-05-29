@@ -94,6 +94,22 @@
 .collapse {
   width: 180px;
 }
+// .c-s-btn {
+//   background-color: #ed784a;
+//   border: none;
+//   width: 100px;
+//   height: 40px;
+//   font-size: 14px;
+//   letter-spacing: 3px;
+//   color: white;
+
+//   &:hover {
+//     background-color: #d7633d !important;
+//     cursor: pointer;
+//     transform: scale(1.1);
+//     transition: all 0.3s ease;
+//   }
+// }
 .c-s-btn {
   background-color: #ed784a;
   border: none;
@@ -102,12 +118,25 @@
   font-size: 14px;
   letter-spacing: 3px;
   color: white;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
     background-color: #d7633d !important;
     cursor: pointer;
+    animation: bounce 0.3s forwards;
+    box-shadow: 0 0 12px 4px rgba(237, 120, 74, 0.7);
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
     transform: scale(1.1);
-    transition: all 0.3s ease;
   }
 }
 
@@ -509,6 +538,24 @@
 .event-card-group::-webkit-scrollbar {
   display: none;
 }
+// 狗腳印
+@keyframes shake {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(15deg); }
+  50% { transform: rotate(-15deg); }
+  75% { transform: rotate(15deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.paw-icon {
+  display: inline-block;
+  transition: transform 0.2s ease-in-out;
+  /* 初始不動 */
+}
+
+.card:hover .paw-icon {
+  animation: shake 0.5s ease-in-out infinite;
+}
 
 @media (max-width: 576px) {
   .event-card-group {
@@ -538,7 +585,11 @@
   color: #818181;
   margin: 25px;
 }
-
+.cards-container > * {
+  flex: 0 0 calc((100% - (3 * 1.5rem)) / 4);
+  /* 4張卡，3個間距 (gap-4 約1.5rem)，計算每張寬度 */
+  box-sizing: border-box;
+}
 @media (max-width: 576px) {
   .event-card {
     width: 303px;
