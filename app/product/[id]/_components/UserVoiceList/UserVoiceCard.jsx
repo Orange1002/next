@@ -1,14 +1,96 @@
 import { useState } from 'react'
 import { FaStar } from 'react-icons/fa'
 import styles from './UserVoiceCard.module.scss' // 模組化樣式
+import Swal from 'sweetalert2'
 
 export default function UserVoiceCard({
-  date = '2021/10/26 18:33:11',
-  rate = 5,
-  title = '光亮的設計很方便',
-  content = `雖然我在兩款項圈之間猶豫，但我選擇了會發光的款式。\n有一次在家裡找不到它，正當我感到很困擾時，突然看到一道反射光閃現。\n\n結果成功發現了剛來到我們家的約克夏，牠藏在窗簾縫隙裡！未來牠的成長真的讓人期待。非常感謝這個美好的活動！`,
+  id,
+  memberId,
+  reviewMemberId,
+  username,
+  date = '',
+  rate = 0,
+  content = '',
+  onUpdated = () => {},
 }) {
   const [isExpanded, setIsExpanded] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
+  const [editRating, setEditRating] = useState(rate)
+  const [editContent, setEditContent] = useState(content)
+  const [hoverRating, setHoverRating] = useState(0)
+
+  const handleSubmit = async () => {
+    if (
+      !editRating ||
+      editRating < 1 ||
+      editRating > 5 ||
+      !editContent.trim()
+    ) {
+      Swal.fire('錯誤', '請填寫正確的星等與內容', 'error')
+      return
+    }
+
+    try {
+      const res = await fetch(
+        `http://localhost:3005/api/product/review/${id}`,
+        {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            rating: editRating,
+            comment: editContent,
+          }),
+        }
+      )
+      const result = await res.json()
+      if (res.ok) {
+        Swal.fire('更新成功', result.message, 'success')
+        setIsEditing(false)
+        onUpdated?.()
+      } else {
+        Swal.fire('錯誤', result.error || '更新失敗', 'error')
+      }
+    } catch (err) {
+      console.error('❌ 更新失敗', err)
+      Swal.fire('錯誤', '無法送出請求', 'error')
+    }
+  }
+
+  const handleDelete = async () => {
+    const confirm = await Swal.fire({
+      title: '確定要刪除嗎？',
+      text: '刪除後將無法復原',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ed784a',
+      cancelButtonColor: '#888',
+      confirmButtonText: '確認刪除',
+      cancelButtonText: '取消',
+    })
+
+    if (confirm.isConfirmed) {
+      try {
+        const res = await fetch(
+          `http://localhost:3005/api/product/review/${id}`,
+          {
+            method: 'DELETE',
+            credentials: 'include',
+          }
+        )
+        const result = await res.json()
+        if (res.ok) {
+          Swal.fire('刪除成功', result.message, 'success')
+          onUpdated?.()
+        } else {
+          Swal.fire('錯誤', result.error || '刪除失敗', 'error')
+        }
+      } catch (err) {
+        console.error('❌ 刪除失敗', err)
+        Swal.fire('錯誤', '無法送出請求', 'error')
+      }
+    }
+  }
 
   return (
     <div className={styles.voiceCard}>
@@ -51,12 +133,14 @@ export default function UserVoiceCard({
       </div>
 
       <div className={styles.voiceCardRight}>
-        <div className={styles.voiceTitle}>{title}</div>
+        <div className={styles.voiceTitle}>
+          {username ? `會員：${username}` : '（會員已刪除）'}
+        </div>
         <div
           className={`${styles.voiceContent} ${isExpanded ? styles.expanded : ''}`}
           onClick={() => setIsExpanded((prev) => !prev)}
         >
-          {content.split('\n').map((line, i) => (
+          {(content || '').split('\n').map((line, i) => (
             <span key={i} className={styles.voiceText}>
               {line}
               <br />
@@ -64,6 +148,51 @@ export default function UserVoiceCard({
           ))}
         </div>
       </div>
+      {memberId === reviewMemberId && !isEditing && (
+        <button
+          id={`edit-review-${id}`}
+          className={styles.editBtn}
+          onClick={() => setIsEditing(true)}
+        >
+          編輯
+        </button>
+      )}
+
+      {isEditing && (
+        <div className={styles.editForm}>
+          <label className={styles.starSelect}>
+            星等：
+            <div className={styles.starRating}>
+              {[1, 2, 3, 4, 5].map((v) => (
+                <FaStar
+                  key={v}
+                  size={24}
+                  color={v <= (hoverRating || editRating) ? '#ed784a' : '#ccc'}
+                  style={{ cursor: 'pointer', marginRight: 4 }}
+                  onClick={() => setEditRating(v)}
+                  onMouseEnter={() => setHoverRating(v)}
+                  onMouseLeave={() => setHoverRating(0)}
+                />
+              ))}
+            </div>
+          </label>
+          <label>
+            留言內容：
+            <textarea
+              rows="3"
+              value={editContent}
+              onChange={(e) => setEditContent(e.target.value)}
+            />
+          </label>
+          <div className={styles.editBtnRow}>
+            <button onClick={handleSubmit}>送出</button>
+            <button onClick={() => setIsEditing(false)}>取消</button>
+            <button className={styles.deleteBtn} onClick={handleDelete}>
+              刪除
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

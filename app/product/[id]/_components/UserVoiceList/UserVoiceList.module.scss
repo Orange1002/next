@@ -1,95 +1,110 @@
 .userVoice {
-    display: flex;
-    width: 100%;
-    padding: 40px 0px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 35px;
-    border-bottom: 1px solid var(--Ellipse-9, #929292);
+  display: flex;
+  width: 100%;
+  padding: 40px 0px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 35px;
+  border-bottom: 1px solid var(--Ellipse-9, #929292);
 
-    @media (max-width: 500px) {
-        padding: 30px 30px 50px 30px;
-        gap: 20px;
-    }
+  @media (max-width: 500px) {
+    padding: 30px 30px 50px 30px;
+    gap: 20px;
+  }
 }
 
 .titleBarContainer {
-    display: flex;
-    align-items: flex-start;
+  display: flex;
+  align-items: flex-start;
 }
 
 .titleBar {
-    display: flex;
-    padding: 0px 10px;
-    justify-content: center;
-    align-items: center;
-    gap: 25px;
-    flex-shrink: 0;
+  display: flex;
+  padding: 0px 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  flex-shrink: 0;
 }
 
 .titleLine {
-    width: 64px;
-    height: 4px;
-    background: #505050;
+  width: 64px;
+  height: 4px;
+  background: #505050;
 
-    @media (max-width: 500px) {
-        width: 40px;
-    }
+  @media (max-width: 500px) {
+    width: 40px;
+  }
 }
 
 .titleText {
-    color: var(--Ellipse-9, #929292);
-    font-family: "Inria Sans";
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    letter-spacing: 4.4px;
+  color: var(--Ellipse-9, #929292);
+  font-family: 'Inria Sans';
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 4.4px;
 
-    @media (max-width: 500px) {
-        font-size: 18px;
-        letter-spacing: 2.4px;
-    }
+  @media (max-width: 500px) {
+    font-size: 18px;
+    letter-spacing: 2.4px;
+  }
 }
 
 .voiceContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
-    gap: 15px;
-    align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 15px;
+  align-self: stretch;
 
-    @media (max-width: 500px) {
-        align-items: center;
-    }
+  @media (max-width: 500px) {
+    align-items: center;
+  }
 }
 
 .voiceMore {
-    cursor: pointer;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
 
-    @media (max-width: 500px) {
-        justify-content: center;
-    }
+  @media (max-width: 500px) {
+    justify-content: center;
+  }
 }
 
 .voiceMoreText {
-    color: var(--Ellipse-8, #505050);
-    text-align: center;
-    font-family: "Inria Sans";
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    letter-spacing: 3.52px;
+  color: var(--Ellipse-8, #505050);
+  text-align: center;
+  font-family: 'Inria Sans';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 3.52px;
 }
 
 .moreIcon {
-    width: 15px;
-    height: 15px;
-    aspect-ratio: 1 / 1;
+  width: 15px;
+  height: 15px;
+  aspect-ratio: 1 / 1;
+}
+
+.addReviewBtn {
+  font-family: 'Kiwi Maru';
+  background: #ed784a;
+  color: white;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+
+  &:hover {
+    background: #c65c32;
+  }
 }
