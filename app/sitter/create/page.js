@@ -73,7 +73,7 @@ export default function CreateSitterPage() {
       if (data.status === 'success') {
         const sitterId = data.sitter?.id
         Swal.fire('成功', '保母新增成功', 'success').then(() => {
-          router.push(`/sitter/edit/${sitterId}`)
+          router.push(`/sitter/sitter-list`)
         })
       } else {
         Swal.fire('錯誤', data.message || '新增成功但未取得保母id', 'error')

@@ -71,7 +71,7 @@ export default function SitterDetailPage() {
         <div className="row g-5 align-items-center justify-content-center ">
           <figure className="col-12 col-lg-6 p-5">
             <Image
-              src={sitter?.avatar_url || '/sitter/default-avatar.png'}
+              src={sitter?.avatar_url || '/images/default-avatar.png'}
               alt="Pet Sitter Profile"
               className="img-fluid rounded-5 justify-content-center"
               width={100}

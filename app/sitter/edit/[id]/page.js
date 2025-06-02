@@ -122,7 +122,7 @@ export default function EditSitterPage() {
       const data = await res.json()
       if (data.status === 'success') {
         Swal.fire('成功', '保母資料已更新', 'success').then(() => {
-          router.push(`/sitter/edit/${id}`)
+          router.push(`/sitter/sitter-list`)
         })
       } else {
         Swal.fire('錯誤', data.message || '更新失敗', 'error')
@@ -157,7 +157,7 @@ export default function EditSitterPage() {
       const data = await res.json()
       if (data.status === 'success') {
         Swal.fire('已刪除', '保母資料已刪除', 'success').then(() => {
-          router.push('/sitter/create')
+          router.push('/sitter/sitter-list')
         })
       } else {
         Swal.fire('錯誤', data.message || '刪除失敗', 'error')

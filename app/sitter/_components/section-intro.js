@@ -12,7 +12,7 @@ export default function ComponentsSectionIntro(props) {
       style={{ fontFamily: 'Kiwi Maru' }}
     >
       <div className="text-center mb-5">
-        <div className="d-inline-flex align-items-center gap-3">
+        <div className="d-inline-flex align-items-center gap-3 mb-5">
           <div className="flex-grow-1 border-top border-3 border-dark title-line" />
           <h2 className="text-secondary section-title">專業服務平台</h2>
           <div className="rounded-circle bg-dark dot-circle" />
@@ -90,9 +90,9 @@ export default function ComponentsSectionIntro(props) {
         </div>
       </div>
 
-      <div className="container d-flex justify-content-center">
+      <div className="container d-flex justify-content-center mb-5">
         <Link
-          className="text-center bgc-primary text-decoration-none text-white fw-bold fs-3 px-5 py-4 mt-5 border rounded w-100 mx-auto"
+          className="text-center bgc-primary text-decoration-none text-white fw-bold fs-3 px-5 py-4 mt-5 border rounded  mx-auto"
           href="/sitter/sitter-list"
           style={{ maxWidth: 538, letterSpacing: '0.88rem' }}
         >

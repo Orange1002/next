@@ -10,7 +10,7 @@ function PetCareServices() {
       <div className={styles.wrapper}>
         <div className={styles.servicesGrid}>
           <ServiceCard src="/images/bigImg-4.png" title="寵物寄宿" />
-          <ServiceCard src="/images/bigImg-2.png" title="陪伴散步" />
+          <ServiceCard src="/images/bigImg-2.png" title="溫馨陪伴" />
         </div>
         <ServiceHero />
       </div>

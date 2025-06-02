@@ -9,8 +9,8 @@ import './style.css' // 包含 .mySwiper 及 .swiper-slide 樣式
 
 export default function ReviewsContainer() {
   return (
-    <div className=" top-0 end-0 m-3 p-5 bg-white rounded-4 shadow">
-      <article className="bg-white  p-3">
+    <div className="  m-3 p-5 bg-white rounded-4 shadow ">
+      <article className="bg-primary22  p-3">
         <div className="text-warning d-flex justify-content-between align-items-center mb-4 fw-medium fs-5">
           What people are saying
         </div>
