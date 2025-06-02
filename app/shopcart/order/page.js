@@ -14,11 +14,11 @@ export default function OrderPage() {
   const {
     items = [],
     totalAmount = 0,
-    selectedProductIds = [],
-    selectedSitterIds = [],
+    selectedProductKeys = [],
+    selectedSitterKeys = [],
     onBatchRemove,
-    setAllSelectedProductIds,
-    setAllSelectedSitterIds,
+    setSelectedProductKeys,
+    setSelectedSitterKeys,
   } = useCart() || {}
 
   const router = useRouter()
@@ -41,14 +41,8 @@ export default function OrderPage() {
     couponId: '0',
     discountType: '',
     discountValue: '',
-    orderItems: items.filter(
-      (item) =>
-        item.type === 'product' && selectedProductIds.includes(item.product_id)
-    ),
-    orderServices: items.filter(
-      (item) =>
-        item.type === 'sitter' && selectedSitterIds.includes(item.sitter_id)
-    ),
+    orderItems: [],
+    orderServices: [],
   })
 
   useEffect(() => {
@@ -163,11 +157,14 @@ export default function OrderPage() {
       orderItems: items.filter(
         (item) =>
           item.type === 'product' &&
-          selectedProductIds.includes(item.product_id)
+          selectedProductKeys.includes(
+            `${item.product_id}_${item.color}_${item.size}__${item.items_group}`
+          )
       ),
       orderServices: items.filter(
         (item) =>
-          item.type === 'sitter' && selectedSitterIds.includes(item.sitter_id)
+          item.type === 'sitter' &&
+          selectedSitterKeys.includes(`sitter_${item.sitter_id}`)
       ),
     }
 
@@ -179,9 +176,9 @@ export default function OrderPage() {
       })
 
       const amount = Number(orderData.totalAmount)
-      onBatchRemove(selectedProductIds, selectedSitterIds)
-      setAllSelectedProductIds([])
-      setAllSelectedSitterIds([])
+      onBatchRemove(selectedProductKeys, selectedSitterKeys)
+      setSelectedProductKeys([])
+      setSelectedSitterKeys([])
 
       const result = await res.json()
       if (result.success) {
