@@ -1,17 +1,18 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import useHeaderPhoto from './_components/headerPhoto.js'
 import Breadcrumb from './_components/breadCrumb.js'
-import Articlelist from './_components/aricleList.js'
+// import Articlelist from './_components/aricleList.js'
 import Buttonsearch from './_components/buttonSearch.js'
 import Cardbig from './_components/card-1.js'
 import Cardarea from './_components/card-s-area.js'
 import CardSlider from './_components/eventSlider.js'
 import VideoCard from './_components/videoCard.js'
-import PetQA from './_components/petQASection.js'
+
 import Image from 'next/image'
 import FloatingActionButton from '../article/list/_components/floatingActionButton.js'
+import Link from 'next/link'
 
 import { AiOutlineRightCircle } from 'react-icons/ai'
 import './_style/article.scss'
@@ -23,6 +24,68 @@ const images = [
 
 function ArticleHeaderPhoto() {
   const currentIndex = useHeaderPhoto(images.length)
+
+  const [articles, setArticles] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const breadcrumbItems = [
+    { name: '首頁', href: '/' },
+    { name: '文章', href: '/article' },
+  ]
+  // 載入全部文章函式
+  const loadAllArticles = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const res = await fetch(
+        'http://localhost:3005/api/article/article-detail'
+      )
+      const data = await res.json()
+      if (data.success) {
+        // 按收藏數排序（降冪）
+        const sorted = data.result.sort(
+          (a, b) => (b.favorite_count || 0) - (a.favorite_count || 0)
+        )
+        setArticles(sorted)
+      } else {
+        setError('文章載入失敗')
+      }
+    } catch (err) {
+      setError('載入文章錯誤')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleSearch = async (keyword) => {
+    if (!keyword) {
+      loadAllArticles()
+      return
+    }
+
+    setLoading(true)
+    setError(null)
+
+    try {
+      const res = await fetch(
+        `http://localhost:3005/api/article/article-detail?keyword=${encodeURIComponent(keyword)}`
+      )
+      if (!res.ok) throw new Error('API 請求失敗')
+      const data = await res.json()
+      if (!data.success) throw new Error('API 回傳失敗')
+
+      setArticles(data.result)
+    } catch (err) {
+      setError(err.message)
+      setArticles([])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    loadAllArticles()
+  }, [])
 
   return (
     <>
@@ -44,28 +107,28 @@ function ArticleHeaderPhoto() {
 
       {/* 桌機版主內容 */}
       <div className="container desktop">
-        <Breadcrumb />
+        <Breadcrumb items={breadcrumbItems} />
 
         <div className="mt-5 row">
-          <div className="col-2">
-            <Articlelist />
-          </div>
+          {/* <div className="col-2">
+    <Articlelist />
+  </div> */}
 
-          <div className="col-10 mt-4">
-            <Buttonsearch />
-            <Cardbig />
+          <div className="col-10 mt-4 mx-auto">
+            <Buttonsearch onSearch={handleSearch} />
+            {articles.length > 0 && <Cardbig article={articles[0]} />}
             <div className="container">
-              <Cardarea />
+              <Cardarea articles={articles.slice(1)} />
             </div>
             <div className="d-flex justify-content-center mt-5">
-              <a href="/article/list" className="w-25">
+              <Link href="/article/list" className="w-25">
                 <button
                   type="button"
                   className="btn btn-primary c-s-btn pt-2 w-100"
                 >
                   更多文章
                 </button>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -82,7 +145,6 @@ function ArticleHeaderPhoto() {
             title="6個方法，徹底防衛致命的寄生蟲 | 狗主人必看必懂的一集！"
           />
         </div>
-        <PetQA />
         <FloatingActionButton />
       </div>
 
@@ -303,17 +365,20 @@ export default ArticleHeaderPhoto
 
 // 'use client'
 
-// import { useState } from 'react'
-// import useHeaderPhoto from './_components/headerPhoto'
-// import Breadcrumb from './_components/breadCrumb'
-// import Articlelist from './_components/aricleList'
-// import Buttonsearch from './_components/buttonSearch'
-// import Cardbig from './_components/card-1'
-// import Cardarea from './_components/card-s-area'
-// import CardSlider from './_components/eventSlider'
-// import VideoCard from './_components/videoCard'
-// import PetQA from './_components/petQASection'
+// import React, { useState, useEffect } from 'react'
+// import useHeaderPhoto from './_components/headerPhoto.js'
+// import Breadcrumb from './_components/breadCrumb.js'
+// import Articlelist from './_components/aricleList.js'
+// import Buttonsearch from './_components/buttonSearch.js'
+// import Cardbig from './_components/card-1.js'
+// import Cardarea from './_components/card-s-area.js'
+// import CardSlider from './_components/eventSlider.js'
+// import VideoCard from './_components/videoCard.js'
+
 // import Image from 'next/image'
+// import FloatingActionButton from '../article/list/_components/floatingActionButton.js'
+// import Link from 'next/link'
+
 // import { AiOutlineRightCircle } from 'react-icons/ai'
 // import './_style/article.scss'
 
@@ -324,12 +389,65 @@ export default ArticleHeaderPhoto
 
 // function ArticleHeaderPhoto() {
 //   const currentIndex = useHeaderPhoto(images.length)
-//   const [chatOpen, setChatOpen] = useState(false)
 
-//   const toggleChat = (e) => {
-//     e.preventDefault()
-//     setChatOpen((prev) => !prev)
+//   const [articles, setArticles] = useState([])
+//   const [loading, setLoading] = useState(false)
+//   const [error, setError] = useState(null)
+
+//   // 載入全部文章函式
+//   const loadAllArticles = async () => {
+//     setLoading(true)
+//     setError(null)
+//     try {
+//       const res = await fetch(
+//         'http://localhost:3005/api/article/article-detail'
+//       )
+//       const data = await res.json()
+//       if (data.success) {
+//         // 按收藏數排序（降冪）
+//         const sorted = data.result.sort(
+//           (a, b) => (b.favorite_count || 0) - (a.favorite_count || 0)
+//         )
+//         setArticles(sorted)
+//       } else {
+//         setError('文章載入失敗')
+//       }
+//     } catch (err) {
+//       setError('載入文章錯誤')
+//     } finally {
+//       setLoading(false)
+//     }
 //   }
+
+//   const handleSearch = async (keyword) => {
+//     if (!keyword) {
+//       loadAllArticles()
+//       return
+//     }
+
+//     setLoading(true)
+//     setError(null)
+
+//     try {
+//       const res = await fetch(
+//         `http://localhost:3005/api/article/article-detail?keyword=${encodeURIComponent(keyword)}`
+//       )
+//       if (!res.ok) throw new Error('API 請求失敗')
+//       const data = await res.json()
+//       if (!data.success) throw new Error('API 回傳失敗')
+
+//       setArticles(data.result)
+//     } catch (err) {
+//       setError(err.message)
+//       setArticles([])
+//     } finally {
+//       setLoading(false)
+//     }
+//   }
+
+//   useEffect(() => {
+//     loadAllArticles()
+//   }, [])
 
 //   return (
 //     <>
@@ -359,15 +477,21 @@ export default ArticleHeaderPhoto
 //           </div>
 
 //           <div className="col-10 mt-4">
-//             <Buttonsearch />
-//             <Cardbig />
+//             <Buttonsearch onSearch={handleSearch} />
+//             {/* <Cardbig /> */}
+//             {articles.length > 0 && <Cardbig article={articles[0]} />}
 //             <div className="container">
-//               <Cardarea />
+//               <Cardarea articles={articles.slice(1)} />
 //             </div>
 //             <div className="d-flex justify-content-center mt-5">
-//               <button type="button" className="btn btn-primary c-s-btn pt-2 w-25">
-//                 更多文章
-//               </button>
+//               <Link href="/article/list" className="w-25">
+//                 <button
+//                   type="button"
+//                   className="btn btn-primary c-s-btn pt-2 w-100"
+//                 >
+//                   更多文章
+//                 </button>
+//               </Link>
 //             </div>
 //           </div>
 //         </div>
@@ -384,7 +508,7 @@ export default ArticleHeaderPhoto
 //             title="6個方法，徹底防衛致命的寄生蟲 | 狗主人必看必懂的一集！"
 //           />
 //         </div>
-//         <PetQA />
+//         <FloatingActionButton />
 //       </div>
 
 //       {/* 手機版內容 */}
@@ -453,11 +577,15 @@ export default ArticleHeaderPhoto
 //           </div>
 
 //           <div className="d-flex justify-content-center mt-5">
-//             <button type="button" className="btn btn-primary c-s-btn pt-2 ">
-//               更多文章
-//             </button>
+//             <a href="/article/list" className="w-25">
+//               <button
+//                 type="button"
+//                 className="btn btn-primary c-s-btn pt-2 w-100"
+//               >
+//                 更多文章
+//               </button>
+//             </a>
 //           </div>
-
 //           <div className="col-12 category d-flex justify-content-start mt-5">
 //             <p className="ms-3">熱門文章</p>
 //             <div className="d-flex me-4">
@@ -590,6 +718,7 @@ export default ArticleHeaderPhoto
 //             </div>
 //           </div>
 //         </div>
+//         <FloatingActionButton />
 //       </div>
 //     </>
 //   )

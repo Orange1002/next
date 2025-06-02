@@ -1,17 +1,17 @@
 'use client'
 import { useEffect, useState } from 'react'
 import styles from './member-Info.module.scss'
-import BtnCustom from '../../../_components/BtnCustom/layout'
+import BtnCustom from '../../../../_components/BtnCustom/layout'
 import Image from 'next/image'
-import SectionTitle from '../../../_components/SectionTitle/layout'
-import CancelButton from '../../../_components/BtnCustomGray/layout'
+import SectionTitle from '../../../../_components/SectionTitle/layout'
+import CancelButton from '../../../../_components/BtnCustomGray/layout'
 import { useRouter } from 'next/navigation'
-import { useAuth } from '../../../../../hooks/use-auth'
+import { useAuth } from '../../../../../../hooks/use-auth'
 
 export default function InfoPage() {
-  const { isAuth, loading, member } = useAuth()
-  console.log('目前 isAuth 狀態:', isAuth)
+  const { setMember, refreshMember } = useAuth()
   const router = useRouter()
+
   const [formData, setFormData] = useState({
     username: '',
     gender: '',
@@ -22,7 +22,9 @@ export default function InfoPage() {
 
   const [preview, setPreview] = useState('/member/member_images/user-img.svg')
   const [avatarFile, setAvatarFile] = useState(null)
+  const [hasCustomAvatar, setHasCustomAvatar] = useState(false) // ✅ 新增
 
+  // 載入會員資料
   useEffect(() => {
     const fetchMemberData = async () => {
       try {
@@ -42,7 +44,16 @@ export default function InfoPage() {
           birthday: data.birth_date ? data.birth_date.split('T')[0] : '',
         })
 
-        setPreview(data.image_url || '/member/member_images/user-img.svg')
+        const baseUrl = 'http://localhost:3005'
+        const defaultImg = '/member/member_images/user-img.svg'
+        const imageUrl = data.image_url
+          ? data.image_url.startsWith('http')
+            ? data.image_url
+            : baseUrl + data.image_url
+          : baseUrl + defaultImg
+
+        setPreview(imageUrl)
+        setHasCustomAvatar(!!data.image_url) // ✅ 若有圖片就設為 true
       } catch (error) {
         console.error('取得會員資料失敗', error)
       }
@@ -61,12 +72,14 @@ export default function InfoPage() {
     if (file) {
       setAvatarFile(file)
       setPreview(URL.createObjectURL(file))
+      setHasCustomAvatar(true) // ✅ 標記為自訂頭貼
     }
   }
 
   const handleRemovePhoto = () => {
     setAvatarFile(null)
-    setPreview('/member/member_images/user-img.svg')
+    setPreview('http://localhost:3005/member/member_images/user-img.svg')
+    setHasCustomAvatar(false) // ✅ 清除自訂標記
   }
 
   const handleGenderChange = (gender) => {
@@ -78,38 +91,47 @@ export default function InfoPage() {
 
     try {
       const formPayload = new FormData()
-
-      // 把文字欄位資料塞入 FormData
       formPayload.append('username', formData.username)
       formPayload.append('email', formData.email)
-      formPayload.append('birth_date', formData.birthday || '') // 空字串會轉 null，後端處理
+      formPayload.append('birth_date', formData.birthday || '')
       formPayload.append('gender', formData.gender)
       formPayload.append('phone', formData.phone)
 
-      // 如果有上傳新頭像，放進 FormData
-      if (avatarFile) {
+      if (hasCustomAvatar && avatarFile) {
         formPayload.append('avatar', avatarFile)
+      }
+
+      if (!avatarFile && !hasCustomAvatar) {
+        formPayload.append('remove_avatar', 'true')
       }
 
       const res = await fetch('http://localhost:3005/api/member/profile/edit', {
         method: 'PUT',
-        credentials: 'include', // cookie-based JWT
+        credentials: 'include',
         body: formPayload,
       })
 
-      if (!res.ok) {
-        throw new Error('更新會員資料失敗')
-      }
+      if (!res.ok) throw new Error('更新會員資料失敗')
 
       const result = await res.json()
-      console.log('更新成功:', result)
 
-      // 如果後端回傳新的圖片路徑，更新預覽
       if (result.image_url) {
-        setPreview(result.image_url)
+        const baseUrl = 'http://localhost:3005'
+        const fullUrl = result.image_url.startsWith('http')
+          ? result.image_url
+          : baseUrl + result.image_url
+
+        const withTimestamp = fullUrl + '?t=' + Date.now()
+        setPreview(withTimestamp)
+
+        setMember((prev) => ({
+          ...prev,
+          image_url: withTimestamp,
+        }))
       }
 
-      router.push('/member/profile/info')
+      await refreshMember()
+      router.replace('/member/profile/info')
     } catch (error) {
       console.error('更新錯誤:', error)
       alert('更新會員資料時發生錯誤')
@@ -146,7 +168,7 @@ export default function InfoPage() {
                         document.getElementById('upload-img')?.click()
                       }
                     >
-                      上傳頭貼
+                      上傳照片
                     </button>
                     <button
                       type="button"
@@ -160,6 +182,7 @@ export default function InfoPage() {
                   <input
                     type="file"
                     id="upload-img"
+                    name="avatar"
                     accept="image/*"
                     className="d-none"
                     onChange={handleFileChange}
@@ -167,92 +190,71 @@ export default function InfoPage() {
                 </div>
               </div>
 
-              <div className="mb-3 w-100">
-                <label htmlFor="username" className="form-label">
-                  使用者名稱
-                </label>
+              {/* 資料欄位 */}
+              <div className={`${styles.inputField} mb-2`}>
+                <i className={`${styles.icon} bi bi-person fs-3`}></i>
                 <input
                   type="text"
-                  className="form-control"
-                  id="username"
-                  name="username"
-                  placeholder="請輸入您的名稱"
+                  placeholder="使用者名稱"
                   value={formData.username}
                   onChange={handleChange}
+                  name="username"
                 />
               </div>
 
-              <div className="mb-3 d-flex flex-column justify-content-center w-100">
-                <label className="form-label d-block">性別</label>
+              <div className="d-flex flex-column justify-content-center w-100">
                 <div className="d-flex justify-content-center gap-3">
-                  <div className="w-50">
-                    <button
-                      type="button"
-                      className={`${styles.btnRadio} btn w-100 ${
-                        formData.gender === 'male' ? styles.active : ''
-                      }`}
-                      onClick={() => handleGenderChange('male')}
-                      tabIndex={0}
-                    >
-                      男生
-                    </button>
-                  </div>
-                  <div className="w-50">
-                    <button
-                      type="button"
-                      className={`${styles.btnRadio} btn w-100 ${
-                        formData.gender === 'female' ? styles.active : ''
-                      }`}
-                      onClick={() => handleGenderChange('female')}
-                      tabIndex={0}
-                    >
-                      女生
-                    </button>
-                  </div>
+                  <button
+                    type="button"
+                    className={`${styles.btnRadio} btn ${formData.gender === 'male' ? styles.active : ''}`}
+                    onClick={() => handleGenderChange('male')}
+                    tabIndex={0}
+                  >
+                    男生
+                  </button>
+                  <button
+                    type="button"
+                    className={`${styles.btnRadio} btn ${formData.gender === 'female' ? styles.active : ''}`}
+                    onClick={() => handleGenderChange('female')}
+                    tabIndex={0}
+                  >
+                    女生
+                  </button>
                 </div>
               </div>
 
-              <div className="mb-3 w-100">
-                <label htmlFor="email" className="form-label">
-                  Email
-                </label>
+              <div className={`${styles.inputFieldN} mb-2`}>
+                <i className={`${styles.icon} bi bi-envelope fs-3`}></i>
                 <input
                   type="email"
-                  className="form-control"
-                  id="email"
-                  name="email"
-                  placeholder="example@mail.com"
+                  placeholder="電子信箱"
                   value={formData.email}
                   onChange={handleChange}
+                  name="email"
+                  readOnly
+                  disabled
                 />
               </div>
 
-              <div className="mb-3 w-100">
-                <label htmlFor="phone" className="form-label">
-                  手機號碼
-                </label>
+              <div className={`${styles.inputField} mb-2`}>
+                <i className={`${styles.icon} bi bi-phone fs-3`}></i>
                 <input
                   type="tel"
-                  className="form-control"
-                  id="phone"
-                  name="phone"
-                  placeholder="09xxxxxxxx"
+                  placeholder="手機號碼"
                   value={formData.phone}
                   onChange={handleChange}
+                  name="phone"
                 />
               </div>
 
-              <div className="w-100 mb-lg-3">
-                <label htmlFor="birthday" className="form-label">
-                  生日
-                </label>
+              <div className={`${styles.inputField} mb-2`}>
+                <i className={`${styles.icon} bi bi-cake fs-3`}></i>
                 <input
                   type="date"
-                  className="form-control"
-                  id="birthday"
-                  name="birthday"
+                  placeholder="生日"
                   value={formData.birthday}
                   onChange={handleChange}
+                  name="birthday"
                 />
               </div>
 

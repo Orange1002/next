@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
+import Link from 'next/link'
 
 export default function SitterBookingPage() {
   const { sitterId } = useParams()
@@ -148,8 +149,8 @@ export default function SitterBookingPage() {
   }
 
   return (
-    <div className="container py-5">
-      <h1 className="mb-4">預約保母服務</h1>
+    <div className="container py-5 position-relative">
+      <h1 className="mb-4 fs-4">預約保母服務</h1>
       <form onSubmit={handleSubmit}>
         {/* 日期選擇 */}
         <div className="mb-3">

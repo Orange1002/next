@@ -6,10 +6,12 @@ import { BiSearch } from 'react-icons/bi'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import NotificationBell from './NotificationBell'
 
 export default function MyNavbar() {
   const pathname = usePathname()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [showDropdown, setShowDropdown] = useState(false)
 
   // 進入頁面時檢查登入狀態
   useEffect(() => {
@@ -33,8 +35,7 @@ export default function MyNavbar() {
     checkAuth()
   }, [])
 
-  // admin 頁面不顯示 navbar
-  if (pathname.includes('/admin')) return null
+  if (pathname.includes('/member/login')) return null
 
   return (
     <Navbar
@@ -109,7 +110,7 @@ export default function MyNavbar() {
           </Button>
 
           <Form className="me-3 mb-0 d-flex search-group" role="search">
-            <Form.Control type="search" placeholder="搜尋" />
+            <Form.Control type="search" name="search" placeholder="搜尋" />
             <Button
               className="search-btn"
               type="submit"
@@ -120,76 +121,100 @@ export default function MyNavbar() {
           </Form>
 
           <div className="d-flex align-items-center gap-4">
-            <div className="member-dropdown">
-              <Link href="/member" className="icon-link">
+            <div className="member-dropdown position-relative">
+              <button
+                className="icon-link btn border-0 bg-transparent p-0"
+                onClick={() => setShowDropdown((prev) => !prev)}
+              >
                 <i className="bi bi-person nav-icon" />
-              </Link>
-              <div className="dropdown-menu">
-                {isAuthenticated ? (
-                  <>
-                    <Link href="/member" className="dropdown-item text-center">
-                      會員中心
-                    </Link>
-                    <Link
-                      href="/member/orders"
-                      className="dropdown-item text-center"
-                    >
-                      我的訂單
-                    </Link>
-                    <Link
-                      href="/member/favorite"
-                      className="dropdown-item text-center"
-                    >
-                      我的收藏
-                    </Link>
-                    <Link
-                      href="/member/coupons"
-                      className="dropdown-item text-center"
-                    >
-                      我的優惠券
-                    </Link>
-                    <button
-                      className="logout-btn mx-4"
-                      onClick={async () => {
-                        try {
-                          const res = await fetch(
-                            'http://localhost:3005/api/member/logout',
-                            {
-                              method: 'POST',
-                              credentials: 'include',
-                              headers: {
-                                'Content-Type': 'application/json',
-                              },
+              </button>
+
+              {showDropdown && (
+                <div className="dropdown-menu show">
+                  {isAuthenticated ? (
+                    <>
+                      <Link
+                        href="/member"
+                        className="dropdown-item text-center"
+                      >
+                        會員中心
+                      </Link>
+                      <Link
+                        href="/member/profile/info"
+                        className="dropdown-item text-center"
+                      >
+                        會員資料
+                      </Link>
+                      <Link
+                        href="/member/orders"
+                        className="dropdown-item text-center"
+                      >
+                        我的訂單
+                      </Link>
+                      <Link
+                        href="/member/favorite"
+                        className="dropdown-item text-center"
+                      >
+                        我的收藏
+                      </Link>
+                      <Link
+                        href="/member/coupons"
+                        className="dropdown-item text-center"
+                      >
+                        我的優惠券
+                      </Link>
+                      <button
+                        className="logout-btn text-center mx-4"
+                        onClick={async () => {
+                          try {
+                            const res = await fetch(
+                              'http://localhost:3005/api/member/logout',
+                              {
+                                method: 'POST',
+                                credentials: 'include',
+                                headers: {
+                                  'Content-Type': 'application/json',
+                                },
+                              }
+                            )
+                            if (res.ok) {
+                              console.log('登出成功')
+                              window.location.href = '/'
+                            } else {
+                              console.error('登出失敗')
                             }
-                          )
-                          if (res.ok) {
-                            console.log('登出成功')
-                            window.location.href = '/'
-                          } else {
-                            console.error('登出失敗')
+                          } catch (error) {
+                            console.error('登出錯誤', error)
                           }
-                        } catch (error) {
-                          console.error('登出錯誤', error)
-                        }
-                      }}
-                    >
-                      登出
-                    </button>
-                  </>
-                ) : (
-                  <Link
-                    href="/member/login"
-                    className="logout-btn d-flex mx-4 text-decoration-none"
-                  >
-                    登入
-                  </Link>
-                )}
-              </div>
+                        }}
+                      >
+                        登出
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        href="/member/login?type=signin"
+                        className="logout-btn d-flex mx-4 text-decoration-none"
+                      >
+                        登入
+                      </Link>
+                      <Link
+                        href="/member/login?type=signup"
+                        className="signup-btn d-flex mx-4 text-decoration-none mt-2"
+                      >
+                        註冊
+                      </Link>
+                    </>
+                  )}
+                </div>
+              )}
             </div>
 
             <Link href="/shopcart" passHref legacyBehavior>
               <i className="bi bi-cart nav-icon" />
             </Link>
+            <NotificationBell />
           </div>
         </Navbar.Collapse>
       </Container>

@@ -1,5 +1,5 @@
 import React from 'react'
-import '../_style/list.scss'
+import '../_style/myarticle.scss'
 import {
   AiOutlineDoubleRight,
   AiOutlineDoubleLeft,

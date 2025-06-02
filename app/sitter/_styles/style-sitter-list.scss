@@ -1,62 +1,102 @@
 body {
-    background-color: #F3F3F3;
-  }
+  background-color: #f3f3f3;
+}
 
-  .section-title {
-    font-size: 36px;
-    letter-spacing: 7.92px;
-  }
+.section-title {
+  font-size: 36px;
+  letter-spacing: 7.92px;
+}
 
-  .title-line {
-    width: 150px;
-  }
+.title-line {
+  width: 150px;
+}
 
-  .dot-circle {
-    width: 15px;
-    height: 15px;
-  }
+.dot-circle {
+  width: 15px;
+  height: 15px;
+}
 
-  .filter-text {
-    letter-spacing: 3.52px;
-  }
+.filter-text {
+  letter-spacing: 3.52px;
+}
 
-  .dropdown-toggle-custom {
-    font-family: 'Kiwi Maru';
-    letter-spacing: 3.08px;
-  }
+.dropdown-toggle-custom {
+  font-family: 'Kiwi Maru';
+  letter-spacing: 3.08px;
+}
 
-  .card-body-bg {
-    background-color: #F3F3F3;
-  }
+.card-body-bg {
+  background-color: #f3f3f3;
+}
 
-  .card-title-custom {
-    font-family: 'Kiwi Maru';
-    letter-spacing: 3.96px;
-    color: #505050;
-  }
+.card-title-custom {
+  font-family: 'Kiwi Maru';
+  letter-spacing: 3.96px;
+  color: #505050;
+}
 
-  .card-text-custom {
-    font-family: 'Inria Sans';
-    letter-spacing: 4.4px;
-  }
+.card-text-custom {
+  font-family: 'Inria Sans';
+  letter-spacing: 4.4px;
+}
 
-  .detail-link {
-    font-family: 'Inria Sans';
-    letter-spacing: 4.4px;
-  }
+.detail-link {
+  font-family: 'Inria Sans';
+  letter-spacing: 4.4px;
+}
 
-  .rating-circle {
-    width: 26.67px;
-    height: 25px;
-    background-color: #ED784A;
-  }
+.rating-circle {
+  width: 28px;
+  height: 25px;
+  background-color: #ff9524;
+}
 
-  .random-btn {
-    background-color: #ED784A;
-    font-size: 48px;
-    font-weight: bold;
-    font-family: 'Inria Sans';
-    letter-spacing: 10.56px;
-    padding: 12px 75px;
-    border-radius: 5px;
-  }
+.random-btn {
+  background-color: #ed784a;
+  font-size: 48px;
+  font-weight: bold;
+  font-family: 'Inria Sans';
+  letter-spacing: 10.56px;
+  padding: 12px 75px;
+  border-radius: 5px;
+}
+
+.sitter-avatar {
+  width: 100%;
+  height: 250px !important;
+  object-fit: cover !important;
+  border-top-left-radius: 0.375rem !important;
+  border-top-right-radius: 0.375rem !important;
+}
+
+.swiper {
+  width: 100%;
+  overflow: visible;
+}
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+}
+.swiper-slide > div {
+  max-width: 320px;
+  width: 100%;
+  height: 100%;
+}
+
+.card:hover {
+  transform: scale(1.03) !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease !important;
+  cursor: pointer;
+}
+
+.price-text {
+  font-size: 14px;
+  color: #cc543a;
+  font-weight: bold;
+  margin-top: 4px;
+  letter-spacing: 1px;
+  text-align: right;
+}

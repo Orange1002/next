@@ -85,7 +85,6 @@
   width: 180px;
   height: 76px;
   font-size: 16px;
-  
 }
 .list-group-item2 span {
   color: #cc543a;
@@ -95,6 +94,22 @@
 .collapse {
   width: 180px;
 }
+// .c-s-btn {
+//   background-color: #ed784a;
+//   border: none;
+//   width: 100px;
+//   height: 40px;
+//   font-size: 14px;
+//   letter-spacing: 3px;
+//   color: white;
+
+//   &:hover {
+//     background-color: #d7633d !important;
+//     cursor: pointer;
+//     transform: scale(1.1);
+//     transition: all 0.3s ease;
+//   }
+// }
 .c-s-btn {
   background-color: #ed784a;
   border: none;
@@ -103,12 +118,25 @@
   font-size: 14px;
   letter-spacing: 3px;
   color: white;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
     background-color: #d7633d !important;
     cursor: pointer;
+    animation: bounce 0.3s forwards;
+    box-shadow: 0 0 12px 4px rgba(237, 120, 74, 0.7);
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
     transform: scale(1.1);
-    transition: all 0.3s ease;
   }
 }
 
@@ -332,18 +360,18 @@
 .chat-overlay {
   position: fixed;
   bottom: 0;
-  right: 0;
+  left: 0; /* 改成左側固定 */
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.3);
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start; /* 改成靠左 */
   align-items: flex-end;
   z-index: 999;
 }
 
 .chat-window {
-  position: relative; /* 讓子元素絕對定位相對於此 */
+  position: relative;
   width: 300px;
   height: 400px;
   background: white;
@@ -351,33 +379,150 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  margin-left: 20px; /* 改成左邊邊距，讓它不要緊貼邊框 */
 }
 
-/* 關閉按鈕 */
 .chat-close-btn {
   position: absolute;
-  top: 6px;
-  right: 8px;
+  top: 10px;
+  right: 12px;
   background: transparent;
   border: none;
   font-size: 24px;
-  font-weight: bold;
   cursor: pointer;
-  color: #fff; /* 根據 header 顏色調整 */
+  color: #555;
+  transition: color 0.2s ease;
   z-index: 10;
 }
+.chat-close-btn:hover {
+  color: #ff4d4f;
+}
 
-.chat-header,
-.chat-footer {
-  padding: 10px;
-  background: #929292;
+.chat-header {
+  padding: 15px 20px;
+  background: #635ffa;
+  color: white;
+  font-weight: 600;
+  font-size: 18px;
+  border-radius: 10px 10px 0 0;
+  user-select: none;
+}
+
+.chat-error {
+  background-color: #ffdddd;
+  color: #a94442;
+  padding: 8px 15px;
+  margin: 10px 15px 0 15px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  user-select: none;
 }
 
 .chat-body {
   flex: 1;
-  padding: 10px;
   overflow-y: auto;
+  padding: 15px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #f9f9fb;
+  scrollbar-width: thin;
+  scrollbar-color: #bbb transparent;
 }
+.chat-body::-webkit-scrollbar {
+  width: 6px;
+}
+.chat-body::-webkit-scrollbar-thumb {
+  background-color: #bbb;
+  border-radius: 3px;
+}
+
+.chat-message {
+  max-width: 75%;
+  padding: 10px 14px;
+  background: #e4e6f7;
+  border-radius: 15px 15px 15px 5px;
+  color: #444;
+  font-size: 14px;
+  position: relative;
+  align-self: flex-start;
+  word-break: break-word;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  user-select: text;
+  transition: background-color 0.3s ease;
+}
+
+.chat-message.own {
+  background: #635ffa;
+  color: white;
+  border-radius: 15px 15px 5px 15px;
+  align-self: flex-end;
+}
+
+.chat-message-user {
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 4px;
+  color: #666;
+}
+
+.chat-message-time {
+  font-size: 10px;
+  color: #999;
+  margin-top: 6px;
+  user-select: none;
+  text-align: right;
+}
+
+.chat-footer {
+  padding: 12px 15px;
+  background: white;
+  border-top: 1px solid #ddd;
+  display: flex;
+  gap: 10px;
+}
+
+.chat-footer input {
+  flex-grow: 1;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 10px 16px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.chat-footer input:focus {
+  border-color: #635ffa;
+}
+
+.chat-footer input:disabled {
+  background: #eee;
+  cursor: not-allowed;
+}
+
+.chat-footer button {
+  background: #635ffa;
+  border: none;
+  color: white;
+  padding: 10px 24px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.chat-footer button:disabled {
+  background: #bbb;
+  cursor: not-allowed;
+}
+
+.chat-footer button:hover:not(:disabled) {
+  background: #4a3ccf;
+}
+
 // 活動卡片輪轉
 .event-card-group {
   display: flex;
@@ -392,6 +537,24 @@
 
 .event-card-group::-webkit-scrollbar {
   display: none;
+}
+// 狗腳印
+@keyframes shake {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(15deg); }
+  50% { transform: rotate(-15deg); }
+  75% { transform: rotate(15deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.paw-icon {
+  display: inline-block;
+  transition: transform 0.2s ease-in-out;
+  /* 初始不動 */
+}
+
+.card:hover .paw-icon {
+  animation: shake 0.5s ease-in-out infinite;
 }
 
 @media (max-width: 576px) {
@@ -422,7 +585,11 @@
   color: #818181;
   margin: 25px;
 }
-
+.cards-container > * {
+  flex: 0 0 calc((100% - (3 * 1.5rem)) / 4);
+  /* 4張卡，3個間距 (gap-4 約1.5rem)，計算每張寬度 */
+  box-sizing: border-box;
+}
 @media (max-width: 576px) {
   .event-card {
     width: 303px;

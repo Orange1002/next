@@ -1,9 +1,9 @@
 'use client'
-
+import { useAuth } from '../../hooks/use-auth'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
 import Breadcrumb from './_components/BreadCrumb/layout'
 import Sidebar from './_components/Sidebar/layout'
+import { useEffect } from 'react'
 
 const breadcrumbMap = {
   '/member': '會員中心',
@@ -27,52 +27,32 @@ const breadcrumbMap = {
   '/member/profile/changepassword': '修改密碼',
 }
 
+// 公開頁面白名單
+const publicPages = [
+  '/member/login',
+  '/member/forgot-password',
+  '/member/reset-password',
+  '/member/register',
+]
+
 export default function MemberLayout({ children }) {
+  const { isAuth, isReady } = useAuth()
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const router = useRouter()
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [loading, setLoading] = useState(true)
 
   const query = searchParams.toString()
   const fullPath = query ? `${pathname}?${query}` : pathname
-  const isLoginPage = pathname === '/member/login'
+
+  // 檢查是否為公開頁
+  const isPublicPage = publicPages.includes(pathname)
 
   useEffect(() => {
-    if (isLoginPage) {
-      setLoading(false)
-      return
+    if (!isReady) return
+    if (!isAuth && !isPublicPage) {
+      router.replace('/member/login?type=signin')
     }
-
-    const checkLogin = async () => {
-      try {
-        const res = await fetch('http://localhost:3005/api/member/profile', {
-          method: 'GET',
-          credentials: 'include',
-        })
-        if (res.status === 401) {
-          router.replace('/member/login')
-        } else if (!res.ok) {
-          throw new Error('驗證失敗')
-        } else {
-          const data = await res.json()
-          // 假設有 user.id 就算通過
-          if (data && data.id) {
-            setIsAuthenticated(true)
-          } else {
-            router.replace('/member/login')
-          }
-        }
-      } catch (err) {
-        console.error('登入驗證失敗:', err)
-        router.replace('/member/login')
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    checkLogin()
-  }, [isLoginPage, router])
+  }, [isAuth, isReady, isPublicPage, router])
 
   const generateBreadcrumbItems = () => {
     const items = [{ label: '首頁', href: '/' }]
@@ -94,14 +74,14 @@ export default function MemberLayout({ children }) {
     return items
   }
 
-  // 顯示 Loading
-  if (loading) return null
+  // 尚未準備好資料時不渲染
+  if (!isReady) return null
 
-  // 是登入頁 → 直接顯示
-  if (isLoginPage) return children
+  // 若是公開頁面（例如登入、忘記密碼等）直接渲染，不顯示 sidebar 與麵包屑
+  if (isPublicPage) return children
 
-  // 不是登入頁但未登入 → 不顯示內容（保險）
-  if (!isAuthenticated) return null
+  // 不是公開頁又沒登入，不渲染（避免閃一下再導轉）
+  if (!isAuth) return null
 
   return (
     <main>

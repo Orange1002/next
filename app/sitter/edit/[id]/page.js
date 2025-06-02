@@ -27,6 +27,11 @@ export default function EditSitterPage() {
   const [galleryPreviews, setGalleryPreviews] = useState([])
 
   const [loading, setLoading] = useState(false)
+  const defaultAvatar = '/siiter/default-avatar.png' // 放在 public 資料夾
+  const avatarSrc =
+    (typeof avatarPreview === 'string' && avatarPreview.trim()) ||
+    (typeof avatarUrl === 'string' && avatarUrl.trim()) ||
+    defaultAvatar
 
   useEffect(() => {
     const fetchSitter = async () => {
@@ -51,13 +56,19 @@ export default function EditSitterPage() {
           })
           setForm(cleanData)
 
+          // ✅ 加入判斷是否為完整 http(s) 開頭網址
+          const avatar = data.avatar_url || ''
           setAvatarUrl(
-            data.avatar_url ? `http://localhost:3005${data.avatar_url}` : ''
+            avatar.startsWith('http')
+              ? avatar
+              : `http://localhost:3005${avatar}`
           )
+
+          const gallery = Array.isArray(data.gallery) ? data.gallery : []
           setGalleryImages(
-            Array.isArray(data.gallery)
-              ? data.gallery.map((img) => `http://localhost:3005${img}`)
-              : []
+            gallery.map((img) =>
+              img.startsWith('http') ? img : `http://localhost:3005${img}`
+            )
           )
         } else {
           Swal.fire('錯誤', data.message || '載入失敗', 'error')
@@ -103,9 +114,6 @@ export default function EditSitterPage() {
 
       const res = await fetch(`http://localhost:3005/api/sitter/${id}`, {
         method: 'PUT',
-        // headers: {
-        //   Authorization: `Bearer ${localStorage.getItem('token')}`,
-        // },
         credentials: 'include',
         body: formData,
       })
@@ -142,9 +150,6 @@ export default function EditSitterPage() {
       setLoading(true)
       const res = await fetch(`http://localhost:3005/api/sitter/${id}`, {
         method: 'DELETE',
-        // headers: {
-        //   Authorization: `Bearer ${localStorage.getItem('token')}`,
-        // },
         credentials: 'include',
       })
 
@@ -163,6 +168,7 @@ export default function EditSitterPage() {
       setLoading(false)
     }
   }
+  console.log({ avatarPreview, avatarUrl, avatarSrc })
 
   return (
     <div className="container py-5">
@@ -194,25 +200,13 @@ export default function EditSitterPage() {
 
         <div className="border rounded p-4 mb-4">
           <h5 className="mb-3">🖼️ 大頭貼</h5>
-          {avatarPreview ? (
-            <Image
-              src={avatarPreview}
-              alt="新頭像"
-              width={150}
-              height={150}
-              style={{ height: 'auto' }}
-            />
-          ) : (
-            avatarUrl && (
-              <Image
-                src={avatarUrl}
-                alt="原本頭像"
-                width={150}
-                height={150}
-                style={{ height: 'auto' }}
-              />
-            )
-          )}
+          <Image
+            src={avatarSrc}
+            alt="頭像"
+            width={150}
+            height={150}
+            style={{ height: 'auto' }}
+          />
           <input
             type="file"
             accept="image/*"
@@ -220,30 +214,35 @@ export default function EditSitterPage() {
             onChange={handleAvatarChange}
           />
         </div>
-
-        <div className="border rounded p-4 mb-4">
+        {/* <div className="border rounded p-4 mb-4">
           <h5 className="mb-3">📸 其他圖片</h5>
           <div className="d-flex flex-wrap gap-3 mb-2">
-            {galleryImages.map((img, i) => (
-              <Image
-                key={i}
-                src={img}
-                alt={`gallery-${i}`}
-                width={120}
-                height={120}
-                style={{ height: 'auto', borderRadius: '6px' }}
-              />
-            ))}
-            {galleryPreviews.map((src, i) => (
-              <Image
-                key={`preview-${i}`}
-                src={src}
-                alt={`預覽-${i}`}
-                width={120}
-                height={120}
-                style={{ height: 'auto', borderRadius: '6px' }}
-              />
-            ))}
+            {galleryImages
+              .filter(
+                (img) => typeof img === 'string' && img.startsWith('http')
+              )
+              .map((img, i) => (
+                <Image
+                  key={i}
+                  src={img}
+                  alt={`gallery-${i}`}
+                  width={120}
+                  height={120}
+                  style={{ height: 'auto', borderRadius: '6px' }}
+                />
+              ))}
+            {galleryPreviews
+              .filter((src) => typeof src === 'string')
+              .map((src, i) => (
+                <Image
+                  key={`preview-${i}`}
+                  src={src}
+                  alt={`預覽-${i}`}
+                  width={120}
+                  height={120}
+                  style={{ height: 'auto', borderRadius: '6px' }}
+                />
+              ))}
           </div>
           <input
             type="file"
@@ -252,8 +251,7 @@ export default function EditSitterPage() {
             className="form-control"
             onChange={handleGalleryChange}
           />
-        </div>
-
+        </div> */}
         <div className="d-flex justify-content-between">
           <button
             className="btn btn-success px-4"

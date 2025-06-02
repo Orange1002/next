@@ -2,11 +2,11 @@
   width: 225px;
   height: 50px;
   border: 1px solid #505050;
-  background: #fff;
+  background: #f0f0f0;
   color: #505050;
   text-decoration: none;
   border-radius: 5px;
-  font-family: "Kiwi Maru";
+  font-family: 'Kiwi Maru';
   white-space: nowrap;
   transition: all 0.2s ease;
 }
@@ -15,7 +15,7 @@
 .btnCustom.active {
   background-color: #505050;
   border-color: #505050;
-  color: #fff;
+  color: #f0f0f0;
 }
 
 /* 手機版響應式 */

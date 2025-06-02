@@ -1,44 +1,299 @@
-import React from 'react'
-// import 'bootstrap/dist/css/bootstrap.min.css'
-import { AiOutlineRightCircle } from 'react-icons/ai'
+'use client'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
+import { FaRegHeart, FaHeart, FaPaw } from 'react-icons/fa'
 
-const ArticleCardLarge = () => {
+const Card2 = ({ article }) => {
+  const [isFavorited, setIsFavorited] = useState(false)
+  const [favoriteCount, setFavoriteCount] = useState(
+    article.favorite_count || 0
+  )
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    const fetchFavoriteStatus = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:3005/api/article/favorites/status/${article.id}`,
+          {
+            method: 'GET',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+          }
+        )
+        const data = await res.json()
+        if (res.ok && data.success) {
+          setIsFavorited(data.isFavorited)
+          setFavoriteCount(data.favoriteCount)
+        }
+      } catch (err) {
+        console.error('取得收藏狀態錯誤', err)
+      }
+    }
+    fetchFavoriteStatus()
+  }, [article.id])
+
+  const handleFavoriteToggle = async () => {
+    if (loading) return
+    setLoading(true)
+
+    const url = isFavorited
+      ? 'http://localhost:3005/api/article/favorites/remove'
+      : 'http://localhost:3005/api/article/favorites/add'
+
+    try {
+      const res = await fetch(url, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ articleId: article.id }),
+      })
+
+      const data = await res.json()
+      if (res.ok && data.success) {
+        setIsFavorited(!isFavorited)
+        if (typeof data.favoriteCount === 'number') {
+          setFavoriteCount(data.favoriteCount)
+        } else {
+          setFavoriteCount((prev) => (isFavorited ? prev - 1 : prev + 1))
+        }
+      } else {
+        alert(data.message || (isFavorited ? '取消收藏失敗' : '收藏失敗'))
+      }
+    } catch (err) {
+      console.error('收藏操作失敗', err)
+      alert('伺服器錯誤')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  let images = []
+  try {
+    images = article.article_images ? JSON.parse(article.article_images) : []
+  } catch (err) {
+    console.error('圖片 JSON 解析錯誤', err)
+  }
+
+  const firstImage =
+    images.length > 0 ? images[0] : '/article_img/default-image.jpeg'
+  const imageSrc = firstImage.startsWith('/')
+    ? `http://localhost:3005${firstImage}`
+    : firstImage
+
   return (
-    <div className="card card-1 mt-4 d-none d-xl-block">
-      <div className="row g-0">
-        <div className="col-md-5">
-          <Image
-            width={100}
-            height={100}
-            src="/article_img/image-11.jpeg"
-            className="h-100 w-100 img-fluid float-start"
-            alt="散步與毛孩"
-          />
+    <Link
+      href={`/article/article-detail/${article.id}`}
+      className="text-decoration-none text-dark"
+    >
+      <div className="card card-1 mt-4 d-none d-xl-block position-relative hover-card">
+        {/* 狗骨頭圖示 */}
+        <div
+          className="dogbone-icon position-absolute top-0 end-0 p-2 paw-icon"
+          style={{ fontSize: '20px', color: '#ed784a', cursor: 'pointer' }}
+        >
+          <FaPaw size={24} />
         </div>
-        <div className="col-md-7">
-          <div className="card-body pt-4">
-            <div className="d-flex align-items-center mt-2">
-              <a href="" className="icon-link">
-                <AiOutlineRightCircle className="icon" />
-              </a>
-              <h5 className="card-title title-1 ms-2 mt-2">
-                從散步開始，享受毛孩的健康與美好時光！
+
+        <div className="row g-0">
+          <div className="col-md-5">
+            <Image
+              src={imageSrc}
+              alt={article.title || '文章圖片'}
+              width={426}
+              height={250}
+              style={{ objectFit: 'cover' }}
+            />
+          </div>
+          <div className="col-md-7">
+            <div className="card-body pt-4">
+              <h5 className="card-title title-1 mt-2">
+                {article.title && article.title.length > 20
+                  ? article.title.substring(0, 20) + '…'
+                  : article.title}
               </h5>
-            </div>
-            <div>
               <p className="text-content text-break lh-base big-card">
-                每天的散步時間，是毛孩與主人最親密的時刻。無論是清晨的微風還是傍晚的夕陽，散步不僅能讓狗狗放鬆心情，更是促進健康的最佳方式。
+                {article.content1 && article.content1.substring(0, 100)}
               </p>
-              <p className="text-content text-break lh-base big-card-2">
-                但有時，毛孩可能因為缺乏運動或年齡增長，走路的速度變慢，甚至對散步失去興趣。作為主人，我們該如何幫助牠們重新找回散步的樂趣與活力呢？
-              </p>
+              <div className="d-flex justify-content-between mt-4">
+                <p>
+                  {article.created_date &&
+                    new Date(article.created_date).toLocaleString()}
+                </p>
+                <div
+                  className="d-flex align-items-center"
+                  style={{ cursor: 'pointer' }}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    handleFavoriteToggle()
+                  }}
+                >
+                  {isFavorited ? (
+                    <FaHeart className="card-icon card-i-hover text-danger" />
+                  ) : (
+                    <FaRegHeart className="card-icon card-i-hover" />
+                  )}
+                  <span className="ms-1">{favoriteCount}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
 
-export default ArticleCardLarge
+export default Card2
+
+// 'use client'
+// import React, { useEffect, useState } from 'react'
+// import Image from 'next/image'
+// import Link from 'next/link'
+// import { AiOutlineRightCircle } from 'react-icons/ai'
+// import { FaRegHeart, FaHeart } from 'react-icons/fa'
+// import { FaPaw } from 'react-icons/fa'
+
+// const Card2 = ({ article }) => {
+//   const [isFavorited, setIsFavorited] = useState(false)
+//   const [favoriteCount, setFavoriteCount] = useState(
+//     article.favorite_count || 0
+//   )
+//   const [loading, setLoading] = useState(false)
+
+//   useEffect(() => {
+//     const fetchFavoriteStatus = async () => {
+//       try {
+//         const res = await fetch(
+//           `http://localhost:3005/api/article/favorites/status/${article.id}`,
+//           {
+//             method: 'GET',
+//             credentials: 'include',
+//             headers: { 'Content-Type': 'application/json' },
+//           }
+//         )
+//         const data = await res.json()
+//         if (res.ok && data.success) {
+//           setIsFavorited(data.isFavorited)
+//           setFavoriteCount(data.favoriteCount)
+//         }
+//       } catch (err) {
+//         console.error('取得收藏狀態錯誤', err)
+//       }
+//     }
+//     fetchFavoriteStatus()
+//   }, [article.id])
+
+//   const handleFavoriteToggle = async () => {
+//     if (loading) return
+//     setLoading(true)
+
+//     const url = isFavorited
+//       ? 'http://localhost:3005/api/article/favorites/remove'
+//       : 'http://localhost:3005/api/article/favorites/add'
+
+//     try {
+//       const res = await fetch(url, {
+//         method: 'POST',
+//         credentials: 'include',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({ articleId: article.id }),
+//       })
+
+//       const data = await res.json()
+//       if (res.ok && data.success) {
+//         setIsFavorited(!isFavorited)
+//         if (typeof data.favoriteCount === 'number') {
+//           setFavoriteCount(data.favoriteCount)
+//         } else {
+//           setFavoriteCount((prev) => (isFavorited ? prev - 1 : prev + 1))
+//         }
+//       } else {
+//         alert(data.message || (isFavorited ? '取消收藏失敗' : '收藏失敗'))
+//       }
+//     } catch (err) {
+//       console.error('收藏操作失敗', err)
+//       alert('伺服器錯誤')
+//     } finally {
+//       setLoading(false)
+//     }
+//   }
+
+//   let images = []
+//   try {
+//     images = article.article_images ? JSON.parse(article.article_images) : []
+//   } catch (err) {
+//     console.error('圖片 JSON 解析錯誤', err)
+//   }
+//   const firstImage =
+//     images.length > 0 ? images[0] : '/article_img/default-image.jpeg'
+//   const imageSrc = firstImage.startsWith('/')
+//     ? `http://localhost:3005${firstImage}`
+//     : firstImage
+
+//   return (
+//     <div className="card card-1 mt-4 d-none d-xl-block position-relative hover-card">
+//       {/* 狗骨頭圖示 */}
+//       <div
+//         className="dogbone-icon position-absolute top-0 end-0 p-2 paw-icon"
+//         style={{ fontSize: '20px', color: '#ed784a', cursor: 'pointer' }}
+//       >
+//         <FaPaw size={24} />
+//       </div>
+
+//       <div className="row g-0">
+//         <div className="col-md-5">
+//           <Image
+//             src={imageSrc}
+//             alt={article.title || '文章圖片'}
+//             width={426}
+//             height={250}
+//             style={{ objectFit: 'cover' }}
+//           />
+//         </div>
+//         <div className="col-md-7">
+//           <div className="card-body pt-4">
+//             <div className="d-flex align-items-center mt-2">
+//               <Link
+//                 href={`/article/article-detail/${article.id}`}
+//                 className="icon-link"
+//               >
+//                 <AiOutlineRightCircle className="icon" />
+//               </Link>
+//               <h5 className="card-title title-1 ms-2 mt-2">
+//                 {article.title && article.title.length > 20
+//                   ? article.title.substring(0, 20) + '…'
+//                   : article.title}
+//               </h5>
+//             </div>
+//             <p className="text-content text-break lh-base big-card">
+//               {article.content1 && article.content1.substring(0, 100)}
+//             </p>
+//             <div className="d-flex justify-content-between mt-4">
+//               <p>
+//                 {article.created_date &&
+//                   new Date(article.created_date).toLocaleString()}
+//               </p>
+//               <div
+//                 className="d-flex align-items-center"
+//                 style={{ cursor: 'pointer' }}
+//                 onClick={handleFavoriteToggle}
+//               >
+//                 {isFavorited ? (
+//                   <FaHeart className="card-icon card-i-hover text-danger" />
+//                 ) : (
+//                   <FaRegHeart className="card-icon card-i-hover" />
+//                 )}
+//                 <span className="ms-1">{favoriteCount}</span>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   )
+// }
+
+// export default Card2

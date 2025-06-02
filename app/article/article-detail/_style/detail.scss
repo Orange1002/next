@@ -16,6 +16,21 @@ html {
   font-size: 18px;
 }
 
+// .replay-btn {
+//   background-color: #ed784a;
+//   border: none;
+//   width: 60px;
+//   height: 35px;
+//   font-size: 14px;
+//   letter-spacing: 3px;
+
+//   &:hover {
+//     background-color: #d7633d;
+//     cursor: pointer;
+//     transform: scale(1.1);
+//     transition: all 0.3s ease;
+//   }
+// }
 .replay-btn {
   background-color: #ed784a;
   border: none;
@@ -31,11 +46,39 @@ html {
     transition: all 0.3s ease;
   }
 }
-
+.comment-section {
+  font-family: 'Kiwi Maru', serif;
+}
+.loading-text,
+.no-comments-text {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-top: 2rem; // 與留言區標題有距離
+}
 .replay-area {
   padding: 0 10rem;
+  .comment-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+  }
 }
+// .comment-footer {
+//   position: fixed;
+//   bottom: 0;
+//   left: 0;
+//   right: 0;
+//   background: #f8f9fa;
+//   border-top: 1px solid #ddd;
+//   padding: 0.75rem 1rem;
+//   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+//   z-index: 999;
 
+//   textarea {
+//     resize: none;
+//     height: 2rem;
+//   }
+// }
 .comment-footer {
   position: fixed;
   bottom: 0;
@@ -46,16 +89,49 @@ html {
   padding: 0.75rem 1rem;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
   z-index: 999;
+  display: flex;
+  gap: 0.5rem;
 
   textarea {
     resize: none;
     height: 2rem;
+    flex: 1;
+  }
+}
+.card-replay {
+  margin-top: 1rem;
+
+  .reply-list {
+    padding-left: 1rem;
+
+    .reply-box {
+      margin-bottom: 0.5rem;
+
+      .card-body {
+        padding: 0.5rem;
+      }
+    }
+  }
+
+  form.reply-box {
+    margin-top: 0.5rem;
+
+    input.form-control {
+      height: 30px;
+    }
+
+    button.replay-btn {
+      width: 50px;
+      height: 28px;
+      font-size: 12px;
+      margin-top: 0.25rem;
+    }
   }
 }
 
 .share-area {
   padding: 0 240px;
-
+  margin-bottom: 6rem;
   a {
     color: #505050;
     font-size: 20px;
@@ -95,22 +171,28 @@ html {
   }
 }
 
-.fab-container .fab-option {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.3s ease;
-  background-color: white;
-}
-
-.fab-container .fab-option:hover {
+.fab {
+  position: fixed;
+  bottom: 250px;
+  right: 20px;
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
   background-color: #d7633d;
   color: white;
-  transform: scale(1.05);
-  cursor: pointer;
-}
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: background-color 0.3s;
 
-.fab-container .fab-option.show {
-  display: block;
-  opacity: 1;
-  transform: translateY(0);
+  &:hover {
+    background-color: #a94b2a;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+}
+.mb-footer-gap {
+  margin-bottom: 10rem; /* 你可以根據需求調整大小 */
 }
