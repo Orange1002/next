@@ -64,6 +64,10 @@ export default function CouponPage() {
     fetchCoupons()
   }, [activeTab, member])
 
+  useEffect(() => {
+    setCurrentPage(1) // 回到第一頁
+  }, [activeTab])
+
   const renderCouponCard = (coupon) => {
     const isUsed = activeTab === 'used'
     const date = isUsed
