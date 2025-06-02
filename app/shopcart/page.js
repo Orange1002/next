@@ -17,21 +17,22 @@ export default function ShopcartPage() {
     onIncrease = () => {},
     onRemove = () => {},
     onBatchRemove = () => {},
-    selectedProductIds,
-    selectedSitterIds,
+    generateItemKey,
+    selectedProductKeys,
+    selectedSitterKeys,
     toggleSelectProduct,
     toggleSelectSitter,
-    setSelectedProductIds,
-    setSelectedSitterIds,
-    setAllSelectedProductIds,
-    setAllSelectedSitterIds,
+    handleSelectAllProducts,
+    handleSelectAllSitters,
+    handleSelectAll,
+    isAllProductSelected,
+    isAllSitterSelected,
     isAllSelected,
-    handleSelectAllChange,
   } = useCart() || {}
 
   // 用sweetalert2取代confirm，再加上onRemove(id)
   // 傳入購物車中項目的名稱與id
-  const confirmAndRemove = (itemType, itemName, itemId) => {
+  const confirmAndRemove = (itemType, itemName, targetItem) => {
     const MySwal = withReactContent(Swal)
     MySwal.fire({
       title: '你確定要刪除此項目?',
@@ -44,7 +45,7 @@ export default function ShopcartPage() {
       confirmButtonText: '確認刪除',
     }).then((result) => {
       if (result.isConfirmed) {
-        onRemove(itemType, itemId) // 這裡補上 itemType
+        onRemove(itemType, targetItem)
         MySwal.fire({
           title: '已成功刪除!',
           text: `${itemName} 已被移除`,
@@ -57,19 +58,24 @@ export default function ShopcartPage() {
   const confirmAndRemoveAll = () => {
     const MySwal = withReactContent(Swal)
 
-    if (selectedProductIds.length + selectedSitterIds.length === 0) {
+    // 檢查是否有選擇商品或保母
+    const hasSelectedItems =
+      selectedProductKeys.length > 0 || selectedSitterKeys.length > 0
+
+    if (!hasSelectedItems) {
       MySwal.fire({
-        icon: 'warning',
-        title: '沒有選擇任何商品',
-        confirmButtonText: '確定',
-        confirmButtonColor: '#fb966e',
+        title: '未選擇項目',
+        text: '請先選擇要刪除的商品或保母',
+        icon: 'info',
+        confirmButtonColor: '#3085d6',
       })
       return
     }
 
+    // 有選擇項目才顯示刪除確認
     MySwal.fire({
-      title: '你確定要刪除選取的所有項目嗎？',
-      text: `將會刪除 ${selectedProductIds.length + selectedSitterIds.length} 項商品`,
+      title: '你確定要刪除所有選取的項目嗎？',
+      text: `選取的商品和保母將會從購物車中移除`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#fb966e',
@@ -78,11 +84,10 @@ export default function ShopcartPage() {
       confirmButtonText: '確認刪除',
     }).then((result) => {
       if (result.isConfirmed) {
-        onBatchRemove(selectedProductIds, selectedSitterIds)
-        setSelectedProductIds([])
-        setSelectedSitterIds([])
+        onBatchRemove() // 執行批次刪除
         MySwal.fire({
-          title: '已成功刪除',
+          title: '已成功刪除!',
+          text: '選取的項目已被移除',
           icon: 'success',
         })
       }
@@ -90,12 +95,14 @@ export default function ShopcartPage() {
   }
 
   const handleCheckout = () => {
-    const selectedCount = selectedProductIds.length + selectedSitterIds.length
-    if (selectedCount === 0) {
+    const hasSelectedProducts = selectedProductKeys.length > 0
+    const hasSelectedSitters = selectedSitterKeys.length > 0
+
+    if (!hasSelectedProducts && !hasSelectedSitters) {
       Swal.fire({
         icon: 'warning',
-        title: '請勾選要結帳的商品',
-        confirmButtonText: '確定',
+        title: '尚未選擇商品或保母',
+        text: '請先選擇至少一項商品或保母，再進行結帳。',
         confirmButtonColor: '#fb966e',
       })
       return
@@ -174,22 +181,8 @@ export default function ShopcartPage() {
               <div className="d-flex align-items-center gap-2 px-3 py-2 w-85">
                 <input
                   type="checkbox"
-                  checked={
-                    selectedProductIds.length ===
-                      items.filter((item) => item.type === 'product').length &&
-                    items.filter((item) => item.type === 'product').length > 0
-                  }
-                  onChange={(e) => {
-                    const checked = e.target.checked
-                    if (checked) {
-                      const allProductIds = items
-                        .filter((item) => item.type === 'product')
-                        .map((item) => item.product_id)
-                      setAllSelectedProductIds(allProductIds)
-                    } else {
-                      setAllSelectedProductIds([])
-                    }
-                  }}
+                  checked={isAllProductSelected}
+                  onChange={(e) => handleSelectAllProducts(e.target.checked)}
                 />
 
                 <label htmlFor="selectAll" className="m-0 user-select-none">
@@ -220,8 +213,10 @@ export default function ShopcartPage() {
                 <div className="d-flex align-items-center gap-2 px-3 py-2 w-85">
                   <input
                     type="checkbox"
-                    checked={selectedProductIds.includes(item.product_id)}
-                    onChange={() => toggleSelectProduct(item.product_id)}
+                    checked={selectedProductKeys.includes(
+                      generateItemKey(item)
+                    )}
+                    onChange={() => toggleSelectProduct(item)}
                   />
                 </div>
 
@@ -229,7 +224,7 @@ export default function ShopcartPage() {
                   <Image
                     width={150}
                     height={150}
-                    src={item.image}
+                    src={null}
                     alt=""
                     className="me-3"
                   />
@@ -239,33 +234,37 @@ export default function ShopcartPage() {
                   <div className="flex-item d-flex align-items-center justify-content-center ">
                     <div>
                       <div className="mb-2">顏色:{item.color}</div>
-                      <div>尺寸:{item.size}</div>
+                      {item.size && (
+                        <div className="mb-2">尺寸: {item.size}</div>
+                      )}
+                      {item.packing && (
+                        <div className="mb-2">包裝: {item.packing}</div>
+                      )}
+
+                      <div>內容物:{item.items_group}</div>
                     </div>
                   </div>
                   <div className="flex-item d-flex align-items-center justify-content-center">
-                    NT${item.price}
+                    NT${item.price.toLocaleString()}
                   </div>
                   <div className="flex-item text-center d-flex justify-content-center align-items-center gap-1">
                     <button
                       className="btn box3 d-flex justify-content-center align-items-center"
                       onClick={() => {
                         if (item.count <= 1) {
-                          confirmAndRemove(
-                            'product',
-                            item.name,
-                            item.product_id
-                          )
+                          confirmAndRemove('product', item.name, item)
                         } else {
-                          onDecrease('product', item.product_id)
+                          onDecrease('product', item)
                         }
                       }}
                     >
                       -
                     </button>
+
                     {item.count || 1}
                     <button
                       className="btn box3 d-flex justify-content-center align-items-center"
-                      onClick={() => onIncrease('product', item.product_id)}
+                      onClick={() => onIncrease('product', item)}
                     >
                       +
                     </button>
@@ -277,14 +276,12 @@ export default function ShopcartPage() {
                   <div
                     role="button"
                     tabIndex={0}
-                    className="flex-item text-center cursor-pointer"
-                    onClick={() =>
-                      confirmAndRemove('product', item.name, item.product_id)
-                    }
+                    className="flex-item cursor-pointer d-flex align-items-center justify-content-center"
+                    onClick={() => confirmAndRemove('product', item.name, item)}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault()
-                        confirmAndRemove('product', item.name, item.product_id)
+                        confirmAndRemove('product', item.name, item)
                       }
                     }}
                     aria-label={`刪除 ${item.name}`}
@@ -304,8 +301,17 @@ export default function ShopcartPage() {
                 .map((item) => (
                   <div
                     key={`product-${item.product_id}`}
-                    className="d-flex position-relative p-12 mb-2 mb-lg-0"
+                    className="d-flex position-relative p-12 mb-2 mb-lg-0 border-gray2"
                   >
+                    <div className="w-30 d-flex align-items-center">
+                      <input
+                        type="checkbox"
+                        checked={selectedProductKeys.includes(
+                          generateItemKey(item)
+                        )}
+                        onChange={() => toggleSelectProduct(item)}
+                      />
+                    </div>
                     <div className="box6 me-10">
                       <Image
                         width={100}
@@ -315,55 +321,53 @@ export default function ShopcartPage() {
                         className=""
                       />
                     </div>
-                    <div className="w-217">
-                      <div className="box7 h-25 d-flex align-items-center">
+                    <div className="w-187">
+                      <div className="box7 h-20 d-flex align-items-center">
                         {item.name}
                       </div>
-                      <div className="h-25 d-flex align-items-center">
+                      <div className="h-2 d-flex align-items-center">
                         顏色:{item.color}
                       </div>
-                      <div className="h-25 d-flex align-items-center">
-                        尺寸:{item.size}
+                      {item.size && (
+                        <div className="h-20 d-flex align-items-center">
+                          尺寸: {item.size}
+                        </div>
+                      )}
+
+                      {item.packing && (
+                        <div className="h-20 d-flex align-items-center">
+                          包裝: {item.packing}
+                        </div>
+                      )}
+                      <div className="h-20 d-flex align-items-center">
+                        內容物:{item.items_group}
                       </div>
-                      <div className="h-25 d-flex align-items-center justify-content-between">
-                        <div>NT${item.price * (item.count || 1)}</div>
+                      <div className="h-20 d-flex align-items-center justify-content-between">
+                        <div>
+                          NT${item.price * (item.count || 1).toLocaleString()}
+                        </div>
                         <div className="text-center d-flex justify-content-center align-items-center gap-1">
                           <button
-                            className="btn box3 d-flex align-items-center justify-content-center"
-                            onClick={() => onDecrease(item.id)}
+                            className="btn box3 d-flex justify-content-center align-items-center"
+                            onClick={() => {
+                              if (item.count <= 1) {
+                                confirmAndRemove('product', item.name, item)
+                              } else {
+                                onDecrease('product', item)
+                              }
+                            }}
                           >
                             -
                           </button>
                           {item.count || 1}
                           <button
-                            className="btn box3 d-flex align-items-center justify-content-center"
-                            onClick={() => onIncrease(item.id)}
+                            className="btn box3 d-flex justify-content-center align-items-center"
+                            onClick={() => onIncrease('product', item)}
                           >
                             +
                           </button>
                         </div>
                       </div>
-                    </div>
-                    <div
-                      role="button"
-                      tabIndex={0}
-                      className="text-center position-absolute position1 p-0"
-                      onClick={() =>
-                        confirmAndRemove('product', item.name, item.product_id)
-                      }
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault()
-                          confirmAndRemove(
-                            'product',
-                            item.name,
-                            item.product_id
-                          )
-                        }
-                      }}
-                      aria-label={`刪除 ${item.name}`}
-                    >
-                      <FaTrash />
                     </div>
                   </div>
                 ))}
@@ -376,23 +380,10 @@ export default function ShopcartPage() {
               <div className="d-flex align-items-center gap-2 px-3 py-2 w-85">
                 <input
                   type="checkbox"
-                  checked={
-                    selectedSitterIds.length ===
-                      items.filter((item) => item.type === 'sitter').length &&
-                    items.filter((item) => item.type === 'sitter').length > 0
-                  }
-                  onChange={(e) => {
-                    const checked = e.target.checked
-                    if (checked) {
-                      const allSitterIds = items
-                        .filter((item) => item.type === 'sitter')
-                        .map((item) => item.sitter_id)
-                      setAllSelectedSitterIds(allSitterIds)
-                    } else {
-                      setAllSelectedSitterIds([])
-                    }
-                  }}
+                  checked={isAllSitterSelected}
+                  onChange={(e) => handleSelectAllSitters(e.target.checked)}
                 />
+
                 <label className="m-0 user-select-none">保姆</label>
               </div>
               <div className="box1 d-flex align-items-center justify-content-center">
@@ -419,8 +410,8 @@ export default function ShopcartPage() {
                 <div className="d-flex align-items-center gap-2 px-3 py-2 w-85">
                   <input
                     type="checkbox"
-                    checked={selectedSitterIds.includes(item.sitter_id)}
-                    onChange={() => toggleSelectSitter(item.sitter_id)}
+                    checked={selectedSitterKeys.includes(generateItemKey(item))}
+                    onChange={() => toggleSelectSitter(item)}
                   />
 
                   <label
@@ -451,19 +442,17 @@ export default function ShopcartPage() {
                     </div>
                   </div>
                   <div className="flex-item2 d-flex align-items-center justify-content-center">
-                    NT${item.price}
+                    NT${item.price.toLocaleString()}
                   </div>
                   <div
                     role="button"
                     tabIndex={0}
-                    className="flex-item2 text-center cursor-pointer"
-                    onClick={() =>
-                      confirmAndRemove('sitter', item.name, item.sitter_id)
-                    }
+                    className="flex-item2 cursor-pointer d-flex align-items-center justify-content-center"
+                    onClick={() => confirmAndRemove('sitter', item.name, item)}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault()
-                        confirmAndRemove('sitter', item.name, item.sitter_id)
+                        confirmAndRemove('sitter', item.name, item)
                       }
                     }}
                     aria-label={`刪除 ${item.name}`}
@@ -483,8 +472,17 @@ export default function ShopcartPage() {
                 .map((item) => (
                   <div
                     key={`product-${item.sitter_id}`}
-                    className="d-flex position-relative p-12 mb-2 mb-lg-0"
+                    className="d-flex position-relative p-12 mb-2 mb-lg-0 border-gray2"
                   >
+                    <div className="w-30 d-flex align-items-center">
+                      <input
+                        type="checkbox"
+                        checked={selectedSitterKeys.includes(
+                          generateItemKey(item)
+                        )}
+                        onChange={() => toggleSelectSitter(item)}
+                      />
+                    </div>
                     <div className="box6 me-10">
                       <Image
                         width={100}
@@ -494,7 +492,7 @@ export default function ShopcartPage() {
                         className=""
                       />
                     </div>
-                    <div className="w-217">
+                    <div className="w-187">
                       <div className="box7 h-25 d-flex align-items-center">
                         {item.name}
                       </div>
@@ -505,23 +503,25 @@ export default function ShopcartPage() {
                         {item.start_time}~{item.end_time}
                       </div>
                       <div className="h-25 d-flex align-items-center justify-content-between">
-                        <div>NT${item.price}</div>
+                        <div>NT${item.price.toLocaleString()}</div>
+                        <div
+                          role="button"
+                          tabIndex={0}
+                          className="flex-item2 cursor-pointer d-flex align-items-center justify-content-center"
+                          onClick={() =>
+                            confirmAndRemove('sitter', item.name, item)
+                          }
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault()
+                              confirmAndRemove('sitter', item.name, item)
+                            }
+                          }}
+                          aria-label={`刪除 ${item.name}`}
+                        >
+                          <FaTrash size={16} />
+                        </div>
                       </div>
-                    </div>
-                    <div
-                      role="button"
-                      tabIndex={0}
-                      className="text-center position-absolute position1 p-0"
-                      onClick={() => confirmAndRemove(item.name, item.id)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault()
-                          confirmAndRemove(item.name, item.id)
-                        }
-                      }}
-                      aria-label={`刪除 ${item.name}`}
-                    >
-                      <FaTrash />
                     </div>
                   </div>
                 ))}
@@ -535,12 +535,13 @@ export default function ShopcartPage() {
             <button
               className="btn box4 text-white d-flex align-items-center justify-content-center"
               onClick={() => {
-                // 利用 isAllSelected 判斷狀態，切換全選與取消全選
-                handleSelectAllChange(!isAllSelected)
+                // 切換商品＋保母的整批全選狀態
+                handleSelectAll(!isAllSelected)
               }}
             >
               {isAllSelected ? '取消全選' : '整批全選'}
             </button>
+
             <button
               className="btn box4 text-white d-flex align-items-center justify-content-center"
               onClick={confirmAndRemoveAll}
@@ -553,7 +554,7 @@ export default function ShopcartPage() {
             <div className="text-center fs-20 mb-3">購物車總計</div>
             <div className="d-flex justify-content-between mb-2">
               <div>小記</div>
-              <div>NT${totalAmount}</div>
+              <div>NT${totalAmount.toLocaleString()}</div>
             </div>
             <div className="d-flex justify-content-between mb-2">
               <div>運費</div>
@@ -561,7 +562,9 @@ export default function ShopcartPage() {
             </div>
             <div className="d-flex justify-content-between mb-2">
               <div>總金額</div>
-              <div className="text-color2">NT${totalAmount + 60}</div>
+              <div className="text-color2">
+                NT${(totalAmount + 60).toLocaleString()}
+              </div>
             </div>
             <button
               onClick={handleCheckout}

@@ -34,34 +34,33 @@ export default function CouponPage() {
     fetchMember()
   }, [])
 
-  useEffect(() => {
+  const fetchCoupons = async () => {
     if (!member) return
-
-    const fetchCoupons = async () => {
-      setLoading(true)
-      try {
-        const endpointMap = {
-          available: 'claimable',
-          usable: 'available',
-          used: 'used',
-        }
-
-        const res = await fetch(
-          `http://localhost:3005/api/coupon/members/${member.id}/coupons/${endpointMap[activeTab]}`,
-          {
-            credentials: 'include',
-          }
-        )
-        const data = await res.json()
-        setCoupons(data.data?.coupons || [])
-      } catch (err) {
-        console.error('❌ 抓優惠券失敗', err)
-        setCoupons([])
-      } finally {
-        setLoading(false)
+    setLoading(true)
+    try {
+      const endpointMap = {
+        available: 'claimable',
+        usable: 'available',
+        used: 'used',
       }
-    }
 
+      const res = await fetch(
+        `http://localhost:3005/api/coupon/members/${member.id}/coupons/${endpointMap[activeTab]}`,
+        {
+          credentials: 'include',
+        }
+      )
+      const data = await res.json()
+      setCoupons(data.data?.coupons || [])
+    } catch (err) {
+      console.error('❌ 抓優惠券失敗', err)
+      setCoupons([])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
     fetchCoupons()
   }, [activeTab, member])
 
@@ -92,12 +91,27 @@ export default function CouponPage() {
           couponId={coupon.id}
           memberId={member?.id}
           {...formatted}
+          onClaimed={fetchCoupons}
         />
       )
     } else if (activeTab === 'usable') {
-      return <CouponCardUnused key={coupon.id} {...formatted} />
+      return (
+        <CouponCardUnused
+          key={coupon.id}
+          couponId={coupon.id}
+          memberId={member?.id}
+          {...formatted}
+        />
+      )
     } else {
-      return <CouponCardUsed key={coupon.id} {...formatted} />
+      return (
+        <CouponCardUsed
+          key={coupon.id}
+          couponId={coupon.id}
+          memberId={member?.id}
+          {...formatted}
+        />
+      )
     }
   }
 

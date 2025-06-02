@@ -1,6 +1,8 @@
 import styles from './CouponCard.module.scss'
 import Image from 'next/image'
 import PropTypes from 'prop-types'
+import Swal from 'sweetalert2'
+import Link from 'next/link'
 
 const CouponCard = ({
   title,
@@ -10,8 +12,10 @@ const CouponCard = ({
   image,
   couponId,
   memberId,
+  onClaimed, // ✅ 新增：領取後觸發父層刷新
 }) => {
-  const selectedImage = image || '/coupon_img/DefaultCoupon.png' // fallback 預設圖
+  const selectedImage = image || '/coupon_img/DefaultCoupon.png'
+
   const handleClaim = async () => {
     try {
       const res = await fetch(
@@ -22,20 +26,40 @@ const CouponCard = ({
         }
       )
       const data = await res.json()
+
       if (data.status === 'success') {
-        alert('已成功領取優惠券！')
+        await Swal.fire({
+          icon: 'success',
+          title: '已成功領取優惠券！',
+          showConfirmButton: false,
+          timer: 1500,
+        })
+
+        // ✅ 呼叫父層提供的刷新函式
+        onClaimed?.()
       } else {
-        alert(`領取失敗：${data.message}`)
+        Swal.fire({
+          icon: 'error',
+          title: '領取失敗',
+          text: data.message || '請稍後再試',
+        })
       }
     } catch (err) {
       console.error('領取失敗', err)
-      alert('伺服器錯誤，請稍後再試')
+      Swal.fire({
+        icon: 'error',
+        title: '伺服器錯誤',
+        text: '請稍後再試',
+      })
     }
   }
+
   return (
     <div className={styles.couponCard}>
       <div className={styles.couponLeft}>
-        <Image src={selectedImage} alt="優惠券圖" width={100} height={100} />
+        <Link href={`/coupon/${couponId}`}>
+          <Image src={selectedImage} alt="優惠券圖" width={100} height={100} />
+        </Link>
       </div>
       <div className={styles.couponContent}>
         <div className={styles.couponBody}>
