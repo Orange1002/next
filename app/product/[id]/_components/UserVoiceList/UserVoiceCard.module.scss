@@ -1,11 +1,13 @@
 .voiceCard {
   display: flex;
+  flex-direction: column;
   width: 865px;
   min-height: 176px;
-  padding: 31px 30px;
+  padding: 31px 50px;
   align-items: flex-start;
-  gap: 37px;
+  gap: 20px;
   background: #fff;
+  position: relative;
 
   @media (max-width: 500px) {
     flex-direction: column;
@@ -91,7 +93,7 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  -webkit-line-clamp: 3; 
+  -webkit-line-clamp: 3;
   transition: all 0.3s ease;
   cursor: pointer;
 
@@ -112,10 +114,10 @@
   line-height: normal;
   letter-spacing: 1.2px;
   cursor: pointer;
-  width: 495px;
+  width: 100%;
   max-height: 72px;
-  white-space: pre-wrap; 
-  word-break: break-word; 
+  white-space: pre-wrap;
+  word-break: break-word;
 
   &.expanded {
     max-height: 1000px;
@@ -126,5 +128,97 @@
     letter-spacing: 1.1px;
     max-width: 100%;
     width: 100%;
+  }
+}
+
+.editBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-family: 'Kiwi Maru';
+  background: #ed784a;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+
+  &:hover {
+    background: #c65c32;
+  }
+}
+
+.editForm {
+  width: 100%;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  label {
+    font-family: 'Kiwi Maru';
+    font-size: 14px;
+    color: #505050;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+  }
+
+  select,
+  textarea {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-family: 'Kiwi Maru';
+    font-size: 14px;
+    width: 100%; // ⭐ 撐滿欄位
+    resize: vertical;
+  }
+
+  .editBtnRow {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+
+    button {
+      font-family: 'Kiwi Maru';
+      background: #ed784a;
+      color: white;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+
+      &:hover {
+        background: #c65c32;
+      }
+
+      &:nth-child(2) {
+        background: #999;
+        &:hover {
+          background: #777;
+        }
+      }
+    }
+    .deleteBtn {
+      margin-left: auto;
+      background: #d43737;
+      &:hover {
+        background: #8b1a1a;
+      }
+    }
+  }
+}
+
+.starRating {
+  display: flex;
+  margin-top: 4px;
+  user-select: none;
+
+  svg {
+    transition: color 0.2s;
   }
 }

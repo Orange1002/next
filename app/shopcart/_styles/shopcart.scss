@@ -127,6 +127,10 @@ body {
   font-size: 30px;
 }
 
+.fs-32 {
+  font-size: 32px;
+}
+
 .position1 {
   right: 12px;
   bottom: -10px;
@@ -261,4 +265,27 @@ body {
 .icon-size1 {
   width: 100px;
   height: 100px;
+}
+
+.coupon-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(100, 100, 100, 0.5);
+  z-index: 2;
+}
+
+.coupon-modal {
+  background-color: white;
+  padding: 30px;
+  border-radius: 5px;
+  width: 1296px;
+  max-width: 90%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.box12 {
+  max-height: 539px;
 }

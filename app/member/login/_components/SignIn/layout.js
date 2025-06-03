@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styles from './layout.module.css'
+import styles from './layout.module.scss'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FaEnvelope, FaLock, FaGoogle } from 'react-icons/fa'
@@ -11,22 +11,22 @@ export default function SignInForm({ isSignUpMode }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
+  const [isEmailLoading, setIsEmailLoading] = useState(false)
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false)
+
   const router = useRouter()
   const { loginGoogle } = useFirebase()
-  const [isLoading, setIsLoading] = useState(false)
-
-  const { login, refreshMember, signInWithGoogle } = useAuth()
+  const { login, refreshMember } = useAuth()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
-    if (isLoading) return
-    setIsLoading(true)
-
+    if (isEmailLoading) return
+    setIsEmailLoading(true)
     setErrorMsg('')
 
     if (!email || !password) {
       setErrorMsg('請輸入電子信箱與密碼')
+      setIsEmailLoading(false)
       return
     }
 
@@ -49,13 +49,15 @@ export default function SignInForm({ isSignUpMode }) {
       }
     } catch (error) {
       setErrorMsg('伺服器錯誤，請稍後再試')
+    } finally {
+      setIsEmailLoading(false)
     }
   }
 
   const handleGoogleLogin = async (e) => {
     e.preventDefault()
-    if (isLoading) return // 防止重複觸發
-    setIsLoading(true)
+    if (isGoogleLoading) return
+    setIsGoogleLoading(true)
     setErrorMsg('')
 
     try {
@@ -74,7 +76,6 @@ export default function SignInForm({ isSignUpMode }) {
 
         if (res.ok && resData.status === 'success') {
           login(resData.data)
-          console.log('Google 登入 API 回傳：', resData)
           await refreshMember()
           router.push('/')
         } else {
@@ -85,7 +86,7 @@ export default function SignInForm({ isSignUpMode }) {
       console.error(error)
       setErrorMsg('Google 登入失敗，請稍後再試')
     } finally {
-      setIsLoading(false)
+      setIsGoogleLoading(false)
     }
   }
 
@@ -103,9 +104,12 @@ export default function SignInForm({ isSignUpMode }) {
           className="h-100 w-100 object-fit-cover"
         />
       </div>
-      <h2 className={`${styles.title}`}>登入</h2>
+
+      <h2 className={styles.title}>登入</h2>
+
       {errorMsg && <p style={{ color: 'red' }}>{errorMsg}</p>}
-      <div className={`${styles.inputField}`}>
+
+      <div className={styles.inputField}>
         <FaEnvelope className={`${styles.icon} ms-3 h-50 w-50`} />
         <input
           type="text"
@@ -114,7 +118,8 @@ export default function SignInForm({ isSignUpMode }) {
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
-      <div className={`${styles.inputField}`}>
+
+      <div className={styles.inputField}>
         <FaLock className={`${styles.icon} ms-3 h-50 w-50`} />
         <input
           type="password"
@@ -123,26 +128,34 @@ export default function SignInForm({ isSignUpMode }) {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-      <input type="submit" className={`${styles.btn} solid`} value="登入" />
-      <p className={`${styles.socialText} my-3`}>或</p>
+
+      <input
+        type="submit"
+        className={`${styles.btn} solid`}
+        value={isEmailLoading ? '登入中...' : '登入'}
+        disabled={isEmailLoading}
+      />
+
+      <p className={`${styles.socialText} ${styles.divider} my-3`}>快速登入</p>
+
       <div className={styles.socialMedia}>
-        {/* 這裡改成 button 並加 onClick */}
         <button
           type="button"
           onClick={handleGoogleLogin}
           className={`${styles.socialIcon} my-1 p-2 d-flex align-items-center`}
-          disabled={isLoading}
-          aria-busy={isLoading}
-          aria-disabled={isLoading}
+          disabled={isGoogleLoading}
+          aria-busy={isGoogleLoading}
+          aria-disabled={isGoogleLoading}
         >
-          <FaGoogle className={`${styles.icon}`} />
+          <FaGoogle className={styles.icon} />
           <span className={`${styles.socialText} mb-0 ms-2`}>
-            {isLoading ? '登入中...' : '使用 Google 登入'}
+            {isGoogleLoading ? 'Google 登入中...' : '使用 Google 登入'}
           </span>
         </button>
       </div>
+
       <div className="mt-3">
-        <Link href="/forgetpassword" className="text-decoration-none">
+        <Link href="/forgetpassword" className={`${styles.forget}`}>
           忘記密碼？
         </Link>
       </div>

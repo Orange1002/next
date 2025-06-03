@@ -1,0 +1,32 @@
+.tabBtn {
+  background-color: transparent;
+  border: none;
+  color: #929292;
+  padding: 0.5rem 1rem;
+  position: relative;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 0;
+    background-color: #fb966e;
+  }
+
+  &.active {
+    color: #fb966e;
+
+    &::after {
+      width: 100%;
+    }
+  }
+}
+
+.block {
+  border: 2px solid #d9d9d999;
+  border-radius: 10px;
+}

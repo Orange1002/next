@@ -6,16 +6,19 @@ import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/use-auth'
 import Swal from 'sweetalert2'
 import { useSearchParams } from 'next/navigation'
+import CouponStyle from '@/app/member/coupons/_components/couponCardUnused/CouponCardUnused.module.scss'
+import Image from 'next/image'
+import axios from 'axios'
 
 export default function OrderPage() {
   const {
     items = [],
     totalAmount = 0,
-    selectedProductIds = [],
-    selectedSitterIds = [],
+    selectedProductKeys = [],
+    selectedSitterKeys = [],
     onBatchRemove,
-    setAllSelectedProductIds,
-    setAllSelectedSitterIds,
+    setSelectedProductKeys,
+    setSelectedSitterKeys,
   } = useCart() || {}
 
   const router = useRouter()
@@ -35,14 +38,11 @@ export default function OrderPage() {
     storeAddress: '',
     paymentMethod: '1',
     totalAmount: 0,
-    orderItems: items.filter(
-      (item) =>
-        item.type === 'product' && selectedProductIds.includes(item.product_id)
-    ),
-    orderServices: items.filter(
-      (item) =>
-        item.type === 'sitter' && selectedSitterIds.includes(item.sitter_id)
-    ),
+    couponId: '0',
+    discountType: '',
+    discountValue: '',
+    orderItems: [],
+    orderServices: [],
   })
 
   useEffect(() => {
@@ -84,10 +84,34 @@ export default function OrderPage() {
     }
   }, [searchParams])
 
+  // 優惠卷
+  const [showCouponModal, setShowCouponModal] = useState(false)
+  const [coupons, setCoupons] = useState([])
+  const [selectedCoupon, setSelectedCoupon] = useState(null)
+
+  const handleOpenCouponModal = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3005/api/shopcart/coupons?memberId=${memberId}`
+      )
+      setCoupons(response.data)
+      setShowCouponModal(true)
+    } catch (error) {
+      console.error('取得優惠券失敗:', error)
+    }
+  }
+
+  const discount =
+    formData.discountType === 'fixed'
+      ? formData.discountValue
+      : Math.floor(formData.totalAmount * (formData.discountValue / 100))
+
+  const finalTotal = totalAmount + 60 - discount
+
+  // 基本欄位驗證
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    // 基本欄位驗證
     const requiredFields = [
       'recipientName',
       'recipientPhone',
@@ -128,15 +152,19 @@ export default function OrderPage() {
       storeName: formData.storeName,
       storeAddress: formData.storeAddress,
       paymentMethod: formData.paymentMethod,
-      totalAmount: totalAmount + 60,
+      totalAmount: finalTotal,
+      couponId: formData.couponId,
       orderItems: items.filter(
         (item) =>
           item.type === 'product' &&
-          selectedProductIds.includes(item.product_id)
+          selectedProductKeys.includes(
+            `${item.product_id}_${item.color}_${item.size}__${item.items_group}`
+          )
       ),
       orderServices: items.filter(
         (item) =>
-          item.type === 'sitter' && selectedSitterIds.includes(item.sitter_id)
+          item.type === 'sitter' &&
+          selectedSitterKeys.includes(`sitter_${item.sitter_id}`)
       ),
     }
 
@@ -148,9 +176,9 @@ export default function OrderPage() {
       })
 
       const amount = Number(orderData.totalAmount)
-      onBatchRemove(selectedProductIds, selectedSitterIds)
-      setAllSelectedProductIds([])
-      setAllSelectedSitterIds([])
+      onBatchRemove(selectedProductKeys, selectedSitterKeys)
+      setSelectedProductKeys([])
+      setSelectedSitterKeys([])
 
       const result = await res.json()
       if (result.success) {
@@ -162,9 +190,13 @@ export default function OrderPage() {
           confirmButtonColor: '#fb966e',
         }).then((res) => {
           if (res.isConfirmed) {
-            router.push(
-              `http://localhost:3005/api/shopcart/ecpay-test-only?amount=${amount}`
-            )
+            if (orderData.paymentMethod == 2) {
+              router.push(
+                `http://localhost:3005/api/shopcart/ecpay-test-only?amount=${amount}`
+              )
+            } else {
+              router.push('http://localhost:3000/shopcart/orderCompleted')
+            }
           }
         })
       } else {
@@ -474,15 +506,101 @@ export default function OrderPage() {
                   <div className="text-center fs-20 mb-3">使用優惠卷</div>
                   <div className="row align-items-center">
                     <div className="col mb-3 mb-lg-0">
-                      <button className="btn box9 d-flex align-items-center justify-content-center w-100">
+                      <button
+                        type="button"
+                        className="btn box9 d-flex align-items-center justify-content-center w-100"
+                        onClick={handleOpenCouponModal}
+                      >
                         選擇優惠卷
                       </button>
                     </div>
-                    {/* <div className="col-lg-4">
-                    <button className="btn box5 text-white d-flex align-items-center justify-content-center w-100">
-                      使用優惠卷
-                    </button>
-                  </div> */}
+                  </div>
+                </div>
+
+                <div
+                  className={`coupon-overlay ${showCouponModal ? 'd-flex' : 'd-none'} align-items-center justify-content-center`}
+                >
+                  <div className="coupon-modal">
+                    <div className="d-flex align-items-center justify-content-center mb-3">
+                      <h3 className="fs-32">選擇優惠卷</h3>
+                    </div>
+                    <div className="p-5 overflow-auto box12">
+                      {coupons.length > 0 ? (
+                        coupons.map((coupon) => (
+                          <div
+                            className={CouponStyle.couponCard}
+                            key={coupon.id}
+                          >
+                            <div className={CouponStyle.couponLeft}>
+                              <Image
+                                src={coupon.image || '/default-coupon.jpg'}
+                                alt="優惠券圖"
+                                width={100}
+                                height={100}
+                              />
+                            </div>
+                            <div className={CouponStyle.couponContent}>
+                              <div className={CouponStyle.couponBody}>
+                                <div className={CouponStyle.couponTitle}>
+                                  {coupon.title}
+                                </div>
+                                <div className={CouponStyle.couponPrice}>
+                                  低消{' '}
+                                  <span className={CouponStyle.highlight}>
+                                    ${coupon.min_purchase}
+                                  </span>{' '}
+                                  起
+                                </div>
+                                <div className={CouponStyle.couponDate}>
+                                  <i className="bi bi-clock"></i>
+                                  <span>{coupon.end_at}</span>
+                                </div>
+                              </div>
+                              <div className={CouponStyle.couponActions}>
+                                <button
+                                  type="button"
+                                  className={CouponStyle.btnUse}
+                                  onClick={() => {
+                                    if (totalAmount < coupon.min_purchase) {
+                                      Swal.fire({
+                                        icon: 'warning',
+                                        title: '未達優惠使用門檻',
+                                        text: `需滿 NT$${coupon.min_purchase} 才可使用此優惠券`,
+                                      })
+                                      return
+                                    }
+
+                                    setFormData((prev) => ({
+                                      ...prev,
+                                      couponId: coupon.id,
+                                      discountType: coupon.discount_type,
+                                      discountValue: coupon.discount_value,
+                                    }))
+
+                                    setShowCouponModal(false)
+                                  }}
+                                >
+                                  使用
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="text-center text-muted mt-3">
+                          目前無可用優惠卷
+                        </div>
+                      )}
+                    </div>
+                    <div className="d-flex align-items-center justify-content-center">
+                      <button
+                        type="button"
+                        className="btn box5 text-white d-flex align-items-center justify-content-center mt-3"
+                        onClick={() => setShowCouponModal(false)}
+                      >
+                        關閉
+                      </button>
+                    </div>
                   </div>
                 </div>
 
@@ -493,8 +611,8 @@ export default function OrderPage() {
                     <div>NT${totalAmount}</div>
                   </div>
                   <div className="d-flex justify-content-between mb-2">
-                    <div>優惠</div>
-                    <div className="text-color1">-NT$0</div>
+                    <div>優惠{coupons.discount_value}</div>
+                    <div className="text-color1">-NT${discount}</div>
                   </div>
                   <div className="d-flex justify-content-between mb-2">
                     <div>運費</div>
@@ -502,7 +620,7 @@ export default function OrderPage() {
                   </div>
                   <div className="d-flex justify-content-between mb-2">
                     <div>總金額</div>
-                    <div className="text-color2">NT${totalAmount + 60}</div>
+                    <div className="text-color2">NT${finalTotal}</div>
                   </div>
 
                   <button

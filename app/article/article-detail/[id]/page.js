@@ -65,30 +65,34 @@ const ArticlePage = () => {
     const mi = String(date.getMinutes()).padStart(2, '0')
     return `${yyyy}/${mm}/${dd} ${hh}:${mi}`
   }
-
+  const breadcrumbItems = [
+    { name: '首頁', href: '/' },
+    { name: '文章', href: '/article' },
+    { name: '文章列表', href: '/article/list' },
+    { name: article.title, href: '#' }, // 最後一層不用可點擊
+  ]
   return (
     <main>
       {/* 麵包屑 */}
       <div className="d-flex align-items-center fw-light ms-5 detail-bread mb-5">
-        <a href="#" className="mb-0 me-3 text-decoration-none">
-          首頁
-        </a>
-        <AiOutlineRight className="me-3" />
-        <a href="#" className="mb-0 me-3 text-decoration-none">
-          文章
-        </a>
-        <AiOutlineRight className="me-3" />
-        <a href="#" className="mb-0 me-3 text-decoration-none">
-          文章列表
-        </a>
-        <AiOutlineRight className="me-3" />
-        <a href="#" className="mb-0 me-3 text-decoration-none">
-          營養與飲食
-        </a>
-        <AiOutlineRight className="me-3" />
-        <a href="#" className="mb-0 me-3 text-decoration-none">
-          {article.title}
-        </a>
+        {breadcrumbItems.map((item, index) => (
+          <React.Fragment key={index}>
+            <a
+              href={item.href}
+              className="mb-0 me-3 text-decoration-none"
+              style={
+                index === breadcrumbItems.length - 1
+                  ? { pointerEvents: 'none', color: '#888' }
+                  : {}
+              }
+            >
+              {item.name}
+            </a>
+            {index < breadcrumbItems.length - 1 && (
+              <AiOutlineRight className="me-3" />
+            )}
+          </React.Fragment>
+        ))}
       </div>
 
       <div className="container">
@@ -100,45 +104,30 @@ const ArticlePage = () => {
           </div>
 
           <EditButton id={article.id} />
-
-          {/* 作者卡 */}
-          {/* <div className="row d-flex justify-content-center mt-5">
-            <div className="card mb-3 custom-card">
-              <div className="row g-0">
-                <div className="col-md-4">
-                  <Image
-                    width={215}
-                    height={200}
-                    src="/article_img/171758376764_o.jpg"
-                    className="img-fluid rounded-start object-fit-cover custom-card-photo"
-                    alt="作者照片"
-                  />
-                </div>
-                <div className="col-md-8">
-                  <div className="card-body">
-                    <h5 className="card-title mb-3">
-                      {article.member_username}
-                    </h5>
-                    <p className="card-text mb-4">
-                      <small className="text-body-secondary">
-                        國立台灣大學獸醫系 學士
-                      </small>
-                    </p>
-                    <p className="card-text">
-                      現任 興沛動物醫院
-                      主治獸醫師，擁有2486年寵物食療臨床經驗，寵物鮮食品牌【年年】共同創辦人
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
-          <Author />
+          <Author article={article}/>
         </div>
 
         {/* 文章圖片 */}
-        <div className="d-flex justify-content-center article-p">
-          <Image width={780} height={405} src={imageSrc} alt={article.title} />
+
+        <div
+          className="d-flex justify-content-center article-p"
+          style={{
+            width: '100%',
+            maxWidth: '780px',
+            margin: '0 auto',
+          }}
+        >
+          <Image
+            src={imageSrc}
+            alt={article.title}
+            width={780}
+            height={405} // 可改任意高度，不會實際裁切
+            style={{
+              width: '100%',
+              height: 'auto', // 高度根據圖片比例自動調整
+              objectFit: 'contain', // 重點：完整顯示、不裁切
+            }}
+          />
         </div>
 
         {/* 文章內容 */}
@@ -181,7 +170,7 @@ const ArticlePage = () => {
             </div>
           </div>
         </div>
-        <div className='mb-footer-gap'>
+        <div className="mb-footer-gap">
           <CommentSection articleId={article.id} />
         </div>
       </div>

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Swal from 'sweetalert2'
 import styles from './layout.module.css'
 import SubmitButton from '../../../../_components/BtnCustom/layout'
 import CancelButton from '../../../../_components/BtnCustomGray/layout'
@@ -9,47 +10,94 @@ import CancelButton from '../../../../_components/BtnCustomGray/layout'
 export default function RecipientForm({
   initialData = {},
   redirectTo = '/member/profile/recipient',
-  onSubmit, // ✅ 可選傳入 onSubmit 處理編輯情境
+  onSubmit, // ✅ 編輯模式時可自定處理提交行為
 }) {
   const [realname, setRealname] = useState(initialData.realname || '')
   const [phone, setPhone] = useState(initialData.phone || '')
   const [email, setEmail] = useState(initialData.email || '')
   const [address, setAddress] = useState(initialData.address || '')
-
   const router = useRouter()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
     if (!realname || !phone || !email || !address) {
-      alert('請填寫完整資訊')
+      Swal.fire({
+        icon: 'warning',
+        title: '請填寫完整資訊',
+        confirmButtonColor: '#c66900',
+        background: '#fff4e5',
+        color: '#c66900',
+      })
       return
     }
 
     const formData = { realname, phone, email, address }
 
     if (onSubmit) {
-      // ✅ 編輯情境，使用外部傳入的 onSubmit 處理
-      onSubmit(formData)
+      try {
+        await onSubmit(formData)
+        await Swal.fire({
+          icon: 'success',
+          title: '更新成功',
+          showConfirmButton: false,
+          timer: 800,
+          background: '#e9f7ef',
+          color: '#2e7d32',
+        })
+        router.push(redirectTo)
+      } catch (err) {
+        console.error(err)
+        Swal.fire({
+          icon: 'error',
+          title: '更新失敗',
+          text: '請稍後再試',
+          confirmButtonColor: '#d33',
+          background: '#fdecea',
+          color: '#b71c1c',
+        })
+      }
     } else {
-      // ✅ 新增情境，預設行為
       try {
         const res = await fetch('http://localhost:3005/api/member/recipients', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          credentials: 'include', // for cookie-based JWT
+          credentials: 'include',
           body: JSON.stringify(formData),
         })
 
         const data = await res.json()
+
         if (data.success) {
+          await Swal.fire({
+            icon: 'success',
+            title: '新增成功',
+            showConfirmButton: false,
+            timer: 800,
+            background: '#e9f7ef',
+            color: '#2e7d32',
+          })
           router.push(redirectTo)
         } else {
-          alert(data.message || '新增失敗')
+          Swal.fire({
+            icon: 'error',
+            title: '新增失敗',
+            text: data.message || '請稍後再試',
+            confirmButtonColor: '#d33',
+            background: '#fdecea',
+            color: '#b71c1c',
+          })
         }
       } catch (err) {
         console.error(err)
-        alert('新增收件人發生錯誤')
+        Swal.fire({
+          icon: 'error',
+          title: '新增發生錯誤',
+          text: '請檢查網路或稍後再試',
+          confirmButtonColor: '#d33',
+          background: '#fdecea',
+          color: '#b71c1c',
+        })
       }
     }
   }
@@ -103,20 +151,18 @@ export default function RecipientForm({
         <i className={`${styles.icon} bi bi-geo-alt fs-3`}></i>
         <input
           id="address"
-          aria-label="收件地址"
           placeholder="請輸入收件地址"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
           required
-          spellCheck="false"
           autoComplete="street-address"
         />
       </div>
 
-      {/* 按鈕區塊 */}
+      {/* 按鈕 */}
       <div className="d-flex justify-content-center gap-5 mt-4">
         <CancelButton to={redirectTo}>取消</CancelButton>
-        <SubmitButton>新增</SubmitButton>
+        <SubmitButton>{onSubmit ? '更新' : '新增'}</SubmitButton>
       </div>
     </form>
   )

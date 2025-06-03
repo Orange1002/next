@@ -1,0 +1,61 @@
+.historySection {
+  padding: 2rem 0;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.recordTable {
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 0.95rem;
+  }
+
+  th {
+    background-color: #f7f7f7;
+    font-weight: 600;
+  }
+
+  tr:hover {
+    background-color: #f5f5f5;
+  }
+}
+
+.btnContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  padding: 5px 0px 40px 0px;
+}
+
+.pointsHistory {
+  font-family: 'Kiwi Maru';
+  background: #fff;
+  color: #ed784a;
+  border: 1px solid #ed784a;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-decoration: none;
+
+  &:hover {
+    background: #ed784a;
+    color: #FFF;
+  }
+}

@@ -118,7 +118,9 @@
   font-size: 14px;
   letter-spacing: 3px;
   color: white;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
 
   &:hover {
     background-color: #d7633d !important;
@@ -312,10 +314,7 @@
 
 .card-area {
   flex-wrap: wrap;
-  gap: 99px;
   margin-top: 15px;
-  row-gap: 15px;
-  margin-left: -25px;
   width: 100%;
 }
 
@@ -540,11 +539,21 @@
 }
 // 狗腳印
 @keyframes shake {
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(15deg); }
-  50% { transform: rotate(-15deg); }
-  75% { transform: rotate(15deg); }
-  100% { transform: rotate(0deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(15deg);
+  }
+  50% {
+    transform: rotate(-15deg);
+  }
+  75% {
+    transform: rotate(15deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 .paw-icon {

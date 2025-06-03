@@ -1,12 +1,21 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { Dropdown, Badge } from 'react-bootstrap'
 import styles from '../_styles/NotificationBell.module.css'
+import { useNotification } from '@/contexts/NotificationContext'
 
 export default function NotificationBell() {
-  const [notifications, setNotifications] = useState([])
-  const [unreadCount, setUnreadCount] = useState(0)
+  const router = useRouter()
+  const {
+    notifications,
+    unreadCount,
+    markAllAsRead,
+    markOneAsRead,
+    setNotifications, // ⚠️ 若你希望初次抓資料可以設進 context
+    setUnreadCount, // ⚠️ 同上
+  } = useNotification()
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -15,28 +24,29 @@ export default function NotificationBell() {
           credentials: 'include',
         })
         const data = await res.json()
-
         const isArray = Array.isArray(data)
-        setNotifications(isArray ? data : [])
-        setUnreadCount(isArray ? data.filter((n) => !n.is_read).length : 0)
+        if (isArray) {
+          setNotifications(data)
+          setUnreadCount(data.filter((n) => !n.is_read).length)
+        }
       } catch (err) {
         console.error('❌ 通知抓取失敗', err)
       }
     }
 
     fetchNotifications()
-  }, [])
+  }, [setNotifications, setUnreadCount])
 
-  const markAllAsRead = async () => {
+  const handleNotificationClick = async (id) => {
     try {
-      await fetch('http://localhost:3005/api/notifications/read-all', {
+      await fetch(`http://localhost:3005/api/notifications/read/${id}`, {
         method: 'POST',
         credentials: 'include',
       })
-      setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })))
-      setUnreadCount(0)
+      markOneAsRead(id)
+      router.push('/member/orders?type=sitters')
     } catch (err) {
-      console.error('❌ 無法標記已讀', err)
+      console.error('❌ 單筆已讀失敗', err)
     }
   }
 
@@ -63,7 +73,7 @@ export default function NotificationBell() {
       </Dropdown.Toggle>
 
       <Dropdown.Menu style={{ minWidth: 300 }}>
-        <Dropdown.Header className="d-flex justify-content-between align-items-center">
+        <Dropdown.Header className="d-flex fw-bold text-black fs-5 justify-content-between align-items-center">
           通知中心
           {unreadCount > 0 && (
             <button
@@ -75,13 +85,16 @@ export default function NotificationBell() {
             </button>
           )}
         </Dropdown.Header>
+
         {notifications.length === 0 ? (
           <Dropdown.Item disabled>目前沒有通知</Dropdown.Item>
         ) : (
           notifications.map((n, i) => (
             <Dropdown.Item
               key={i}
+              onClick={() => handleNotificationClick(n.id)}
               className={n.is_read ? 'text-muted' : 'fw-bold'}
+              style={{ cursor: 'pointer' }}
             >
               {n.content}
               <br />

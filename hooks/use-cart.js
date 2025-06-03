@@ -45,155 +45,225 @@ export function CartProvider({ children }) {
 
   // 處理新增
   const onAdd = (itemType, newItem) => {
-    const foundIndex = items.findIndex((v) => {
-      if (itemType === 'product') return v.product_id == newItem.product_id
-      if (itemType === 'sitter') return v.sitter_id == newItem.sitter_id
-      return false
-    })
+    let foundIndex = -1
+
+    if (itemType === 'product') {
+      foundIndex = items.findIndex((v) => {
+        return (
+          v.type === 'product' &&
+          v.product_id === newItem.product_id &&
+          v.color === newItem.color &&
+          v.size === newItem.size &&
+          v.packing === newItem.packing &&
+          v.items_group === newItem.items_group
+        )
+      })
+    }
+
+    if (itemType === 'sitter') {
+      foundIndex = items.findIndex((v) => {
+        return v.type === 'sitter' && v.sitter_id === newItem.sitter_id
+      })
+    }
 
     if (foundIndex !== -1) {
-      onIncrease(
-        itemType,
-        itemType === 'product' ? newItem.product_id : newItem.sitter_id
-      )
+      const nextItems = [...items]
+      nextItems[foundIndex].count += newItem.count || 1 // 預設加 1
+      setItems(nextItems)
     } else {
-      const itemWithCount = { ...newItem, count: 1 }
+      const itemWithCount = { ...newItem, count: newItem.count || 1 }
       const nextItems = [itemWithCount, ...items]
       setItems(nextItems)
     }
   }
 
   // 處理遞增
-  const onIncrease = (itemType, itemId) => {
+  const onIncrease = (itemType, targetItem) => {
     const nextItems = items.map((v) => {
       if (
-        (itemType === 'product' && v.product_id == itemId) ||
-        (itemType === 'sitter' && v.sitter_id == itemId)
+        itemType === 'product' &&
+        v.type === 'product' &&
+        v.product_id === targetItem.product_id &&
+        v.color === targetItem.color &&
+        v.size === targetItem.size &&
+        v.packing === targetItem.packing &&
+        v.items_group === targetItem.items_group
       ) {
-        // 如果比對出id=itemId的成員，則進行再拷貝物件，並且作修改`count: v.count+1`
         return { ...v, count: v.count + 1 }
-      } else {
-        // 否則回傳原本物件
-        return v
       }
+
+      if (
+        itemType === 'sitter' &&
+        v.type === 'sitter' &&
+        v.sitter_id === targetItem.sitter_id
+      ) {
+        return { ...v, count: v.count + 1 }
+      }
+
+      return v
     })
 
-    // 3 設定到狀態
     setItems(nextItems)
   }
 
   // 處理刪除
-  const onRemove = (itemType, itemId) => {
-    const nextItems = items.filter((v, i) => {
-      // 過濾出id不為itemId的物件資料
-      if (itemType === 'product') return v.product_id !== itemId
-      if (itemType === 'sitter') return v.sitter_id !== itemId
+  const onRemove = (itemType, targetItem) => {
+    const nextItems = items.filter((v) => {
+      if (itemType === 'product') {
+        return !(
+          v.type === 'product' &&
+          v.product_id === targetItem.product_id &&
+          v.color === targetItem.color &&
+          v.size === targetItem.size &&
+          v.packing === targetItem.packing &&
+          v.items_group === targetItem.items_group
+        )
+      }
+
+      if (itemType === 'sitter') {
+        return !(v.type === 'sitter' && v.sitter_id === targetItem.sitter_id)
+      }
+
       return true
     })
-    // 3
+
     setItems(nextItems)
   }
 
   // 處理遞減
-  const onDecrease = (itemType, itemId) => {
+  const onDecrease = (itemType, targetItem) => {
     const nextItems = items.map((v) => {
       if (
-        (itemType === 'product' && v.product_id == itemId) ||
-        (itemType === 'sitter' && v.sitter_id == itemId)
+        itemType === 'product' &&
+        v.type === 'product' &&
+        v.product_id === targetItem.product_id &&
+        v.color === targetItem.color &&
+        v.size === targetItem.size &&
+        v.packing === targetItem.packing &&
+        v.items_group === targetItem.items_group
       ) {
-        // 如果比對出id=itemId的成員，則進行再拷貝物件，並且作修改`count: v.count-1`
         return { ...v, count: v.count - 1 }
-      } else {
-        // 否則回傳原本物件
-        return v
       }
+
+      if (
+        itemType === 'sitter' &&
+        v.type === 'sitter' &&
+        v.sitter_id === targetItem.sitter_id
+      ) {
+        return { ...v, count: v.count - 1 }
+      }
+
+      return v
     })
 
-    // 3 設定到狀態
     setItems(nextItems)
   }
 
-  // 處理全部刪除
-  const onBatchRemove = (productIds = [], sitterIds = []) => {
+  // 勾選狀態
+  const generateItemKey = (item) => {
+    if (item.type === 'product') {
+      return `${item.product_id}_${item.color}_${item.size}_${item.packing}_${item.items_group}`
+    } else if (item.type === 'sitter') {
+      return `sitter_${item.sitter_id}`
+    }
+    return ''
+  }
+
+  const [selectedProductKeys, setSelectedProductKeys] = useState([])
+  const [selectedSitterKeys, setSelectedSitterKeys] = useState([])
+
+  // 單獨勾選
+  const toggleSelectProduct = (item) => {
+    const key = generateItemKey(item)
+    setSelectedProductKeys((prev) =>
+      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
+    )
+  }
+
+  const toggleSelectSitter = (item) => {
+    const key = generateItemKey(item)
+    setSelectedSitterKeys((prev) =>
+      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
+    )
+  }
+
+  // 判斷是否全選
+  const productItems = items.filter((i) => i.type === 'product')
+  const sitterItems = items.filter((i) => i.type === 'sitter')
+
+  const allProductKeys = productItems.map(generateItemKey)
+  const allSitterKeys = sitterItems.map(generateItemKey)
+
+  const isAllProductSelected =
+    selectedProductKeys.length === allProductKeys.length &&
+    allProductKeys.length > 0
+
+  const isAllSitterSelected =
+    selectedSitterKeys.length === allSitterKeys.length &&
+    allSitterKeys.length > 0
+
+  // 商品 & 保母是否全部全選
+  const isAllSelected =
+    (allProductKeys.length === 0 || isAllProductSelected) &&
+    (allSitterKeys.length === 0 || isAllSitterSelected) &&
+    items.length > 0
+
+  // 商品全選切換
+  const handleSelectAllProducts = (selectAll) => {
+    if (selectAll) {
+      setSelectedProductKeys(allProductKeys)
+    } else {
+      setSelectedProductKeys([])
+    }
+  }
+
+  // 保母全選切換
+  const handleSelectAllSitters = (selectAll) => {
+    if (selectAll) {
+      setSelectedSitterKeys(allSitterKeys)
+    } else {
+      setSelectedSitterKeys([])
+    }
+  }
+
+  // 全部全選切換（商品 + 保母一起）
+  const handleSelectAll = (selectAll) => {
+    if (selectAll) {
+      setSelectedProductKeys(allProductKeys)
+      setSelectedSitterKeys(allSitterKeys)
+    } else {
+      setSelectedProductKeys([])
+      setSelectedSitterKeys([])
+    }
+  }
+
+  // 批次刪除（刪除勾選的商品和保母）
+  const onBatchRemove = () => {
     const nextItems = items.filter((item) => {
+      const key = generateItemKey(item)
       if (item.type === 'product') {
-        return !productIds.includes(item.product_id)
+        return !selectedProductKeys.includes(key)
       }
       if (item.type === 'sitter') {
-        return !sitterIds.includes(item.sitter_id)
+        return !selectedSitterKeys.includes(key)
       }
       return true
     })
+
     setItems(nextItems)
-  }
-
-  // 處理勾選商品
-  const [selectedProductIds, setSelectedProductIds] = useState([])
-  const [selectedSitterIds, setSelectedSitterIds] = useState([])
-
-  // 商品是否被勾選
-  const toggleSelectProduct = (productId) => {
-    setSelectedProductIds((prev) =>
-      prev.includes(productId)
-        ? prev.filter((id) => id !== productId)
-        : [...prev, productId]
-    )
-  }
-
-  // 保姆是否被勾選
-  const toggleSelectSitter = (sitterId) => {
-    setSelectedSitterIds((prev) =>
-      prev.includes(sitterId)
-        ? prev.filter((id) => id !== sitterId)
-        : [...prev, sitterId]
-    )
-  }
-
-  // 勾選所有商品ID
-  const setAllSelectedProductIds = (ids) => {
-    setSelectedProductIds(ids)
-  }
-
-  // 勾選所有保姆ID
-  const setAllSelectedSitterIds = (ids) => {
-    setSelectedSitterIds(ids)
-  }
-
-  // 是否全部選取（商品與保姆）
-  const isAllSelected =
-    selectedProductIds.length ===
-      items.filter((item) => item.type === 'product').length &&
-    selectedSitterIds.length ===
-      items.filter((item) => item.type === 'sitter').length &&
-    items.length > 0
-
-  // 切換全部選取 / 取消選取
-  const handleSelectAllChange = (selectAll) => {
-    if (selectAll) {
-      const allProductIds = items
-        .filter((item) => item.type === 'product')
-        .map((item) => item.product_id)
-
-      const allSitterIds = items
-        .filter((item) => item.type === 'sitter')
-        .map((item) => item.sitter_id)
-
-      setAllSelectedProductIds(allProductIds)
-      setAllSelectedSitterIds(allSitterIds)
-    } else {
-      setAllSelectedProductIds([])
-      setAllSelectedSitterIds([])
-    }
+    setSelectedProductKeys([])
+    setSelectedSitterKeys([])
   }
 
   // 使用陣列的迭代方法reduce(歸納, 累加)
   // 稱為"衍生,派生"狀態(derived state)，意即是狀態的一部份，或是由狀態計算得來的值
   const totalQty = items.reduce((acc, v) => acc + v.count, 0)
+
   const totalAmount = items.reduce((acc, item) => {
+    const key = generateItemKey(item)
     if (
-      (item.type === 'product' &&
-        selectedProductIds.includes(item.product_id)) ||
-      (item.type === 'sitter' && selectedSitterIds.includes(item.sitter_id))
+      (item.type === 'product' && selectedProductKeys.includes(key)) ||
+      (item.type === 'sitter' && selectedSitterKeys.includes(key))
     ) {
       return acc + item.count * item.price
     }
@@ -202,38 +272,42 @@ export function CartProvider({ children }) {
 
   // 第一次渲染完成後，從localStorage取出儲存購物車資料進行同步化
   useEffect(() => {
-    // 讀取localStorage資料(key為cart)，如果不存在會使用空陣列([])
-    const storedItems = JSON.parse(localStorage.getItem('cart')) || []
-    const storedSelectedProductIds =
-      JSON.parse(localStorage.getItem('selectedProductIds')) || []
-    const storedSelectedSitterIds =
-      JSON.parse(localStorage.getItem('selectedSitterIds')) || []
-    // 設定到購物車狀態中 localStroage (key=cart) ===> items
+    const safeParse = (key) => {
+      try {
+        const data = localStorage.getItem(key)
+        return data ? JSON.parse(data) : []
+      } catch {
+        return []
+      }
+    }
+
+    const storedItems = safeParse('cart')
+    const storedSelectedProductKeys = safeParse('selectedProductKeys')
+    const storedSelectedSitterKeys = safeParse('selectedSitterKeys')
+
     setItems(storedItems)
-    setSelectedProductIds(storedSelectedProductIds)
-    setSelectedSitterIds(storedSelectedSitterIds)
-    // 第一次渲染已完成
+    setSelectedProductKeys(storedSelectedProductKeys)
+    setSelectedSitterKeys(storedSelectedSitterKeys)
+
     setDidMount(true)
   }, [])
 
-  // 當狀態items有更動時，要進行和loalStorage寫入的同步化
+  // 當狀態 items 或勾選狀態有更動時，要進行和 localStorage 寫入的同步化
   useEffect(() => {
     // 排除第一次的渲染同步化工作
     if (didMount) {
-      // items ===>  localStroage (key=cart)
+      // items => localStorage (key=cart)
       localStorage.setItem('cart', JSON.stringify(items))
       localStorage.setItem(
         'selectedProductIds',
-        JSON.stringify(selectedProductIds)
+        JSON.stringify(selectedProductKeys)
       )
-      // console.log(items)
       localStorage.setItem(
         'selectedSitterIds',
-        JSON.stringify(selectedSitterIds)
+        JSON.stringify(selectedSitterKeys)
       )
     }
-    // eslint-disable-next-line
-  }, [items, selectedProductIds, selectedSitterIds])
+  }, [items, selectedProductKeys, selectedSitterKeys, didMount])
 
   return (
     <>
@@ -247,17 +321,20 @@ export function CartProvider({ children }) {
           onDecrease,
           onIncrease,
           onRemove,
-          onBatchRemove,
-          selectedProductIds,
-          selectedSitterIds,
-          setSelectedProductIds,
-          setSelectedSitterIds,
+          generateItemKey,
+          selectedProductKeys,
+          selectedSitterKeys,
+          setSelectedProductKeys,
+          setSelectedSitterKeys,
           toggleSelectProduct,
           toggleSelectSitter,
-          setAllSelectedProductIds,
-          setAllSelectedSitterIds,
+          handleSelectAllProducts,
+          handleSelectAllSitters,
+          handleSelectAll,
+          onBatchRemove,
+          isAllProductSelected,
+          isAllSitterSelected,
           isAllSelected,
-          handleSelectAllChange,
         }}
       >
         {children}

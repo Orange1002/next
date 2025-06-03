@@ -5,8 +5,7 @@ import styles from './member-Info.module.scss'
 import Image from 'next/image'
 import SectionTitle from '../../_components/SectionTitle/layout'
 import BtnCustom from '../../_components/BtnCustom/layout'
-import { HiOutlineEnvelope } from 'react-icons/hi2'
-import { LiaBirthdayCakeSolid } from 'react-icons/lia'
+import MobileMemberMenu from '../../_components/mobileLinks/layout'
 
 export default function MemberViewPage() {
   const [member, setMember] = useState(null)
@@ -15,6 +14,25 @@ export default function MemberViewPage() {
   const router = useRouter()
 
   const baseUrl = 'http://localhost:3005'
+
+  function Field({ label, value, icon, name, iconComponent, autoComplete }) {
+    return (
+      <div className={`${styles.inputField} d-flex align-items-center mb-3`}>
+        {icon && <i className={`${styles.icon} ${icon} fs-3 ms-3`}></i>}
+        {iconComponent && <span className="me-2">{iconComponent}</span>}
+        <input
+          type="text"
+          className="form-control"
+          placeholder={label}
+          value={value || ''}
+          name={name}
+          autoComplete={autoComplete}
+          readOnly
+          disabled
+        />
+      </div>
+    )
+  }
 
   useEffect(() => {
     fetch('http://localhost:3005/api/member/profile', {
@@ -52,102 +70,105 @@ export default function MemberViewPage() {
   return (
     <>
       <SectionTitle>會員基本資料</SectionTitle>
-      <div className={`${styles.block} mt-lg-3 px-4 py-3 h-100`}>
-        <div className="row g-0 h-100 w-100">
-          <div className="d-flex flex-column text-center align-items-center justify-content-evenly col-12 col-lg-6 order-1 order-lg-0 h-100 w-100">
-            {/* 頭貼區 */}
-            <div className="d-flex justify-content-center align-items-center flex-column mb-3">
-              <div
-                className={`rounded-circle border overflow-hidden d-flex justify-content-center align-items-center ${styles.memberImg}`}
-              >
-                <Image
-                  src={imageSrc}
-                  alt="使用者頭貼"
-                  className="object-fit-cover h-100 w-100"
-                  width={100}
-                  height={100}
-                  priority
-                />
-              </div>
-            </div>
-
-            {/* 資料欄位 */}
-            {/* 使用者名稱 */}
-            <div className={`${styles.inputField} mb-2`}>
-              <i className={`${styles.icon} bi bi-person fs-3`}></i>
-              <input
-                type="text"
-                placeholder="請輸入使用者名稱"
-                value={member.username || ''}
-                readOnly
+      <div className={`${styles.block} mt-3 p-4 h-100`}>
+        <div className="d-flex flex-column justify-content-evenly h-100 w-100">
+          {/* 頭貼區 */}
+          <div className="d-flex justify-content-center mb-4">
+            <div
+              className={`rounded-circle border overflow-hidden ${styles.memberImg}`}
+            >
+              <Image
+                src={imageSrc}
+                alt="使用者頭貼"
+                className="object-fit-cover"
+                width={100}
+                height={100}
+                priority
               />
             </div>
+          </div>
 
-            {/* 性別 */}
-            <div className={`${styles.inputField} mb-2`}>
-              <i className={`${styles.icon} bi bi-gender-ambiguous fs-3`}></i>
-              <input
-                type="text"
-                placeholder="性別"
+          <div className="row g-2 justify-content-center">
+            {/* 左欄 */}
+            <div className="col-12 col-lg-6 d-flex flex-column align-items-center">
+              <Field
+                label="使用者名稱"
+                value={member.username}
+                icon="bi bi-person"
+                name="username"
+                autoComplete="username"
+              />
+              <Field
+                label="真實姓名"
+                value={member.realname || '未填寫真實姓名'}
+                icon="bi-person-lines-fill"
+                name="realname"
+                autoComplete="realname"
+              />
+              <Field
+                label="性別"
                 value={
-                  member.gender ? (member.gender === 'male' ? '男' : '女') : ''
+                  member.gender === 'male'
+                    ? '男'
+                    : member.gender === 'female'
+                      ? '女'
+                      : '未填寫性別'
                 }
-                readOnly
+                icon="bi bi-gender-ambiguous"
+                name="gender"
+              />
+              <Field
+                label="電子信箱"
+                value={member.email}
+                icon="bi bi-envelope"
+                name="email"
+                autoComplete="email"
               />
             </div>
 
-            {/* Email */}
-            <div className={`${styles.inputField} mb-2`}>
-              <HiOutlineEnvelope className={`${styles.icon} ms-3 h-50 w-50`} />
-              <input
-                type="text"
-                placeholder="電子信箱"
-                value={member.email || ''}
-                readOnly
+            {/* 右欄 */}
+            <div className="col-12 col-lg-6 d-flex flex-column align-items-center">
+              <Field
+                label="手機號碼"
+                value={member.phone || '未填寫手機號碼'}
+                icon="bi bi-phone"
+                name="phone"
+                autoComplete="phone"
+              />
+              <Field
+                label="生日"
+                value={member.birth_date || '未填寫生日'}
+                icon="bi bi-cake"
+                name="birth_date"
+                autoComplete="birthday"
+              />
+              <Field
+                label="預設地址"
+                value={member.address || '未填寫預設住址'}
+                icon="bi bi-geo-alt"
+                name="address"
+                autoComplete="address"
               />
             </div>
+          </div>
 
-            {/* 手機號碼 */}
-            <div className={`${styles.inputField} mb-2`}>
-              <i className={`${styles.icon} bi bi-phone fs-3`}></i>
-              <input
-                type="text"
-                placeholder="請輸入手機號碼"
-                value={member.phone || ''}
-                readOnly
-              />
-            </div>
-
-            {/* 生日 */}
-            <div className={`${styles.inputField} mb-2`}>
-              <LiaBirthdayCakeSolid
-                className={`${styles.icon} ms-3 h-50 w-50`}
-              />
-              <input
-                type="text"
-                placeholder="生日"
-                value={member.birth_date || ''}
-                readOnly
-              />
-            </div>
-
-            {/* 編輯按鈕 */}
-            <div className="mt-4">
-              <BtnCustom
-                onClick={() => {
-                  if (member?.id) {
-                    router.push(`/member/profile/info/edit/${member.id}`)
-                  } else {
-                    alert('找不到會員 ID')
-                  }
-                }}
-              >
-                編輯資料
-              </BtnCustom>
-            </div>
+          {/* 編輯按鈕 */}
+          <div className="d-flex justify-content-center">
+            <BtnCustom
+              onClick={() => {
+                if (member?.id) {
+                  router.push(`/member/profile/info/edit/${member.id}`)
+                } else {
+                  alert('找不到會員 ID')
+                }
+              }}
+            >
+              編輯資料
+            </BtnCustom>
           </div>
         </div>
       </div>
+      <MobileMemberMenu />
     </>
   )
 }

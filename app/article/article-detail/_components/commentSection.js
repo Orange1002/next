@@ -1,7 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 
-
 const CommentSection = ({ articleId }) => {
   const [comments, setComments] = useState([])
   const [newComment, setNewComment] = useState('')
@@ -54,12 +53,15 @@ const CommentSection = ({ articleId }) => {
     try {
       setPosting(true)
       setErrorMsg('')
-      const res = await fetch(`http://localhost:3005/api/article/reply/comments`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ article_id: articleId, content: newComment }),
-      })
+      const res = await fetch(
+        `http://localhost:3005/api/article/reply/comments`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ article_id: articleId, content: newComment }),
+        }
+      )
 
       if (!res.ok) {
         const error = await res.json()
@@ -91,16 +93,19 @@ const CommentSection = ({ articleId }) => {
     try {
       setPosting(true)
       setErrorMsg('')
-      const res = await fetch(`http://localhost:3005/api/article/reply/comments`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
-          article_id: articleId,
-          parent_id: parentId,
-          content: replyContent,
-        }),
-      })
+      const res = await fetch(
+        `http://localhost:3005/api/article/reply/comments`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            article_id: articleId,
+            parent_id: parentId,
+            content: replyContent,
+          }),
+        }
+      )
 
       if (!res.ok) {
         const error = await res.json()
@@ -134,7 +139,10 @@ const CommentSection = ({ articleId }) => {
         )}
 
         {/* 留言輸入框 */}
-        <form onSubmit={handleAddComment} className="comment-footer d-flex gap-2">
+        <form
+          onSubmit={handleAddComment}
+          className="comment-footer d-flex gap-2"
+        >
           <textarea
             className="form-control"
             placeholder="留下您的想法 🐶 ..."
@@ -143,7 +151,11 @@ const CommentSection = ({ articleId }) => {
             rows={3}
             disabled={posting}
           />
-          <button type="submit" className="btn btn-primary replay-btn" disabled={posting}>
+          <button
+            type="submit"
+            className="btn btn-primary replay-btn"
+            disabled={posting}
+          >
             {posting ? '送出中...' : '送出'}
           </button>
         </form>
@@ -173,7 +185,10 @@ const CommentSection = ({ articleId }) => {
                 </div>
 
                 {/* 回覆輸入框 */}
-                <form onSubmit={(e) => handleAddReply(comment.id, e)} className="mt-2 reply-box">
+                <form
+                  onSubmit={(e) => handleAddReply(comment.id, e)}
+                  className="mt-2 reply-box"
+                >
                   <div className="mb-2">
                     <input
                       type="text"
@@ -189,7 +204,11 @@ const CommentSection = ({ articleId }) => {
                       disabled={posting}
                     />
                   </div>
-                  <button type="submit" className="btn btn-sm btn-primary replay-btn mt-1" disabled={posting}>
+                  <button
+                    type="submit"
+                    className="btn btn-sm btn-primary replay-btn mt-1"
+                    disabled={posting}
+                  >
                     {posting ? '送出中...' : '送出'}
                   </button>
                 </form>
@@ -203,7 +222,6 @@ const CommentSection = ({ articleId }) => {
 }
 
 export default CommentSection
-
 
 // 'use client'
 // import React, { useState, useEffect } from 'react'

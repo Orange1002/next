@@ -1,0 +1,193 @@
+.adminContainer {
+  padding: 120px 60px;
+  background-color: #1f1f1f; // ⬅️ 暗背景
+  color: #f3f3f3;
+  font-family: 'Kiwi Maru', serif;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+    color: #fff;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+
+    input[type='text'],
+    select {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.95rem;
+      border: 1px solid #929292;
+      border-radius: 6px;
+      font-family: inherit;
+      background-color: #2a2a2a;
+      color: #f3f3f3;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 0.95rem;
+      background-color: #cc543a;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: #b9442f;
+      }
+    }
+  }
+}
+
+.productTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  text-align: center;
+  overflow-x: auto;
+
+  th,
+  td {
+    padding: 12px 16px;
+    border: 1px solid #444;
+    vertical-align: middle;
+    text-align: center;
+    color: #f3f3f3;
+  }
+
+  th {
+    background-color: #2a2a2a;
+    font-weight: bold;
+    color: #fff;
+  }
+
+  td img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.08);
+  }
+
+  tr:nth-child(even) {
+    background-color: #262626;
+  }
+
+  tr:hover {
+    background-color: #333;
+    transition: background-color 0.2s ease;
+  }
+}
+
+.btnContainer {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.editBtn,
+.deleteBtn {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.editBtn {
+  background-color: #ff8a5c;
+  color: #fff;
+
+  &:hover {
+    background-color: #ff7043;
+  }
+}
+
+.deleteBtn {
+  background-color: #cc543a;
+  color: #fff;
+
+  &:hover {
+    background-color: #b9442f;
+  }
+}
+
+.valid {
+  background-color: #66bb6a;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.3rem 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #4caf50;
+  }
+}
+
+.invalid {
+  background-color: #757575;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.3rem 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #616161;
+  }
+}
+
+// 🌟 手機版優化
+@media (max-width: 768px) {
+  .adminContainer {
+    padding: 40px 20px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .productTable {
+    display: block;
+    overflow-x: auto;
+
+    table {
+      min-width: 700px;
+    }
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: flex-start;
+
+    input,
+    select,
+    button {
+      width: 100%;
+    }
+  }
+}
