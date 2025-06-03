@@ -102,7 +102,11 @@ export default function MySitterCard() {
                     className="d-block product-card-img position-relative"
                   >
                     <Image
-                      src={sitter.avatar_url || '/no-image.png'}
+                      src={
+                        sitter?.avatar_url
+                          ? `http://localhost:3005/${sitter.avatar_url}`
+                          : '/images/default-avatar.png'
+                      }
                       alt={sitter.name}
                       fill
                       className="w-100"

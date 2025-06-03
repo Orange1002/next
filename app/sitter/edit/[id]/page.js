@@ -28,11 +28,36 @@ export default function EditSitterPage() {
   const [galleryPreviews, setGalleryPreviews] = useState([])
 
   const [loading, setLoading] = useState(false)
-  const defaultAvatar = '/siiter/default-avatar.png' // 放在 public 資料夾
+  const defaultAvatar = '/sitter/default-avatar.png'
   const avatarSrc =
     (typeof avatarPreview === 'string' && avatarPreview.trim()) ||
     (typeof avatarUrl === 'string' && avatarUrl.trim()) ||
     defaultAvatar
+
+  const taiwanCities = [
+    '台北市',
+    '新北市',
+    '基隆市',
+    '宜蘭縣',
+    '桃園市',
+    '新竹市',
+    '新竹縣',
+    '苗栗縣',
+    '台中市',
+    '彰化縣',
+    '南投縣',
+    '雲林縣',
+    '嘉義市',
+    '嘉義縣',
+    '台南市',
+    '高雄市',
+    '屏東縣',
+    '台東縣',
+    '花蓮縣',
+    '澎湖縣',
+    '金門縣',
+    '連江縣',
+  ]
 
   useEffect(() => {
     const fetchSitter = async () => {
@@ -57,7 +82,6 @@ export default function EditSitterPage() {
           })
           setForm(cleanData)
 
-          // ✅ 加入判斷是否為完整 http(s) 開頭網址
           const avatar = data.avatar_url || ''
           setAvatarUrl(
             avatar.startsWith('http')
@@ -169,7 +193,6 @@ export default function EditSitterPage() {
       setLoading(false)
     }
   }
-  console.log({ avatarPreview, avatarUrl, avatarSrc })
 
   return (
     <div className="container py-5">
@@ -178,25 +201,79 @@ export default function EditSitterPage() {
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="border rounded p-4 mb-4 bg-light">
           <h5 className="mb-3">📄 基本資料</h5>
-          {[
-            ['name', '姓名'],
-            ['area', '服務地區'],
-            ['service_time', '服務時段'],
-            ['experience', '經歷'],
-            ['introduction', '自我介紹'],
-            ['price', '收費'],
-          ].map(([field, label]) => (
-            <div className="mb-3" key={field}>
-              <label className="form-label">{label}</label>
-              <input
-                type="text"
-                name={field}
-                className="form-control"
-                value={form[field] ?? ''}
-                onChange={handleChange}
-              />
-            </div>
-          ))}
+
+          <div className="mb-3">
+            <label className="form-label">姓名</label>
+            <input
+              type="text"
+              name="name"
+              className="form-control"
+              value={form.name}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">服務地區</label>
+            <select
+              className="form-control"
+              name="area"
+              value={form.area}
+              onChange={handleChange}
+            >
+              <option value="">請選擇地區</option>
+              {taiwanCities.map((city) => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">服務時段</label>
+            <input
+              type="text"
+              name="service_time"
+              className="form-control"
+              value={form.service_time}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">經歷</label>
+            <input
+              type="text"
+              name="experience"
+              className="form-control"
+              value={form.experience}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">自我介紹</label>
+            <input
+              type="text"
+              name="introduction"
+              className="form-control"
+              value={form.introduction}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">收費</label>
+            <input
+              type="number"
+              name="price"
+              className="form-control"
+              min="0"
+              value={form.price}
+              onChange={handleChange}
+            />
+          </div>
         </div>
 
         <div className="border rounded p-4 mb-4">
@@ -215,47 +292,10 @@ export default function EditSitterPage() {
             onChange={handleAvatarChange}
           />
         </div>
-        {/* <div className="border rounded p-4 mb-4">
-          <h5 className="mb-3">📸 其他圖片</h5>
-          <div className="d-flex flex-wrap gap-3 mb-2">
-            {galleryImages
-              .filter(
-                (img) => typeof img === 'string' && img.startsWith('http')
-              )
-              .map((img, i) => (
-                <Image
-                  key={i}
-                  src={img}
-                  alt={`gallery-${i}`}
-                  width={120}
-                  height={120}
-                  style={{ height: 'auto', borderRadius: '6px' }}
-                />
-              ))}
-            {galleryPreviews
-              .filter((src) => typeof src === 'string')
-              .map((src, i) => (
-                <Image
-                  key={`preview-${i}`}
-                  src={src}
-                  alt={`預覽-${i}`}
-                  width={120}
-                  height={120}
-                  style={{ height: 'auto', borderRadius: '6px' }}
-                />
-              ))}
-          </div>
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            className="form-control"
-            onChange={handleGalleryChange}
-          />
-        </div> */}
+
         <div className="d-flex justify-content-between">
           <button
-            className="btn bgc-primary px-4"
+            className="btn bgc-primary px-4 text-white"
             type="submit"
             disabled={loading}
           >

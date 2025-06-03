@@ -13,10 +13,10 @@ export default function StatisticsCard() {
     <div className="d-flex justify-content-between gap-4 mt-3 px-3">
       <div className="flex-fill">
         <h3 className=" fw-bold fs-2 lh-1">4.8</h3>
-        <p className=" fs-6 lh-base">1000+ reviews on TripAdvisor.</p>
+        <p className=" fs-6 lh-base">1000+ reviews on Bark_Bijou.</p>
       </div>
       <div className="flex-fill">
-        <h3 className=" fw-bold fs-2 lh-1">16M</h3>
+        <h3 className=" fw-bold fs-2 lh-1">10M</h3>
         <p className=" fs-6 lh-base">Happy customers</p>
       </div>
     </div>

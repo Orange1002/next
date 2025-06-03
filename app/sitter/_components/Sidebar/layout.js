@@ -16,7 +16,7 @@ export default function Sidebar() {
   if (!member) return null // 或顯示 loading
   return (
     <aside
-      className={`col-2 d-none d-lg-flex flex-column p-3 mt-5 ${styles.aside}`}
+      className={`col-2 d-none d-lg-flex flex-column p-3 mt-3 ${styles.aside}`}
     >
       {/* 頭貼 */}
       <div className="d-flex justify-content-center align-items-center flex-column mb-4">

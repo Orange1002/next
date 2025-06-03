@@ -3,7 +3,7 @@
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 // import Breadcrumb from './_components/BreadCrumb/layout'
-import Sidebar from '../../_components/Sidebar/layout'
+import Sidebar from '../_components/Sidebar/layout'
 
 const breadcrumbMap = {
   '/member': '會員中心',
@@ -106,16 +106,16 @@ export default function MemberLayout({ children }) {
   return (
     <main>
       {/* <Breadcrumb items={generateBreadcrumbItems()} /> */}
-      <div className="container mt-4">
+      <div className="container mt-3">
         <button
           onClick={() => router.push('/sitter')}
-          className="btn btn-outline-secondary  ms-3 mt-3"
+          className="btn btn-outline-secondary mb-2 ms-3 mt-2"
         >
           ← 返回
         </button>
         <div className="row g-0 mb-5 justify-content-end">
           <Sidebar />
-          <section className="col-12 col-lg-10 ps-lg-4  d-flex flex-column justify-content-start">
+          <section className="col-12 col-lg-10 ps-lg-4 mt-lg-5 d-flex flex-column justify-content-start">
             {children}
           </section>
         </div>

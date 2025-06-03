@@ -66,7 +66,11 @@ export default function SitterBookingPage() {
         {/* 頭像 */}
         <div className="text-center">
           <Image
-            src={sitter.avatar_url || '/images/default-avatar.png'}
+            src={
+              sitter?.avatar_url
+                ? `http://localhost:3005/${sitter.avatar_url}`
+                : '/images/default-avatar.png'
+            }
             alt="Pet Sitter Profile"
             className="rounded-circle mb-3"
             width={120}
@@ -191,7 +195,7 @@ export default function SitterBookingPage() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
-          body: JSON.stringify({ sitterId, startDate, endDate, petId: dogId }),
+          body: JSON.stringify({ startDate, endDate, petId: dogId }),
         }
       )
 
@@ -372,7 +376,7 @@ export default function SitterBookingPage() {
             </div>
 
             <button
-              className="btn bgc-primary"
+              className="btn bgc-primary text-white"
               type="submit"
               disabled={loading}
             >

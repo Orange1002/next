@@ -8,7 +8,7 @@ import '../_styles/style-sitter-list.scss'
 export default function ComponentsSectionIntro(props) {
   return (
     <div
-      className="container py-5 text-center"
+      className="container py-5 text-center "
       style={{ fontFamily: 'Kiwi Maru' }}
     >
       <div className="text-center mb-5">
@@ -19,10 +19,10 @@ export default function ComponentsSectionIntro(props) {
         </div>
       </div>
 
-      <div className="d-flex flex-column mt-5 w-100" style={{ maxWidth: 1166 }}>
+      <div className="d-flex flex-column mt-5 w-100" style={{ maxWidth: 1280 }}>
         {/* 區塊 1 */}
         <div className="row w-100">
-          <div className="col-md-6 px-4 text-dark">
+          <div className="col-md-6 px-3 text-dark">
             <h2 className="fw-medium text-uppercase fs-2 mb-4">
               簡單預約，快速上手
             </h2>
@@ -36,7 +36,7 @@ export default function ComponentsSectionIntro(props) {
               alt="快速預約"
               width={640}
               height={285}
-              className="img-fluid"
+              className="img-fluid rounded"
               style={{ width: '100%', height: 'auto' }}
               priority
             />
@@ -51,7 +51,7 @@ export default function ComponentsSectionIntro(props) {
               alt="專業服務"
               width={640}
               height={285}
-              className="img-fluid"
+              className="img-fluid rounded"
               style={{ width: '100%', height: 'auto' }}
               priority
             />
@@ -82,7 +82,7 @@ export default function ComponentsSectionIntro(props) {
               alt="隨時關愛"
               width={640}
               height={285}
-              className="img-fluid"
+              className="img-fluid rounded"
               style={{ width: '100%', height: 'auto' }}
               priority
             />
@@ -92,7 +92,7 @@ export default function ComponentsSectionIntro(props) {
 
       <div className="container d-flex justify-content-center mb-5">
         <Link
-          className="text-center bgc-primary text-decoration-none text-white fw-bold fs-3 px-5 py-4 mt-5 border rounded  mx-auto"
+          className="text-center bgc-primary text-decoration-none text-white fw-bold fs-3 px-5 py-4 mt-5 border rounded  mx-auto btn-reserve"
           href="/sitter/sitter-list"
           style={{ maxWidth: 538, letterSpacing: '0.88rem' }}
         >
