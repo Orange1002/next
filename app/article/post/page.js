@@ -13,10 +13,16 @@ import '../post/_style/post.scss'
 // import { Pagination } from 'react-bootstrap'
 
 const images = [
-  '/article_img/d1e21f1a-4730-472b-8531-51b3c7b7890a.jpg',
-  '/article_img/istockphoto-1300658241-612x612.jpg',
+  '/article_img/IMG_8676-scaled-1.jpg',
+  '/article_img/main_img_202011.jpg',
+  // '/article_img/news-1.jpg',
 ]
 
+const breadcrumbItems = [
+  { name: '首頁', href: '/' },
+  { name: '文章', href: '/article' },
+  { name: '發表新文章', href: '/article/post' },
+]
 function ArticleHeaderPhoto() {
   const currentIndex = useHeaderPhoto(images.length)
 
@@ -39,30 +45,10 @@ function ArticleHeaderPhoto() {
       <div className="container desktop mb-5">
         <div className="row">
           <div className="col-6">
-            <Breadcrumb />
+            <Breadcrumb items={breadcrumbItems} />
           </div>
 
-          <div className="col-6 d-flex justify-content-end">
-            <form
-              className="d-flex card-search ms-auto gap-2 mt-5"
-              role="search"
-            >
-              <div className="input-group">
-                <input
-                  className="form-control rounded-pill"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                />
-                <button
-                  className="btn position-absolute top-50 end-0 translate-middle-y me-3 p-0 border-0 bg-transparent"
-                  type="submit"
-                >
-                  <i className="bi bi-search"></i>
-                </button>
-              </div>
-            </form>
-          </div>
+          <div className="col-6 d-flex justify-content-end"></div>
         </div>
         <div className="mt-5 row">
           <div className="col-2">
@@ -72,6 +58,10 @@ function ArticleHeaderPhoto() {
             <PostArticle />
           </div>
         </div>
+      </div>
+      {/* 手機板 */}
+      <div className="container mobile mb-5">
+        <PostArticle />
       </div>
     </>
   )

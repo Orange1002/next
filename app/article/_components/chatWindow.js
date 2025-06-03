@@ -37,7 +37,7 @@ export default function ChatWindow({ onClose, currentUser }) {
 
     socket.on('connect_error', (err) => {
       setIsConnected(false)
-      let errorMsg = 'Socket 連線錯誤'
+      let errorMsg = '連線錯誤'
       if (err.message) errorMsg += `：${err.message}`
       setErrorMessage(errorMsg)
     })

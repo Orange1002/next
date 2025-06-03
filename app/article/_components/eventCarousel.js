@@ -53,7 +53,7 @@ const EventCarousel = () => {
           <div className="event-title d-flex align-items-center">最新活動</div>
           <div className="d-flex me-5">
             <p className="more">More</p>
-            <div
+            {/* <div
               className="icon-link d-flex justify-content-center align-items-center rounded-circle"
               role="button"
               tabIndex={0}
@@ -65,7 +65,7 @@ const EventCarousel = () => {
               style={{ cursor: 'pointer', width: '32px', height: '32px' }}
             >
               <AiOutlineRightCircle className="icon" />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

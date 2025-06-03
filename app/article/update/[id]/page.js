@@ -10,13 +10,15 @@ import '../../_style/article.scss'
 import '../_style/edit.scss'
 
 const images = [
-  '/article_img/d1e21f1a-4730-472b-8531-51b3c7b7890a.jpg',
-  '/article_img/istockphoto-1300658241-612x612.jpg',
+  '/article_img/IMG_8676-scaled-1.jpg',
+  '/article_img/main_img_202011.jpg',
+  // '/article_img/news-1.jpg',
 ]
+
 const breadcrumbItems = [
   { name: '首頁', href: '/' },
   { name: '文章', href: '/article' },
-  { name: '發表新文章', href: '/article/update' },
+  { name: '編輯文章', href: '/article/update' },
 ]
 function ArticleHeaderPhoto() {
   const currentIndex = useHeaderPhoto(images.length)
@@ -73,6 +75,10 @@ function ArticleHeaderPhoto() {
             <PostArticle />
           </div>
         </div>
+      </div>
+      {/* 手機板 */}
+      <div className="container mobile mb-5">
+        <PostArticle />
       </div>
     </>
   )
