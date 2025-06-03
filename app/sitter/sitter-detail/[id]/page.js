@@ -9,51 +9,77 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import { Pagination } from 'swiper/modules'
+import Swal from 'sweetalert2'
 import '../../_styles/sitter-detail.module.css'
 
 export default function SitterDetailPage() {
   const [sitter, setSitter] = useState()
   const [rating, setRating] = useState(0)
   const [comment, setComment] = useState('')
-  const [canReview, setCanReview] = useState(false)
+  const [reviewStatus, setReviewStatus] = useState('ok') // ok | unauthorized | already
   const [isClient, setIsClient] = useState(false)
   const { id } = useParams()
 
   useEffect(() => {
     if (!id) return
-
     setIsClient(true)
 
     const fetchData = async () => {
-      const res = await fetch(`http://localhost:3005/api/sitter/${id}`)
+      const res = await fetch(`http://localhost:3005/api/sitter/${id}`, {
+        credentials: 'include',
+      })
       const data = await res.json()
       setSitter(data)
-      setCanReview(data?.canReview || true)
+      setReviewStatus(data?.reviewStatus ?? 'unauthorized')
     }
 
     fetchData()
   }, [id])
 
   const handleSubmit = async () => {
-    if (!rating || !comment.trim()) return alert('請填寫評分與留言')
+    if (!rating || !comment.trim()) {
+      Swal.fire('請注意', '請填寫評分與留言', 'warning')
+      return
+    }
 
-    const res = await fetch(`http://localhost:3005/api/sitter/${id}/reviews`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ rating, comment }),
-    })
+    try {
+      const res = await fetch(
+        `http://localhost:3005/api/sitter/${id}/reviews`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ rating, comment }),
+        }
+      )
 
-    const result = await res.json()
-    if (res.ok) {
-      alert('評論提交成功')
-      setRating(0)
-      setComment('')
-      setCanReview(false)
-      const res = await fetch(`http://localhost:3005/api/sitter/${id}`)
-      const data = await res.json()
-      setSitter(data)
-    } else {
-      alert(result.message || '提交失敗，請稍後再試')
+      const result = await res.json()
+
+      if (res.ok) {
+        Swal.fire('成功!', '評論提交成功', 'success')
+        setRating(0)
+        setComment('')
+        const refreshed = await fetch(
+          `http://localhost:3005/api/sitter/${id}`,
+          {
+            credentials: 'include',
+          }
+        )
+        const data = await refreshed.json()
+        setSitter(data)
+        setReviewStatus(data?.reviewStatus ?? 'unauthorized')
+      } else if (res.status === 403) {
+        Swal.fire('無法提交', '您尚未預約過這位保母，無法提交評論', 'info')
+      } else if (res.status === 409) {
+        Swal.fire('無法提交', '您已經評論過這位保母，無法再次提交', 'info')
+      } else if (res.status === 400) {
+        Swal.fire('請注意', '請填寫正確的評分與留言', 'warning')
+      } else {
+        Swal.fire('錯誤', result.message || '提交失敗，請稍後再試', 'error')
+      }
+    } catch (err) {
+      console.error('submit error:', err)
+      Swal.fire('錯誤', '發生未知錯誤，請稍後再試', 'error')
     }
   }
 
@@ -68,10 +94,14 @@ export default function SitterDetailPage() {
 
       {/* 基本資訊區 */}
       <article className="container-sm py-5" style={{ maxWidth: '1080px' }}>
-        <div className="row g-5 align-items-center justify-content-center ">
+        <div className="row g-5 align-items-center justify-content-center">
           <figure className="col-12 col-lg-6 p-5">
             <Image
-              src={sitter?.avatar_url || '/sitter/default-avatar.png'}
+              src={
+                sitter?.avatar_url
+                  ? `http://localhost:3005/${sitter.avatar_url}`
+                  : '/images/default-avatar.png'
+              }
               alt="Pet Sitter Profile"
               className="img-fluid rounded-5 justify-content-center"
               width={100}
@@ -81,12 +111,11 @@ export default function SitterDetailPage() {
           </figure>
 
           <section className="col-12 col-lg-6 profile-height border-bottom border-2">
-            <h1 className="display-6">{sitter?.name}</h1>
+            <h1 className="fs-2">{sitter?.name}</h1>
             <h2 className="mt-4 fs-5 text-secondary fw-medium">
               服務地區 : {sitter?.area}
             </h2>
 
-            {/* 評分 */}
             <section className="d-flex flex-column gap-2 m-3">
               <div className="d-flex align-items-center gap-2">
                 <span style={{ fontSize: '1.25rem', color: '#f5b301' }}>
@@ -104,7 +133,6 @@ export default function SitterDetailPage() {
               </p>
             </section>
 
-            {/* 自我介紹與經歷 */}
             <section className="mt-4">
               <h2 className="fs-5 mb-2">自我介紹</h2>
               <p className="text-secondary">{sitter?.introduction}</p>
@@ -112,10 +140,9 @@ export default function SitterDetailPage() {
               <p className="text-secondary">{sitter?.experience}</p>
             </section>
 
-            {/* 服務時段與預約 */}
             <div className="row mt-4">
               <section className="col-12 col-md-6">
-                <h3 className="bg-warning text-white p-2 rounded service-badge">
+                <h3 className="bgc-primary text-white p-2 rounded service-badge">
                   服務時段
                 </h3>
                 <p className="fs-5 text-secondary m-3">
@@ -140,7 +167,7 @@ export default function SitterDetailPage() {
         <h2 className="reviews-title mb-3 fs-5">
           用戶評論 [{sitter?.reviews?.length || 0}]
         </h2>
-        {isClient && sitter?.reviews?.length > 0 && (
+        {isClient && sitter?.reviews?.length > 0 ? (
           <Swiper
             className="w-100 overflow-visible"
             modules={[Pagination]}
@@ -181,34 +208,34 @@ export default function SitterDetailPage() {
               </SwiperSlide>
             ))}
           </Swiper>
+        ) : (
+          <div className="text-muted text-center py-4">目前尚無評論</div>
         )}
       </section>
 
       {/* 留下評論區塊 */}
-      {canReview && (
-        <section
-          className="container my-5 p-5 border rounded bg-white"
-          style={{ maxWidth: '1080px' }}
-        >
-          <h3 className="mb-3">留下您的評價</h3>
-          <StarRating
-            value={rating}
-            onChange={setRating}
-            fillColor="#f5b301"
-            emptyColor="#ddd"
-          />
-          <textarea
-            className="form-control my-3"
-            rows="4"
-            placeholder="請輸入您的心得..."
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          />
-          <button className="btn btn-primary" onClick={handleSubmit}>
-            提交評價
-          </button>
-        </section>
-      )}
+      <section
+        className="container my-5 p-5 border rounded bg-white"
+        style={{ maxWidth: '1080px' }}
+      >
+        <h3 className="mb-3">留下您的評價</h3>
+        <StarRating
+          value={rating}
+          onChange={setRating}
+          fillColor="#f5b301"
+          emptyColor="#ddd"
+        />
+        <textarea
+          className="form-control my-3"
+          rows="4"
+          placeholder="請輸入您的心得..."
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        />
+        <button className="btn bgc-primary text-white" onClick={handleSubmit}>
+          提交評價
+        </button>
+      </section>
     </main>
   )
 }

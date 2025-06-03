@@ -6,10 +6,11 @@ import Swal from 'sweetalert2'
 
 import PetCareServices from './_components/hero-section/PetCareServices'
 import ComponentsSectionIntro from './_components/section-intro'
-import InputDesign from './_components/carousel/InputDesign'
 import ComponentsCustomerFeedback from './_components/customer-feedback'
 import CommonQuestions from './_components/CommonQuestions/CommonQuestions'
 import ReviewsSection from './reviewsSection/page'
+import MySitterCard from './_components/carousel-sitter/page'
+import './_styles/style-sitter-list.scss'
 
 export default function SitterPage() {
   const router = useRouter()
@@ -67,24 +68,24 @@ export default function SitterPage() {
         <div className="d-flex justify-content-end gap-2">
           {!hasSitter && (
             <button
-              className="btn btn-outline-primary"
+              className="btn btn-outline-dark"
               onClick={() => router.push('/sitter/create')}
             >
               📝 申請成為保母
             </button>
           )}
           <button
-            className="btn btn-outline-primary"
+            className="btn btn-outline-dark"
             onClick={handleSwitchToSitter}
           >
-            🔁 切換為保母模式
+            🔁 切換為保母頁面
           </button>
         </div>
 
         <PetCareServices />
         <ComponentsSectionIntro />
         <ReviewsSection />
-        <InputDesign />
+        <MySitterCard></MySitterCard>
         <ComponentsCustomerFeedback />
         <CommonQuestions />
       </div>

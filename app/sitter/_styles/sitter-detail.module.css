@@ -7,11 +7,11 @@
 .half-star-width {
   width: 12px;
 }
-/* .service-badge {
-  min-height: 53px;
-  width: 121px;
+
+.bgc-primary {
+  background-color: #ed784a;
 }
-.gallery-img {
-  aspect-ratio: 1.29;
-  object-fit: contain;
-} */
+.ccc-primary {
+  color: #ed784a;
+  outline: #ed784a;
+}

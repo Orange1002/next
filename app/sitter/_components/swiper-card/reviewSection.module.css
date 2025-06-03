@@ -1,17 +1,18 @@
 /* === 區塊樣式 === */
 .reviewsSection {
   box-sizing: border-box;
-  background-color: #fb966e;
+  /* background-color: #fb966e; */
   border-radius: 25px;
   width: 100%;
   padding: 20px;
+  border: 5px solid #ed784a;
 }
 
 /* 標題樣式 */
 .sectionTitle {
-  color: #fff;
+  /* color: #fff; */
   font-family: 'Inter', sans-serif;
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 700;
   line-height: 45px;
 }
@@ -23,11 +24,11 @@
 }
 
 .swiper-slide {
-  background: #fb966e;
+  background: #ed784a;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  font-size: 16px;
   font-weight: bold;
   color: white;
   border-radius: 15px;
