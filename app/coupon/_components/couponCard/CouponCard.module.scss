@@ -35,6 +35,7 @@ width: 90%;
 
 .couponContent {
   display: flex;
+  position: relative;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
@@ -155,5 +156,29 @@ width: 90%;
 
   .couponBody {
     gap: 2px;
+  }
+}
+
+.couponFooter {
+  display: flex;
+  position: absolute;
+  justify-content: flex-end;
+  padding: 0.5rem 1rem;
+  right: 7px;
+  bottom: 10px;
+}
+
+.useButton {
+  background-color: #ff8a5c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 1rem;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #cc543a;
   }
 }

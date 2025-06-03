@@ -23,7 +23,6 @@ export default function LoginLayout({ children }) {
     }
   }, [isAuth, isReady, hasRefreshed, router])
 
-  if (!isReady || !hasRefreshed) return <div>載入中...</div>
   if (isAuth) return null
 
   return <div className="login-layout">{children}</div>

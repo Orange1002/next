@@ -4,13 +4,13 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import DogForm from '../_components/DogForm/layout'
 import SectionTitle from '../../../_components/SectionTitle/layout'
+import Swal from 'sweetalert2'
 
 export default function DogAddPage() {
   const router = useRouter()
 
   const handleSubmit = async (formData) => {
     try {
-      // 建立 FormData 物件
       const data = new FormData()
       data.append('name', formData.name)
       data.append('age', formData.age)
@@ -21,7 +21,6 @@ export default function DogAddPage() {
         data.append('dog_images', file)
       })
 
-      // 呼叫新增 API
       const res = await fetch('http://localhost:3005/api/member/dogs/add', {
         method: 'POST',
         body: data,
@@ -31,14 +30,35 @@ export default function DogAddPage() {
       const result = await res.json()
 
       if (res.ok && result.status === 'success') {
-        alert('新增成功！')
+        await Swal.fire({
+          icon: 'success',
+          title: '新增成功！',
+          showConfirmButton: false,
+          timer: 1500,
+          background: '#e9f7ef', // 淡綠背景
+          color: '#2e7d32', // 深綠文字
+        })
         router.push('/member/profile/dogs')
       } else {
-        alert('新增失敗：' + (result.message || '未知錯誤'))
+        Swal.fire({
+          icon: 'error',
+          title: '新增失敗',
+          text: result.message || '未知錯誤',
+          confirmButtonColor: '#d33',
+          background: '#fdecea', // 淡紅背景
+          color: '#b71c1c', // 深紅文字
+        })
       }
     } catch (error) {
       console.error(error)
-      alert('新增失敗，請稍後再試')
+      Swal.fire({
+        icon: 'error',
+        title: '新增失敗',
+        text: '請稍後再試',
+        confirmButtonColor: '#d33',
+        background: '#fdecea', // 淡紅背景
+        color: '#b71c1c', // 深紅文字
+      })
     }
   }
 

@@ -8,7 +8,7 @@
   width: 225px;
   height: 50px;
   border: 1px solid #ed784a;
-  background: #fff;
+  background: transparent;
   color: #ed784a;
   padding: 12px 75px;
   text-decoration: none;
@@ -26,21 +26,21 @@
 }
 
 .scroll-btn {
+  all: unset;
   position: absolute;
   top: 40%;
   z-index: 10;
-  background: rgba(255, 255, 255, 0.5); // 初始比較透明
-  border: none;
-  width: 40px;
-  height: 40px;
   border-radius: 50%;
-  font-size: 20px;
+  border: none;
+  background: transparent;
+  font-size: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: opacity 0.3s ease; // 加入平滑過渡
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // 可加一點陰影強調按鈕層次
-  opacity: 0.5; // 初始半透明
+  transition: opacity 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #818181;
+  opacity: 0.5;
   cursor: pointer;
 }
 
@@ -70,4 +70,23 @@
 /* IE 及 Edge（舊版） */
 .scrollContainer {
   -ms-overflow-style: none;
+}
+
+@media (max-width: 768px) {
+  .scrollContainer {
+    flex-direction: column !important;
+    overflow-x: hidden !important;
+    overflow-y: visible;
+    align-items: center; // 可選，看是否要置中
+  }
+
+  .scroll-btn {
+    display: none !important;
+  }
+
+  // .dog-card {
+  //   width: 100% !important;
+  //   max-width: 400px; // 自訂寬度
+  //   margin: 0 auto; // 水平置中
+  // }
 }

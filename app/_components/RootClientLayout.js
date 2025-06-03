@@ -39,10 +39,6 @@ export default function RootClientLayout({ children }) {
     checkLogin()
   }, [pathname])
 
-  if (isAuthenticated === null) {
-    return null
-  }
-
   const hiddenRoutes = ['/member/login', '/forgetpassword']
 
   const hideLayout = hiddenRoutes.includes(pathname)
@@ -50,7 +46,7 @@ export default function RootClientLayout({ children }) {
   return (
     <>
       {!hideLayout && isAuthenticated && <Navbar />}
-      <div>{children}</div>
+      <>{children}</>
       {!hideLayout && isAuthenticated && <Footer />}
     </>
   )

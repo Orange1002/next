@@ -6,9 +6,10 @@ import defaultCardImg from './img/vipcard-01.png'
 import LoyalCardImg from './img/vipcard-02.png'
 import PlatinumCardImg from './img/vipcard-03.png'
 import defaultPawIcon from './img/icon-paw.png'
+import Link from 'next/link'
 
 const VIPCard = ({
-  userName = '趙柏茗',
+  userName = '123',
   accumulatedPoints = 3000,
   iconImage = defaultPawIcon,
 }) => {
@@ -97,6 +98,7 @@ const VIPCard = ({
             </div>
           </div>
         </div>
+        <Link href={'/member/coupons/points-history'} className={styles.pointsHistory}>點數紀錄</Link>
       </div>
     </section>
   )

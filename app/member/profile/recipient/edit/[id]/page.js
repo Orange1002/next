@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
+import Swal from 'sweetalert2'
 import RecipientForm from '../../../recipient/_components/RecipientForm/layout'
 
 export default function RecipientEditPage() {
@@ -21,15 +22,28 @@ export default function RecipientEditPage() {
         )
         const result = await res.json()
         if (res.ok && result.success) {
-          // 後端返回的是 realname，但前端用的是 name，需轉換
           const { realname, phone, email, address } = result.data
           setInitialData({ realname, phone, email, address })
         } else {
-          alert(result.message || '讀取失敗')
+          await Swal.fire({
+            icon: 'error',
+            title: '讀取失敗',
+            text: result.message || '請稍後再試',
+            confirmButtonColor: '#d33',
+            background: '#fdecea',
+            color: '#b71c1c',
+          })
         }
       } catch (error) {
         console.error(error)
-        alert('讀取失敗，請稍後再試')
+        await Swal.fire({
+          icon: 'error',
+          title: '讀取失敗',
+          text: '請稍後再試',
+          confirmButtonColor: '#d33',
+          background: '#fdecea',
+          color: '#b71c1c',
+        })
       } finally {
         setLoading(false)
       }
@@ -39,33 +53,20 @@ export default function RecipientEditPage() {
   }, [id])
 
   const handleSubmit = async (formData) => {
-    try {
-      const res = await fetch(
-        `http://localhost:3005/api/member/recipients/${id}`,
-        {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({
-            realname: formData.realname,
-            phone: formData.phone,
-            email: formData.email,
-            address: formData.address,
-          }),
-        }
-      )
-
-      const result = await res.json()
-
-      if (res.ok && result.success) {
-        alert('更新成功')
-        router.push('/member/profile/recipient')
-      } else {
-        alert(result.message || '更新失敗')
+    const res = await fetch(
+      `http://localhost:3005/api/member/recipients/${id}`,
+      {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(formData),
       }
-    } catch (error) {
-      console.error(error)
-      alert('更新失敗，請稍後再試')
+    )
+
+    const result = await res.json()
+
+    if (!(res.ok && result.success)) {
+      throw new Error(result.message || '更新失敗')
     }
   }
 

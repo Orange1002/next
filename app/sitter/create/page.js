@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
 import Image from 'next/image'
+import '../_styles/sitter-detail.module.css'
 
 export default function CreateSitterPage() {
   const router = useRouter()
@@ -48,12 +49,10 @@ export default function CreateSitterPage() {
     try {
       const formData = new FormData()
 
-      // 附加文字欄位
       for (const key in form) {
         formData.append(key, form[key])
       }
 
-      // 附加圖片欄位
       if (avatar) formData.append('avatar', avatar)
       gallery.forEach((file) => {
         formData.append('gallery', file)
@@ -61,9 +60,6 @@ export default function CreateSitterPage() {
 
       const res = await fetch('http://localhost:3005/api/sitter', {
         method: 'POST',
-        // headers: {
-        //   Authorization: `Bearer ${localStorage.getItem('token')}`,
-        // },
         credentials: 'include',
         body: formData,
       })
@@ -71,9 +67,8 @@ export default function CreateSitterPage() {
       const data = await res.json()
 
       if (data.status === 'success') {
-        const sitterId = data.sitter?.id
         Swal.fire('成功', '保母新增成功', 'success').then(() => {
-          router.push(`/sitter/edit/${sitterId}`)
+          router.push(`/sitter/sitter-list`)
         })
       } else {
         Swal.fire('錯誤', data.message || '新增成功但未取得保母id', 'error')
@@ -86,33 +81,115 @@ export default function CreateSitterPage() {
     }
   }
 
-  return (
-    <div className="container py-5">
-      <h1 className="mb-4">新增保母資料</h1>
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
-        {/* 文字欄位 */}
-        {[
-          ['name', '姓名'],
-          ['area', '服務地區'],
-          ['service_time', '服務時段'],
-          ['experience', '經歷'],
-          ['introduction', '自我介紹'],
-          ['price', '收費（元）'], // ✅ 新增欄位
-        ].map(([field, label]) => (
-          <div className="mb-3" key={field}>
-            <label className="form-label">{label}</label>
-            <input
-              type={field === 'price' ? 'number' : 'text'} // 若是 price，用數字輸入框
-              className="form-control"
-              name={field}
-              value={form[field]}
-              onChange={handleChange}
-              min={field === 'price' ? 0 : undefined} // 限制價格為正數
-            />
-          </div>
-        ))}
+  const taiwanCities = [
+    '台北市',
+    '新北市',
+    '基隆市',
+    '宜蘭縣',
+    '桃園市',
+    '新竹市',
+    '新竹縣',
+    '苗栗縣',
+    '台中市',
+    '彰化縣',
+    '南投縣',
+    '雲林縣',
+    '嘉義市',
+    '嘉義縣',
+    '台南市',
+    '高雄市',
+    '屏東縣',
+    '台東縣',
+    '花蓮縣',
+    '澎湖縣',
+    '金門縣',
+    '連江縣',
+  ]
 
-        {/* 大頭照上傳 + 預覽 */}
+  return (
+    <div className="container ">
+      <p className="text-center mb-3 fs-5">申請成為保母</p>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
+        {/* 姓名 */}
+        <div className="mb-3">
+          <label className="form-label">姓名</label>
+          <input
+            type="text"
+            className="form-control"
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+          />
+        </div>
+
+        {/* 服務地區 */}
+        <div className="mb-3">
+          <label className="form-label">服務地區</label>
+          <select
+            className="form-control"
+            name="area"
+            value={form.area}
+            onChange={handleChange}
+          >
+            <option value="">請選擇地區</option>
+            {taiwanCities.map((city) => (
+              <option key={city} value={city}>
+                {city}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* 服務時段 */}
+        <div className="mb-3">
+          <label className="form-label">服務時段</label>
+          <input
+            type="text"
+            className="form-control"
+            name="service_time"
+            value={form.service_time}
+            onChange={handleChange}
+          />
+        </div>
+
+        {/* 經歷 */}
+        <div className="mb-3">
+          <label className="form-label">經歷</label>
+          <input
+            type="text"
+            className="form-control"
+            name="experience"
+            value={form.experience}
+            onChange={handleChange}
+          />
+        </div>
+
+        {/* 自我介紹 */}
+        <div className="mb-3">
+          <label className="form-label">自我介紹</label>
+          <input
+            type="text"
+            className="form-control"
+            name="introduction"
+            value={form.introduction}
+            onChange={handleChange}
+          />
+        </div>
+
+        {/* 收費 */}
+        <div className="mb-3">
+          <label className="form-label">收費（元）</label>
+          <input
+            type="number"
+            className="form-control"
+            name="price"
+            min={0}
+            value={form.price}
+            onChange={handleChange}
+          />
+        </div>
+
+        {/* 大頭貼上傳 */}
         <div className="mb-3">
           <label className="form-label">大頭貼</label>
           <input
@@ -133,8 +210,9 @@ export default function CreateSitterPage() {
           )}
         </div>
 
-        {/* 圖片集上傳 + 預覽 */}
-        {/* <div className="mb-3">
+        {/* 圖片集上傳（可選） */}
+        {/* 
+        <div className="mb-3">
           <label className="form-label">其他圖片（可多選）</label>
           <input
             type="file"
@@ -158,10 +236,14 @@ export default function CreateSitterPage() {
               ))}
             </div>
           )}
-        </div> */}
+        </div>
+        */}
 
-        {/* 送出按鈕 */}
-        <button className="btn btn-primary" type="submit" disabled={loading}>
+        <button
+          className="btn bgc-primary mt-3 text-white"
+          type="submit"
+          disabled={loading}
+        >
           {loading ? '送出中...' : '新增保母'}
         </button>
       </form>

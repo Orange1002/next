@@ -9,6 +9,7 @@ export default function SitterList() {
   const [sitters, setSitters] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const [sortType, setSortType] = useState('rating')
+  const [selectedArea, setSelectedArea] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const pageSize = 12
@@ -21,6 +22,9 @@ export default function SitterList() {
         page: currentPage,
         pageSize,
       })
+      if (selectedArea) {
+        params.append('area', selectedArea)
+      }
 
       const res = await fetch(`http://localhost:3005/api/sitter?${params}`)
       const data = await res.json()
@@ -34,7 +38,7 @@ export default function SitterList() {
 
   useEffect(() => {
     fetchSitters()
-  }, [searchTerm, sortType, currentPage])
+  }, [searchTerm, sortType, selectedArea, currentPage])
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value)
@@ -45,6 +49,36 @@ export default function SitterList() {
     setSortType(type)
     setCurrentPage(1)
   }
+
+  const handleAreaChange = (e) => {
+    setSelectedArea(e.target.value)
+    setCurrentPage(1)
+  }
+
+  const taiwanCities = [
+    '台北市',
+    '新北市',
+    '基隆市',
+    '宜蘭縣',
+    '桃園市',
+    '新竹市',
+    '新竹縣',
+    '苗栗縣',
+    '台中市',
+    '彰化縣',
+    '南投縣',
+    '雲林縣',
+    '嘉義市',
+    '嘉義縣',
+    '台南市',
+    '高雄市',
+    '屏東縣',
+    '台東縣',
+    '花蓮縣',
+    '澎湖縣',
+    '金門縣',
+    '連江縣',
+  ]
 
   return (
     <div className="container py-5 position-relative">
@@ -62,7 +96,7 @@ export default function SitterList() {
         </div>
       </div>
 
-      {/* 搜尋 + 排序 */}
+      {/* 搜尋 + 排序 + 地區篩選 */}
       <div className="d-flex justify-content-between align-items-center gap-3 mb-4 px-3 flex-wrap">
         <input
           type="text"
@@ -71,28 +105,52 @@ export default function SitterList() {
           value={searchTerm}
           onChange={handleSearchChange}
         />
-        <Dropdown>
-          <Dropdown.Toggle
-            variant="outline-secondary"
-            className="dropdown-toggle-custom"
-          >
-            {sortType === 'rating' && '評分最高'}
-            {sortType === 'price' && '價格最低'}
-            {sortType === 'area' && '地區'}
-          </Dropdown.Toggle>
+        <div>
+          <Dropdown>
+            <Dropdown.Toggle
+              variant="outline-secondary"
+              className="dropdown-toggle-custom"
+            >
+              {sortType === 'rating' && '評分最高'}
+              {sortType === 'price' && '價格最低'}
+              {sortType === 'area' && '地區'}
+            </Dropdown.Toggle>
 
-          <Dropdown.Menu>
-            <Dropdown.Item onClick={() => handleSortChange('rating')}>
-              評分最高
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleSortChange('price')}>
-              價格最低
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleSortChange('area')}>
-              地區
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => handleSortChange('rating')}>
+                評分最高
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => handleSortChange('price')}>
+                價格最低
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+
+          <Dropdown>
+            <Dropdown.Toggle
+              variant="outline-secondary"
+              className="dropdown-toggle-custom"
+            >
+              {selectedArea || '全部地區'}
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item
+                onClick={() => handleAreaChange({ target: { value: '' } })}
+              >
+                全部地區
+              </Dropdown.Item>
+              {taiwanCities.map((city) => (
+                <Dropdown.Item
+                  key={city}
+                  onClick={() => handleAreaChange({ target: { value: city } })}
+                >
+                  {city}
+                </Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
       </div>
 
       {/* 保母卡片 */}

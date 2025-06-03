@@ -1,28 +1,32 @@
+'use client'
+
 import styles from './CouponCard.module.scss';
 import Image from 'next/image';
-import ticketLeft1 from './img/coupon-1.png';
-import ticketLeft2 from './img/coupon-2.png';
-import ticketLeft3 from './img/coupon-3.png';
-import ticketLeft4 from './img/coupon-4.png';
-import ticketLeft5 from './img/coupon-5.png';
 import PropTypes from 'prop-types';
+import { useRouter } from 'next/navigation';
+import { categorySlugMap } from '../../../product/category/_categoryMap'
 
-const imageMap = {
-  1: ticketLeft1,
-  2: ticketLeft2,
-  3: ticketLeft3,
-  4: ticketLeft4,
-  5: ticketLeft5,
-};
+const CouponCard = ({ title, date, minSpend, multiplier, image, categoryId }) => {
+  const router = useRouter();
 
-const CouponCard = ({ title, date, minSpend, multiplier, imageIndex }) => {
-  const selectedImage = imageMap[imageIndex] || ticketLeft1; // 預設顯示 ticketLeft1
+  const handleUseClick = () => {
+    if (!categoryId) return;
+    // 由 categorySlugMap 找出與 categoryId 相符的 slug
+    const foundEntry = Object.entries(categorySlugMap).find(
+      ([slug, data]) => data.id === categoryId
+    );
+    if (foundEntry) {
+      const slug = foundEntry[0];
+      // 此處路由調整成你的網頁路徑，這裡用 http://localhost:3000/product/category/food 為例
+      router.push(`/product/category/${slug}`);
+    }
+  };
 
   return (
     <div className={styles.couponCard}>
       <div className={styles.couponLeft}>
         <Image
-          src={selectedImage}
+          src={image || '/coupon_img/DefaultCoupon.png'}
           alt="優惠券圖"
           width={100}
           height={100}
@@ -43,6 +47,14 @@ const CouponCard = ({ title, date, minSpend, multiplier, imageIndex }) => {
           )}
         </div>
 
+        {/* 右下角的使用按鈕 */}
+        {categoryId && (
+          <div className={styles.couponFooter}>
+            <button className={styles.useButton} onClick={handleUseClick}>
+              前往使用
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -54,12 +66,13 @@ CouponCard.propTypes = {
   minSpend: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     .isRequired,
   multiplier: PropTypes.string,
-  imageIndex: PropTypes.number, // 新增圖片 index
+  image: PropTypes.string,
+  categoryId: PropTypes.number, // 新增 categoryId 用來判斷導向頁
 };
 
 CouponCard.defaultProps = {
   multiplier: null,
-  imageIndex: 1, // 預設為第 1 張
+  image: '/coupon_img/DefaultCoupon.png',
 };
 
 export default CouponCard;

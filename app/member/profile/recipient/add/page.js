@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Swal from 'sweetalert2'
 import RecipientForm from '../_components/RecipientForm/layout'
 import { useAuth } from '../../../../../hooks/use-auth.js'
 import SectionTitle from '../../../_components/SectionTitle/layout'
@@ -12,13 +13,18 @@ export default function RecipientAddPage() {
 
   useEffect(() => {
     if (!loading && !isAuth) {
-      alert('請先登入')
-      router.push('/member/login?type=signin')
+      Swal.fire({
+        icon: 'warning',
+        title: '請先登入',
+        showConfirmButton: false,
+        timer: 1000,
+      }).then(() => {
+        router.push('/member/login?type=signin')
+      })
     }
   }, [loading, isAuth, router])
 
-  // 如果還在 loading，就暫時不要渲染表單
-  if (loading) return <div className="p-4">載入中...</div>
+  if (loading || !isAuth) return <div className="p-4">載入中...</div>
 
   return (
     <>

@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react'
 
 export default function ProductOrderCard({
   orderId,
+  orderNumber,
   orderDate,
   paymentMethod,
   totalAmount,
@@ -28,9 +29,9 @@ export default function ProductOrderCard({
           <div className="w-100">
             <p className={styles.zh}>
               訂單編號 :
-              <a href={`/orders?type=products/${orderId}`}>
-                <span className={`${styles.en} ${styles.span}`}>{orderId}</span>
-              </a>
+              <span className={`${styles.en} ${styles.span} ps-1`}>
+                {orderNumber}
+              </span>
             </p>
             {isOpen ? (
               <FaChevronUp
@@ -131,7 +132,7 @@ export default function ProductOrderCard({
             </div>
             <div className="col-12 col-lg-3 d-flex flex-column justify-content-end gap-2 align-items-center">
               <Link
-                href={`/member/orders/detail/${orderId}`}
+                href={`/member/orders/detail/${orderNumber}`}
                 className={styles.btnCustom}
               >
                 訂單詳情

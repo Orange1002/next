@@ -48,12 +48,12 @@ body {
 .rating-circle {
   width: 28px;
   height: 25px;
-  background-color: #ff9524;
+  background-color: #ed784a;
 }
 
 .random-btn {
   background-color: #ed784a;
-  font-size: 48px;
+  font-size: 28px;
   font-weight: bold;
   font-family: 'Inria Sans';
   letter-spacing: 10.56px;
@@ -94,9 +94,20 @@ body {
 
 .price-text {
   font-size: 14px;
-  color: #cc543a;
+  color: #ed784a;
   font-weight: bold;
   margin-top: 4px;
   letter-spacing: 1px;
   text-align: right;
+}
+
+.bgc-primary {
+  background-color: #ed784a;
+}
+.ccc-primary {
+  color: #ed784a;
+  outline: #ed784a;
+}
+.btn-reserve:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2) !important;
 }

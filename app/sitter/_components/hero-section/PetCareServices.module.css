@@ -1,6 +1,6 @@
 .container {
   width: 100%;
-  min-height: 692px;
+  min-height: 576px;
   vertical-align: content-center;
   border-width: 0px solid #fb966e;
   /* background-color: #fbce984d; */
@@ -8,7 +8,7 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 19px;
+  gap: 20px;
   padding: 0 30px;
   display: flex;
 }
@@ -18,13 +18,13 @@
   justify-content: flex-end;
   align-items: center;
   width: 100%;
-  max-width: 1432px;
+  max-width: 1440px;
   display: flex;
 }
 
 .hero {
   width: 100%;
-  max-width: 1380px;
+  max-width: 1280px;
 }
 
 .heroTitle {
@@ -32,23 +32,24 @@
   letter-spacing: 10.56px;
   text-align: center;
   font-family: 'Kiwi Maru';
-  font-size: 48px;
+  font-size: 36px;
   font-weight: 400;
   line-height: 1.5;
+  margin-bottom: 50px;
 }
 
 .servicesGrid {
   justify-content: center;
   align-items: center;
-  gap: 19px;
+  gap: 20px;
   width: 100%;
-  margin-top: 40px;
+  margin: 50px;
   display: flex;
 }
 
 @media (width <= 991px) {
   .heroTitle {
-    font-size: 36px;
+    font-size: 24px;
   }
 
   .servicesGrid {
@@ -60,6 +61,6 @@
 @media (width <= 640px) {
   .heroTitle {
     letter-spacing: 5px;
-    font-size: 24px;
+    font-size: 16px;
   }
 }
