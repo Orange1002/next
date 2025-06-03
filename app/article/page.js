@@ -18,8 +18,9 @@ import { AiOutlineRightCircle } from 'react-icons/ai'
 import './_style/article.scss'
 
 const images = [
-  '/article_img/d1e21f1a-4730-472b-8531-51b3c7b7890a.jpg',
-  '/article_img/istockphoto-1300658241-612x612.jpg',
+  '/article_img/IMG_8676-scaled-1.jpg',
+  '/article_img/main_img_202011.jpg',
+  // '/article_img/news-1.jpg',
 ]
 
 function ArticleHeaderPhoto() {
@@ -117,7 +118,7 @@ function ArticleHeaderPhoto() {
           <div className="col-10 mt-4 mx-auto">
             <Buttonsearch onSearch={handleSearch} />
             {articles.length > 0 && <Cardbig article={articles[0]} />}
-            <div className="container">
+            <div className="d-flex justify-content-center mt-3">
               <Cardarea articles={articles.slice(1)} />
             </div>
             <div className="d-flex justify-content-center mt-5">

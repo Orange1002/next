@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import styles from './member-Info.module.scss'
 import BtnCustom from '../../../../_components/BtnCustom/layout'
 import Image from 'next/image'
@@ -7,17 +7,22 @@ import SectionTitle from '../../../../_components/SectionTitle/layout'
 import CancelButton from '../../../../_components/BtnCustomGray/layout'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '../../../../../../hooks/use-auth'
+import AddressSelector from './_components/AddressSelector/layout'
 
 export default function InfoPage() {
   const { setMember, refreshMember } = useAuth()
   const router = useRouter()
-
+  const handleAddressChange = useCallback((address) => {
+    setFormData((prev) => ({ ...prev, address }))
+  }, [])
   const [formData, setFormData] = useState({
     username: '',
+    realname: '',
     gender: '',
     email: '',
     phone: '',
     birthday: '',
+    address: '',
   })
 
   const [preview, setPreview] = useState('/member/member_images/user-img.svg')
@@ -38,10 +43,12 @@ export default function InfoPage() {
 
         setFormData({
           username: data.username || '',
+          realname: data.realname || '',
           gender: data.gender || '',
           email: data.email || '',
           phone: data.phone || '',
           birthday: data.birth_date ? data.birth_date.split('T')[0] : '',
+          address: data.address || '',
         })
 
         const baseUrl = 'http://localhost:3005'
@@ -92,10 +99,12 @@ export default function InfoPage() {
     try {
       const formPayload = new FormData()
       formPayload.append('username', formData.username)
+      formPayload.append('realname', formData.realname)
       formPayload.append('email', formData.email)
       formPayload.append('birth_date', formData.birthday || '')
       formPayload.append('gender', formData.gender)
       formPayload.append('phone', formData.phone)
+      formPayload.append('address', formData.address)
 
       if (hasCustomAvatar && avatarFile) {
         formPayload.append('avatar', avatarFile)
@@ -140,7 +149,7 @@ export default function InfoPage() {
 
   return (
     <>
-      <SectionTitle>會員基本資料</SectionTitle>
+      <SectionTitle>會員基本資料編輯</SectionTitle>
       <div className={`${styles.block} mt-lg-3 px-4 py-3 h-100`}>
         <form className="member-profile-form h-100" onSubmit={handleSubmit}>
           <div className="row g-0 h-100 w-100">
@@ -191,73 +200,100 @@ export default function InfoPage() {
               </div>
 
               {/* 資料欄位 */}
-              <div className={`${styles.inputField} mb-2`}>
-                <i className={`${styles.icon} bi bi-person fs-3`}></i>
-                <input
-                  type="text"
-                  placeholder="使用者名稱"
-                  value={formData.username}
-                  onChange={handleChange}
-                  name="username"
-                />
-              </div>
-
-              <div className="d-flex flex-column justify-content-center w-100">
-                <div className="d-flex justify-content-center gap-3">
-                  <button
-                    type="button"
-                    className={`${styles.btnRadio} btn ${formData.gender === 'male' ? styles.active : ''}`}
-                    onClick={() => handleGenderChange('male')}
-                    tabIndex={0}
-                  >
-                    男生
-                  </button>
-                  <button
-                    type="button"
-                    className={`${styles.btnRadio} btn ${formData.gender === 'female' ? styles.active : ''}`}
-                    onClick={() => handleGenderChange('female')}
-                    tabIndex={0}
-                  >
-                    女生
-                  </button>
+              <div className="w-100 row g-2 justify-content-center">
+                {/* 左欄位 */}
+                <div className="col-12 col-lg-6 d-flex flex-column align-items-center">
+                  {/* 使用者名稱 */}
+                  <div className={`${styles.inputField} mb-3`}>
+                    <i className={`${styles.icon} bi bi-person fs-3`}></i>
+                    <input
+                      type="text"
+                      placeholder="使用者名稱"
+                      value={formData.username}
+                      onChange={handleChange}
+                      name="username"
+                    />
+                  </div>
+                  {/* 真實姓名 */}
+                  <div className={`${styles.inputField} mb-2`}>
+                    <i
+                      className={`${styles.icon} bi bi-person-lines-fill fs-3`}
+                    ></i>
+                    <input
+                      type="text"
+                      placeholder="請輸入真實姓名"
+                      value={formData.realname}
+                      onChange={handleChange}
+                      name="realname"
+                    />
+                  </div>
+                  {/* 性別 */}
+                  <div className="d-flex flex-column justify-content-center w-100">
+                    <div className="my-3 my-lg-4 d-flex justify-content-center gap-3">
+                      <button
+                        type="button"
+                        className={`${styles.btnRadio} btn ${formData.gender === 'male' ? styles.active : ''}`}
+                        onClick={() => handleGenderChange('male')}
+                        tabIndex={0}
+                      >
+                        男生
+                      </button>
+                      <button
+                        type="button"
+                        className={`${styles.btnRadio} btn ${formData.gender === 'female' ? styles.active : ''}`}
+                        onClick={() => handleGenderChange('female')}
+                        tabIndex={0}
+                      >
+                        女生
+                      </button>
+                    </div>
+                  </div>
+                  {/* 電子信箱 */}
+                  <div className={`${styles.inputFieldN} mb-2 mt-lg-2`}>
+                    <i className={`${styles.icon} bi bi-envelope fs-3`}></i>
+                    <input
+                      type="email"
+                      placeholder="請輸入電子信箱"
+                      value={formData.email}
+                      onChange={handleChange}
+                      name="email"
+                      readOnly
+                      disabled
+                    />
+                  </div>
+                </div>
+                {/* 右欄位 */}
+                <div className="col-12 col-lg-6 d-flex flex-column align-items-center">
+                  {' '}
+                  {/* 手機號碼 */}
+                  <div className={`${styles.inputField} mb-3`}>
+                    <i className={`${styles.icon} bi bi-phone fs-3`}></i>
+                    <input
+                      type="tel"
+                      placeholder="請輸入手機號碼"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      name="phone"
+                    />
+                  </div>
+                  {/* 生日 */}
+                  <div className={`${styles.inputField} mb-3`}>
+                    <i className={`${styles.icon} bi bi-cake fs-3`}></i>
+                    <input
+                      type="date"
+                      placeholder="生日"
+                      value={formData.birthday}
+                      onChange={handleChange}
+                      name="birthday"
+                    />
+                  </div>
+                  {/* 地址 */}
+                  <AddressSelector
+                    value={formData.address}
+                    onChange={handleAddressChange}
+                  />
                 </div>
               </div>
-
-              <div className={`${styles.inputFieldN} mb-2`}>
-                <i className={`${styles.icon} bi bi-envelope fs-3`}></i>
-                <input
-                  type="email"
-                  placeholder="電子信箱"
-                  value={formData.email}
-                  onChange={handleChange}
-                  name="email"
-                  readOnly
-                  disabled
-                />
-              </div>
-
-              <div className={`${styles.inputField} mb-2`}>
-                <i className={`${styles.icon} bi bi-phone fs-3`}></i>
-                <input
-                  type="tel"
-                  placeholder="手機號碼"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  name="phone"
-                />
-              </div>
-
-              <div className={`${styles.inputField} mb-2`}>
-                <i className={`${styles.icon} bi bi-cake fs-3`}></i>
-                <input
-                  type="date"
-                  placeholder="生日"
-                  value={formData.birthday}
-                  onChange={handleChange}
-                  name="birthday"
-                />
-              </div>
-
               <div className="d-flex gap-lg-5 justify-content-between justify-content-lg-center w-100">
                 <CancelButton back={true}>取消</CancelButton>
                 <BtnCustom>儲存資料</BtnCustom>

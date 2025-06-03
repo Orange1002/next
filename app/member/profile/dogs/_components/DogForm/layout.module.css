@@ -1,9 +1,9 @@
 .form {
   margin: 0 auto;
   padding: 1.5rem;
-  border: 1px solid #ddd;
+  border: 1px solid #929292;
   border-radius: 1rem;
-  background-color: #fff;
+  background-color: transparent;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 

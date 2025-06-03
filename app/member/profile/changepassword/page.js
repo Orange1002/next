@@ -6,31 +6,36 @@ import BtnCustom from '../../_components/BtnCustom/layout'
 import styles from './changepassword.module.css'
 import { useAuth } from '../../../../hooks/use-auth'
 import { FaLock } from 'react-icons/fa'
+import Swal from 'sweetalert2'
 
 export default function ChangePasswordPage() {
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState('')
 
   const { member, isAuth, loading } = useAuth()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setError('')
-    setSuccess('')
-
     if (loading) return
 
     if (!isAuth) {
-      setError('請先登入')
-      return
+      return Swal.fire({
+        icon: 'warning',
+        title: '請先登入',
+        background: '#fff3cd',
+        color: '#856404',
+      })
     }
 
     if (newPassword !== confirmPassword) {
-      setError('新密碼與確認密碼不一致')
-      return
+      return Swal.fire({
+        icon: 'error',
+        title: '密碼不一致',
+        text: '新密碼與確認密碼需相同',
+        background: '#fdecea',
+        color: '#b71c1c',
+      })
     }
 
     try {
@@ -52,12 +57,39 @@ export default function ChangePasswordPage() {
       const data = await res.json()
 
       if (!res.ok) {
-        throw new Error(data.message || '修改失敗')
+        // 後端回傳錯誤訊息時顯示
+        return Swal.fire({
+          icon: 'error',
+          title: '修改失敗',
+          text: data.message || '修改密碼時發生錯誤',
+          background: '#fdecea',
+          color: '#b71c1c',
+        })
       }
 
-      setSuccess('密碼修改成功')
+      // 修改成功提示
+      await Swal.fire({
+        icon: 'success',
+        title: '密碼修改成功',
+        timer: 1200,
+        showConfirmButton: false,
+        background: '#e9f7ef',
+        color: '#2e7d32',
+      })
+
+      // 清空欄位
+      setCurrentPassword('')
+      setNewPassword('')
+      setConfirmPassword('')
     } catch (err) {
-      setError(err.message)
+      // fetch 本身錯誤時顯示
+      Swal.fire({
+        icon: 'error',
+        title: '修改失敗',
+        text: err.message || '網路連線錯誤',
+        background: '#fdecea',
+        color: '#b71c1c',
+      })
     }
   }
 
@@ -105,14 +137,6 @@ export default function ChangePasswordPage() {
                   required
                 />
               </div>
-
-              {/* 顯示錯誤或成功訊息 */}
-              {error && (
-                <div className="text-danger text-center mt-2">{error}</div>
-              )}
-              {success && (
-                <div className="text-success text-center mt-2">{success}</div>
-              )}
 
               {/* 送出按鈕 */}
               <div className="d-flex justify-content-center mt-lg-4">

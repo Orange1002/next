@@ -3,6 +3,8 @@
 import Image from 'next/image'
 import styles from './layout.module.css'
 import { useRouter } from 'next/navigation'
+import Swal from 'sweetalert2'
+import 'sweetalert2/src/sweetalert2.scss'
 
 export default function DogCard({ dog, onDelete }) {
   const router = useRouter()
@@ -14,7 +16,7 @@ export default function DogCard({ dog, onDelete }) {
     4: '大型（26~44公斤）',
     5: '超大型（45公斤以上）',
   }
-  // 解析 JSON 字串的 dogs_images
+
   const DEFAULT_IMAGE = '/member/dogs_images/default-dog.png'
   let imagePath = []
 
@@ -28,13 +30,50 @@ export default function DogCard({ dog, onDelete }) {
       )
     }
   } catch (err) {
-    // 若解析失敗，保持 imagePath 為空陣列
+    // 解析失敗時保持空陣列
+  }
+
+  const handleDeleteConfirm = () => {
+    Swal.fire({
+      title: `確定要刪除 ${dog.name} 嗎？`,
+      text: '此操作無法復原！',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: '確定刪除',
+      cancelButtonText: '取消',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        onDelete(dog.id)
+          .then(() => {
+            Swal.fire({
+              icon: 'success',
+              title: '刪除成功',
+              showConfirmButton: false,
+              timer: 1500,
+              background: '#e9f7ef',
+              color: '#2e7d32',
+            })
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: 'error',
+              title: '刪除失敗',
+              text: error?.message || '請稍後再試',
+              confirmButtonColor: '#d33',
+              background: '#fdecea',
+              color: '#b71c1c',
+            })
+          })
+      }
+    })
   }
 
   return (
     <div className={`${styles.card}`}>
       <div className={`${styles.img} d-flex flex-column w-100`}>
-        {/* 左側大圖 */}
+        {/* 主圖 */}
         <div className={`w-100 h-100`}>
           <Image
             src={imagePath.length > 0 ? imagePath[0] : DEFAULT_IMAGE}
@@ -45,8 +84,9 @@ export default function DogCard({ dog, onDelete }) {
             priority
           />
         </div>
+
+        {/* 副圖 */}
         <div>
-          {/* 右側直排最多 4 張小圖（當有舊照片時） */}
           {imagePath.length > 1 && (
             <div className="d-flex">
               {imagePath.slice(1, 5).map((src, idx) => (
@@ -90,7 +130,7 @@ export default function DogCard({ dog, onDelete }) {
           </button>
           <button
             className="btn btn-outline-danger"
-            onClick={() => onDelete(dog.id)}
+            onClick={handleDeleteConfirm}
           >
             刪除
           </button>

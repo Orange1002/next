@@ -3,6 +3,7 @@
 import styles from './layout.module.css'
 import { useRouter } from 'next/navigation'
 import { FaXmark } from 'react-icons/fa6'
+import Swal from 'sweetalert2'
 
 export default function RecipientCard({ recipient, onDeleteSuccess }) {
   const router = useRouter()
@@ -12,26 +13,58 @@ export default function RecipientCard({ recipient, onDeleteSuccess }) {
   }
 
   const handleDelete = async () => {
-    if (confirm(`確定要刪除 常用收件人 ${recipient.realname} 嗎？`)) {
+    const confirmResult = await Swal.fire({
+      title: `確定要刪除收件人 ${recipient.realname} 嗎？`,
+      text: '此操作無法復原！',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: '確定刪除',
+      cancelButtonText: '取消',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#6c757d',
+    })
+
+    if (confirmResult.isConfirmed) {
       try {
         const res = await fetch(
           `http://localhost:3005/api/member/recipients/${recipient.id}`,
           {
             method: 'DELETE',
-            credentials: 'include', // 使用 cookie 儲存 JWT
+            credentials: 'include',
           }
         )
         const result = await res.json()
 
         if (result.success) {
-          alert('刪除成功')
-          onDeleteSuccess?.() // ✅ 通知父層更新列表
+          Swal.fire({
+            icon: 'success',
+            title: '刪除成功',
+            showConfirmButton: false,
+            timer: 1500,
+            background: '#e9f7ef',
+            color: '#2e7d32',
+          })
+          onDeleteSuccess?.()
         } else {
-          alert(result.message || '刪除失敗')
+          Swal.fire({
+            icon: 'error',
+            title: '刪除失敗',
+            text: result.message || '請稍後再試',
+            confirmButtonColor: '#d33',
+            background: '#fdecea',
+            color: '#b71c1c',
+          })
         }
       } catch (err) {
         console.error(err)
-        alert('刪除發生錯誤')
+        Swal.fire({
+          icon: 'error',
+          title: '發生錯誤',
+          text: '請檢查網路或稍後再試',
+          confirmButtonColor: '#d33',
+          background: '#fdecea',
+          color: '#b71c1c',
+        })
       }
     }
   }

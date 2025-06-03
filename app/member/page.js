@@ -31,18 +31,18 @@ export default function MemberPage() {
         <div
           className={`${styles.block} justify-content-evenly align-items-center ps-lg-5 pe-lg-5 py-lg-0 mb-5`}
         >
-          <div className="row g-0 p-3">
-            <div className="d-flex flex-column justify-content-center col-4 col-lg-3 text-center">
-              <div>{member.pendingShipment}</div>
-              <p className="m-0">待出貨</p>
+          <div className="row g-0 p-3 justify-content-evenly">
+            <div className="d-flex flex-column justify-content-between col-4 col-lg-3 text-center">
+              <div className={`${styles.orderText} `}>
+                {member?.pendingShipment ?? 0}
+              </div>
+              <p className="m-0">狗狗用品訂單</p>
             </div>
-            <div className="d-flex flex-column justify-content-center col-4 col-lg-3 text-center">
-              <div>{member.shipped}</div>
-              <p className="m-0">已出貨</p>
-            </div>
-            <div className="d-flex flex-column justify-content-center col-4 col-lg-3 text-center">
-              <div>{member.pendingPickup}</div>
-              <p className="m-0">待取貨</p>
+            <div className="d-flex flex-column justify-content-between col-4 col-lg-3 text-center">
+              <div className={`${styles.orderText} `}>
+                {member?.shipped ?? 0}
+              </div>
+              <p className="m-0">寵物保母訂單</p>
             </div>
             <div className="col-12 col-lg-3 d-flex justify-content-center text-center">
               <Link

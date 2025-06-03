@@ -4,6 +4,7 @@ import { useRouter, useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import DogForm from '../../_components/DogForm/layout'
 import SectionTitle from '../../../../_components/SectionTitle/layout'
+import Swal from 'sweetalert2'
 
 export default function DogsEditPage() {
   const router = useRouter()
@@ -76,20 +77,47 @@ export default function DogsEditPage() {
       data.append('photosToDelete', JSON.stringify([]))
     }
 
-    const res = await fetch(
-      `http://localhost:3005/api/member/dogs/edit/${formData.id}`,
-      {
-        method: 'PUT',
-        body: data,
-        credentials: 'include',
-      }
-    )
+    try {
+      const res = await fetch(
+        `http://localhost:3005/api/member/dogs/edit/${formData.id}`,
+        {
+          method: 'PUT',
+          body: data,
+          credentials: 'include',
+        }
+      )
 
-    if (res.ok) {
-      router.push('/member/profile/dogs')
-    } else {
-      const err = await res.json()
-      alert(err.message)
+      if (res.ok) {
+        await Swal.fire({
+          icon: 'success',
+          title: '更新成功',
+          showConfirmButton: false,
+          timer: 1000,
+          background: '#e9f7ef',
+          color: '#2e7d32',
+        })
+        router.push('/member/profile/dogs')
+      } else {
+        const err = await res.json()
+        await Swal.fire({
+          icon: 'error',
+          title: '更新失敗',
+          text: err.message || '請稍後再試',
+          confirmButtonColor: '#d33',
+          background: '#fdecea',
+          color: '#b71c1c',
+        })
+      }
+    } catch (error) {
+      console.error(error)
+      await Swal.fire({
+        icon: 'error',
+        title: '更新失敗',
+        text: '請檢查網路或稍後再試',
+        confirmButtonColor: '#d33',
+        background: '#fdecea',
+        color: '#b71c1c',
+      })
     }
   }
 

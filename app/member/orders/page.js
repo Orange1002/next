@@ -88,7 +88,7 @@ export default function ProductSection() {
               className={`${styles.tabBtn} ${activeTab === 'sitters' ? styles.active : ''} btn`}
               onClick={() => handleTabClick('sitters')}
             >
-              狗狗保母
+              寵物保母
             </button>
           </div>
 

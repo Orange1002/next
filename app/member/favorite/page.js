@@ -2,112 +2,114 @@
 
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-// import styles from './favorite.module.scss'
+import styles from './favorite.module.scss'
 import SectionTitle from '../_components/SectionTitle/layout'
 import Pagination from '../_components/Pagination/layout'
-// import ProductFavoriteCard from './_components/ProductFavoriteCard'
-// import SitterFavoriteCard from './_components/SitterFavoriteCard'
-// import ArticleFavoriteCard from './_components/ArticleFavoriteCard'
-import EventFavoriteCard from './_components/EventFavoriteCard/layout'
+import ProductsPage from './_components/ProductsPage/layout'
+import ArticlesPage from './_components/ArticlesPage/layout'
+import { useAuth } from '../../../hooks/use-auth' // 假設你的 useAuth
 
 export default function FavoriteSection() {
   const searchParams = useSearchParams()
   const router = useRouter()
+  const { member } = useAuth()
+  const memberId = member?.id
 
   const type = searchParams.get('type') || 'products'
   const [activeTab, setActiveTab] = useState(type)
 
+  const [allData, setAllData] = useState([]) // 所有收藏資料
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 8
+
   useEffect(() => {
     setActiveTab(type)
+    setCurrentPage(1) // tab 切換時回到第一頁
   }, [type])
+
+  useEffect(() => {
+    if (!memberId) return // 沒登入不撈
+
+    async function fetchFavorites() {
+      try {
+        let url = ''
+        if (activeTab === 'products') {
+          url = `http://localhost:3005/api/product/favorite`
+        } else if (activeTab === 'articles') {
+          url = `http://localhost:3005/api/article/favorites/favartical`
+        }
+
+        const res = await fetch(url, {
+          credentials: 'include',
+        })
+        const json = await res.json()
+        if (res.ok) {
+          setAllData(json.data || [])
+        } else {
+          setAllData([])
+          console.error('抓取收藏失敗', json.message)
+        }
+      } catch (error) {
+        setAllData([])
+        console.error(error)
+      }
+    }
+
+    fetchFavorites()
+  }, [activeTab, memberId])
+
+  const totalPages = Math.max(1, Math.ceil(allData.length / itemsPerPage))
+  const paginatedData = allData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  )
 
   const handleTabClick = (tabType) => {
     router.push(`/member/favorite?type=${tabType}`)
   }
 
-  const testData = {
-    products: [], // 商品收藏假資料
-    sitters: [], // 保母收藏假資料
-    articles: [], // 文章收藏假資料
-    events: [], // 活動收藏假資料
-  }
-
-  const data = testData[activeTab] || []
-
-  const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 5
-  const totalPages = Math.ceil(data.length / itemsPerPage)
-  const paginatedData = data.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  )
-
   return (
     <>
       <SectionTitle>我的收藏</SectionTitle>
       <div className="d-flex flex-column justify-content-between h-100">
-        {/* Tabs */}
-        <div className="d-flex justify-content-center gap-2">
-          <button
-            className={`${styles.tabBtn} ${activeTab === 'products' ? styles.active : ''} btn`}
-            onClick={() => handleTabClick('products')}
-          >
-            狗狗用品收藏
-          </button>
-          <button
-            className={`${styles.tabBtn} ${activeTab === 'sitters' ? styles.active : ''} btn`}
-            onClick={() => handleTabClick('sitters')}
-          >
-            狗狗保母收藏
-          </button>
-          <button
-            className={`${styles.tabBtn} ${activeTab === 'articles' ? styles.active : ''} btn`}
-            onClick={() => handleTabClick('articles')}
-          >
-            文章收藏
-          </button>
-          <button
-            className={`${styles.tabBtn} ${activeTab === 'events' ? styles.active : ''} btn`}
-            onClick={() => handleTabClick('events')}
-          >
-            活動收藏
-          </button>
-        </div>
+        <div className="d-flex flex-column">
+          {/* Tabs */}
+          <div className="d-flex justify-content-center gap-2">
+            <button
+              className={`${styles.tabBtn} ${activeTab === 'products' ? styles.active : ''} btn`}
+              onClick={() => handleTabClick('products')}
+            >
+              狗狗用品收藏
+            </button>
+            <button
+              className={`${styles.tabBtn} ${activeTab === 'articles' ? styles.active : ''} btn`}
+              onClick={() => handleTabClick('articles')}
+            >
+              文章收藏
+            </button>
+          </div>
 
-        {/* List */}
-        <div className="mt-3">
-          {activeTab === 'products' &&
-            paginatedData.map((item, index) => (
-              <ProductFavoriteCard
-                key={product.id}
-                {...item}
-                isFirst={index === 0}
-              />
-            ))}
-          {activeTab === 'sitters' &&
-            paginatedData.map((item, index) => (
-              <SitterFavoriteCard
-                key={sitter.id}
-                {...item}
-                isFirst={index === 0}
-              />
-            ))}
-          {activeTab === 'articles' &&
-            paginatedData.map((item, index) => (
-              <ArticleFavoriteCard
-                key={article.id}
-                {...item}
-                isFirst={index === 0}
-              />
-            ))}
-          {activeTab === 'events' &&
-            paginatedData.map((item, index) => (
-              <EventFavoriteCard
-                key={event.id}
-                {...item}
-                isFirst={index === 0}
-              />
-            ))}
+          {/* List */}
+          {/* List */}
+
+          {paginatedData.length === 0 ? (
+            <div className="text-center w-100 py-5 text-muted">
+              尚未收藏任何{activeTab === 'products' ? '狗狗用品' : '文章'}
+            </div>
+          ) : (
+            <>
+              {activeTab === 'products' && (
+                <div className="row g-0 gap-4 mt-4">
+                  <ProductsPage data={paginatedData} />
+                </div>
+              )}
+              {activeTab === 'articles' && (
+                <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-2">
+                  <ArticlesPage data={paginatedData} />
+                </div>
+              )}
+            </>
+          )}
         </div>
 
         {/* Pagination */}
