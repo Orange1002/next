@@ -99,6 +99,7 @@ export default function ProductSection() {
                 <ProductOrderCard
                   key={order.id}
                   orderId={order.id}
+                  orderNumber={order.order_number}
                   orderDate={order.created_at}
                   paymentMethod={order.order_payment_name}
                   totalAmount={order.total_amount}
@@ -113,6 +114,7 @@ export default function ProductSection() {
                 <SitterOrderCard
                   key={order.id}
                   orderId={order.id}
+                  orderNumber={order.order_number}
                   orderDate={order.created_at}
                   paymentMethod={order.order_payment_name}
                   totalAmount={order.total_amount}

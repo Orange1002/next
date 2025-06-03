@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react'
 
 export default function SitterOrderCard({
   orderId,
+  orderNumber,
   orderDate,
   paymentMethod,
   totalAmount,
@@ -29,9 +30,9 @@ export default function SitterOrderCard({
           <div>
             <p className={styles.zh}>
               訂單編號 :
-              <a href={`/orders?type=sitters/${orderId}`}>
-                <span className={`${styles.en} ${styles.span}`}>{orderId}</span>
-              </a>
+              <span className={`${styles.en} ${styles.span} ps-1`}>
+                {orderNumber}
+              </span>
             </p>
           </div>
           {isOpen ? (
@@ -125,7 +126,7 @@ export default function SitterOrderCard({
             </div>
             <div className="col-12 col-lg-3 d-flex flex-column justify-content-end gap-2 align-items-center pb-lg-1">
               <Link
-                href={`/member/orders/detail/${orderId}`}
+                href={`/member/orders/detail/${orderNumber}`}
                 className={styles.btnCustom}
               >
                 訂單詳情
