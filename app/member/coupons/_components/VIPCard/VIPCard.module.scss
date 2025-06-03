@@ -5,9 +5,10 @@
 
 .memberCard {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: flex-start;
   flex-wrap: wrap;
+  position: relative;
 }
 
 .cardInfo {
@@ -40,19 +41,19 @@
   gap: 15px;
   max-width: 100%;
   width: 526px;
-  font-family: "Kiwi Maru", serif;
+  font-family: 'Kiwi Maru', serif;
 }
 
 .helloText {
   margin-bottom: 12px;
   letter-spacing: 0.22em;
-  font: 400 20px/24px "Inria Sans";
+  font: 400 20px/24px 'Inria Sans';
   color: #929292;
 }
 
 .highlight {
   color: #ed784a;
-  font: 400 20px/29px "Kiwi Maru";
+  font: 400 20px/29px 'Kiwi Maru';
 }
 
 .memberLevel {
@@ -70,12 +71,12 @@
 
 .levelText {
   margin: 0 6px;
-  font: 400 15px/29px "Kiwi Maru";
+  font: 400 15px/29px 'Kiwi Maru';
   color: #505050;
 }
 
 .levelCurrent {
-  font: 400 20px/29px "Kiwi Maru";
+  font: 400 20px/29px 'Kiwi Maru';
   color: #929292;
 }
 
@@ -101,12 +102,12 @@
 }
 
 .pointBannerText {
-  font: 400 20px/29px "Kiwi Maru";
+  font: 400 20px/29px 'Kiwi Maru';
   color: #929292;
 }
 
 .pointAmount {
-  font: 400 32px/38px "Inria Sans";
+  font: 400 32px/38px 'Inria Sans';
   letter-spacing: 0.22em;
   color: #ed784a;
 }
@@ -121,12 +122,12 @@
 }
 
 .pointHintText {
-  font: 400 16px/23px "Kiwi Maru";
+  font: 400 16px/23px 'Kiwi Maru';
   color: #929292;
 }
 
 .pointHintCurrent {
-  font: 400 16px/19px "Inria Sans";
+  font: 400 16px/19px 'Inria Sans';
   color: #505050;
   letter-spacing: 0.22em;
 }
@@ -134,7 +135,7 @@
 .cardMenu {
   display: flex;
   flex-direction: column;
-  font-family: "Inria Sans", sans-serif;
+  font-family: 'Inria Sans', sans-serif;
   width: 217px;
   height: 70px;
   min-width: 150px;
@@ -145,7 +146,7 @@
   background-color: #fff;
   border-left: 2px solid transparent;
   cursor: pointer;
-  font: 400 16px "Kiwi Maru";
+  font: 400 16px 'Kiwi Maru';
   color: #929292;
 }
 
@@ -163,6 +164,25 @@
 .menuLine {
   border-bottom: 1px solid #999;
   margin-top: 8px;
+}
+
+.pointsHistory {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  font-family: 'Kiwi Maru';
+  background: #fff;
+  color: #ed784a;
+  border: none;
+  padding: 0 0 3px 0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+
+  &:hover {
+    border-radius: 0px;
+    border-bottom: 1px solid #ed784a;
+  }
 }
 
 @media (max-width: 576px) {
@@ -230,5 +250,8 @@
 
   .menuItem {
     text-align: center;
+  }
+  .pointsHistory {
+    bottom: 0;
   }
 }

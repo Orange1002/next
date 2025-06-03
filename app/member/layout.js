@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 const breadcrumbMap = {
   '/member': '會員中心',
   '/member/coupons': '我的優惠券',
+  '/member/coupons/points-history': 'vip點數歷史',
   '/member/favorite': '我的收藏',
   '/member/favorite?type=products': '狗狗用品收藏',
   '/member/favorite?type=sitters': '狗狗保母收藏',
