@@ -224,7 +224,7 @@ export default function ShopcartPage() {
                   <Image
                     width={150}
                     height={150}
-                    src={null}
+                    src={item.image}
                     alt=""
                     className="me-3"
                   />
@@ -316,7 +316,7 @@ export default function ShopcartPage() {
                       <Image
                         width={100}
                         height={100}
-                        src={null}
+                        src={item.image}
                         alt={item.name}
                         className=""
                       />
@@ -424,7 +424,7 @@ export default function ShopcartPage() {
                   <Image
                     width={150}
                     height={150}
-                    src={null}
+                    src={item.image}
                     alt=""
                     className="me-3"
                   />
@@ -487,7 +487,7 @@ export default function ShopcartPage() {
                       <Image
                         width={100}
                         height={100}
-                        src={null}
+                        src={item.image}
                         alt={item.name}
                         className=""
                       />

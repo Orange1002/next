@@ -17,6 +17,7 @@ export default function CouponPage() {
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
   const perPage = 3
+  const [pointTotal, setPointTotal] = useState(0)
 
   useEffect(() => {
     const fetchMember = async () => {
@@ -34,36 +35,55 @@ export default function CouponPage() {
     fetchMember()
   }, [])
 
-  useEffect(() => {
+  const fetchCoupons = async () => {
     if (!member) return
+    setLoading(true)
+    try {
+      const endpointMap = {
+        available: 'claimable',
+        usable: 'available',
+        used: 'used',
+      }
 
-    const fetchCoupons = async () => {
-      setLoading(true)
-      try {
-        const endpointMap = {
-          available: 'claimable',
-          usable: 'available',
-          used: 'used',
+      const res = await fetch(
+        `http://localhost:3005/api/coupon/members/${member.id}/coupons/${endpointMap[activeTab]}`,
+        {
+          credentials: 'include',
         }
+      )
+      const data = await res.json()
+      setCoupons(data.data?.coupons || [])
+    } catch (err) {
+      console.error('❌ 抓優惠券失敗', err)
+      setCoupons([])
+    } finally {
+      setLoading(false)
+    }
+  }
 
-        const res = await fetch(
-          `http://localhost:3005/api/coupon/members/${member.id}/coupons/${endpointMap[activeTab]}`,
-          {
-            credentials: 'include',
-          }
-        )
+  useEffect(() => {
+    fetchCoupons()
+  }, [activeTab, member])
+
+  useEffect(() => {
+    setCurrentPage(1) // 回到第一頁
+  }, [activeTab])
+
+  useEffect(() => {
+    const fetchPoints = async () => {
+      try {
+        const res = await fetch('http://localhost:3005/api/me/points', {
+          credentials: 'include',
+        })
         const data = await res.json()
-        setCoupons(data.data?.coupons || [])
+        setPointTotal(data.total || 0)
       } catch (err) {
-        console.error('❌ 抓優惠券失敗', err)
-        setCoupons([])
-      } finally {
-        setLoading(false)
+        console.error('❌ 無法取得點數', err)
       }
     }
 
-    fetchCoupons()
-  }, [activeTab, member])
+    if (member) fetchPoints()
+  }, [member])
 
   const renderCouponCard = (coupon) => {
     const isUsed = activeTab === 'used'
@@ -86,11 +106,33 @@ export default function CouponPage() {
     }
 
     if (activeTab === 'available') {
-      return <CouponCard key={coupon.id} {...formatted} />
+      return (
+        <CouponCard
+          key={coupon.id}
+          couponId={coupon.id}
+          memberId={member?.id}
+          {...formatted}
+          onClaimed={fetchCoupons}
+        />
+      )
     } else if (activeTab === 'usable') {
-      return <CouponCardUnused key={coupon.id} {...formatted} />
+      return (
+        <CouponCardUnused
+          key={coupon.id}
+          couponId={coupon.id}
+          memberId={member?.id}
+          {...formatted}
+        />
+      )
     } else {
-      return <CouponCardUsed key={coupon.id} {...formatted} />
+      return (
+        <CouponCardUsed
+          key={coupon.id}
+          couponId={coupon.id}
+          memberId={member?.id}
+          {...formatted}
+        />
+      )
     }
   }
 
@@ -102,7 +144,12 @@ export default function CouponPage() {
   return (
     <>
       <LevelBar />
-      <VIPCard userName="李小明" accumulatedPoints={3000} />
+      {member ? (
+        <VIPCard userName={member.username} accumulatedPoints={pointTotal} />
+      ) : (
+        <p>載入會員資料中...</p>
+      )}
+
       <SelectCard activeTab={activeTab} setActiveTab={setActiveTab} />
 
       <div className={styles.couponList}>

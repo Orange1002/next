@@ -1,0 +1,86 @@
+.modalOverlay {
+  font-family: 'Kiwi Maru';
+  color: #505050;
+  border-radius: 10px;
+}
+
+.modalContainer {
+  font-family: 'Kiwi Maru';
+  color: #505050;
+}
+
+.modalTitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  label {
+    text-align: start;
+    font-size: 15px;
+    font-weight: 400;
+  }
+
+  select,
+  textarea {
+    padding: 8px 10px;
+    font-size: 14px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-family: 'Kiwi Maru';
+    resize: vertical;
+  }
+
+  .starRating {
+    display: flex;
+    gap: 5px;
+    margin-top: 6px;
+
+    svg {
+      cursor: pointer;
+      transition: color 0.2s;
+      border-radius: 4px; // ⭐ 星星區圓角（雖然不太明顯）
+    }
+  }
+
+  .modalBtnRow {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 12px;
+
+    button {
+      font-family: 'Kiwi Maru';
+      font-size: 14px;
+      padding: 6px 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+
+      &:first-child {
+        background: #ed784a;
+        color: white;
+
+        &:hover {
+          background: #c65c32;
+        }
+      }
+
+      &:last-child {
+        background: #aaa;
+
+        &:hover {
+          background: #888;
+        }
+      }
+    }
+  }
+}

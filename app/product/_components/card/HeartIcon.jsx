@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import Swal from 'sweetalert2'
 
 export default function HeartIcon({ productId, isActive = false }) {
   const [liked, setLiked] = useState(isActive)
@@ -24,6 +25,22 @@ export default function HeartIcon({ productId, isActive = false }) {
 
       const result = await res.json()
       setLiked(result.data.favorite)
+
+      if (result.data.favorite) {
+        await Swal.fire({
+          icon: 'success',
+          title: '已加入收藏！',
+          showConfirmButton: false,
+          timer: 1500,
+        })
+      } else {
+        await Swal.fire({
+          icon: 'info',
+          title: '已取消收藏！',
+          showConfirmButton: false,
+          timer: 1500,
+        })
+      }
     } catch (err) {
       console.error('收藏失敗', err)
     }

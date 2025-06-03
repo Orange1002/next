@@ -1,6 +1,9 @@
 'use client'
 
+import { useCart } from '@/hooks/use-cart'
+import { toast } from 'react-toastify'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import {
   FaFacebook,
   FaXTwitter,
@@ -10,6 +13,9 @@ import {
 } from 'react-icons/fa6'
 import styles from './ProductDetailPanel.module.scss'
 import HeartIcon from '@/app/product/_components/card/HeartIcon'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import Swal from 'sweetalert2'
 
 export default function ProductDetailPanel({
   productId = '',
@@ -25,6 +31,7 @@ export default function ProductDetailPanel({
   optionMap = {},
   basePrice = 0,
   isFavorite = false,
+  productImage = '',
 }) {
   const [quantity, setQuantity] = useState(1)
 
@@ -32,6 +39,9 @@ export default function ProductDetailPanel({
   const [selectedSize, setSelectedSize] = useState('')
   const [selectedPack, setSelectedPack] = useState('')
   const [selectedContent, setSelectedContent] = useState('')
+  const [shareUrl, setShareUrl] = useState('')
+  const router = useRouter()
+  const { onAdd } = useCart()
 
   const selectedOptionIds = [
     optionMap[selectedColor],
@@ -72,6 +82,12 @@ export default function ProductDetailPanel({
     }
   }, [contentOptions])
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setShareUrl(window.location.href) // 這裡要確保不是空字串
+    }
+  }, [])
+
   const finalPrice = basePrice + Number(matchedCombination?.price || 0)
 
   const toggleFavorite = async () => {
@@ -91,31 +107,69 @@ export default function ProductDetailPanel({
     }
   }
 
+  const handleAddToCart = async () => {
+    const result = await Swal.fire({
+      title: '加入購物車',
+      text: `確定要將「${productName}」加入購物車嗎？`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: '加入',
+      cancelButtonText: '取消',
+    })
+
+    if (!result.isConfirmed) return
+
+    const mainImage =
+      Array.isArray(productImage) && productImage.length > 0
+        ? productImage.find((img) => img.is_primary)?.image ||
+          productImage[0].image
+        : ''
+
+    const productData = {
+      product_id: productId,
+      name: productName,
+      price: finalPrice,
+      color: selectedColor,
+      size: selectedSize,
+      packing: selectedPack,
+      items_group: selectedContent,
+      count: quantity,
+      image: mainImage,
+      type: 'product',
+    }
+
+    onAdd('product', productData)
+    toast.success(`"${productName}" 已加入購物車！`)
+  }
+
   return (
     <div className={styles.productDetail}>
+      <ToastContainer position="bottom-right" autoClose={3000} />
       {/* 商品 ID 與分享 */}
       <div className={styles.detailContainer1}>
         <div className={styles.idShareContainer}>
           <div className={styles.productId}>{productSN}</div>
           <div className={styles.share}>
             Share :
-            <a
-              className={styles.shareIcon}
-              href="https://www.facebook.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FaFacebook
-                className="fa-brands fa-facebook"
-                style={{ color: '#929292' }}
-              />
-            </a>
-            <a href="https://x.com/" target="_blank" rel="noopener noreferrer">
-              <FaXTwitter
-                className="fa-brands fa-x-twitter"
-                style={{ color: '#929292' }}
-              />
-            </a>
+            {shareUrl && (
+              <>
+                <a
+                  className={styles.shareIcon}
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaFacebook style={{ color: '#929292' }} />
+                </a>
+                <a
+                  href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(productName)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaXTwitter style={{ color: '#929292' }} />
+                </a>
+              </>
+            )}
             <a
               href="https://www.instagram.com/"
               target="_blank"
@@ -248,18 +302,25 @@ export default function ProductDetailPanel({
               <FaPlus className="fa-solid fa-plus" />
             </button>
           </div>
-          <button className={styles.addToCartBtn}>ADD TO CART</button>
+          <button className={styles.addToCartBtn} onClick={handleAddToCart}>
+            ADD TO CART
+          </button>
         </div>
 
-        <button className={styles.checkoutBtn}>立即結帳</button>
+        <button
+          className={styles.checkoutBtn}
+          onClick={() => router.push('/shopcart')}
+        >
+          立即結帳
+        </button>
 
         <div className={styles.productLinks}>
           <div className={styles.linksContainer}>
-            <a href="#" className={styles.active}>
+            <a href="#guide" className={styles.active}>
               尺寸指南
             </a>
-            <a href="#">注意事項</a>
-            <a href="#">關於產品</a>
+            <a href="#notice">注意事項</a>
+            <a href="#comments">商品評論</a>
           </div>
         </div>
       </div>

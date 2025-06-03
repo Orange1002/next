@@ -8,14 +8,16 @@ import { AuthProvider } from '@/hooks/use-auth'
 // 通知 context
 import { NotificationProvider } from '@/contexts/NotificationContext'
 // 購物車用
-// import { CartProvider } from '@/hooks/use-cart'
+import { CartProvider } from '@/hooks/use-cart'
 // 搭配swr-devtools使用
 // import { SWRDevTools } from 'swr-devtools'
 
 export default function Providers({ children }) {
   return (
     <AuthProvider>
-      <NotificationProvider>{children}</NotificationProvider>
+      <NotificationProvider>
+        <CartProvider>{children}</CartProvider>
+      </NotificationProvider>
     </AuthProvider>
   )
 }

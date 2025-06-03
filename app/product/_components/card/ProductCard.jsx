@@ -5,6 +5,7 @@ import HeartIcon from './HeartIcon'
 import CartIcon from './CartIcon'
 import { FaStar } from 'react-icons/fa'
 import { useRouter } from 'next/navigation' // 如果是 pages router 改用 next/router
+import { useCart } from '@/hooks/use-cart'
 
 export default function ProductCard({
   id,
@@ -15,6 +16,11 @@ export default function ProductCard({
   isFavorite = false,
 }) {
   const router = useRouter()
+  const { items } = useCart()
+
+  const isInCart = items.some(
+    (item) => item.type === 'product' && item.product_id === id
+  )
 
   const handleClick = () => {
     router.push(`/product/${id}`)
@@ -36,11 +42,15 @@ export default function ProductCard({
         <div className="product-card-price">{price}</div>
         <div className="product-card-icon">
           <div className="product-card-star">
-            <FaStar style={{ color: 'orange' }} className='CardIcon'/>
+            <FaStar style={{ color: 'orange' }} className="CardIcon" />
             <p>{avgRating || '0'}</p>
           </div>
-          <HeartIcon productId={id} isActive={isFavorite} className='CardHeartIcon'/>
-          <CartIcon className='CardIcon'/>
+          <HeartIcon
+            productId={id}
+            isActive={isFavorite}
+            className="CardHeartIcon"
+          />
+          <CartIcon className="CardIcon" isActive={isInCart} />
         </div>
       </div>
     </div>

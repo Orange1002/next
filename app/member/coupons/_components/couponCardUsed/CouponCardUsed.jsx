@@ -1,8 +1,17 @@
 import styles from './CouponCardUsed.module.scss'
 import Image from 'next/image'
 import PropTypes from 'prop-types'
+import Link from 'next/link'
 
-const CouponCardUsed = ({ title, date, minSpend, multiplier, image }) => {
+const CouponCardUsed = ({
+  title,
+  date,
+  minSpend,
+  multiplier,
+  image,
+  couponId,
+  memberId,
+}) => {
   const usedImage = image
     ? image.replace(/\\/g, '/').replace(/\/([^/]+)\.png$/, '/Used$1.png')
     : '/coupon_img/UsedDefaultCoupon.png'
@@ -10,12 +19,14 @@ const CouponCardUsed = ({ title, date, minSpend, multiplier, image }) => {
   return (
     <div className={styles.couponCard}>
       <div className={styles.couponLeft}>
-        <Image
-          src={usedImage}
-          alt="已使用優惠券圖"
-          width={100}
-          height={100}
-        />
+        <Link href={`/coupon/${couponId}`}>
+          <Image
+            src={usedImage}
+            alt="已使用優惠券圖"
+            width={100}
+            height={100}
+          />
+        </Link>
       </div>
       <div className={styles.couponContent}>
         <div className={styles.couponBody}>

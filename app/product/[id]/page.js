@@ -18,25 +18,26 @@ export default function ProductDetailPage() {
   const [loading, setLoading] = useState(true)
   const { id } = useParams()
   const [relatedProducts, setRelatedProducts] = useState([])
+  const [member, setMember] = useState(null)
+
+  const fetchProduct = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:3005/api/product/products/${id}`,
+        {
+          credentials: 'include',
+        }
+      )
+      const data = await res.json()
+      setProduct(data.data.product)
+    } catch (err) {
+      console.error('❌ 抓商品失敗', err)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const res = await fetch(
-          `http://localhost:3005/api/product/products/${id}`,
-          {
-            credentials: 'include',
-          }
-        )
-        const data = await res.json()
-        setProduct(data.data.product)
-      } catch (err) {
-        console.error('❌ 抓商品失敗', err)
-      } finally {
-        setLoading(false)
-      }
-    }
-
     if (id) fetchProduct()
   }, [id])
 
@@ -66,6 +67,24 @@ export default function ProductDetailPage() {
 
     fetchRelated()
   }, [product])
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await fetch('http://localhost:3005/api/me/me', {
+          credentials: 'include',
+        })
+        if (res.ok) {
+          const data = await res.json()
+          setMember(data)
+        }
+      } catch (error) {
+        console.error('❌ 抓會員失敗', error)
+      }
+    }
+
+    fetchProfile()
+  }, [])
 
   if (loading) return <div>載入中...</div>
   if (!product) return <div>找不到商品</div>
@@ -129,7 +148,11 @@ export default function ProductDetailPage() {
             <ProductDetailPanel
               productSN={product.sn || `PRD-${product.id}`}
               productName={product.name}
-              productNote="超取滿NT$1,000免運"
+              productNote={
+                product.coupons?.length > 0
+                  ? `${product.coupons.map((c) => c.title).join('、')}`
+                  : '超取滿NT$1,000免運'
+              }
               price={`NT$${product.price}`}
               colorOptions={colorOptions}
               sizeOptions={sizeOptions}
@@ -140,6 +163,7 @@ export default function ProductDetailPage() {
               basePrice={Number(product.price)}
               isFavorite={product.isFavorite}
               productId={product.id}
+              productImage={product.product_images}
             />
           </div>
         </section>
@@ -149,29 +173,40 @@ export default function ProductDetailPage() {
             <ProductSidebar />
             <div className={styles.descriptionContainer}>
               <div className={styles.productInfo}>
-                <ProductSpecs
-                  specs={product.product_specifications.map((s) => ({
-                    title: s.title,
-                    items: s.value.split('\n'),
-                  }))}
-                />
+                <div id="guide" className={styles.scrollAnchor}>
+                  <ProductSpecs
+                    specs={product.product_specifications.map((s) => ({
+                      title: s.title,
+                      items: s.value.split('\n'),
+                    }))}
+                  />
+                </div>
                 <ProductDescription
                   title={product.name}
                   content={product.description?.split('\n') || []}
                 />
-
-                <OrderNotice content={product.notice?.split('\n') || []} />
+                <div id="notice" className={styles.scrollAnchor}>
+                  <OrderNotice content={product.notice?.split('\n') || []} />
+                </div>
               </div>
-              <UserVoiceList
-                data={
-                  product.reviews?.map((r) => ({
-                    date: new Date(r.created_at).toLocaleDateString('zh-TW'),
-                    rate: r.rating,
-                    title: `來自會員 #${r.memberId}`,
-                    content: r.comment || '（無留言）',
-                  })) || []
-                }
-              />
+
+              <div id="comments" className={styles.scrollAnchor}>
+                <UserVoiceList
+                  data={
+                    product.reviews?.map((r) => ({
+                      id: r.id,
+                      memberId: r.memberId,
+                      username: r.member?.username ?? '',
+                      date: new Date(r.created_at).toLocaleDateString('zh-TW'),
+                      rate: r.rating,
+                      content: r.comment || '（無留言）',
+                    })) || []
+                  }
+                  productId={product.id}
+                  memberId={member?.id} // ✅ 把登入的會員 ID 傳給 UserVoiceList
+                  onUpdated={fetchProduct}
+                />
+              </div>
               <RelatedProductList title="推薦商品" products={relatedProducts} />
             </div>
           </div>
