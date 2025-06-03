@@ -30,7 +30,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
   }
 
   return (
-    <div className={styles.pagination}>
+    <div className={`${styles.pagination} mt-3`}>
       <button
         onClick={() => handlePageClick(currentPage - 1)}
         disabled={currentPage === 1}

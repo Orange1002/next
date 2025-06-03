@@ -1,6 +1,21 @@
 .breadcrumb {
-    margin-top: 6.5rem;
-  }
+  margin-top: 6.5rem;
+}
 
+.breadcrumb :global(.breadcrumb-item) {
+  color: #666; /* 一般項目顏色 */
+}
 
-  
+.breadcrumb :global(.breadcrumb-item a) {
+  color: #666; /* 有連結的項目顏色 */
+}
+
+.breadcrumb :global(.breadcrumb-item a:hover) {
+  color: #666;
+  text-decoration: underline;
+}
+
+.breadcrumb :global(.breadcrumb-item.active) {
+  color: #ed784a; /* 當前頁面顏色 */
+  font-weight: bold;
+}

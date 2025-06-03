@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import CreatableSelect from 'react-select/creatable'
-
-
+import { useRouter } from 'next/navigation'
 function PostArticle() {
+  const router = useRouter()
   const [previewSrcs, setPreviewSrcs] = useState([])
   const [imageFiles, setImageFiles] = useState([])
   const [categoryOptions, setCategoryOptions] = useState([
@@ -10,6 +10,7 @@ function PostArticle() {
     { value: '2', label: '行為與訓練' },
     { value: '3', label: '健康與保健' },
     { value: '4', label: '戶外活動與探險' },
+    { value: '5', label: '分享狗狗的一切' },
   ])
   const [selectedCategory, setSelectedCategory] = useState(null)
 
@@ -63,6 +64,7 @@ function PostArticle() {
       const data = await res.json()
       if (data.success) {
         alert('文章發表成功')
+        router.push('/article/list')
         form.reset()
         setPreviewSrcs([])
         setImageFiles([])

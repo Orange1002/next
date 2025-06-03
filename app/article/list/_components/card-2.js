@@ -6,7 +6,9 @@ import { FaRegHeart, FaHeart } from 'react-icons/fa'
 
 const Card2 = ({ article }) => {
   const [isFavorited, setIsFavorited] = useState(false)
-  const [favoriteCount, setFavoriteCount] = useState(article.favorite_count || 0)
+  const [favoriteCount, setFavoriteCount] = useState(
+    article.favorite_count || 0
+  )
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -104,7 +106,7 @@ const Card2 = ({ article }) => {
                   : article.title}
               </h5>
               <p className="text-content text-break lh-base big-card">
-                {article.content1 && article.content1.substring(0, 100)}
+                {article.content1 && article.content1.substring(0, 100) + '....'}
               </p>
               <div className="d-flex justify-content-between mt-4 align-items-center">
                 <p className="mb-0">
@@ -142,7 +144,6 @@ export default Card2
 // import Image from 'next/image'
 // import Link from 'next/link'
 // import { FaRegHeart, FaHeart } from 'react-icons/fa'
-
 
 // const Card2 = ({ article }) => {
 //   const [isFavorited, setIsFavorited] = useState(false)
@@ -240,7 +241,6 @@ export default Card2
 //           </div>
 //           <div className="col-md-7">
 //             <div className="card-body pt-4 position-relative">
-             
 
 //               <h5 className="card-title title-1 mt-2">
 //                 {article.title && article.title.length > 20
@@ -280,4 +280,3 @@ export default Card2
 // }
 
 // export default Card2
-

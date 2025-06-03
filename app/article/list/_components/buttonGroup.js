@@ -5,10 +5,11 @@ const ButtonGroup = ({ onCategorySelect }) => {
   // 新增「全部」作為第一項
   const categories = [
     '所有文章',
-    '飲食與營養',
+    '營養與飲食',
     '行為與訓練',
     '健康與保健',
     '戶外活動與探險',
+    '分享狗狗的一切',
   ]
 
   const [selectedCategory, setSelectedCategory] = useState('全部')

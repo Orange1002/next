@@ -9,6 +9,7 @@ import Pagination from '../_components/Pagination/layout'
 import SectionTitle from '../_components/SectionTitle/layout'
 import { useAuth } from '@/hooks/use-auth'
 import axios from 'axios'
+import MobileMemberMenu from '../_components/mobileLinks/layout'
 
 export default function ProductSection() {
   const searchParams = useSearchParams()
@@ -88,7 +89,7 @@ export default function ProductSection() {
               className={`${styles.tabBtn} ${activeTab === 'sitters' ? styles.active : ''} btn`}
               onClick={() => handleTabClick('sitters')}
             >
-              狗狗保母
+              寵物保母
             </button>
           </div>
 
@@ -133,6 +134,7 @@ export default function ProductSection() {
           onPageChange={setCurrentPage}
         />
       </div>
+      <MobileMemberMenu />
     </>
   )
 }

@@ -90,10 +90,10 @@ const SmallArticleCard = ({ article }) => {
     return str.length > maxLength ? str.slice(0, maxLength) + '...' : str
   }
   return (
-    <div className="col-12 col-sm-6 col-md-4 col-lg-2">
+    <div className="col">
       <Link
         href={`/article/article-detail/${article.id}`}
-        className="card card-s h-100 position-relative text-decoration-none"
+        className="card card-s w-100 h-100 position-relative text-decoration-none"
         style={{ color: 'inherit' }}
       >
         <Image
@@ -101,19 +101,20 @@ const SmallArticleCard = ({ article }) => {
           height={200}
           src={imageSrc}
           className="card-img-top object-fit-cover"
-          alt={article.title}
+          alt={article.title || '文章圖片'}
         />
         <div className="card-body d-flex align-items-center p-4 mb-4 position-relative">
           <p className="card-text card-s-p ps-3 mb-0">
             {truncateTitle(article.title, 18)}
           </p>
-          {/* 狗腳印 icon，放右上角示範 */}
+
           <div
             className="position-absolute top-0 end-0 p-2 paw-icon"
             style={{ fontSize: '20px', color: '#ed784a', cursor: 'pointer' }}
           >
             <FaPaw />
           </div>
+
           <div
             className="position-absolute bottom-0 end-0 p-3 d-flex align-items-center gap-1"
             style={{ cursor: loading ? 'not-allowed' : 'pointer' }}

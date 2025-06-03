@@ -1,3 +1,4 @@
+
 'use client'
 
 import React, { useEffect, useState } from 'react'
@@ -13,10 +14,9 @@ import '../_style/article.scss'
 import './_style/list.scss'
 
 const PAGE_SIZE = 6
-
 const images = [
-  '/article_img/d1e21f1a-4730-472b-8531-51b3c7b7890a.jpg',
-  '/article_img/istockphoto-1300658241-612x612.jpg',
+  '/article_img/IMG_8676-scaled-1.jpg',
+  '/article_img/main_img_202011.jpg',
 ]
 
 function ArticleHeaderPhoto() {
@@ -27,40 +27,49 @@ function ArticleHeaderPhoto() {
   const [currentPage, setCurrentPage] = useState(1)
   const [keyword, setKeyword] = useState('')
   const [category, setCategory] = useState('')
+  // *** 新增: 假設的會員 ID ***
+  // 在實際應用中，這會是從登入狀態或 context 獲取
+  const [memberId, setMemberId] = useState(1) // 假設會員 ID 為 1
+
   const breadcrumbItems = [
     { name: '首頁', href: '/' },
     { name: '文章', href: '/article' },
     { name: '文章列表', href: '/article/list' },
   ]
-  // 初始載入所有文章
+
   useEffect(() => {
     fetchArticles()
   }, [])
 
-  const fetchArticles = (searchKeyword = '', selectedCategory = '') => {
+  // *** 修改: fetchArticles 函式，新增 memberId 參數 ***
+  const fetchArticles = (
+    searchKeyword = '',
+    selectedCategory = '',
+    memberId = null
+  ) => {
     setLoading(true)
-    // 使用 URLSearchParams 組合查詢字串，避免錯誤
     const params = new URLSearchParams()
-    if (searchKeyword) {
-      params.append('keyword', searchKeyword)
-    }
-    if (selectedCategory) {
+    if (searchKeyword) params.append('keyword', searchKeyword)
+    // 如果 category 是 '我的文章'，則不傳遞 category_name，而是傳遞 member_id
+    if (selectedCategory && selectedCategory !== '我的文章') {
       params.append('category_name', selectedCategory)
     }
+    // 如果有 memberId 並且是查詢我的文章，則傳遞 member_id
+    if (memberId) {
+      params.append('member_id', memberId)
+    }
 
-    const url = `http://localhost:3005/api/article/article-detail?${params.toString()}`
-
-    fetch(url)
+    fetch(
+      `http://localhost:3005/api/article/article-detail?${params.toString()}`
+    )
       .then((res) => {
-        if (!res.ok) {
-          throw new Error('抓取文章列表失敗')
-        }
+        if (!res.ok) throw new Error('抓取文章列表失敗')
         return res.json()
       })
       .then((data) => {
         if (data.success && data.result) {
           setArticles(data.result)
-          setCurrentPage(1) // 搜尋後回第一頁
+          setCurrentPage(1)
         } else {
           throw new Error(data.message || '未知錯誤')
         }
@@ -72,45 +81,47 @@ function ArticleHeaderPhoto() {
       })
   }
 
+  // *** 修改: handleCategorySelect 函式 ***
   const handleCategorySelect = (selectedCategory) => {
     setCategory(selectedCategory)
-    fetchArticles(keyword, selectedCategory)
-    const el = document.getElementsByClassName('stophere')[0]
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' })
+    setKeyword('')
+    // 如果選擇的是「我的文章」，則傳遞 memberId
+    if (selectedCategory === '我的文章') {
+      fetchArticles('', '', memberId) // 傳遞 memberId
+    } else {
+      fetchArticles('', selectedCategory) // 正常傳遞類別
     }
+
+    const el = document.getElementsByClassName('stophere')[0]
+    if (el) el.scrollIntoView({ behavior: 'smooth' })
   }
 
   const handleSearch = (e) => {
     e.preventDefault()
-    fetchArticles(keyword, category)
+    // 在這裡處理搜尋時，也要考慮是否正在篩選「我的文章」
+    // 如果 category 是「我的文章」，則搜索也應該在該會員的文章中進行
+    if (category === '我的文章') {
+      fetchArticles(keyword, '', memberId)
+    } else {
+      fetchArticles(keyword, category)
+    }
   }
 
-  // 總頁數
   const totalPages = Math.ceil(articles.length / PAGE_SIZE)
-
-  // 當前頁面文章切片
   const startIndex = (currentPage - 1) * PAGE_SIZE
   const currentArticles = articles.slice(startIndex, startIndex + PAGE_SIZE)
 
-  // 換頁事件
   const handlePageChange = (page) => {
     if (page < 1) page = 1
     else if (page > totalPages) page = totalPages
     setCurrentPage(page)
     const el = document.getElementsByClassName('stophere')[0]
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' })
-    }
+    if (el) el.scrollIntoView({ behavior: 'smooth' })
   }
 
-  if (loading) {
-    return <p className="text-center mt-5">讀取文章列表中...</p>
-  }
-
-  if (error) {
+  if (loading) return <p className="text-center mt-5">讀取文章列表中...</p>
+  if (error)
     return <p className="text-center mt-5 text-danger">錯誤：{error}</p>
-  }
 
   return (
     <>
@@ -128,16 +139,15 @@ function ArticleHeaderPhoto() {
           ))}
         </div>
       </div>
+
       <div className="container desktop">
         <div className="row">
           <div className="col-6">
-            <Breadcrumb items={breadcrumbItems}/>
+            <Breadcrumb items={breadcrumbItems} />
           </div>
-
           <div className="col-6 d-flex justify-content-end">
             <form
               className="d-flex card-search ms-auto gap-2 mt-5"
-              role="search"
               onSubmit={handleSearch}
             >
               <div className="input-group">
@@ -145,7 +155,6 @@ function ArticleHeaderPhoto() {
                   className="form-control rounded-pill"
                   type="search"
                   placeholder="Search"
-                  aria-label="Search"
                   value={keyword}
                   onChange={(e) => setKeyword(e.target.value)}
                 />
@@ -159,17 +168,18 @@ function ArticleHeaderPhoto() {
             </form>
           </div>
         </div>
+
         <div className="mt-5 row mb-footer-gap">
           <div className="col-2">
-            <Articlelist />
+            {/* 將 onSelectCategory 傳遞下去 */}
+            <Articlelist onSelectCategory={handleCategorySelect} />
           </div>
           <div className="col-10 stophere">
+            {/* 您可能也需要修改 ButtonGroup 讓它可以傳遞 memberId */}
             <ButtonGroup onCategorySelect={handleCategorySelect} />
-            {/* 顯示目前頁面的文章 */}
             {currentArticles.map((article) => (
               <Card2 key={article.id} article={article} />
             ))}
-            {/* 分頁元件 */}
             <ChangePage
               currentPage={currentPage}
               totalPages={totalPages}
@@ -177,6 +187,7 @@ function ArticleHeaderPhoto() {
             />
           </div>
         </div>
+
         <FloatingActionButton />
       </div>
     </>
