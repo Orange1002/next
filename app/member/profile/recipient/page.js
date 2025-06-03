@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import SectionTitle from '../../_components/SectionTitle/layout'
 import { useAuth } from '../../../../hooks/use-auth.js'
 import styles from './member-recipient.module.scss'
+import MobileMemberMenu from '../../_components/mobileLinks/layout'
 
 export default function RecipientPage() {
   const router = useRouter()
@@ -88,6 +89,7 @@ export default function RecipientPage() {
           </div>
         </div>
       </div>
+      <MobileMemberMenu />
     </>
   )
 }

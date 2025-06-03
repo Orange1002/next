@@ -248,7 +248,7 @@ export default function DogForm({
         />
       </div>
 
-      <div className="d-flex justify-content-center gap-5">
+      <div className="d-flex justify-content-center gap-3 gap-lg-5">
         <CancelButton to="/member/profile/dogs">取消</CancelButton>
         <SubmitButton>{isEdit ? '更新' : '新增'}</SubmitButton>
       </div>

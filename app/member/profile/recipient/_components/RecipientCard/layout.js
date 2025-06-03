@@ -70,7 +70,7 @@ export default function RecipientCard({ recipient, onDeleteSuccess }) {
   }
 
   return (
-    <div className={`${styles.block} col py-2 px-3 mb-3`}>
+    <div className={`${styles.block} col py-2 ps-3 pe-2 px-lg-3 mb-3`}>
       <div className="row">
         <div className="col-9 col-lg-11">
           <div className="d-flex flex-column gap-2">

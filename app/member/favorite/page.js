@@ -7,7 +7,9 @@ import SectionTitle from '../_components/SectionTitle/layout'
 import Pagination from '../_components/Pagination/layout'
 import ProductsPage from './_components/ProductsPage/layout'
 import ArticlesPage from './_components/ArticlesPage/layout'
-import { useAuth } from '../../../hooks/use-auth' // 假設你的 useAuth
+import { useAuth } from '../../../hooks/use-auth'
+
+import MobileMemberMenu from '../_components/mobileLinks/layout'
 
 export default function FavoriteSection() {
   const searchParams = useSearchParams()
@@ -70,7 +72,7 @@ export default function FavoriteSection() {
 
   return (
     <>
-      <SectionTitle>我的收藏</SectionTitle>
+      <SectionTitle className="d-none">我的收藏</SectionTitle>
       <div className="d-flex flex-column justify-content-between h-100">
         <div className="d-flex flex-column">
           {/* Tabs */}
@@ -119,6 +121,7 @@ export default function FavoriteSection() {
           onPageChange={setCurrentPage}
         />
       </div>
+      <MobileMemberMenu />
     </>
   )
 }

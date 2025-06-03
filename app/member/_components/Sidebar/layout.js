@@ -146,7 +146,7 @@ export default function Sidebar() {
         <div className="d-flex flex-column">
           <div className="px-3 py-2 fw-bold text-center">其他</div>
           <Link
-            href="/article"
+            href="/article/list"
             className={`border-bottom p-2 ${styles.listGroupItem}`}
           >
             我的文章

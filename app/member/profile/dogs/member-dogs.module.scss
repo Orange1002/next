@@ -71,3 +71,22 @@
 .scrollContainer {
   -ms-overflow-style: none;
 }
+
+@media (max-width: 768px) {
+  .scrollContainer {
+    flex-direction: column !important;
+    overflow-x: hidden !important;
+    overflow-y: visible;
+    align-items: center; // 可選，看是否要置中
+  }
+
+  .scroll-btn {
+    display: none !important;
+  }
+
+  // .dog-card {
+  //   width: 100% !important;
+  //   max-width: 400px; // 自訂寬度
+  //   margin: 0 auto; // 水平置中
+  // }
+}

@@ -7,6 +7,7 @@ import styles from './member-dogs.module.scss'
 import SectionTitle from '../../_components/SectionTitle/layout'
 import { FaChevronCircleLeft } from 'react-icons/fa'
 import { FaChevronCircleRight } from 'react-icons/fa'
+import MobileMemberMenu from '../../_components/mobileLinks/layout'
 
 const DEFAULT_IMAGE = '/member/dogs_images/default-dog.png'
 
@@ -99,9 +100,9 @@ export default function DogsPage() {
   return (
     <>
       <SectionTitle>狗狗資料</SectionTitle>
-      <div className="mt-lg-3 h-100">
+      <div className="mt-3 h-100">
         <div
-          className={`${styles.block} d-flex flex-column justify-content-start g-0 p-5 h-100`}
+          className={`${styles.block} d-flex flex-column justify-content-start g-0 p-0 p-lg-5 h-100`}
         >
           {showLeft && (
             <button
@@ -124,7 +125,7 @@ export default function DogsPage() {
           {/* 卡片列 */}
           <div
             ref={scrollRef}
-            className={`${styles.scrollContainer} justify-content-center d-flex flex-nowrap overflow-auto`}
+            className={`${styles.scrollContainer} justify-content-lg-center d-flex flex-nowrap overflow-auto`}
             style={{ gap: '1rem', paddingBottom: '1rem' }}
           >
             {dogs.length === 0 ? (
@@ -132,7 +133,7 @@ export default function DogsPage() {
             ) : (
               dogs.slice(0, 6).map((dog) => (
                 <div
-                  className="col-12 col-md-6 col-lg-4 p-2"
+                  className="col-12 col-md-6 mt-2 mt-lg-0 col-lg-4 p-2 d-flex justify-content-center"
                   key={dog.id}
                   style={{ flex: '0 0 auto' }} // 避免被壓縮
                 >
@@ -144,7 +145,7 @@ export default function DogsPage() {
 
           {/* 新增按鈕 */}
           {dogs.length < 6 ? (
-            <div className="d-flex justify-content-center mt-2 mt-lg-4">
+            <div className="d-flex justify-content-center mt-2 mt-lg-4 mb-3 mb-lg-0">
               <button
                 className={styles.btnCustom}
                 onClick={() => router.push('/member/profile/dogs/add')}
@@ -157,6 +158,7 @@ export default function DogsPage() {
           )}
         </div>
       </div>
+      <MobileMemberMenu />
     </>
   )
 }

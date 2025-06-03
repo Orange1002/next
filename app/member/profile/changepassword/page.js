@@ -7,6 +7,7 @@ import styles from './changepassword.module.css'
 import { useAuth } from '../../../../hooks/use-auth'
 import { FaLock } from 'react-icons/fa'
 import Swal from 'sweetalert2'
+import MobileMemberMenu from '../../_components/mobileLinks/layout'
 
 export default function ChangePasswordPage() {
   const [currentPassword, setCurrentPassword] = useState('')
@@ -98,7 +99,7 @@ export default function ChangePasswordPage() {
       <SectionTitle>修改密碼</SectionTitle>
       <div className="mt-lg-3 h-100">
         <div
-          className={`${styles.block} p-lg-5 h-100 d-flex flex-column justify-content-center`}
+          className={`${styles.block} p-3 pb-4 p-lg-5 h-100 d-flex flex-column justify-content-center`}
         >
           <form onSubmit={handleSubmit}>
             <div className="d-flex flex-column align-items-center justify-content-between">
@@ -146,6 +147,7 @@ export default function ChangePasswordPage() {
           </form>
         </div>
       </div>
+      <MobileMemberMenu />
     </>
   )
 }

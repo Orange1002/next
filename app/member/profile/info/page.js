@@ -5,6 +5,7 @@ import styles from './member-Info.module.scss'
 import Image from 'next/image'
 import SectionTitle from '../../_components/SectionTitle/layout'
 import BtnCustom from '../../_components/BtnCustom/layout'
+import MobileMemberMenu from '../../_components/mobileLinks/layout'
 
 export default function MemberViewPage() {
   const [member, setMember] = useState(null)
@@ -69,7 +70,7 @@ export default function MemberViewPage() {
   return (
     <>
       <SectionTitle>會員基本資料</SectionTitle>
-      <div className={`${styles.block} mt-lg-3 p-4 h-100`}>
+      <div className={`${styles.block} mt-3 p-4 h-100`}>
         <div className="d-flex flex-column justify-content-evenly h-100 w-100">
           {/* 頭貼區 */}
           <div className="d-flex justify-content-center mb-4">
@@ -167,6 +168,7 @@ export default function MemberViewPage() {
           </div>
         </div>
       </div>
+      <MobileMemberMenu />
     </>
   )
 }

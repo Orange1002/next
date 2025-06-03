@@ -1,0 +1,19 @@
+.block {
+  border: 2px solid #d9d9d999;
+  border-radius: 10px;
+}
+
+.block a {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+}
+
+.block a:hover {
+  background-color: #e9ecef;
+  color: #cc543a;
+}
+
+.box {
+  border-bottom: 2px solid #d9d9d999;
+}
