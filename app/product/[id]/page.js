@@ -58,7 +58,7 @@ export default function ProductDetailPage() {
         )
         const data = await res.json()
         setRelatedProducts(
-          data.data.products.filter((p) => p.id !== product.id)
+          data.data.products.filter((p) => p.id !== product.id).slice(0, 4)
         )
       } catch (err) {
         console.error('❌ 抓推薦商品失敗', err)

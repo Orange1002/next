@@ -4,10 +4,13 @@ import { useEffect, useState } from 'react'
 import styles from './ProductImages.module.scss'
 
 export default function ProductImages({ images = [] }) {
-  // 自動處理圖片資料：從物件陣列中取出 image 屬性
-  const imageUrls = images.length > 0
-    ? images.map(img => typeof img === 'string' ? img : img.image)
-    : ['/product-img/default.jpg']
+  // ✅ 直接使用資料庫中已含完整路徑（如 /uploads/product121-1.jpg）
+  const imageUrls =
+    images.length > 0
+      ? images.map((img) =>
+          typeof img === 'string' ? img : img.image
+        )
+      : ['/uploads/default.jpg'] // ✅ 預設圖也換到 uploads 下（你可改成實際預設路徑）
 
   const [currentIndex, setCurrentIndex] = useState(0)
   const [fade, setFade] = useState(false)
@@ -64,7 +67,7 @@ export default function ProductImages({ images = [] }) {
       <div className={styles.mainImgWrapper}>
         <img
           className={`${styles.mainImg} ${fade ? styles.fadeOut : styles.fadeIn}`}
-          src={imageUrls[currentIndex]}
+          src={`http://localhost:3005${imageUrls[currentIndex]}`} // ✅ 加上完整網址
           alt={`商品圖片 ${currentIndex + 1}`}
         />
       </div>
@@ -73,7 +76,7 @@ export default function ProductImages({ images = [] }) {
           <img
             key={index}
             className={`${styles.thumbnail} ${index === currentIndex ? styles.active : ''}`}
-            src={imgUrl}
+            src={`http://localhost:3005${imgUrl}`} // ✅ 每張圖片前面都加 host
             alt={`商品縮圖 ${index + 1}`}
             onClick={() => handleThumbnailClick(index)}
           />

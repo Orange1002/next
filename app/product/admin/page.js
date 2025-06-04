@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
 import styles from './adminProductList.module.scss'
 import Pagination from './_components/pagination/Pagination'
+import Image from 'next/image'
 
 export default function AdminProductIndexPage() {
   const router = useRouter()
@@ -57,9 +58,13 @@ export default function AdminProductIndexPage() {
 
     if (!result.isConfirmed) return
 
-    const res = await fetch(`/api/products/${id}`, {
-      method: 'DELETE',
-    })
+    const res = await fetch(
+      `http://localhost:3005/api/product/products/${id}`,
+      {
+        method: 'DELETE',
+        credentials: 'include',
+      }
+    )
     const data = await res.json()
     if (res.ok) {
       Swal.fire('已刪除', '', 'success')
@@ -70,13 +75,18 @@ export default function AdminProductIndexPage() {
   }
 
   const toggleValid = async (id, currentValid) => {
-    const res = await fetch(`/api/products/${id}/status`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ valid: !currentValid }),
-    })
+    const res = await fetch(
+      `http://localhost:3005/api/product/products/${id}/status`, // ← 修正網址
+      {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', // 加上這行保持一致
+        body: JSON.stringify({ valid: !currentValid }),
+      }
+    )
     const data = await res.json()
     if (res.ok) {
+      Swal.fire('狀態已更新', '', 'success')
       setProducts((prev) =>
         prev.map((p) => (p.id === id ? { ...p, valid: !currentValid } : p))
       )
@@ -136,15 +146,25 @@ export default function AdminProductIndexPage() {
                   <tr key={p.id}>
                     <td>{p.id}</td>
                     <td>
-                      <img
-                        src={p.product_images?.[0]?.image || '/fallback.jpg'}
-                        alt={p.name}
+                      <div
                         style={{
                           width: '60px',
                           height: '60px',
-                          objectFit: 'cover',
+                          position: 'relative',
+                          margin: '0 auto', // 水平置中
                         }}
-                      />
+                      >
+                        <Image
+                          src={
+                            p.product_images?.[0]?.image
+                              ? `http://localhost:3005${p.product_images[0].image}`
+                              : '/uploads/default.jpg'
+                          }
+                          alt={p.name}
+                          fill
+                          style={{ objectFit: 'cover' }}
+                        />
+                      </div>
                     </td>
                     <td>{p.name}</td>
                     <td>{p.price}</td>
