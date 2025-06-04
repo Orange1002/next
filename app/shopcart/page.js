@@ -207,7 +207,7 @@ export default function ShopcartPage() {
             .filter((item) => item.type === 'product')
             .map((item) => (
               <div
-                key={`product-${item.product_id}`}
+                key={`product-${item.product_id}-${item.color}-${item.size}`}
                 className="d-none d-lg-flex gap-45 align-items-center bg-white mb-30"
               >
                 <div className="d-flex align-items-center gap-2 px-3 py-2 w-85">
@@ -231,12 +231,14 @@ export default function ShopcartPage() {
                   {item.name}
                 </div>
                 <div className="d-flex flex-fill">
-                  <div className="flex-item d-flex align-items-center justify-content-center ">
-                    <div>
-                      <div className="mb-2">顏色:{item.color}</div>
-                      <div className="mb-2">尺寸: {item.size}</div>
-                      <div className="mb-2">包裝: {item.packing}</div>
-                      <div>內容物:{item.items_group}</div>
+                  <div className="flex-item d-flex align-items-center justify-content-center">
+                    <div className="d-flex flex-column gap-2">
+                      {item.color && <div>顏色: {item.color}</div>}
+                      {item.size && <div>尺寸: {item.size}</div>}
+                      {item.packing && <div>包裝: {item.packing}</div>}
+                      {item.items_group && (
+                        <div>內容物: {item.items_group}</div>
+                      )}
                     </div>
                   </div>
                   <div className="flex-item d-flex align-items-center justify-content-center">
@@ -295,7 +297,7 @@ export default function ShopcartPage() {
                 .filter((item) => item.type === 'product')
                 .map((item) => (
                   <div
-                    key={`product-${item.product_id}`}
+                    key={`product-${item.product_id}-${item.color}-${item.size}`}
                     className="d-flex position-relative p-12 mb-2 mb-lg-0 border-gray2"
                   >
                     <div className="w-30 d-flex align-items-center">
@@ -317,27 +319,33 @@ export default function ShopcartPage() {
                       />
                     </div>
                     <div className="w-187">
-                      <div className="box7 h-20 d-flex align-items-center">
+                      <div className="box7 h-25 d-flex align-items-center">
                         {item.name}
                       </div>
-                      <div className="h-2 d-flex align-items-center">
-                        顏色:{item.color}
+                      <div className="d-flex flex-column gap-1 h-50">
+                        {item.color && (
+                          <div className="d-flex align-items-center">
+                            顏色: {item.color}
+                          </div>
+                        )}
+                        {item.size && (
+                          <div className="d-flex align-items-center">
+                            尺寸: {item.size}
+                          </div>
+                        )}
+                        {item.packing && (
+                          <div className="d-flex align-items-center">
+                            包裝: {item.packing}
+                          </div>
+                        )}
+                        {item.items_group && (
+                          <div className="d-flex align-items-center">
+                            內容物: {item.items_group}
+                          </div>
+                        )}
                       </div>
-                      {item.size && (
-                        <div className="h-20 d-flex align-items-center">
-                          尺寸: {item.size}
-                        </div>
-                      )}
 
-                      {item.packing && (
-                        <div className="h-20 d-flex align-items-center">
-                          包裝: {item.packing}
-                        </div>
-                      )}
-                      <div className="h-20 d-flex align-items-center">
-                        內容物:{item.items_group}
-                      </div>
-                      <div className="h-20 d-flex align-items-center justify-content-between">
+                      <div className="h-25 d-flex align-items-center justify-content-between">
                         <div>
                           NT${item.price * (item.count || 1).toLocaleString()}
                         </div>

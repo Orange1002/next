@@ -1,6 +1,6 @@
 'use client'
 import '../_styles/shopcart.scss'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useCart } from '@/hooks/use-cart'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/use-auth'
@@ -84,11 +84,45 @@ export default function OrderPage() {
     }
   }, [searchParams])
 
-  // 優惠卷
-  const [showCouponModal, setShowCouponModal] = useState(false)
   const [coupons, setCoupons] = useState([])
-  const [selectedCoupon, setSelectedCoupon] = useState(null)
+  const [showCouponModal, setShowCouponModal] = useState(false)
 
+  // 篩選優惠卷
+  const filteredCoupons = useMemo(() => {
+    const hasProduct = selectedProductKeys.length > 0
+    const hasSitter = selectedSitterKeys.length > 0
+
+    if (!hasProduct && !hasSitter) return []
+
+    const selectedProducts = items.filter(
+      (item) =>
+        item.type === 'product' &&
+        selectedProductKeys.includes(
+          `${item.product_id}_${item.color}_${item.size}__${item.items_group}`
+        )
+    )
+
+    return coupons.filter((coupon) => {
+      const usageType = Number(coupon.usage_type_id)
+
+      if (hasProduct && !hasSitter && usageType !== 1) return false
+      if (!hasProduct && hasSitter && usageType !== 2) return false
+      if (!hasProduct && !hasSitter) return false
+
+      if (usageType === 1) {
+        if (!coupon.category_id) return false
+
+        const hasMatchedCategory = selectedProducts.some(
+          (product) => product.category_id === coupon.category_id
+        )
+        if (!hasMatchedCategory) return false
+      }
+
+      return true
+    })
+  }, [coupons, selectedProductKeys, selectedSitterKeys, items])
+
+  // 按鈕開啟優惠券 Modal 並抓資料
   const handleOpenCouponModal = async () => {
     try {
       const response = await axios.get(
@@ -101,6 +135,7 @@ export default function OrderPage() {
     }
   }
 
+  // 計算金額
   const discount =
     formData.discountType === 'fixed'
       ? formData.discountValue
@@ -525,8 +560,8 @@ export default function OrderPage() {
                       <h3 className="fs-32">選擇優惠卷</h3>
                     </div>
                     <div className="p-5 overflow-auto box12">
-                      {coupons.length > 0 ? (
-                        coupons.map((coupon) => (
+                      {filteredCoupons.length > 0 ? (
+                        filteredCoupons.map((coupon) => (
                           <div
                             className={CouponStyle.couponCard}
                             key={coupon.id}
@@ -592,6 +627,7 @@ export default function OrderPage() {
                         </div>
                       )}
                     </div>
+
                     <div className="d-flex align-items-center justify-content-center">
                       <button
                         type="button"

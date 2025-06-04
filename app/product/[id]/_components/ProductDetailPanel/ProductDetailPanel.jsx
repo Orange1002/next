@@ -23,6 +23,7 @@ export default function ProductDetailPanel({
   productName = '預設商品名稱',
   productNote = '超取滿NT$1,000免運',
   price = 'NT$0',
+  categoryId = '',
   colorOptions = [],
   sizeOptions = [],
   packOptions = [],
@@ -34,7 +35,6 @@ export default function ProductDetailPanel({
   productImage = '',
 }) {
   const [quantity, setQuantity] = useState(1)
-
   const [selectedColor, setSelectedColor] = useState('')
   const [selectedSize, setSelectedSize] = useState('')
   const [selectedPack, setSelectedPack] = useState('')
@@ -127,6 +127,7 @@ export default function ProductDetailPanel({
 
     const productData = {
       product_id: productId,
+      category_id: categoryId,
       name: productName,
       price: finalPrice,
       color: selectedColor,
