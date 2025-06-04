@@ -125,6 +125,10 @@ export default function ProductDetailPanel({
           productImage[0].image
         : ''
 
+    const fullImageUrl = mainImage?.startsWith('/uploads/')
+      ? `http://localhost:3005${mainImage}`
+      : mainImage || '/uploads/default.jpg'
+
     const productData = {
       product_id: productId,
       category_id: categoryId,
@@ -135,7 +139,7 @@ export default function ProductDetailPanel({
       packing: selectedPack,
       items_group: selectedContent,
       count: quantity,
-      image: mainImage,
+      image: fullImageUrl,
       type: 'product',
     }
 

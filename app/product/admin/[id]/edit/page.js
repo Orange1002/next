@@ -2,9 +2,13 @@
 
 import React, { useState, useEffect } from 'react'
 import Swal from 'sweetalert2'
-import styles from './adminProductCreate.module.scss'
+import { useParams, useRouter } from 'next/navigation'
+import styles from './adminProductEdit.module.scss'
 
-export default function AdminProductCreatePage() {
+export default function AdminProductEditPage() {
+  const { id } = useParams()
+  const router = useRouter()
+
   const [brands, setBrands] = useState([])
   const [categories, setCategories] = useState([])
   const [subcategories, setSubcategories] = useState([])
@@ -31,13 +35,8 @@ export default function AdminProductCreatePage() {
   const [imagePreviews, setImagePreviews] = useState([])
 
   const [activeVariantTypes, setActiveVariantTypes] = useState([])
-  const [variantGroups, setVariantGroups] = useState([
-    {
-      optionIds: {},
-      price: '',
-      stock: '',
-    },
-  ])
+  const [variantGroups, setVariantGroups] = useState([])
+  const [specifications, setSpecifications] = useState([])
 
   const categoryVariantMap = {
     1: [1],
@@ -49,27 +48,58 @@ export default function AdminProductCreatePage() {
     7: [2, 3],
   }
 
+  // 初始化選項
   useEffect(() => {
-    fetch('http://localhost:3005/api/product/products/brands')
-      .then((res) => res.json())
-      .then((data) => setBrands(data?.data?.brands || []))
+    Promise.all([
+      fetch('http://localhost:3005/api/product/products/brands'),
+      fetch('http://localhost:3005/api/product/products/categories'),
+      fetch('http://localhost:3005/api/product/products/subcategories'),
+      fetch('http://localhost:3005/api/product/products/variant-types'),
+      fetch('http://localhost:3005/api/product/products/variant-options'),
+      fetch(`http://localhost:3005/api/product/products/${id}`),
+    ])
+      .then((responses) => Promise.all(responses.map((r) => r.json())))
+      .then(([b, c, s, t, o, p]) => {
+        setBrands(b.data.brands)
+        setCategories(c.data.categories)
+        setSubcategories(s.data.subcategories)
+        setVariantTypes(t.data.variantTypes)
+        setVariantOptions(o.data.variantOptions)
 
-    fetch('http://localhost:3005/api/product/products/categories')
-      .then((res) => res.json())
-      .then((data) => setCategories(data?.data?.categories || []))
-
-    fetch('http://localhost:3005/api/product/products/subcategories')
-      .then((res) => res.json())
-      .then((data) => setSubcategories(data?.data?.subcategories || []))
-
-    fetch('http://localhost:3005/api/product/products/variant-types')
-      .then((res) => res.json())
-      .then((data) => setVariantTypes(data?.data?.variantTypes || []))
-
-    fetch('http://localhost:3005/api/product/products/variant-options')
-      .then((res) => res.json())
-      .then((data) => setVariantOptions(data?.data?.variantOptions || []))
-  }, [])
+        const prod = p.data.product
+        setProduct({
+          name: prod.name,
+          description: prod.description,
+          price: prod.price,
+          brand_id: prod.brand_id,
+          category_id: prod.category_id,
+          subcategory_id: prod.subcategory_id,
+          valid: prod.valid,
+          start_at: prod.start_at?.slice(0, 16),
+          end_at: prod.end_at?.slice(0, 16),
+          notice: prod.notice,
+        })
+        setSelectedCategoryId(prod.category_id)
+        setImagePreviews(
+          prod.product_images.map((img) => `http://localhost:3005${img.image}`)
+        )
+        setSpecifications(
+          prod.product_specifications.map((s) => ({
+            title: s.title,
+            content: s.value,
+          }))
+        )
+        setVariantGroups(
+          prod.variantCombinations.map((v) => ({
+            optionIds: Object.fromEntries(
+              v.optionIds.map((oid, i) => [prod.variantTypes[i]?.id, oid])
+            ),
+            price: v.price,
+            stock: v.stock,
+          }))
+        )
+      })
+  }, [id])
 
   useEffect(() => {
     const filtered = subcategories.filter(
@@ -80,37 +110,12 @@ export default function AdminProductCreatePage() {
     const cid = Number(selectedCategoryId)
     const allowedTypes = categoryVariantMap[cid] || []
     setActiveVariantTypes(allowedTypes)
-    setVariantGroups([
-      {
-        optionIds: {},
-        price: '',
-        stock: '',
-      },
-    ])
-  }, [selectedCategoryId])
+  }, [selectedCategoryId, subcategories])
 
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files)
-    if (files.length > 6) {
-      Swal.fire('最多只能上傳 6 張圖片')
-      return
-    }
-    if (files.length < 1) {
-      Swal.fire('請至少上傳一張圖片')
-      return
-    }
-    setImages(files)
-    const previews = files.map((file) => URL.createObjectURL(file))
-    setImagePreviews(previews)
-  }
-
-  const addVariantGroup = () => {
-    const variant = {
-      optionIds: {},
-      price: '',
-      stock: '',
-    }
-    setVariantGroups([...variantGroups, variant])
+  const updateSpecification = (index, key, value) => {
+    const newSpecs = [...specifications]
+    newSpecs[index][key] = value
+    setSpecifications(newSpecs)
   }
 
   const updateVariantGroup = (index, key, value) => {
@@ -123,21 +128,29 @@ export default function AdminProductCreatePage() {
     setVariantGroups(newGroups)
   }
 
-  const [specifications, setSpecifications] = useState([
-    { title: '', content: '' },
-  ])
-
   const addSpecification = () => {
     setSpecifications([...specifications, { title: '', content: '' }])
   }
 
-  const updateSpecification = (index, key, value) => {
-    const newSpecs = [...specifications]
-    newSpecs[index][key] = value
-    setSpecifications(newSpecs)
+  const addVariantGroup = () => {
+    setVariantGroups([
+      ...variantGroups,
+      { optionIds: {}, price: '', stock: '' },
+    ])
   }
 
-  const handleSubmit = async () => {
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files)
+    if (files.length > 6) {
+      Swal.fire('最多只能上傳 6 張圖片')
+      return
+    }
+    setImages(files)
+    const previews = files.map((file) => URL.createObjectURL(file))
+    setImagePreviews(previews)
+  }
+
+  const handleUpdate = async () => {
     const start = new Date(product.start_at)
     const end = new Date(product.end_at)
 
@@ -146,40 +159,29 @@ export default function AdminProductCreatePage() {
       return
     }
 
-    if (!images.length) {
-      Swal.fire('請上傳至少一張圖片')
-      return
-    }
-
     const formData = new FormData()
-    formData.append('name', product.name)
-    formData.append('description', product.description)
-    formData.append('price', product.price)
-    formData.append('brand_id', product.brand_id)
-    formData.append('category_id', product.category_id)
-    formData.append('subcategory_id', product.subcategory_id)
-    formData.append('is_active', 'true') // 預設上架
-    formData.append('start_at', product.start_at)
-    formData.append('end_at', product.end_at)
-    formData.append('notice', product.notice)
+    Object.entries(product).forEach(([key, value]) =>
+      formData.append(key, value)
+    )
+    formData.append('variants', JSON.stringify(variantGroups))
     formData.append('specifications', JSON.stringify(specifications))
 
-    images.forEach((img) => {
-      formData.append('images', img)
-    })
-
-    formData.append('variants', JSON.stringify(variantGroups))
+    images.forEach((img) => formData.append('images', img))
 
     try {
-      const res = await fetch('http://localhost:3005/api/product/products', {
-        method: 'POST',
-        body: formData,
-      })
+      const res = await fetch(
+        `http://localhost:3005/api/product/products/${id}`,
+        {
+          method: 'PATCH',
+          body: formData,
+        }
+      )
       const data = await res.json()
       if (res.ok) {
-        Swal.fire('新增成功', `商品 ID：${data.productId}`, 'success')
+        Swal.fire('編輯成功', `商品 ID：${id}`, 'success')
+        router.push('/product/admin')
       } else {
-        Swal.fire('錯誤', data.error || '新增失敗', 'error')
+        Swal.fire('錯誤', data.error || '編輯失敗', 'error')
       }
     } catch (err) {
       console.error(err)
@@ -189,7 +191,7 @@ export default function AdminProductCreatePage() {
 
   return (
     <section className={styles.formSection}>
-      <h1>新增商品</h1>
+      <h1>編輯商品</h1>
       <form className={styles.form}>
         <label>
           商品名稱
@@ -214,7 +216,7 @@ export default function AdminProductCreatePage() {
             上架時間
             <input
               type="datetime-local"
-              value={product.start_at}
+              value={product.start_at || ''}
               onChange={(e) =>
                 setProduct({ ...product, start_at: e.target.value })
               }
@@ -225,7 +227,7 @@ export default function AdminProductCreatePage() {
             結束時間
             <input
               type="datetime-local"
-              value={product.end_at}
+              value={product.end_at || ''}
               onChange={(e) =>
                 setProduct({ ...product, end_at: e.target.value })
               }
@@ -256,7 +258,7 @@ export default function AdminProductCreatePage() {
           <label style={{ flex: 1 }}>
             品牌
             <select
-              value={product.brand_id}
+              value={String(product.brand_id || '')}
               onChange={(e) =>
                 setProduct({ ...product, brand_id: e.target.value })
               }
@@ -418,11 +420,11 @@ export default function AdminProductCreatePage() {
         <button
           type="button"
           className={styles.submitButton}
-          onClick={handleSubmit}
+          onClick={handleUpdate}
         >
-          建立商品
+          更新商品
         </button>
-      </form>
+      </form>{' '}
     </section>
   )
 }
