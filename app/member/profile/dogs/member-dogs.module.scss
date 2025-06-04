@@ -2,6 +2,8 @@
   border: 2px solid #d9d9d999;
   border-radius: 10px;
   position: relative;
+  overflow: visible; // 允許按鈕超出容器
+  padding: 1rem 2rem; // 留點空間給箭頭
 }
 
 .btnCustom {
@@ -16,6 +18,7 @@
   font-family: 'Kiwi Maru';
   white-space: nowrap;
   transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .btnCustom:hover,
@@ -26,35 +29,32 @@
 }
 
 .scroll-btn {
-  all: unset;
   position: absolute;
-  top: 40%;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2.4rem;
   z-index: 10;
-  border-radius: 50%;
-  border: none;
   background: transparent;
-  font-size: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: opacity 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  color: #818181;
-  opacity: 0.5;
+  border: none;
+  color: #888;
   cursor: pointer;
-}
-
-.scroll-btn:hover {
-  background: rgba(255, 255, 255, 0.95); // hover 更明顯
-  opacity: 1;
+  padding: 0.2rem;
+  transition: background-color 0.2s ease;
+  user-select: none;
 }
 
 .scroll-btn-left {
-  left: 5px;
+  left: 0.3rem; // 往左多空間避免壓住卡片
 }
 
 .scroll-btn-right {
-  right: 5px;
+  right: 0.3rem;
+}
+
+.scroll-btn:hover {
+  background: rgba(255, 255, 255, 0.95);
+  color: #ed784a;
+  opacity: 1;
 }
 
 /* Webkit 瀏覽器 (Chrome, Safari, Edge) */
@@ -77,16 +77,10 @@
     flex-direction: column !important;
     overflow-x: hidden !important;
     overflow-y: visible;
-    align-items: center; // 可選，看是否要置中
+    align-items: center;
   }
 
   .scroll-btn {
     display: none !important;
   }
-
-  // .dog-card {
-  //   width: 100% !important;
-  //   max-width: 400px; // 自訂寬度
-  //   margin: 0 auto; // 水平置中
-  // }
 }

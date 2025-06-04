@@ -73,7 +73,7 @@ export default function FavoriteSection() {
   return (
     <>
       <SectionTitle className="d-none">我的收藏</SectionTitle>
-      <div className="d-flex flex-column justify-content-between h-100">
+      <div className="mt-3 d-flex flex-column justify-content-between h-100">
         <div className="d-flex flex-column">
           {/* Tabs */}
           <div className="d-flex justify-content-center gap-2">

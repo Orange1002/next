@@ -73,7 +73,7 @@ export default function RecipientEditPage() {
   if (loading) return <div className="p-4">載入中...</div>
 
   return (
-    <div className="container py-4">
+    <div className="mt-3 container py-4">
       <h1 className="mb-4">編輯常用收件人</h1>
       <RecipientForm
         initialData={initialData}

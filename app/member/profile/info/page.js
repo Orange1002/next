@@ -6,6 +6,7 @@ import Image from 'next/image'
 import SectionTitle from '../../_components/SectionTitle/layout'
 import BtnCustom from '../../_components/BtnCustom/layout'
 import MobileMemberMenu from '../../_components/mobileLinks/layout'
+import { AddressArray } from './edit/[id]/_components/AddressArray/AddressArray'
 
 export default function MemberViewPage() {
   const [member, setMember] = useState(null)
@@ -32,6 +33,14 @@ export default function MemberViewPage() {
         />
       </div>
     )
+  }
+
+  // 根據 city 與 zip 找出鄉鎮名稱
+  function getTownName(city, zip) {
+    const cityObj = AddressArray.find((c) => c.city === city)
+    if (!cityObj) return ''
+    const townObj = cityObj.town.find((t) => t.zip === zip)
+    return townObj ? townObj.name : ''
   }
 
   useEffect(() => {
@@ -142,13 +151,53 @@ export default function MemberViewPage() {
                 name="birth_date"
                 autoComplete="birthday"
               />
-              <Field
-                label="預設地址"
-                value={member.address || '未填寫預設住址'}
-                icon="bi bi-geo-alt"
-                name="address"
-                autoComplete="address"
-              />
+              <div className="d-flex flex-column w-100 px-lg-3">
+                <div className="d-flex flex-lg-row flex-column justify-content-between">
+                  <label
+                    className={`${styles.label} w-100 mb-3 me-lg-2 ms-lg-1`}
+                  >
+                    縣市
+                    <select
+                      value={member.city}
+                      disabled
+                      className="form-select mt-1"
+                    >
+                      <option value="">{member.city || '未填寫縣市'}</option>
+                    </select>
+                  </label>
+
+                  <label
+                    className={`${styles.label} w-100 mb-3 me-lg-1 ms-lg-2`}
+                  >
+                    鄉鎮
+                    <br />
+                    市區
+                    <select
+                      value={member.zip}
+                      disabled
+                      className="form-select mt-1"
+                    >
+                      <option value="">
+                        {getTownName(member.city, member.zip) ||
+                          '未填寫鄉鎮市區'}
+                      </option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+              <div className="d-flex w-100">
+                <label className={`${styles.address} mt-2 mb-2 mx-lg-3 w-100`}>
+                  地址
+                  <input
+                    type="text"
+                    value={member.address || '未填寫預設住址'}
+                    readOnly
+                    disabled
+                    className="form-control mt-1"
+                    placeholder="未填寫預設住址"
+                  />
+                </label>
+              </div>
             </div>
           </div>
 

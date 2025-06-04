@@ -6,6 +6,7 @@ import { FaEnvelope, FaLock, FaGoogle } from 'react-icons/fa'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '../../../../../hooks/use-auth'
 import useFirebase from '../../../../../hooks/use-firebase'
+import swal from 'sweetalert2'
 
 export default function SignInForm({ isSignUpMode }) {
   const [email, setEmail] = useState('')
@@ -77,7 +78,20 @@ export default function SignInForm({ isSignUpMode }) {
         if (res.ok && resData.status === 'success') {
           login(resData.data)
           await refreshMember()
-          router.push('/')
+
+          if (resData.isNew) {
+            // 不是 resData.data.isNewUser
+            await swal.fire({
+              icon: 'success',
+              title: '註冊成功！',
+              text: '歡迎加入 BARK & BIJOU！',
+              confirmButtonText: '前往編輯個人資料',
+              confirmButtonColor: '#ed784a',
+            })
+            router.replace(`/member/profile/info/edit/${resData.data.id}`)
+          } else {
+            router.replace('/')
+          }
         } else {
           setErrorMsg(resData.message || 'Google 登入失敗')
         }
@@ -149,7 +163,7 @@ export default function SignInForm({ isSignUpMode }) {
         >
           <FaGoogle className={styles.icon} />
           <span className={`${styles.socialText} mb-0 ms-2`}>
-            {isGoogleLoading ? 'Google 登入中...' : '使用 Google 登入'}
+            使用 Google 登入
           </span>
         </button>
       </div>
