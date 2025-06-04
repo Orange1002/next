@@ -234,13 +234,8 @@ export default function ShopcartPage() {
                   <div className="flex-item d-flex align-items-center justify-content-center ">
                     <div>
                       <div className="mb-2">顏色:{item.color}</div>
-                      {item.size && (
-                        <div className="mb-2">尺寸: {item.size}</div>
-                      )}
-                      {item.packing && (
-                        <div className="mb-2">包裝: {item.packing}</div>
-                      )}
-
+                      <div className="mb-2">尺寸: {item.size}</div>
+                      <div className="mb-2">包裝: {item.packing}</div>
                       <div>內容物:{item.items_group}</div>
                     </div>
                   </div>
