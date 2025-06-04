@@ -164,6 +164,7 @@ export default function ProductDetailPage() {
               isFavorite={product.isFavorite}
               productId={product.id}
               productImage={product.product_images}
+              categoryId={product.category_id}
             />
           </div>
         </section>
