@@ -6,108 +6,15 @@ import Swal from 'sweetalert2'
 import { useNotification } from '@/contexts/NotificationContext'
 import Image from 'next/image'
 import '../../_styles/sitter-detail.module.css'
+import { useCart } from '@/hooks/use-cart'
 
 export default function SitterBookingPage() {
   const { sitterId } = useParams()
   const router = useRouter()
   const { addNotification } = useNotification()
+  const { onAdd } = useCart()
 
-  // === 內嵌 SitterSidebar 元件 ===
-  function SitterSidebar() {
-    const [sitter, setSitter] = useState(null)
-    const [loading, setLoading] = useState(true)
-
-    useEffect(() => {
-      if (!sitterId) return
-
-      const fetchSitter = async () => {
-        try {
-          const res = await fetch(
-            `http://localhost:3005/api/sitter/${sitterId}`,
-            {
-              credentials: 'include',
-            }
-          )
-          const data = await res.json()
-
-          if (res.ok) {
-            // 假設後端回傳就是 sitter 物件
-            setSitter(data)
-          } else {
-            Swal.fire('錯誤', data.message || '載入保母資料失敗', 'error')
-          }
-        } catch (err) {
-          Swal.fire('錯誤', '無法載入保母資料', 'error')
-        } finally {
-          setLoading(false)
-        }
-      }
-
-      fetchSitter()
-    }, [sitterId])
-
-    if (loading) {
-      return <div className="container py-5 text-center">載入保母資料中...</div>
-    }
-
-    if (!sitter) {
-      return (
-        <div className="container py-5 text-center text-danger">
-          保母資料不存在
-        </div>
-      )
-    }
-
-    return (
-      <aside
-        className="container-sm py-4 px-3 rounded-4 shadow-sm bg-white"
-        style={{ maxWidth: '360px' }}
-      >
-        {/* 頭像 */}
-        <div className="text-center">
-          <Image
-            src={
-              sitter?.avatar_url
-                ? `http://localhost:3005/${sitter.avatar_url}`
-                : '/images/default-avatar.png'
-            }
-            alt="Pet Sitter Profile"
-            className="rounded-circle mb-3"
-            width={120}
-            height={120}
-            style={{ objectFit: 'cover' }}
-          />
-          <h2 className="fs-4 fw-bold mb-1">{sitter.name}</h2>
-          <p className="text-secondary small mb-2">服務地區：{sitter.area}</p>
-        </div>
-
-        {/* 評分 */}
-        <div className="d-flex justify-content-center align-items-center gap-2 my-3">
-          <span style={{ fontSize: '1.25rem', color: '#f5b301' }}>⭐</span>
-          <span className="fs-5 fw-semibold">
-            {Number(sitter.average_rating)?.toFixed(1) || '尚無評分'}
-          </span>
-          <span className="text-secondary small">
-            ({sitter.review_count || 0})
-          </span>
-        </div>
-
-        {/* 自我介紹 */}
-        <div className="mt-3">
-          <h3 className="fs-6 mb-1">自我介紹</h3>
-          <p className="text-secondary small">{sitter.introduction}</p>
-        </div>
-
-        {/* 經歷 */}
-        <div className="mt-3">
-          <h3 className="fs-6 mb-1">經歷</h3>
-          <p className="text-secondary small">{sitter.experience}</p>
-        </div>
-      </aside>
-    )
-  }
-
-  // 以下保留你原本的預約表單邏輯與狀態
+  const [sitter, setSitter] = useState(null)
   const [dogs, setDogs] = useState([])
   const [status, setStatus] = useState('loading')
 
@@ -119,12 +26,34 @@ export default function SitterBookingPage() {
   const [addingDog, setAddingDog] = useState(false)
   const [addingNewDog, setAddingNewDog] = useState(false)
 
+  const [totalPrice, setTotalPrice] = useState(0)
+
+  useEffect(() => {
+    if (!sitterId) return
+    const fetchSitter = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:3005/api/sitter/${sitterId}`,
+          {
+            credentials: 'include',
+          }
+        )
+        const data = await res.json()
+        if (res.ok) setSitter(data)
+        else Swal.fire('錯誤', data.message || '載入保母資料失敗', 'error')
+      } catch {
+        Swal.fire('錯誤', '無法載入保母資料', 'error')
+      }
+    }
+    fetchSitter()
+  }, [sitterId])
+
+  // ✅ 抽出 fetchDogs，讓取消新增按鈕也能使用
   const fetchDogs = async () => {
     try {
       const res = await fetch('http://localhost:3005/api/sitter-booking/dogs', {
         credentials: 'include',
       })
-
       const data = await res.json()
       if (res.ok && data.status === 'success') {
         setDogs(data.dogs)
@@ -132,12 +61,12 @@ export default function SitterBookingPage() {
       } else if (data.status === 'empty') {
         setDogs([])
         setStatus('empty')
-        setAddingNewDog(true) // 沒寵物時直接顯示新增表單
+        setAddingNewDog(true)
       } else {
         setStatus('error')
         Swal.fire('錯誤', data.message || '載入寵物失敗', 'error')
       }
-    } catch (err) {
+    } catch {
       setStatus('error')
       Swal.fire('錯誤', '無法載入寵物資料', 'error')
     }
@@ -148,11 +77,7 @@ export default function SitterBookingPage() {
   }, [])
 
   const handleAddDog = async () => {
-    if (!newDogName.trim()) {
-      Swal.fire('錯誤', '請輸入狗狗名字', 'error')
-      return
-    }
-
+    if (!newDogName.trim()) return Swal.fire('錯誤', '請輸入狗狗名字', 'error')
     setAddingDog(true)
     try {
       const res = await fetch('http://localhost:3005/api/sitter-booking/dogs', {
@@ -161,7 +86,6 @@ export default function SitterBookingPage() {
         credentials: 'include',
         body: JSON.stringify({ name: newDogName }),
       })
-
       const data = await res.json()
       if (res.ok && data.status === 'success') {
         Swal.fire('成功', '新增狗狗成功', 'success')
@@ -171,7 +95,7 @@ export default function SitterBookingPage() {
       } else {
         Swal.fire('錯誤', data.message || '新增失敗', 'error')
       }
-    } catch (err) {
+    } catch {
       Swal.fire('錯誤', '無法新增狗狗', 'error')
     } finally {
       setAddingDog(false)
@@ -180,14 +104,12 @@ export default function SitterBookingPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
     if (!startDate || !endDate || !dogId) {
       Swal.fire('錯誤', '請填寫所有欄位', 'error')
       return
     }
 
     setLoading(true)
-
     try {
       const res = await fetch(
         `http://localhost:3005/api/sitter-booking/${sitterId}/bookings`,
@@ -198,9 +120,7 @@ export default function SitterBookingPage() {
           body: JSON.stringify({ startDate, endDate, petId: dogId }),
         }
       )
-
       const data = await res.json()
-
       if (data.status === 'success') {
         const {
           booking_id,
@@ -211,6 +131,27 @@ export default function SitterBookingPage() {
           start_date,
           end_date,
         } = data.booking
+
+        const dayCount =
+          (new Date(endDate).getTime() - new Date(startDate).getTime()) /
+            (1000 * 60 * 60 * 24) +
+          1
+        const totalprice = sitter?.price ? sitter.price * dayCount : 0
+        const sitterImg = sitter?.avatar_url
+          ? `http://localhost:3005/${sitter.avatar_url}`
+          : '/images/default-avatar.png'
+
+        onAdd('sitter', {
+          sitter_id: sitterId,
+          type: 'sitter',
+          image: sitterImg,
+          name: sitter_name,
+          pet_id: dogId,
+          petname: dog_name,
+          start_time: start_date,
+          end_time: end_date,
+          price: totalprice,
+        })
 
         addNotification(
           `您已成功預約 ${sitter_name} 的服務，寵物：${dog_name}，期間：${start_date} ~ ${end_date}`
@@ -226,64 +167,86 @@ export default function SitterBookingPage() {
             <p>保母：<strong>${sitter_name}</strong></p>
             <p>期間：<strong>${start_date} ~ ${end_date}</strong></p>
           `,
-        }).then(() => {
-          router.push('/shopcart')
-        })
+        }).then(() => router.push('/shopcart'))
       } else {
         Swal.fire('錯誤', data.message || '預約失敗', 'error')
       }
-    } catch (err) {
+    } catch {
       Swal.fire('錯誤', '預約失敗，請稍後再試', 'error')
     } finally {
       setLoading(false)
     }
   }
 
+  useEffect(() => {
+    if (startDate && endDate && sitter?.price) {
+      const start = new Date(startDate)
+      const end = new Date(endDate)
+      const days =
+        Math.floor((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) +
+        1
+      if (days > 0) {
+        setTotalPrice(sitter.price * days)
+      } else {
+        setTotalPrice(0)
+      }
+    } else {
+      setTotalPrice(0)
+    }
+  }, [startDate, endDate, sitter?.price])
+
+  const SitterSidebar = () => {
+    if (!sitter) return <div>載入保母資料中...</div>
+    return (
+      <aside
+        className="container-sm py-4 px-3 rounded-4 shadow-sm bg-white"
+        style={{ maxWidth: '360px' }}
+      >
+        <div className="text-center">
+          <Image
+            src={
+              sitter.avatar_url
+                ? `http://localhost:3005/${sitter.avatar_url}`
+                : '/images/default-avatar.png'
+            }
+            alt="Pet Sitter"
+            width={120}
+            height={120}
+            className="rounded-circle mb-3"
+          />
+          <h2 className="fs-4">{sitter.name}</h2>
+          <p className="text-secondary">服務地區：{sitter.area}</p>
+        </div>
+        <div className="mt-3">
+          <h3 className="fs-6 mb-1">自我介紹</h3>
+          <p className="text-secondary small">{sitter.introduction}</p>
+        </div>
+        <div className="mt-3">
+          <h3 className="fs-6 mb-1">經歷</h3>
+          <p className="text-secondary small">{sitter.experience}</p>
+        </div>
+        <div className="mt-3">
+          <h3 className="fs-6 mb-1">價格</h3>
+          <p className="text-secondary small">
+            ${sitter?.price?.toLocaleString()}
+          </p>
+        </div>
+      </aside>
+    )
+  }
+
   return (
     <div className="container py-4">
-      {/* 返回按鈕 */}
       <button
         onClick={() => router.back()}
-        className="btn btn-outline-secondary ms-lg-4 mb-3"
+        className="btn btn-outline-secondary mb-3"
       >
         ← 返回
       </button>
-      {/* 手機版 Sidebar Offcanvas */}
-      <div className="d-md-none mb-3">
-        <button
-          className="btn btn-outline-primary"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#mobileSidebar"
-        >
-          ☰ 查看保母資訊
-        </button>
-
-        <div
-          className="offcanvas offcanvas-start"
-          tabIndex="-1"
-          id="mobileSidebar"
-        >
-          <div className="offcanvas-header">
-            <h5 className="offcanvas-title">保母資訊</h5>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="offcanvas"
-            ></button>
-          </div>
-          <div className="offcanvas-body">
-            <SitterSidebar />
-          </div>
-        </div>
-      </div>
-
-      {/* 桌機版兩欄排版 */}
       <div className="row">
-        <div className="col-md-4 d-none d-md-block">
+        <div className="col-md-4">
           <SitterSidebar />
         </div>
-
         <div className="col-md-8">
           <h1 className="fs-4 mb-4">預約服務</h1>
           <form onSubmit={handleSubmit}>
@@ -296,7 +259,6 @@ export default function SitterBookingPage() {
                 onChange={(e) => setStartDate(e.target.value)}
               />
             </div>
-
             <div className="mb-3">
               <label className="form-label">結束日期</label>
               <input
@@ -307,12 +269,11 @@ export default function SitterBookingPage() {
               />
             </div>
 
-            {/* 寵物選擇或新增 */}
+            {/* ✅ 寵物選擇或新增 */}
             <div className="mb-3">
               <label className="form-label">選擇寵物</label>
               {status === 'empty' || addingNewDog ? (
                 <>
-                  {/* 沒有紅字提示 */}
                   <div className="input-group mb-2">
                     <input
                       type="text"
@@ -329,7 +290,6 @@ export default function SitterBookingPage() {
                     >
                       {addingDog ? '新增中...' : '新增狗狗'}
                     </button>
-                    {/* 取消新增按鈕，只在非空狀態顯示 */}
                     {status !== 'empty' && (
                       <button
                         type="button"
@@ -375,6 +335,12 @@ export default function SitterBookingPage() {
               )}
             </div>
 
+            <div className="mt-3 text-end">
+              <strong>總金額：</strong>{' '}
+              {totalPrice > 0
+                ? `$${totalPrice.toLocaleString()}`
+                : '請選擇日期'}
+            </div>
             <button
               className="btn bgc-primary text-white"
               type="submit"

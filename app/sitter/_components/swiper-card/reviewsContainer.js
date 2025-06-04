@@ -24,9 +24,9 @@ export default function ReviewsContainer() {
 
   return (
     <div className="m-3 p-5 bg-white rounded-4 shadow">
-      <article className="bg-primary22 p-3">
-        <div className="text-warning d-flex justify-content-between align-items-center mb-4 fw-medium fs-5">
-          Reviews
+      <article className="bg-primary22 py-2 px-1">
+        <div className="text-warning d-flex justify-content-between align-items-center mb-5 fw-medium fs-4">
+          Reviews on Bark&Bijou
         </div>
 
         {reviews.length > 0 ? (
@@ -38,7 +38,7 @@ export default function ReviewsContainer() {
           >
             {reviews.map((review, index) => (
               <SwiperSlide key={index}>
-                <div className="p-3 d-flex flex-column align-items-center text-center gap-3 mt-5">
+                <div className="p-3 d-flex flex-column align-items-center text-center gap-3 mt-3">
                   <small className="text-muted mb-2">
                     {new Date(review.created_at).toLocaleDateString()}
                   </small>
@@ -46,15 +46,21 @@ export default function ReviewsContainer() {
                     {'★'.repeat(review.rating)}
                     {'☆'.repeat(5 - review.rating)}
                   </div>
-                  <p className="small text-secondary text-white">
+                  <p className="small text-secondary text-white mb-3">
                     {review.comment}
                   </p>
                   <Image
-                    src={review.avatar || '/default-avatar.png'}
+                    src={
+                      review.image_url?.startsWith('http')
+                        ? review.image_url
+                        : review.image_url
+                          ? `http://localhost:3005/${review.image_url}`
+                          : '/default-avatar.png'
+                    }
                     alt={`${review.username} avatar`}
                     width={60}
                     height={60}
-                    className="rounded-circle mb-3"
+                    className="rounded-circle "
                   />
                   <h6 className="mb-1">{review.username}</h6>
                 </div>

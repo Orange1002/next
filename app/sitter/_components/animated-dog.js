@@ -31,6 +31,7 @@ const AnimatedDog = () => {
             width={320}
             height={320}
             className="rounded shadow-lg"
+            style={{ width: 'auto', height: 'auto' }}
             priority
           />
         </motion.div>
@@ -41,6 +42,7 @@ const AnimatedDog = () => {
           width={320}
           height={320}
           className="rounded shadow-md border-rounded"
+          style={{ width: 'auto', height: 'auto' }}
           priority
         />
       )}

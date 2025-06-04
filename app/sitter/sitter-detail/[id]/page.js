@@ -138,6 +138,8 @@ export default function SitterDetailPage() {
               <p className="text-secondary">{sitter?.introduction}</p>
               <h2 className="fs-5 mt-4 mb-2">經歷</h2>
               <p className="text-secondary">{sitter?.experience}</p>
+              <h2 className="fs-5 mt-4 mb-2 ccc-primary">價格(每日)</h2>
+              <p className="fs-5 ">${sitter?.price?.toLocaleString()}</p>
             </section>
 
             <div className="row mt-4">
@@ -162,60 +164,9 @@ export default function SitterDetailPage() {
         </div>
       </article>
 
-      {/* 評論區 */}
-      <section className="container p-5" style={{ maxWidth: '1080px' }}>
-        <h2 className="reviews-title mb-3 fs-5">
-          用戶評論 [{sitter?.reviews?.length || 0}]
-        </h2>
-        {isClient && sitter?.reviews?.length > 0 ? (
-          <Swiper
-            className="w-100 overflow-visible"
-            modules={[Pagination]}
-            pagination={{ clickable: true }}
-            spaceBetween={20}
-            slidesPerView={1}
-            breakpoints={{
-              768: { slidesPerView: 2 },
-              992: { slidesPerView: 3 },
-            }}
-          >
-            {sitter.reviews.map((review, i) => (
-              <SwiperSlide key={i} className="d-flex justify-content-center">
-                <div
-                  className="card border shadow-sm p-3 bg-white"
-                  style={{
-                    width: '100%',
-                    maxWidth: '300px',
-                    minHeight: '180px',
-                  }}
-                >
-                  <StarRating
-                    value={review.rating}
-                    readOnly
-                    fillColor="#f5b301"
-                    emptyColor="#ddd"
-                    size={20}
-                  />
-                  <div className="text-muted small mt-2">
-                    {review.username} ・{' '}
-                    {review.created_at &&
-                      new Date(review.created_at).toLocaleDateString()}
-                  </div>
-                  <p className="text-secondary small mt-4 mb-0">
-                    {review.comment}
-                  </p>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        ) : (
-          <div className="text-muted text-center py-4">目前尚無評論</div>
-        )}
-      </section>
-
       {/* 留下評論區塊 */}
       <section
-        className="container my-5 p-5 border rounded bg-white"
+        className="container my-3 p-5 border rounded bg-white"
         style={{ maxWidth: '1080px' }}
       >
         <h3 className="mb-3">留下您的評價</h3>
@@ -235,6 +186,46 @@ export default function SitterDetailPage() {
         <button className="btn bgc-primary text-white" onClick={handleSubmit}>
           提交評價
         </button>
+      </section>
+
+      {/* 評論區 */}
+      <section className="container p-5" style={{ maxWidth: '1080px' }}>
+        <h2 className="reviews-title mb-5 fs-5">
+          用戶評論 [{sitter?.reviews?.length || 0}]
+        </h2>
+        {isClient && sitter?.reviews?.length > 0 ? (
+          <div className="row g-4">
+            {sitter.reviews.map((review, i) => (
+              <div
+                key={i}
+                className="col-12 col-md-6 col-lg-4 d-flex justify-content-center"
+              >
+                <div
+                  className="card border shadow-sm p-3 bg-white w-100"
+                  style={{ maxWidth: '300px', minHeight: '180px' }}
+                >
+                  <StarRating
+                    value={review.rating}
+                    readOnly
+                    fillColor="#f5b301"
+                    emptyColor="#ddd"
+                    size={20}
+                  />
+                  <div className="text-muted small mt-2">
+                    {review.username} ・{' '}
+                    {review.created_at &&
+                      new Date(review.created_at).toLocaleDateString()}
+                  </div>
+                  <p className="text-secondary small mt-4 mb-0">
+                    {review.comment}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-muted text-center py-4">目前尚無評論</div>
+        )}
       </section>
     </main>
   )

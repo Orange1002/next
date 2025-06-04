@@ -1,6 +1,7 @@
-/* .profile-height {
-  height: 748px;
-} */
+:root {
+  --bs-primary: #ed784a;
+}
+
 .star-width {
   width: 24px;
 }

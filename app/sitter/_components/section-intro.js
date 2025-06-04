@@ -90,14 +90,14 @@ export default function ComponentsSectionIntro(props) {
         </div>
       </div>
 
-      <div className="container d-flex justify-content-center mb-5">
-        <Link
-          className="text-center bgc-primary text-decoration-none text-white fw-bold fs-3 px-5 py-4 mt-5 border rounded  mx-auto btn-reserve"
+      <div className="text-center mt-5">
+        <a
           href="/sitter/sitter-list"
-          style={{ maxWidth: 538, letterSpacing: '0.88rem' }}
+          className="btn btn-lg bgc-primary text-white fw-bold px-5 py-3 fs-3"
+          style={{ letterSpacing: 5 }}
         >
           立即預約
-        </Link>
+        </a>
       </div>
     </div>
   )

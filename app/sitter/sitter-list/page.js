@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import SitterCard from '../_components/sitter-card'
 import Dropdown from 'react-bootstrap/Dropdown'
 import Link from 'next/link'
+import '../_styles/sitter-detail.module.css'
 
 export default function SitterList() {
   const [sitters, setSitters] = useState([])
@@ -165,12 +166,12 @@ export default function SitterList() {
       {/* 分頁導覽 */}
       <nav
         aria-label="Page navigation"
-        className="d-flex justify-content-center mb-5"
+        className="d-flex justify-content-center mb-5 "
       >
-        <ul className="pagination">
-          <li className={`page-item ${currentPage === 1 && 'disabled'}`}>
+        <ul className="pagination pagination-primary">
+          <li className={`page-item ${currentPage === 1 && 'disabled'} `}>
             <button
-              className="page-link"
+              className="page-link "
               onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
             >
               «
@@ -179,7 +180,7 @@ export default function SitterList() {
           {Array.from({ length: totalPages }, (_, i) => (
             <li
               key={i}
-              className={`page-item ${currentPage === i + 1 && 'active'}`}
+              className={`page-item ${currentPage === i + 1 && 'active'} `}
             >
               <button
                 className="page-link"
@@ -202,7 +203,7 @@ export default function SitterList() {
         </ul>
       </nav>
 
-      <div className="d-flex justify-content-center">
+      <div className="d-flex justify-content-center d-none">
         <button className="btn btn-lg text-white random-btn">隨機配對</button>
       </div>
     </div>
