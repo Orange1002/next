@@ -19,7 +19,7 @@ const ButtonSearch = ({ onSearch }) => {
     >
       {/* 按鈕區 */}
       <div className="d-flex gap-3">
-        <Link href="/favorites" passHref>
+        <Link href="/member/favorite" passHref>
           <button type="button" className="btn c-s-btn pt-2 text-white">
             我的收藏
           </button>

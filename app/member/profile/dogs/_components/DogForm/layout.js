@@ -105,7 +105,7 @@ export default function DogForm({
       {/* 照片區塊 */}
       <div>
         <label className="form-label">狗狗照片（最多可上傳 5 張）</label>
-        <div className="d-flex gap-2 flex-wrap mb-2">
+        <div className="d-flex gap-2 flex-wrap mb-2 justify-content-center">
           {/* 舊照片 */}
           {formData.existingPhotos.map((url, index) => (
             <div key={`old-${index}`} className={styles.imageWrapper}>

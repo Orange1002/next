@@ -5,8 +5,7 @@ import { useRouter } from 'next/navigation'
 import DogCard from './_components/DogCard/layout'
 import styles from './member-dogs.module.scss'
 import SectionTitle from '../../_components/SectionTitle/layout'
-import { FaChevronCircleLeft } from 'react-icons/fa'
-import { FaChevronCircleRight } from 'react-icons/fa'
+import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa'
 import MobileMemberMenu from '../../_components/mobileLinks/layout'
 
 const DEFAULT_IMAGE = '/member/dogs_images/default-dog.png'
@@ -15,7 +14,7 @@ export default function DogsPage() {
   const [dogs, setDogs] = useState([])
   const router = useRouter()
 
-  // 🐶 取得狗狗資料
+  // 取得狗狗資料
   useEffect(() => {
     const fetchDogs = async () => {
       try {
@@ -24,7 +23,6 @@ export default function DogsPage() {
         })
         if (!res.ok) throw new Error('無法取得狗狗資料')
         const data = await res.json()
-        // 若 image 為空就給預設圖
         const fixedDogs = data.data.map((dog) => ({
           ...dog,
           image: dog.photos?.[0] || DEFAULT_IMAGE,
@@ -34,20 +32,17 @@ export default function DogsPage() {
         console.error('取得狗狗資料錯誤:', err)
       }
     }
-
     fetchDogs()
   }, [])
 
-  // 🗑 刪除狗狗（後端請求 + 前端移除）
+  // 刪除狗狗
   const handleDelete = async (id) => {
     try {
       const res = await fetch(`http://localhost:3005/api/member/dogs/${id}`, {
         method: 'DELETE',
         credentials: 'include',
       })
-
       const result = await res.json()
-
       if (res.ok && result.status === 'success') {
         setDogs((prev) => prev.filter((dog) => dog.id !== id))
         return Promise.resolve()
@@ -60,7 +55,7 @@ export default function DogsPage() {
     }
   }
 
-  // 按鈕
+  // 滾動相關
   const scrollRef = useRef(null)
   const [showLeft, setShowLeft] = useState(false)
   const [showRight, setShowRight] = useState(true)
@@ -68,26 +63,24 @@ export default function DogsPage() {
   const checkScrollButtons = () => {
     const el = scrollRef.current
     if (!el) return
-
     const { scrollLeft, scrollWidth, clientWidth } = el
     setShowLeft(scrollLeft > 0)
-    setShowRight(scrollLeft + clientWidth < scrollWidth - 1) // 減 1 是避免誤差
+    setShowRight(scrollLeft + clientWidth < scrollWidth - 1)
   }
 
   const scrollLeft = () => {
-    scrollRef.current?.scrollBy({ left: -500, behavior: 'smooth' })
+    scrollRef.current?.scrollBy({ left: -485, behavior: 'smooth' })
   }
 
   const scrollRight = () => {
-    scrollRef.current?.scrollBy({ left: 500, behavior: 'smooth' })
+    scrollRef.current?.scrollBy({ left: 485, behavior: 'smooth' })
   }
 
   useEffect(() => {
     const el = scrollRef.current
     if (!el) return
 
-    checkScrollButtons() // 初始檢查
-
+    checkScrollButtons()
     el.addEventListener('scroll', checkScrollButtons)
     window.addEventListener('resize', checkScrollButtons)
 
@@ -102,12 +95,14 @@ export default function DogsPage() {
       <SectionTitle>狗狗資料</SectionTitle>
       <div className="mt-3 h-100">
         <div
-          className={`${styles.block} d-flex flex-column justify-content-start g-0 p-0 p-lg-5 h-100`}
+          className={`${styles.block} d-flex flex-column justify-content-center g-0 p-0 p-lg-5 h-100`}
         >
           {showLeft && (
             <button
               className={`${styles['scroll-btn']} ${styles['scroll-btn-left']}`}
               onClick={scrollLeft}
+              aria-label="向左滾動"
+              type="button"
             >
               <FaChevronCircleLeft />
             </button>
@@ -117,25 +112,32 @@ export default function DogsPage() {
             <button
               className={`${styles['scroll-btn']} ${styles['scroll-btn-right']}`}
               onClick={scrollRight}
+              aria-label="向右滾動"
+              type="button"
             >
               <FaChevronCircleRight />
             </button>
           )}
 
           {/* 卡片列 */}
+          {/* 卡片列 */}
           <div
             ref={scrollRef}
-            className={`${styles.scrollContainer} justify-content-lg-center d-flex flex-nowrap overflow-auto`}
-            style={{ gap: '1rem', paddingBottom: '1rem' }}
+            className={`${styles.scrollContainer} d-flex flex-nowrap overflow-auto`}
+            style={{ gap: '1rem', padding: '0.2rem 2rem 0.3rem 2rem' }} // 左右各3rem內距
           >
             {dogs.length === 0 ? (
-              <p className="text-center">尚無狗狗資料</p>
+              <p className="text-center w-100">尚無狗狗資料</p>
             ) : (
               dogs.slice(0, 6).map((dog) => (
                 <div
-                  className="col-12 col-md-6 mt-2 mt-lg-0 col-lg-4 p-2 d-flex justify-content-center"
                   key={dog.id}
-                  style={{ flex: '0 0 auto' }} // 避免被壓縮
+                  className="m-0 me-lg-2"
+                  style={{
+                    marginRight: '1rem',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
                 >
                   <DogCard dog={dog} onDelete={handleDelete} />
                 </div>

@@ -15,10 +15,14 @@ export default function RelatedProductCard({
     router.push(`/product/${id}`)
   }
 
+  const fullImageUrl = image?.startsWith('/uploads/')
+    ? `http://localhost:3005${image}`
+    : image || '/uploads/default.jpg'
+
   return (
     <div className={styles.relatedProductCard} onClick={handleClick} style={{ cursor: 'pointer' }}>
       <div className={styles.relatedProductImg}>
-        <img src={image} alt={name} />
+        <img src={fullImageUrl} alt={name} />
       </div>
       <div className={styles.relatedProductInfo}>
         <div className={styles.relatedProductName}>{name}</div>

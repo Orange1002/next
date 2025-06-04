@@ -97,7 +97,7 @@ export default function ChangePasswordPage() {
   return (
     <>
       <SectionTitle>修改密碼</SectionTitle>
-      <div className="mt-lg-3 h-100">
+      <div className="mt-3 h-100">
         <div
           className={`${styles.block} p-3 pb-4 p-lg-5 h-100 d-flex flex-column justify-content-center`}
         >

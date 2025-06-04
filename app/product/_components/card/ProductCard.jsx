@@ -26,6 +26,10 @@ export default function ProductCard({
     router.push(`/product/${id}`)
   }
 
+  const fullImageUrl = image?.startsWith('/uploads/')
+    ? `http://localhost:3005${image}`
+    : image || '/uploads/default.jpg'
+
   return (
     <div
       className="product-card"
@@ -36,7 +40,7 @@ export default function ProductCard({
         if (e.key === 'Enter') handleClick()
       }}
     >
-      <img className="product-card-img" src={image} alt={name} />
+      <img className="product-card-img" src={fullImageUrl} alt={name} />
       <div className="product-card-content">
         <div className="product-card-name">{name}</div>
         <div className="product-card-price">{price}</div>

@@ -126,7 +126,7 @@ export default function DogsEditPage() {
   return (
     <>
       <SectionTitle>編輯狗狗資料</SectionTitle>
-      <div className="container h-100">
+      <div className="mt-3 container h-100">
         <DogForm
           initialData={initialData}
           onSubmit={handleSubmit}

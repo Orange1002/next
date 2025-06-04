@@ -18,6 +18,8 @@ export default function ProductOrderCard({
 }) {
   const [isOpen, setIsOpen] = useState(false)
 
+  const [productId, setProductId] = useState()
+
   useEffect(() => {
     if (isFirst) setIsOpen(true)
   }, [isFirst])
@@ -140,7 +142,7 @@ export default function ProductOrderCard({
               {/* 只在已完成狀態顯示去評價 */}
               {status === '已完成' && (
                 <Link
-                  href={`/member/orders/orders/${orderId}`}
+                  href={`/product/${products.product_id}`}
                   className={styles.btnCustom}
                 >
                   去評價

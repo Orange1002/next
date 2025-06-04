@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa'
 import { IoMdHeart, IoIosHeartEmpty } from 'react-icons/io'
+import './style.module.css'
 
 export default function MySitterCard() {
   const scrollContainerRef = useRef(null)
@@ -63,7 +64,7 @@ export default function MySitterCard() {
 
   return (
     <section>
-      <div className="container">
+      <div className="container ">
         <div className="product-wrapper my-96">
           <div className="text-center mb-5">
             <div className="d-inline-flex align-items-center gap-3">
@@ -115,7 +116,7 @@ export default function MySitterCard() {
                   </Link>
                   <div className="product-card-content bg-gray">
                     <Link
-                      href={`/sitter/${sitter.id}`}
+                      href={`/sitter/sitter-detail/${sitter.id}`}
                       className="text-decoration-none"
                     >
                       <div className="product-card-name">{sitter.name}</div>
@@ -156,7 +157,11 @@ export default function MySitterCard() {
 
           {/* 查看更多 */}
           <div className="d-flex justify-content-center mt-5">
-            <Link className="btn product-btn" href={`/sitter/sitter-list`}>
+            <Link
+              className="btn  bgc-primary text-white btn-lg fw-bold py-3 px-5"
+              href={`/sitter/sitter-list`}
+              style={{ letterSpacing: 5 }}
+            >
               查看更多
             </Link>
           </div>

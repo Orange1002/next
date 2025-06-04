@@ -65,7 +65,7 @@ export default function DogAddPage() {
   return (
     <>
       <SectionTitle>新增狗狗資料</SectionTitle>
-      <div className="container h-100">
+      <div className="mt-3 container h-100">
         <DogForm onSubmit={handleSubmit} />
       </div>
     </>

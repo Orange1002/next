@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react'
 import Link from 'next/link'
 import '../_style/list.scss'
@@ -40,7 +39,7 @@ const FloatingActionButton = () => {
             </Link>
 
             <Link
-              href=""
+              href="/member/favorite"
               className="btn mb-2 fab-option show d-flex align-items-center"
               id="editBtn"
             >

@@ -141,6 +141,16 @@
   transition-delay: 0s;
 }
 
+@media (max-width: 1550px) {
+  .active {
+    transform: translate(0, 30%);
+  }
+
+  .inactive {
+    transform: translate(-200px, 30%);
+  }
+}
+
 @media (max-width: 570px) {
   .form {
     padding: 0 1.5rem;
@@ -161,16 +171,6 @@
     pointer-events: none;
     transition: all 1.6s ease-in-out;
     transition-delay: 0s;
-  }
-}
-
-@media (max-width: 1550px) {
-  .active {
-    transform: translate(0, 30%);
-  }
-
-  .inactive {
-    transform: translate(-200px, 30%);
   }
 }
 

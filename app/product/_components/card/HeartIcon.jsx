@@ -19,7 +19,12 @@ export default function HeartIcon({ productId, isActive = false }) {
       })
 
       if (res.status === 401) {
-        alert('請先登入才能收藏喔')
+        await Swal.fire({
+          icon: 'info',
+          title: '請先登入才能收藏喔！',
+          showConfirmButton: false,
+          timer: 1500,
+        })
         return
       }
 
