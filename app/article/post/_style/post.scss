@@ -72,3 +72,12 @@
     }
   }
 }
+.mobile {
+  display: block; /* 預設顯示 */
+}
+
+@media (min-width: 1000px) {
+  .mobile {
+    display: none !important; /* 1000px以上隱藏 */
+  }
+}

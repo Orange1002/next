@@ -9,18 +9,10 @@ const VideoCard = () => {
     <div>
       <div className="category d-flex justify-content-between mt-5 mb-5">
         <p className="">推薦知識影音</p>
-        <div className="d-flex me-5">
-          <p className="more">More</p>
-          <button className="btn btn-link read-more rounded-circle d-flex justify-content-center align-items-center mt-1 ms-3">
-            <a href="你的連結網址" className="icon-link">
-              <AiOutlineRightCircle className="icon" />
-            </a>
-          </button>
-        </div>
       </div>
 
       <div className="d-flex justify-content-center">
-        <div className="card mb-3 card-video mt-5">
+        <div className="card mb-3 card-video mt-5 mb-5">
           <div className="row g-0">
             <div className="col-md-12">
               <div className="ratio ratio-16x9">

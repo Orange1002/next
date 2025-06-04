@@ -1,0 +1,34 @@
+.headerphoto {
+  top: 90px;
+  left: 0;
+  width: 100%;
+  height: 700px;
+  overflow: hidden;
+  position: absolute;
+
+  img {
+    width: 100%;
+    height: 700px;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    position: absolute;
+
+    &.active {
+      opacity: 1;
+    }
+  }
+}
+  .petknowledge {
+    font-size: 36px;
+    font-weight: 400;
+    color: #929292;
+    letter-spacing: 5.5px;
+  }
+  
+  .petknowledge-c {
+    width: 15px;
+    height: 15px;
+    background-color: #505050;
+    border-radius: 50%;
+  }

@@ -13,18 +13,11 @@ export default function Articlelist({ onSelectCategory }) {
   const sections = [
     {
       title: '我的文章',
-      items: [
-        '所有文章',
-        '飲食與營養',
-        '行為與訓練',
-        '健康與保健',
-        '戶外活動與探險',
-        '分享狗狗的一切',
-      ],
+      items: [],
     },
     {
-      title: '熱門文章',
-      items: ['飲食與營養', '行為與訓練', '健康與保健', '戶外活動與探險'],
+      title: '我的收藏',
+      items: [],
     },
     {
       title: '推薦知識影音',

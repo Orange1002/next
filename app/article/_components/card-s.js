@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FaRegHeart, FaHeart, FaPaw } from 'react-icons/fa'
+import Swal from 'sweetalert2'
 
 const SmallArticleCard = ({ article }) => {
   const [isFavorited, setIsFavorited] = useState(false)
@@ -35,8 +36,8 @@ const SmallArticleCard = ({ article }) => {
   }, [article.id])
 
   const handleFavoriteToggle = async (e) => {
-    e.preventDefault() // 阻止 Link 預設跳轉
-    e.stopPropagation() // 阻止事件冒泡，避免卡片點擊事件觸發
+    e.preventDefault()
+    e.stopPropagation()
 
     if (loading) return
     setLoading(true)
@@ -54,7 +55,6 @@ const SmallArticleCard = ({ article }) => {
       })
 
       const data = await res.json()
-
       if (res.ok && data.success) {
         setIsFavorited(!isFavorited)
         if (typeof data.favoriteCount === 'number') {
@@ -63,11 +63,27 @@ const SmallArticleCard = ({ article }) => {
           setFavoriteCount((prev) => (isFavorited ? prev - 1 : prev + 1))
         }
       } else {
-        alert(data.message || (isFavorited ? '取消收藏失敗' : '收藏失敗'))
+        const result = await Swal.fire({
+          icon: 'error',
+          title: '尚未登入',
+          text: '請先登入才能收藏喔',
+          showCancelButton: true,
+          confirmButtonText: '登入',
+          cancelButtonText: '確認',
+        })
+
+        if (result.isConfirmed) {
+          window.location.href = '/member/login'
+        }
       }
     } catch (err) {
       console.error('收藏操作失敗', err)
-      alert('伺服器錯誤')
+      Swal.fire({
+        icon: 'error',
+        title: '伺服器錯誤',
+        showConfirmButton: false,
+        timer: 1500,
+      })
     } finally {
       setLoading(false)
     }
@@ -79,6 +95,7 @@ const SmallArticleCard = ({ article }) => {
   } catch (err) {
     console.error('圖片 JSON 解析錯誤', err)
   }
+
   const firstImage =
     images.length > 0 ? images[0] : '/article_img/default-image.jpeg'
   const imageSrc = firstImage.startsWith('/')
@@ -89,11 +106,12 @@ const SmallArticleCard = ({ article }) => {
     if (!str) return ''
     return str.length > maxLength ? str.slice(0, maxLength) + '...' : str
   }
+
   return (
-    <div className="col">
+    <div className="col-12 col-sm-6 col-md-4 col-lg-2">
       <Link
         href={`/article/article-detail/${article.id}`}
-        className="card card-s w-100 h-100 position-relative text-decoration-none"
+        className="card card-s h-100 position-relative text-decoration-none"
         style={{ color: 'inherit' }}
       >
         <Image
@@ -101,20 +119,18 @@ const SmallArticleCard = ({ article }) => {
           height={200}
           src={imageSrc}
           className="card-img-top object-fit-cover"
-          alt={article.title || '文章圖片'}
+          alt={article.title}
         />
         <div className="card-body d-flex align-items-center p-4 mb-4 position-relative">
           <p className="card-text card-s-p ps-3 mb-0">
             {truncateTitle(article.title, 18)}
           </p>
-
           <div
             className="position-absolute top-0 end-0 p-2 paw-icon"
             style={{ fontSize: '20px', color: '#ed784a', cursor: 'pointer' }}
           >
             <FaPaw />
           </div>
-
           <div
             className="position-absolute bottom-0 end-0 p-3 d-flex align-items-center gap-1"
             style={{ cursor: loading ? 'not-allowed' : 'pointer' }}
@@ -139,8 +155,7 @@ export default SmallArticleCard
 // import React, { useState, useEffect } from 'react'
 // import Image from 'next/image'
 // import Link from 'next/link'
-// import { AiOutlineRightCircle } from 'react-icons/ai'
-// import { FaRegHeart, FaHeart } from 'react-icons/fa'
+// import { FaRegHeart, FaHeart, FaPaw } from 'react-icons/fa'
 
 // const SmallArticleCard = ({ article }) => {
 //   const [isFavorited, setIsFavorited] = useState(false)
@@ -172,7 +187,10 @@ export default SmallArticleCard
 //     fetchFavoriteStatus()
 //   }, [article.id])
 
-//   const handleFavoriteToggle = async () => {
+//   const handleFavoriteToggle = async (e) => {
+//     e.preventDefault() // 阻止 Link 預設跳轉
+//     e.stopPropagation() // 阻止事件冒泡，避免卡片點擊事件觸發
+
 //     if (loading) return
 //     setLoading(true)
 
@@ -224,10 +242,13 @@ export default SmallArticleCard
 //     if (!str) return ''
 //     return str.length > maxLength ? str.slice(0, maxLength) + '...' : str
 //   }
-
 //   return (
 //     <div className="col-12 col-sm-6 col-md-4 col-lg-2">
-//       <div className="card card-s h-100 position-relative">
+//       <Link
+//         href={`/article/article-detail/${article.id}`}
+//         className="card card-s h-100 position-relative text-decoration-none"
+//         style={{ color: 'inherit' }}
+//       >
 //         <Image
 //           width={200}
 //           height={200}
@@ -235,16 +256,17 @@ export default SmallArticleCard
 //           className="card-img-top object-fit-cover"
 //           alt={article.title}
 //         />
-//         <div className="card-body d-flex align-items-center p-4 mb-4">
-//           <Link
-//             href={`/article/article-detail/${article.id}`}
-//             className="btn btn-link read-more rounded-circle d-flex justify-content-center align-items-center icon-link"
-//           >
-//             <AiOutlineRightCircle className="icon" />
-//           </Link>
-//           <p className="card-text card-s-p ps-3">
+//         <div className="card-body d-flex align-items-center p-4 mb-4 position-relative">
+//           <p className="card-text card-s-p ps-3 mb-0">
 //             {truncateTitle(article.title, 18)}
 //           </p>
+//           {/* 狗腳印 icon，放右上角示範 */}
+//           <div
+//             className="position-absolute top-0 end-0 p-2 paw-icon"
+//             style={{ fontSize: '20px', color: '#ed784a', cursor: 'pointer' }}
+//           >
+//             <FaPaw />
+//           </div>
 //           <div
 //             className="position-absolute bottom-0 end-0 p-3 d-flex align-items-center gap-1"
 //             style={{ cursor: loading ? 'not-allowed' : 'pointer' }}
@@ -258,7 +280,7 @@ export default SmallArticleCard
 //             )}
 //           </div>
 //         </div>
-//       </div>
+//       </Link>
 //     </div>
 //   )
 // }
