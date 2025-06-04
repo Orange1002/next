@@ -38,7 +38,9 @@ export default function SitterCard({ sitter }) {
               <div className="rounded-circle rating-circle text-center pt-1 ms-3">
                 {sitter.rating}
               </div>
-              <div className="price-text mb-3">NT$ {sitter.price}</div>
+              <div className="price-text mb-3">
+                NT$ {sitter?.price?.toLocaleString()}
+              </div>
             </div>
           </div>
         </div>
