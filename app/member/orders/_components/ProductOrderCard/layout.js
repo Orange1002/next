@@ -96,7 +96,7 @@ export default function ProductOrderCard({
                       style={{ width: 80 }}
                     >
                       <Image
-                        src={product.img}
+                        src={product.image}
                         alt={product.name}
                         width={80}
                         height={80}

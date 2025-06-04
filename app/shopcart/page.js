@@ -177,29 +177,30 @@ export default function ShopcartPage() {
             <div className="d-flex justify-content-center fs-2 pb-3">
               你的購物車裡共有{totalQty}樣商品
             </div>
-            <div className="pt-3 d-none d-lg-flex gap-45 align-items-center">
-              <div className="d-flex align-items-center gap-2 px-3 py-2 w-85">
-                <input
-                  type="checkbox"
-                  checked={isAllProductSelected}
-                  onChange={(e) => handleSelectAllProducts(e.target.checked)}
-                />
-
-                <label htmlFor="selectAll" className="m-0 user-select-none">
-                  商品
-                </label>
+            {items.some((item) => item.product_id) && (
+              <div className="pt-3 d-none d-lg-flex gap-45 align-items-center">
+                <div className="d-flex align-items-center gap-2 px-3 py-2 w-85">
+                  <input
+                    type="checkbox"
+                    checked={isAllProductSelected}
+                    onChange={(e) => handleSelectAllProducts(e.target.checked)}
+                  />
+                  <label htmlFor="selectAll" className="m-0 user-select-none">
+                    商品
+                  </label>
+                </div>
+                <div className="box1 d-flex align-items-center justify-content-center">
+                  商品名稱
+                </div>
+                <div className="d-flex flex-fill">
+                  {['規格', '價格', '數量', '統計', '操作'].map((item, idx) => (
+                    <div key={idx} className="flex-item text-center">
+                      {item}
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="box1 d-flex align-items-center justify-content-center">
-                商品名稱
-              </div>
-              <div className="d-flex flex-fill">
-                {['規格', '價格', '數量', '統計', '操作'].map((item, idx) => (
-                  <div key={idx} className="flex-item text-center">
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
+            )}
           </div>
 
           {/* 桌面版商品項目 */}
@@ -378,29 +379,30 @@ export default function ShopcartPage() {
           </div>
 
           {/* 桌面版保姆表頭 */}
-          <div className="d-none d-lg-block bg-white pt-3 mb-30 border-gray">
-            <div className="d-flex gap-45 align-items-center">
-              <div className="d-flex align-items-center gap-2 px-3 py-2 w-85">
-                <input
-                  type="checkbox"
-                  checked={isAllSitterSelected}
-                  onChange={(e) => handleSelectAllSitters(e.target.checked)}
-                />
-
-                <label className="m-0 user-select-none">保姆</label>
-              </div>
-              <div className="box1 d-flex align-items-center justify-content-center">
-                保姆名稱
-              </div>
-              <div className="d-flex flex-fill">
-                {['狗狗名稱', '日期', '價格', '操作'].map((item, idx) => (
-                  <div key={idx} className="flex-item2 text-center">
-                    {item}
-                  </div>
-                ))}
+          {items.some((item) => item.sitter_id) && (
+            <div className="d-none d-lg-block bg-white pt-3 mb-30 border-gray">
+              <div className="d-flex gap-45 align-items-center">
+                <div className="d-flex align-items-center gap-2 px-3 py-2 w-85">
+                  <input
+                    type="checkbox"
+                    checked={isAllSitterSelected}
+                    onChange={(e) => handleSelectAllSitters(e.target.checked)}
+                  />
+                  <label className="m-0 user-select-none">保姆</label>
+                </div>
+                <div className="box1 d-flex align-items-center justify-content-center">
+                  保姆名稱
+                </div>
+                <div className="d-flex flex-fill">
+                  {['狗狗名稱', '日期', '價格', '操作'].map((item, idx) => (
+                    <div key={idx} className="flex-item2 text-center">
+                      {item}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* 桌面版保姆項目 */}
           {items

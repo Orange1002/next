@@ -234,3 +234,17 @@ button:focus-visible {
   cursor: pointer;
   color: #fff;
 }
+
+.circleSize {
+  width: 17px;
+  height: 17px;
+  background: #ed784a;
+  border-radius: 50%;
+  top: -5px;
+  right: -5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: white;
+}

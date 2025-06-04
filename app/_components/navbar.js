@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import NotificationBell from './NotificationBell'
+import { useCart } from '@/hooks/use-cart'
 
 export default function MyNavbar() {
   const pathname = usePathname()
@@ -14,6 +15,8 @@ export default function MyNavbar() {
   const [showDropdown, setShowDropdown] = useState(false)
 
   const dropdownRef = useRef(null) // ✅ 加入 ref
+
+  const { totalQty = 0 } = useCart() || {}
 
   // ✅ 點空白處收起 dropdown
   useEffect(() => {
@@ -51,6 +54,8 @@ export default function MyNavbar() {
   }, [])
 
   if (pathname.includes('/member/login')) return null
+
+  console.log('aaa')
 
   return (
     <Navbar
@@ -117,12 +122,12 @@ export default function MyNavbar() {
             </Link>
           </Nav>
 
-          <Button
+          {/* <Button
             variant="light"
             className="burger-btn p-0 border-0 bg-transparent d-flex align-items-center"
           >
             <i className="bi bi-list nav-icon" />
-          </Button>
+          </Button> */}
 
           <Form className="me-3 mb-0 d-flex search-group" role="search">
             <Form.Control type="search" name="search" placeholder="搜尋" />
@@ -239,7 +244,19 @@ export default function MyNavbar() {
             </div>
 
             <Link href="/shopcart" passHref legacyBehavior>
-              <i className="bi bi-cart nav-icon" />
+              <div className="position-relative">
+                <i className="bi bi-cart nav-icon" />
+                <div className="position-absolute circleSize">
+                  {totalQty > 9 ? (
+                    <>
+                      <span>9</span>
+                      <span style={{ fontSize: '9px' }}>+</span>
+                    </>
+                  ) : (
+                    <span>{totalQty}</span>
+                  )}
+                </div>
+              </div>
             </Link>
             <NotificationBell />
           </div>

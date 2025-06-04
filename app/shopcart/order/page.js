@@ -9,6 +9,7 @@ import { useSearchParams } from 'next/navigation'
 import CouponStyle from '@/app/member/coupons/_components/couponCardUnused/CouponCardUnused.module.scss'
 import Image from 'next/image'
 import axios from 'axios'
+import { AddressArray } from '../AddressArray/AddressArray'
 
 export default function OrderPage() {
   const {
@@ -44,6 +45,28 @@ export default function OrderPage() {
     orderItems: [],
     orderServices: [],
   })
+
+  useEffect(() => {
+    if (!memberId) return
+
+    fetch(`http://localhost:3005/api/shopcart/member/${memberId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        const matchedCity = AddressArray.find((item) => item.city === data.city)
+        const matchedTown = matchedCity?.town.find(
+          (t) => String(t.zip) === String(data.zip)
+        )
+        setFormData((prev) => ({
+          ...prev,
+          recipientCity: data.city || '',
+          recipientTown: matchedTown?.name || '',
+          recipientAddress: data.address || '',
+        }))
+      })
+      .catch((err) => {
+        console.error('載入會員地址資料失敗', err)
+      })
+  }, [memberId])
 
   useEffect(() => {
     const handleMessage = (event) => {
