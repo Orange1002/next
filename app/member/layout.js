@@ -3,7 +3,7 @@ import { useAuth } from '../../hooks/use-auth'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import Breadcrumb from './_components/BreadCrumb/layout'
 import Sidebar from './_components/Sidebar/layout'
-import { useEffect } from 'react'
+import { useMemo, useEffect } from 'react'
 
 const breadcrumbMap = {
   '/member': '會員中心',
@@ -45,7 +45,10 @@ export default function MemberLayout({ children }) {
   const fullPath = query ? `${pathname}?${query}` : pathname
 
   // 檢查是否為公開頁
-  const isPublicPage = publicPages.includes(pathname)
+
+  const isPublicPage = useMemo(() => {
+    return publicPages.includes(pathname)
+  }, [pathname])
 
   useEffect(() => {
     if (!isReady) return

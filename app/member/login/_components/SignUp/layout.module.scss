@@ -126,6 +126,16 @@
   justify-content: center;
 }
 
+@media (max-width: 1550px) {
+  .active {
+    transform: translate(0, 20%);
+  }
+
+  .inactive {
+    transform: translate(200px, 20%);
+  }
+}
+
 @media (max-width: 570px) {
   .form {
     padding: 0 1.5rem;
@@ -148,12 +158,16 @@
   }
 }
 
-@media (max-width: 1550px) {
-  .active {
-    transform: translate(0, 20%);
+.message {
+  &.error {
+    color: #dc3545;
   }
 
-  .inactive {
-    transform: translate(200px, 20%);
+  &.success {
+    color: #198754;
   }
+}
+
+.errorMsg {
+  color: #dc3545;
 }

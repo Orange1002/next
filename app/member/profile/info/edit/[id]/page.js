@@ -8,12 +8,13 @@ import CancelButton from '../../../../_components/BtnCustomGray/layout'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '../../../../../../hooks/use-auth'
 import AddressSelector from './_components/AddressSelector/layout'
+import Swal from 'sweetalert2'
 
 export default function InfoPage() {
   const { setMember, refreshMember } = useAuth()
   const router = useRouter()
-  const handleAddressChange = useCallback((address) => {
-    setFormData((prev) => ({ ...prev, address }))
+  const handleAddressChange = useCallback(({ city, zip, address }) => {
+    setFormData((prev) => ({ ...prev, city, zip, address }))
   }, [])
   const [formData, setFormData] = useState({
     username: '',
@@ -22,6 +23,8 @@ export default function InfoPage() {
     email: '',
     phone: '',
     birthday: '',
+    city: '',
+    zip: '',
     address: '',
   })
 
@@ -48,6 +51,8 @@ export default function InfoPage() {
           email: data.email || '',
           phone: data.phone || '',
           birthday: data.birth_date ? data.birth_date.split('T')[0] : '',
+          city: data.city || '',
+          zip: data.zip || '',
           address: data.address || '',
         })
 
@@ -104,8 +109,9 @@ export default function InfoPage() {
       formPayload.append('birth_date', formData.birthday || '')
       formPayload.append('gender', formData.gender)
       formPayload.append('phone', formData.phone)
+      formPayload.append('city', formData.city)
+      formPayload.append('zip', formData.zip)
       formPayload.append('address', formData.address)
-
       if (hasCustomAvatar && avatarFile) {
         formPayload.append('avatar', avatarFile)
       }
@@ -120,37 +126,63 @@ export default function InfoPage() {
         body: formPayload,
       })
 
-      if (!res.ok) throw new Error('更新會員資料失敗')
-
       const result = await res.json()
 
-      if (result.image_url) {
-        const baseUrl = 'http://localhost:3005'
-        const fullUrl = result.image_url.startsWith('http')
-          ? result.image_url
-          : baseUrl + result.image_url
+      if (res.ok) {
+        if (result.image_url) {
+          const baseUrl = 'http://localhost:3005'
+          const fullUrl = result.image_url.startsWith('http')
+            ? result.image_url
+            : baseUrl + result.image_url
 
-        const withTimestamp = fullUrl + '?t=' + Date.now()
-        setPreview(withTimestamp)
+          const withTimestamp = fullUrl + '?t=' + Date.now()
+          setPreview(withTimestamp)
 
-        setMember((prev) => ({
-          ...prev,
-          image_url: withTimestamp,
-        }))
+          setMember((prev) => ({
+            ...prev,
+            image_url: withTimestamp,
+          }))
+        }
+
+        await refreshMember()
+
+        await Swal.fire({
+          icon: 'success',
+          title: '更新成功',
+          showConfirmButton: false,
+          timer: 1000,
+          background: '#e9f7ef',
+          color: '#2e7d32',
+        })
+
+        router.replace('/member/profile/info')
+      } else {
+        await Swal.fire({
+          icon: 'error',
+          title: '更新失敗',
+          text: result.message || '請稍後再試',
+          confirmButtonColor: '#d33',
+          background: '#fdecea',
+          color: '#b71c1c',
+        })
       }
-
-      await refreshMember()
-      router.replace('/member/profile/info')
     } catch (error) {
       console.error('更新錯誤:', error)
-      alert('更新會員資料時發生錯誤')
+      await Swal.fire({
+        icon: 'error',
+        title: '更新失敗',
+        text: '請檢查網路或稍後再試',
+        confirmButtonColor: '#d33',
+        background: '#fdecea',
+        color: '#b71c1c',
+      })
     }
   }
 
   return (
     <>
       <SectionTitle>會員基本資料編輯</SectionTitle>
-      <div className={`${styles.block} mt-lg-3 px-4 py-3 h-100`}>
+      <div className={`${styles.block} mt-3 px-4 py-3 h-100`}>
         <form className="member-profile-form h-100" onSubmit={handleSubmit}>
           <div className="row g-0 h-100 w-100">
             <div className="d-flex flex-column align-items-center justify-content-evenly col-12 col-lg-6 order-1 order-lg-0 h-100 w-100">
@@ -289,8 +321,19 @@ export default function InfoPage() {
                   </div>
                   {/* 地址 */}
                   <AddressSelector
-                    value={formData.address}
-                    onChange={handleAddressChange}
+                    value={{
+                      city: formData.city,
+                      address: formData.address,
+                      zip: formData.zip,
+                    }}
+                    onChange={({ city, zip, address }) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        city,
+                        zip,
+                        address,
+                      }))
+                    }
                   />
                 </div>
               </div>
