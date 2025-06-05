@@ -67,7 +67,7 @@ export default function ComponentsSectionIntro(props) {
         </div>
 
         {/* 區塊 3 */}
-        <div className="row align-items-start justify-content-between mt-5">
+        <div className="row align-items-start justify-content-between mt-5 mb-3">
           <div className="col-md-6 px-5 py-3 text-dark">
             <h2 className="fw-medium text-uppercase fs-2 mb-4">
               貼心設計，隨時關愛
@@ -90,14 +90,14 @@ export default function ComponentsSectionIntro(props) {
         </div>
       </div>
 
-      <div className="text-center mt-5">
-        <a
+      <div className="text-center mt-5 mb-5">
+        <Link
           href="/sitter/sitter-list"
-          className="btn btn-lg bgc-primary text-white fw-bold px-5 py-3 fs-3"
+          className=" bgc-primary text-white fw-bold px-5 py-3 fs-3 text-decoration-none rounded-2 sitterbbttnn"
           style={{ letterSpacing: 5 }}
         >
           立即預約
-        </a>
+        </Link>
       </div>
     </div>
   )

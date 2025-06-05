@@ -342,7 +342,7 @@ export default function SitterBookingPage() {
                 : '請選擇日期'}
             </div>
             <button
-              className="btn bgc-primary text-white"
+              className="border-0 rounded-2 py-2 px-3 bgc-primary text-white fs-5"
               type="submit"
               disabled={loading}
             >

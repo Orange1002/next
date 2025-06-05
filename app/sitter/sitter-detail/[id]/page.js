@@ -183,7 +183,10 @@ export default function SitterDetailPage() {
           value={comment}
           onChange={(e) => setComment(e.target.value)}
         />
-        <button className="btn bgc-primary text-white" onClick={handleSubmit}>
+        <button
+          className="border-0 py-2 px-3 rounded-2 bgc-primary text-white"
+          onClick={handleSubmit}
+        >
           提交評價
         </button>
       </section>

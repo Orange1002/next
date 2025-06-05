@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa'
 import { IoMdHeart, IoIosHeartEmpty } from 'react-icons/io'
-import './style.module.css'
+import styles from './style.module.css'
 
 export default function MySitterCard() {
   const scrollContainerRef = useRef(null)
@@ -158,7 +158,7 @@ export default function MySitterCard() {
           {/* 查看更多 */}
           <div className="d-flex justify-content-center mt-5">
             <Link
-              className="btn  bgc-primary text-white btn-lg fw-bold py-3 px-5"
+              className={`${styles.sitterbbttnn} text-white fw-bold px-5 py-3 fs-4 text-decoration-none rounded-2`}
               href={`/sitter/sitter-list`}
               style={{ letterSpacing: 5 }}
             >
