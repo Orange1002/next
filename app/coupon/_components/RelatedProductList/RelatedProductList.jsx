@@ -4,7 +4,8 @@ import { useEffect, useRef } from 'react'
 
 export default function RelatedProductList({
   title = 'Related Products',
-  products = []
+  products = [],
+  id,
 }) {
   const scrollRef = useRef(null)
 
@@ -60,7 +61,13 @@ export default function RelatedProductList({
         <div className={styles.titleBar}>
           <span className={styles.titleLine}></span>
           <div className={styles.titleText}>{title}</div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10" fill="none">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="10"
+            height="10"
+            viewBox="0 0 10 10"
+            fill="none"
+          >
             <circle cx="5" cy="5" r="5" fill="#505050" />
           </svg>
         </div>
@@ -70,6 +77,7 @@ export default function RelatedProductList({
         {products.map((product, i) => (
           <div key={i} className={styles.cardWrapper}>
             <RelatedProductCard
+              id={product.id}
               image={product.image}
               name={product.name}
               price={product.price}

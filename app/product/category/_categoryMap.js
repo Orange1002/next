@@ -1,11 +1,11 @@
 export const categorySlugMap = {
-  food: { id: 1, name: 'Food' },
-  bed: { id: 2, name: 'Bed' },
-  travel: { id: 3, name: 'Travel' },
-  cleaning: { id: 4, name: 'Cleaning' },
-  toys: { id: 5, name: 'Toys' },
-  health: { id: 6, name: 'Health' },
-  clothing: { id: 7, name: 'Clothing' }
+  food: { id: 1, name: '食品' },
+  bed: { id: 2, name: '居家' },
+  travel: { id: 3, name: '外出' },
+  cleaning: { id: 4, name: '清潔' },
+  toys: { id: 5, name: '玩具與訓練' },
+  health: { id: 6, name: '健康' },
+  clothing: { id: 7, name: '服飾與配件' }
 }
 
 export const subcategorySlugMap = {

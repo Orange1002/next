@@ -10,6 +10,7 @@ export default function ProductList({
   priceGte,
   priceLte,
   sortBy,
+  onCountChange,
 }) {
   const [products, setProducts] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
@@ -36,6 +37,7 @@ export default function ProductList({
       .then((data) => {
         setProducts(data.data.products || [])
         setTotalPages(data.data.pageCount || 1)
+        onCountChange?.(data.data.products.length)
       })
       .catch((err) => {
         console.error('❌ API 錯誤:', err)
