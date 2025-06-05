@@ -111,3 +111,24 @@ body {
 .btn-reserve:hover {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2) !important;
 }
+.sitterbbttnn {
+  background-color: #ed784a;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.sitterbbttnn:hover {
+  background-color: #cd5339;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px);
+}
+
+.sitterbbttnn2 {
+  background-color: #ed784a;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+.sitterbbttnn2:hover {
+  background-color: #cd5339;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}

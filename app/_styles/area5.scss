@@ -1,4 +1,4 @@
-// 第五區塊
+// 第五區塊 商品
 .product-title {
   color: #929292;
   font-family: 'Kiwi Maru', sans-serif;
@@ -91,7 +91,8 @@
   }
 
   &:hover {
-    box-shadow: var(--shadow-x, 1px) var(--shadow-y, 6px) var(--shadow-blur, 25.5px) 0 rgba(0, 0, 0, 0.25);
+    box-shadow: var(--shadow-x, 1px) var(--shadow-y, 6px)
+      var(--shadow-blur, 25.5px) 0 rgba(0, 0, 0, 0.25);
 
     .product-card-content {
       background: var(--Frame-20, #f3f3f3);

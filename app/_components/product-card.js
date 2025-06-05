@@ -74,9 +74,11 @@ export default function MyProductCard() {
   // useEffect(() => {
   //   if (window.innerWidth > 575.98) {
   //     const scrollContainer = scrollContainerRef.current
-  //     scrollContainer.addEventListener('scroll', handleScroll)
-  //     handleScroll() // 初始狀態
-  //     return () => scrollContainer.removeEventListener('scroll', handleScroll)
+  //     if (scrollContainer) {
+  //       scrollContainer.addEventListener('scroll', handleScroll)
+  //       handleScroll() // 初始狀態
+  //       return () => scrollContainer.removeEventListener('scroll', handleScroll)
+  //     }
   //   }
   // }, [])
 
@@ -93,7 +95,7 @@ export default function MyProductCard() {
                 role="button"
                 tabIndex={0}
                 className={`product-arrow d-flex justify-content-center align-items-center ${
-                  !showLeftArrow ? 'invisible opacity-0' : ''
+                  !showLeftArrow ? '' : 'invisible opacity-0'
                 }`}
                 onClick={() => scrollBy(-274)}
                 onKeyDown={(e) => {
@@ -140,7 +142,7 @@ export default function MyProductCard() {
                   </div>
                 ))}
               </div> */}
-              <ProductList />
+              <ProductList ref={scrollContainerRef} />
 
               {/* 右箭頭 */}
               <div
