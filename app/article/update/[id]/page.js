@@ -76,10 +76,6 @@ function ArticleHeaderPhoto() {
           </div>
         </div>
       </div>
-      {/* 手機板 */}
-      <div className="container mobile mb-5">
-        <PostArticle />
-      </div>
     </>
   )
 }

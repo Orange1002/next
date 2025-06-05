@@ -94,7 +94,22 @@
 .collapse {
   width: 180px;
 }
+// .c-s-btn {
+//   background-color: #ed784a;
+//   border: none;
+//   width: 100px;
+//   height: 40px;
+//   font-size: 14px;
+//   letter-spacing: 3px;
+//   color: white;
 
+//   &:hover {
+//     background-color: #d7633d !important;
+//     cursor: pointer;
+//     transform: scale(1.1);
+//     transition: all 0.3s ease;
+//   }
+// }
 .c-s-btn {
   background-color: #ed784a;
   border: none;
@@ -139,10 +154,10 @@
 
 // card 大圖css
 .card-1 {
-  max-width: 1076px;
+  // max-width: 1076px;
   max-height: 250px;
   height: 250px;
-  width: 1076px;
+  // width: 1076px;
   overflow: hidden;
   background-color: #f3f3f3;
 }
@@ -171,19 +186,19 @@
   transform: scale(1.05);
 }
 
-// .icon-link {
-//   display: inline-flex;
-//   text-decoration: none;
-//   color: inherit;
-//   border: 'none';
-//   padding: 0;
-//   cursor: 'pointer';
-//   outline: 'none';
-// }
+.icon-link {
+  display: inline-flex;
+  text-decoration: none;
+  color: inherit;
+  border: 'none';
+  padding: 0;
+  cursor: 'pointer';
+  outline: 'none';
+}
 
-// .icon-link:hover .icon {
-//   background-color: #cc543a;
-// }
+.icon-link:hover .icon {
+  background-color: #cc543a;
+}
 
 .card-1 img {
   height: 250px;
@@ -299,22 +314,8 @@
 
 .card-area {
   flex-wrap: wrap;
-  gap: 62px;
   margin-top: 15px;
-  row-gap: 15px;
-  margin-left: -33px;
   width: 100%;
-}
-@media (max-width: 1199px) {
-  .card-area > * {
-    flex: 0 0 calc((100% - (2 * 1.5rem)) / 3);
-  }
-}
-
-@media (max-width: 767px) {
-  .card-area > * {
-    flex: 0 0 calc((100% - 1.5rem) / 2);
-  }
 }
 
 // 熱門圖片輪轉
@@ -593,47 +594,11 @@
   color: #818181;
   margin: 25px;
 }
-.cards-container {
-  display: flex;
-  overflow: hidden;
-  width: 100%;
-  max-width: 1200px;
-  gap: 1.5rem; /* gap-4 約1.5rem */
-}
-
 .cards-container > * {
   flex: 0 0 calc((100% - (3 * 1.5rem)) / 4);
+  /* 4張卡，3個間距 (gap-4 約1.5rem)，計算每張寬度 */
   box-sizing: border-box;
 }
-
-@media (max-width: 1199px) {
-  .cards-container > * {
-    flex: 0 0 calc((100% - (2 * 1.5rem)) / 3);
-  }
-}
-
-@media (max-width: 767px) {
-  .cards-container > * {
-    flex: 0 0 calc((100% - 1.5rem) / 2);
-  }
-}
-@media (max-width: 576px) {
-  // 將這個現有的 .event-card-group 放在正確的 media query 裡面
-  .cards-container > * {
-  }
-}
-
-/* 左右箭頭按鈕可以額外微調 */
-.arrow-left,
-.arrow-right {
-  user-select: none;
-  transition: color 0.3s ease;
-}
-.arrow-left:hover,
-.arrow-right:hover {
-  color: #007bff;
-}
-
 @media (max-width: 576px) {
   .event-card {
     width: 303px;
@@ -684,10 +649,8 @@
   height: 6px;
   background: #505050;
   margin-right: 25px;
-}
 
-@media (max-width: 576px) {
-  .event-title::before {
+  @media (max-width: 576px) {
     width: 34px;
     padding-left: 10px;
   }
@@ -699,15 +662,6 @@
   margin-left: 25px;
   padding-right: 10px;
   font-size: 32px;
-}
-
-/* 小於1000px時隱藏event-title及其before和after */
-@media (max-width: 999px) {
-  .event-title,
-  .event-title::before,
-  .event-title::after {
-    display: none;
-  }
 }
 
 .bg-gray {
@@ -753,95 +707,3 @@
     margin-top: 120px;
   }
 }
-
-// 狗狗晃動
-
-/* 在您的 SCSS 檔案中新增或修改以下部分 */
-
-// 定義狗屋晃動動畫
-@keyframes shake-doghouse {
-  0% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(15deg);
-  } /* 可以調整角度大小 */
-  50% {
-    transform: rotate(-15deg);
-  }
-  75% {
-    transform: rotate(15deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
-}
-
-// 狗屋 icon 樣式
-.doghouse-icon {
-  opacity: 0; // 初始隱藏
-  transition: opacity 0.3s ease-in-out; // 淡入淡出效果
-  z-index: 10; /* 確保在其他內容之上 */
-  display: inline-block; /* 確保可以應用變換 (transform) */
-}
-
-/* 當卡片被懸停時，顯示狗屋圖示並應用晃動動畫 */
-.card-2:hover .doghouse-icon {
-  opacity: 1; // 懸停時完全顯示
-  animation: shake-doghouse 0.5s ease-in-out infinite; /* 應用晃動動畫 */
-}
-
-/* --- 您現有的其他樣式保持不變 --- */
-
-// 狗腳印樣式 (保持現有)
-.paw-icon {
-  display: inline-block;
-  transition: transform 0.2s ease-in-out;
-  /* 初始不動 */
-}
-
-.card:hover .paw-icon {
-  animation: shake 0.5s ease-in-out infinite;
-}
-
-// 狗腳印晃動動畫 (保持現有)
-@keyframes shake {
-  0% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(15deg);
-  }
-  50% {
-    transform: rotate(-15deg);
-  }
-  75% {
-    transform: rotate(15deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
-}
-
-// card 大圖css (保持現有)
-.card-1 {
-  max-width: 1076px;
-  max-height: 250px;
-  height: 250px;
-  width: 1076px;
-  overflow: hidden;
-  background-color: #f3f3f3;
-}
-
-.card-1 img {
-  height: 250px;
-  object-fit: cover;
-}
-
-.card-1:hover {
-  background-color: #ffffff;
-  color: #cc543a;
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-

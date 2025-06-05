@@ -4,19 +4,11 @@ import { AiOutlineHeart } from 'react-icons/ai'
 import Cardbig from '../article/_components/card-1.js'
 
 import React, { useState, useEffect } from 'react'
-// import useHeaderPhoto from './_components/headerPhoto.js'
-// import Breadcrumb from './_components/breadCrumb.js'
-// import Buttonsearch from './_components/buttonSearch.js'
 import Cardarea from '../article/_components/card-s-area.js'
-// import CardSlider from './_components/eventSlider.js'
-// import VideoCard from './_components/videoCard.js'
 import Cards from '../article/_components/card-s.js'
-import Image from 'next/image'
-import FloatingActionButton from '../article/list/_components/floatingActionButton.js'
-import Link from 'next/link'
-
-import { AiOutlineRightCircle } from 'react-icons/ai'
-
+// import { Link } from 'react-router-dom'
+import Link from 'next/link.js'
+// import Articlelist from '../article/_components/aricleList.js'
 /////
 const articleData = [
   {
@@ -132,18 +124,20 @@ export default function MyArticleCard() {
   return (
     <section>
       {/* 小螢幕版文章卡片 */}
-      <div className="d-block d-lg-none mt-5 mb-5">
+      <div className="d-block d-lg-none mt-5 mb-5 container">
         <div className="article-title d-flex align-items-center justify-content-center">
           最新文章
         </div>
-        {articleData.map((item, idx) => (
-          <ArticleCard key={idx} {...item} />
-        ))}
+        {articles && articles.length > 1
+          ? articles
+              .slice(0, 1)
+              .map((article) => <Cards key={article.id} article={article} />)
+          : null}
       </div>
 
       {/* 桌面版列表 + 精選文章 */}
-      <div className="container d-none d-lg-flex my-96 py-5 justify-content-center">
-        <div className="article-list-group d-block">
+      <div className="container d-none d-lg-flex  py-5 justify-content-center w-100">
+        {/* <div className="article-list-group d-block">
           <div className="article-list d-flex justify-content-center align-items-center">
             <p className="mb-0 me-2">Article List</p>
             <div className="al-circle"></div>
@@ -183,10 +177,10 @@ export default function MyArticleCard() {
               </Collapse>
             </React.Fragment>
           ))}
-        </div>
+        </div> */}
 
         {/* 精選文章與小卡片 */}
-        <div className="d-block ms-5">
+        <div className="d-block w-100">
           {/* <Card className="card-1 d-none d-xl-block">
             <Row className="g-0">
               <Col md={5}>
@@ -220,7 +214,9 @@ export default function MyArticleCard() {
               </Col>
             </Row>
           </Card> */}
-          {articles.length > 0 && <Cardbig article={articles[0]} />}
+          <div className="d-flex justify-content-center">
+            {articles.length > 0 && <Cardbig article={articles[0]} />}
+          </div>
 
           {/* 三張卡片 */}
           {/* <Row className="g-3 mt-5">
@@ -231,7 +227,7 @@ export default function MyArticleCard() {
             ))}
           </Row> */}
           {/* <Cardarea articles={articles.slice(1)} /> */}
-          <div className="row card-area d-flex justify-content-center">
+          <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-2">
             {articles && articles.length > 1
               ? articles
                   .slice(0, 4)
@@ -244,8 +240,10 @@ export default function MyArticleCard() {
       </div>
 
       {/* 小螢幕查看更多按鈕 */}
-      <div className="d-flex d-lg-none justify-content-center mt-5">
-        <div className="btn product-btn">查看更多</div>
+      <div className="d-flex justify-content-center mt-5">
+        <Link href="/article" className="btn product-btn">
+          查看更多
+        </Link>
       </div>
     </section>
   )

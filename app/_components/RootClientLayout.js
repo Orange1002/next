@@ -39,7 +39,11 @@ export default function RootClientLayout({ children }) {
     checkLogin()
   }, [pathname])
 
-  const hiddenRoutes = ['/member/login', '/forgetpassword']
+  const hiddenRoutes = [
+    '/member/login',
+    '/forgetpassword',
+    '/forgetpassword/resetpassword',
+  ]
 
   const hideLayout = hiddenRoutes.includes(pathname)
 

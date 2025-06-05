@@ -135,6 +135,8 @@ export default function ForgotPasswordPage() {
             />
           </div>
 
+          {message && <div className="text-success mb-2">{message}</div>}
+
           {step === 2 && (
             <>
               <div className={styles.inputField}>
@@ -148,6 +150,9 @@ export default function ForgotPasswordPage() {
                   required
                 />
               </div>
+
+              {error && <div className="text-danger mb-2">{error}</div>}
+
               <div className={styles.inputField}>
                 <FaLock className={`${styles.icon} fs-4 ms-2`} />
                 <input
@@ -170,11 +175,16 @@ export default function ForgotPasswordPage() {
                   required
                 />
               </div>
+              <button
+                type="button"
+                className={`${styles.btn}`}
+                onClick={handleSendOtp}
+                disabled={isLoading}
+              >
+                重新寄送驗證碼
+              </button>
             </>
           )}
-
-          {error && <div className="text-danger mb-2">{error}</div>}
-          {message && <div className="text-success mb-2">{message}</div>}
 
           <button
             type="submit"

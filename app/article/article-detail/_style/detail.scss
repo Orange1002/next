@@ -14,11 +14,8 @@ html {
   line-height: 1.8;
   text-align: left;
   font-size: 18px;
- 
 }
-.custom-letter-spacing p {
-  margin-bottom: 3em;
-}
+
 // .replay-btn {
 //   background-color: #ed784a;
 //   border: none;
@@ -132,74 +129,25 @@ html {
   }
 }
 
-// .share-area {
-//   padding: 0 240px;
-//   margin-bottom: 6rem;
-//   a {
-//     color: #505050;
-//     font-size: 20px;
-//   }
-// }
-
-// .share-heart {
-//   font-size: 20px;
-//   color: #505050;
-//   &:hover {
-//     color: #d7633d; // 懸停時改變顏色
-//     transform: scale(1.1); // 略微放大
-//     cursor: pointer; // 當滑鼠懸停時，顯示手指光標
-//     transition: all 0.3s ease; // 添加平滑過渡效果
-//   }
-// }
 .share-area {
   padding: 0 240px;
   margin-bottom: 6rem;
-
   a {
     color: #505050;
     font-size: 20px;
   }
-
-  .d-flex {
-    flex-wrap: nowrap; // ⭐ 不換行
-    gap: 0.5rem;
-    align-items: center;
-    overflow-x: auto; // ⭐ 確保不擠爆容器
-  }
-
-  @media (max-width: 768px) {
-    padding: 0 2rem;
-
-    .d-flex {
-      justify-content: flex-start;
-      gap: 1rem;
-
-      p,
-      a {
-        font-size: 16px;
-      }
-
-      .share-heart {
-        font-size: 18px;
-      }
-    }
-  }
-
-  @media (max-width: 576px) {
-    padding: 0 1rem;
-
-    .d-flex {
-      flex-direction: row; // ⭐ 確保是橫排
-      align-items: center;
-      gap: 0.75rem;
-
-      p {
-        margin-bottom: 0;
-      }
-    }
-  }
 }
 
+.share-heart {
+  font-size: 20px;
+  color: #505050;
+  &:hover {
+    color: #d7633d; // 懸停時改變顏色
+    transform: scale(1.1); // 略微放大
+    cursor: pointer; // 當滑鼠懸停時，顯示手指光標
+    transition: all 0.3s ease; // 添加平滑過渡效果
+  }
+}
 .detail-bread {
   margin-top: 100px;
   a,
@@ -247,98 +195,4 @@ html {
 }
 .mb-footer-gap {
   margin-bottom: 10rem; /* 你可以根據需求調整大小 */
-}
-
-
-.comment-section {
-  font-family: 'Kiwi Maru', serif;
-
-  .card-replay {
-    margin-top: 1rem;
-
-    .card-body {
-      font-size: 16px;
-    }
-
-    .reply-list {
-      padding-left: 1rem;
-
-      .reply-box {
-        margin-bottom: 0.5rem;
-
-        .card-body {
-          padding: 0.5rem;
-        }
-      }
-    }
-
-    form.reply-box {
-      margin-top: 0.5rem;
-
-      input.form-control {
-        height: 30px;
-        font-size: 14px;
-      }
-
-      button.replay-btn {
-        width: 50px;
-        height: 28px;
-        font-size: 12px;
-        margin-top: 0.25rem;
-      }
-    }
-
-    @media (max-width: 576px) {
-      .card-body {
-        font-size: 14px;
-      }
-
-      form.reply-box {
-        input.form-control {
-          font-size: 12px;
-        }
-
-        button.replay-btn {
-          font-size: 10px;
-          height: 26px;
-        }
-      }
-    }
-  }
-}
-.paw-btn {
-  position: absolute;
-  top: 50%;
-  background: transparent;
-  border: none;
-  color: #ed784a;
-  font-size: 24px;
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transform-origin: center;
-  transition: transform 0.2s ease, filter 0.2s ease;
-  transform: translateY(-50%) rotate(0deg);  // 預設直角
-
-  &:hover {
-    filter: drop-shadow(0 0 5px rgba(237, 120, 74, 0.7));
-  }
-}
-
-.paw-prev {
-  left: -50px;
-
-  &:hover {
-    transform: translateY(-50%) rotate(-20deg) scale(1.3);
-  }
-}
-
-.paw-next {
-  right: -50px;
-
-  &:hover {
-    transform: translateY(-50%) rotate(20deg) scale(1.3);
-  }
 }

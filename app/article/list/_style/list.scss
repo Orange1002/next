@@ -55,8 +55,8 @@
 
 /* 聊天按鈕獨立容器 */
 .fab-chat-container {
-  bottom: 24px; /* 距離底部 */
-  right: 200px ; /* 往左偏移，避免跟編輯按鈕重疊 */
+  bottom: 24px !important; /* 距離底部 */
+  right: 200px !important; /* 往左偏移，避免跟編輯按鈕重疊 */
   z-index: 1000;
 }
 
@@ -67,7 +67,7 @@
   right: 24px;
 }
 
-
+/* 你原本的 fab-option 設定繼續沿用 */
 .fab-container .fab-option {
   opacity: 0;
   transform: translateY(20px);
@@ -84,6 +84,7 @@
 }
 
 .fab-container .fab-option.show {
+  display: none;
   display: block;
   opacity: 1;
   transform: translateY(0);
@@ -148,19 +149,19 @@
   transform: scale(1.05);
 }
 
-// .icon-link {
-//   display: inline-flex;
-//   text-decoration: none;
-//   color: inherit;
-//   border: none;
-//   padding: 0;
-//   cursor: pointer;
-//   outline: none;
-// }
+.icon-link {
+  display: inline-flex;
+  text-decoration: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+}
 
-// .icon-link:hover .icon {
-//   background-color: #cc543a;
-// }
+.icon-link:hover .icon {
+  background-color: #cc543a;
+}
 
 .big-card {
   font-size: 14px;
@@ -227,42 +228,3 @@
     opacity: 0;
   }
 }
-
-// RWD
-/* 讓按鈕群可以自動換行 */
-.button-group-wrapper {
-  flex-wrap: wrap;       /* 允許換行 */
-  justify-content: center;
-  gap: 0.75rem 1.5rem;   /* 上下與左右間距 */
-  margin-top: 1rem;
-}
-
-/* 按鈕樣式保留但可以自適應 */
-.list-btn {
-  background-color: transparent;
-  border: none;
-  color: #929292;
-  padding: 0.5rem 1rem;
-  position: relative;
-  font-weight: 500;
-  transition: color 0.3s ease;
-  letter-spacing: 0.2em;
-  white-space: nowrap;       /* 不自動斷行 */
-}
-
-/* 手機與平板視窗自動調整大小（最多2~3個一排） */
-@media (max-width: 768px) {
-  .list-btn {
-    flex: 0 0 calc(50% - 1rem); /* 兩個按鈕一排 */
-    text-align: center;
-    padding: 0.6rem 0.75rem;
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .list-btn {
-    flex: 0 0 calc(100% - 1rem); /* 手機單排顯示（可選） */
-  }
-}
-

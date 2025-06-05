@@ -7,7 +7,7 @@ import { useMemo, useEffect } from 'react'
 
 const breadcrumbMap = {
   '/member': '會員中心',
-  '/member/coupons': '我的優惠券',
+  '/member/coupons': '優惠券與會員等級',
   '/member/coupons/points-history': 'vip點數歷史',
   '/member/favorite': '我的收藏',
   '/member/favorite?type=products': '狗狗用品收藏',
@@ -30,9 +30,8 @@ const breadcrumbMap = {
 // 公開頁面白名單
 const publicPages = [
   '/member/login',
-  '/member/forgot-password',
-  '/member/reset-password',
-  '/member/register',
+  '/member/forgotpassword',
+  '/member/forgotpassword/resetpassword',
 ]
 
 export default function MemberLayout({ children }) {
@@ -44,8 +43,15 @@ export default function MemberLayout({ children }) {
   const query = searchParams.toString()
   const fullPath = query ? `${pathname}?${query}` : pathname
 
-  // 檢查是否為公開頁
+  // 新增這段，若是 /member 直接跳轉到 /member/profile/info
+  useEffect(() => {
+    if (!isReady) return
+    if (pathname === '/member') {
+      router.replace('/member/profile/info')
+    }
+  }, [pathname, isReady, router])
 
+  // 檢查是否為公開頁
   const isPublicPage = useMemo(() => {
     return publicPages.includes(pathname)
   }, [pathname])
