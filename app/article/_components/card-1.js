@@ -102,9 +102,9 @@ const Card2 = ({ article }) => {
   return (
     <Link
       href={`/article/article-detail/${article.id}`}
-      className="text-decoration-none text-dark"
+      className="text-decoration-none text-dark w-100"
     >
-      <div className="card card-1 mt-4 d-none d-xl-block position-relative hover-card">
+      <div className="card card-1 mt-4 d-none d-xl-block position-relative hover-card w-100">
         {/* 狗骨頭圖示 */}
         <div
           className="dogbone-icon position-absolute top-0 end-0 p-2 paw-icon"
