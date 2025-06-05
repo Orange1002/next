@@ -23,7 +23,7 @@ export default function MemberViewPage() {
         {iconComponent && <span className="me-2">{iconComponent}</span>}
         <input
           type="text"
-          className="form-control"
+          className="form-control ps-3"
           placeholder={label}
           value={value || ''}
           name={name}
@@ -160,7 +160,7 @@ export default function MemberViewPage() {
                     <select
                       value={member.city}
                       disabled
-                      className="form-select mt-1"
+                      className="form-select"
                     >
                       <option value="">{member.city || '未填寫縣市'}</option>
                     </select>
@@ -172,11 +172,7 @@ export default function MemberViewPage() {
                     鄉鎮
                     <br />
                     市區
-                    <select
-                      value={member.zip}
-                      disabled
-                      className="form-select mt-1"
-                    >
+                    <select value={member.zip} disabled className="form-select">
                       <option value="">
                         {getTownName(member.city, member.zip) ||
                           '未填寫鄉鎮市區'}
@@ -185,15 +181,15 @@ export default function MemberViewPage() {
                   </label>
                 </div>
               </div>
-              <div className="d-flex w-100">
-                <label className={`${styles.address} mt-2 mb-2 mx-lg-3 w-100`}>
+              <div className="w-100 h-100 px-lg-3">
+                <label className={`${styles.address} w-100 mt-2`}>
                   地址
                   <input
                     type="text"
                     value={member.address || '未填寫預設住址'}
                     readOnly
                     disabled
-                    className="form-control mt-1"
+                    className="form-control"
                     placeholder="未填寫預設住址"
                   />
                 </label>

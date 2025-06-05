@@ -199,7 +199,7 @@ button:focus-visible {
   text-align: center;
   padding: 8px 12px;
   display: block;
-  color: #333;
+  color: #505050;
   text-decoration: none;
   background: none;
   border: none;
@@ -208,6 +208,7 @@ button:focus-visible {
 }
 
 .dropdown-item:hover {
+  color: #ed784a;
   background-color: #f8f9fa;
 }
 
@@ -233,4 +234,8 @@ button:focus-visible {
   background-color: #929292;
   cursor: pointer;
   color: #fff;
+}
+
+.avatar:hover {
+  box-shadow: 0 0.5px 2px rgba(0, 0, 0, 0.2);
 }

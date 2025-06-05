@@ -72,7 +72,7 @@ export default function DogCard({ dog, onDelete }) {
 
   return (
     <div className={`${styles.card}`}>
-      <div className={`${styles.img} d-flex flex-column w-100`}>
+      <div className={`${styles.img} d-flex flex-column w-100 border border-2`}>
         {/* 主圖 */}
         <div className={`w-100 h-100`}>
           <Image
@@ -88,7 +88,7 @@ export default function DogCard({ dog, onDelete }) {
         {/* 副圖 */}
         <div>
           {imagePath.length > 1 && (
-            <div className="d-flex">
+            <div className="d-flex border border-2">
               {imagePath.slice(1, 5).map((src, idx) => (
                 <div key={idx} style={{ width: '80px', height: '80px' }}>
                   <Image

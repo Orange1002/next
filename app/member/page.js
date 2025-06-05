@@ -12,13 +12,13 @@ export default function MemberPage() {
 
   return (
     <>
-      <SectionTitle>會員中心</SectionTitle>
+      {/* <SectionTitle>會員中心</SectionTitle>
       <div className="mt-lg-3">
         <div
           className={`${styles.block} d-flex flex-column flex-lg-row g-0 justify-content-evenly align-items-center ps-lg-5 pe-lg-5 pt-lg-3 pb-lg-3 mb-5 p-3`}
         >
           <div className={`${styles.vipCard} rounded-3 order-1 order-lg-0`}>
-            {/* 會員卡片區塊 */}
+            會員卡片區塊
           </div>
           <div className="order-0 order-lg-1 mb-3 m-lg-0">
             <p>{member.username}</p>
@@ -85,7 +85,7 @@ export default function MemberPage() {
             </Link>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   )
 }

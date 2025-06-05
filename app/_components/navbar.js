@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import NotificationBell from './NotificationBell'
+import MemberAvatarDropdown from './navbar-avatar'
 
 export default function MyNavbar() {
   const pathname = usePathname()
@@ -136,111 +137,12 @@ export default function MyNavbar() {
           </Form>
 
           <div className="d-flex align-items-center gap-4">
-            <div
-              className="member-dropdown position-relative"
-              ref={dropdownRef}
-            >
-              {' '}
-              {/* ✅ 加上 ref */}
-              <button
-                className="icon-link btn border-0 bg-transparent p-0"
-                onClick={() => setShowDropdown((prev) => !prev)}
-              >
-                <i className="bi bi-person nav-icon" />
-              </button>
-              {showDropdown && (
-                <div className="dropdown-menu show">
-                  {isAuthenticated ? (
-                    <>
-                      <Link
-                        href="/member"
-                        className="dropdown-item text-center"
-                        onClick={() => setShowDropdown(false)} // ✅
-                      >
-                        會員中心
-                      </Link>
-                      <Link
-                        href="/member/profile/info"
-                        className="dropdown-item text-center"
-                        onClick={() => setShowDropdown(false)} // ✅
-                      >
-                        會員資料
-                      </Link>
-                      <Link
-                        href="/member/orders"
-                        className="dropdown-item text-center"
-                        onClick={() => setShowDropdown(false)} // ✅
-                      >
-                        我的訂單
-                      </Link>
-                      <Link
-                        href="/member/favorite"
-                        className="dropdown-item text-center"
-                        onClick={() => setShowDropdown(false)} // ✅
-                      >
-                        我的收藏
-                      </Link>
-                      <Link
-                        href="/member/coupons"
-                        className="dropdown-item text-center"
-                        onClick={() => setShowDropdown(false)} // ✅
-                      >
-                        我的優惠券
-                      </Link>
-                      <button
-                        className="logout-btn text-center mx-4"
-                        onClick={async () => {
-                          try {
-                            const res = await fetch(
-                              'http://localhost:3005/api/member/logout',
-                              {
-                                method: 'POST',
-                                credentials: 'include',
-                                headers: {
-                                  'Content-Type': 'application/json',
-                                },
-                              }
-                            )
-                            if (res.ok) {
-                              console.log('登出成功')
-                              setShowDropdown(false) // ✅
-                              window.location.href = '/'
-                            } else {
-                              console.error('登出失敗')
-                            }
-                          } catch (error) {
-                            console.error('登出錯誤', error)
-                          }
-                        }}
-                      >
-                        登出
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <Link
-                        href="/member/login?type=signin"
-                        className="logout-btn d-flex mx-4 text-decoration-none"
-                        onClick={() => setShowDropdown(false)} // ✅
-                      >
-                        登入
-                      </Link>
-                      <Link
-                        href="/member/login?type=signup"
-                        className="signup-btn d-flex mx-4 text-decoration-none mt-2"
-                        onClick={() => setShowDropdown(false)} // ✅
-                      >
-                        註冊
-                      </Link>
-                    </>
-                  )}
-                </div>
-              )}
-            </div>
+            <MemberAvatarDropdown isAuthenticated={isAuthenticated} />
 
             <Link href="/shopcart" passHref legacyBehavior>
               <i className="bi bi-cart nav-icon" />
             </Link>
+
             <NotificationBell />
           </div>
         </Navbar.Collapse>

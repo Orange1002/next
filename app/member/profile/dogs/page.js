@@ -69,24 +69,28 @@ export default function DogsPage() {
   }
 
   const scrollLeft = () => {
-    scrollRef.current?.scrollBy({ left: -485, behavior: 'smooth' })
+    scrollRef.current?.scrollBy({ left: -480, behavior: 'smooth' })
   }
 
   const scrollRight = () => {
-    scrollRef.current?.scrollBy({ left: 485, behavior: 'smooth' })
+    scrollRef.current?.scrollBy({ left: 480, behavior: 'smooth' })
   }
 
   useEffect(() => {
     const el = scrollRef.current
     if (!el) return
 
-    checkScrollButtons()
-    el.addEventListener('scroll', checkScrollButtons)
-    window.addEventListener('resize', checkScrollButtons)
+    const handle = () => checkScrollButtons()
+
+    const timeout = setTimeout(handle, 200)
+
+    el.addEventListener('scroll', handle)
+    window.addEventListener('resize', handle)
 
     return () => {
-      el.removeEventListener('scroll', checkScrollButtons)
-      window.removeEventListener('resize', checkScrollButtons)
+      clearTimeout(timeout)
+      el.removeEventListener('scroll', handle)
+      window.removeEventListener('resize', handle)
     }
   }, [])
 
@@ -120,11 +124,16 @@ export default function DogsPage() {
           )}
 
           {/* 卡片列 */}
-          {/* 卡片列 */}
           <div
             ref={scrollRef}
-            className={`${styles.scrollContainer} d-flex flex-nowrap overflow-auto`}
-            style={{ gap: '1rem', padding: '0.2rem 2rem 0.3rem 2rem' }} // 左右各3rem內距
+            className={`
+    ${styles.scrollContainer}
+    d-flex flex-nowrap
+    overflow-auto
+    ${showLeft ? styles['has-left-shadow'] : ''}
+    ${showRight ? styles['has-right-shadow'] : ''}
+  `}
+            style={{ gap: '1rem', padding: '0.2rem 0.2rem 0.3rem 0.2rem' }}
           >
             {dogs.length === 0 ? (
               <p className="text-center w-100">尚無狗狗資料</p>
