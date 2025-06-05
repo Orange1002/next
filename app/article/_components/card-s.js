@@ -108,7 +108,7 @@ const SmallArticleCard = ({ article }) => {
   }
 
   return (
-    <div className="col-12 col-sm-6 col-md-4 col-lg-2">
+    <div className="col">
       <Link
         href={`/article/article-detail/${article.id}`}
         className="card card-s h-100 position-relative text-decoration-none"

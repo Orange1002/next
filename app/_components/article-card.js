@@ -1,8 +1,23 @@
-import React, { useState } from 'react'
 import { Card, Button, Collapse, Row, Col } from 'react-bootstrap'
 import { FaChevronCircleRight } from 'react-icons/fa'
 import { AiOutlineHeart } from 'react-icons/ai'
+import Cardbig from '../article/_components/card-1.js'
 
+import React, { useState, useEffect } from 'react'
+// import useHeaderPhoto from './_components/headerPhoto.js'
+// import Breadcrumb from './_components/breadCrumb.js'
+// import Buttonsearch from './_components/buttonSearch.js'
+import Cardarea from '../article/_components/card-s-area.js'
+// import CardSlider from './_components/eventSlider.js'
+// import VideoCard from './_components/videoCard.js'
+import Cards from '../article/_components/card-s.js'
+import Image from 'next/image'
+import FloatingActionButton from '../article/list/_components/floatingActionButton.js'
+import Link from 'next/link'
+
+import { AiOutlineRightCircle } from 'react-icons/ai'
+
+/////
 const articleData = [
   {
     image: '/images/article1.png',
@@ -42,6 +57,78 @@ const ArticleCard = ({ image, text, likes }) => (
 export default function MyArticleCard() {
   const [openIndex, setOpenIndex] = useState(null)
 
+  ////////////
+  // const currentIndex = useHeaderPhoto(images.length)
+
+  const [articles, setArticles] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  // 新增狀態來控制動畫的觸發
+  const [animateIn, setAnimateIn] = useState(false)
+
+  const breadcrumbItems = [
+    { name: '首頁', href: '/' },
+    { name: '文章', href: '/article' },
+  ]
+
+  // 載入全部文章函式
+  const loadAllArticles = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const res = await fetch(
+        'http://localhost:3005/api/article/article-detail'
+      )
+      const data = await res.json()
+      if (data.success) {
+        // 按收藏數排序（降冪）
+        const sorted = data.result.sort(
+          (a, b) => (b.favorite_count || 0) - (a.favorite_count || 0)
+        )
+        setArticles(sorted)
+      } else {
+        setError('文章載入失敗')
+      }
+    } catch (err) {
+      setError('載入文章錯誤')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleSearch = async (keyword) => {
+    if (!keyword) {
+      loadAllArticles()
+      return
+    }
+
+    setLoading(true)
+    setError(null)
+
+    try {
+      const res = await fetch(
+        `http://localhost:3005/api/article/article-detail?keyword=${encodeURIComponent(keyword)}`
+      )
+      if (!res.ok) throw new Error('API 請求失敗')
+      const data = await res.json()
+      if (!data.success) throw new Error('API 回傳失敗')
+
+      setArticles(data.result)
+    } catch (err) {
+      setError(err.message)
+      setArticles([])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // 當組件掛載時，設置 animateIn 為 true，觸發動畫
+  useEffect(() => {
+    setAnimateIn(true)
+    loadAllArticles()
+  }, [])
+
+  /////////////
   return (
     <section>
       {/* 小螢幕版文章卡片 */}
@@ -100,7 +187,7 @@ export default function MyArticleCard() {
 
         {/* 精選文章與小卡片 */}
         <div className="d-block ms-5">
-          <Card className="card-1 d-none d-xl-block">
+          {/* <Card className="card-1 d-none d-xl-block">
             <Row className="g-0">
               <Col md={5}>
                 <Card.Img
@@ -132,16 +219,27 @@ export default function MyArticleCard() {
                 </Card.Body>
               </Col>
             </Row>
-          </Card>
+          </Card> */}
+          {articles.length > 0 && <Cardbig article={articles[0]} />}
 
           {/* 三張卡片 */}
-          <Row className="g-3 mt-5">
+          {/* <Row className="g-3 mt-5">
             {[...Array(3)].map((_, idx) => (
               <Col key={idx} xs={4}>
                 <ArticleCard {...articleData[0]} />
               </Col>
             ))}
-          </Row>
+          </Row> */}
+          {/* <Cardarea articles={articles.slice(1)} /> */}
+          <div className="row card-area d-flex justify-content-center">
+            {articles && articles.length > 1
+              ? articles
+                  .slice(0, 4)
+                  .map((article) => (
+                    <Cards key={article.id} article={article} />
+                  ))
+              : null}
+          </div>
         </div>
       </div>
 
