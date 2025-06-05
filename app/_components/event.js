@@ -22,7 +22,7 @@ const eventCards = [
     text: '達指定金額 運費$0元！',
   },
   {
-    src: './images/AIRBUGGY1 3.png',
+    src: './images/AIRBUGGY1 4.webp',
     alt: 'event 4',
     text: '達指定金額 運費$0元！',
   },
@@ -159,7 +159,7 @@ export default function MyEvent() {
                 {eventCards.map((card, index) => (
                   <div
                     role="button"
-                    className="event-card text-decoration-none"
+                    className="event-card text-decoration-none object-fit-cover"
                     key={index}
                   >
                     <Image

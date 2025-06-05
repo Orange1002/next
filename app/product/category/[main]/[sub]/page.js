@@ -65,7 +65,7 @@ export default function ProductSubCategoryPage() {
             >
               <ol>
                 <li>
-                  <Link href="/">HOME</Link>
+                  <Link href="/">首頁</Link>
                 </li>
                 <li>
                   <svg
@@ -84,7 +84,7 @@ export default function ProductSubCategoryPage() {
                   </svg>
                 </li>
                 <li>
-                  <Link href="/product">Products</Link>
+                  <Link href="/product">商品</Link>
                 </li>
                 <li>
                   <svg

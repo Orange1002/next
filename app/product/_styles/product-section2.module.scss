@@ -11,7 +11,7 @@
   padding-top: 82px;
   flex-direction: column;
   align-items: flex-end;
-  justify-content: flex-end; 
+  justify-content: flex-end;
   gap: 20px;
 }
 
@@ -24,7 +24,7 @@
 
 .listFilterText {
   color: var(--Ellipse-8, #505050);
-  font-family: "Inria Sans";
+  font-family: 'Inria Sans';
   font-size: 16px;
   letter-spacing: 3.52px;
 }
@@ -39,7 +39,7 @@
   border-radius: 5px;
   border: 0.75px solid var(--Ellipse-9, #929292);
   color: var(--Ellipse-8, #505050);
-  font-family: "Kiwi Maru";
+  font-family: 'Kiwi Maru';
   font-size: 14px;
   letter-spacing: 3.08px;
 }
@@ -74,7 +74,7 @@
     display: inline-block;
     padding: 6px 12px;
     font-size: 14px;
-    font-family: "Kiwi Maru";
+    font-family: 'Kiwi Maru';
     color: #505050;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -121,7 +121,7 @@
       display: inline-block;
       padding: 6px 12px;
       font-size: 14px;
-      font-family: "Kiwi Maru", sans-serif;
+      font-family: 'Kiwi Maru', sans-serif;
       color: #505050;
       border: 1px solid #ccc;
       border-radius: 5px;
@@ -129,7 +129,7 @@
       cursor: pointer;
 
       &::after {
-        content: "▼";
+        content: '▼';
         font-size: 10px;
         margin-left: 6px;
       }
@@ -139,7 +139,6 @@
 
 // 🖥️ 桌機版隱藏 mobile 專用篩選按鈕
 @media (min-width: 441px) {
-
   .mobile-filter-btn,
   .mobile-category-select {
     display: none;
@@ -169,7 +168,7 @@
     .sidebarTextProduct {
       color: var(--Ellipse-9, #929292);
       text-align: center;
-      font-family: "Inria Sans";
+      font-family: 'Inria Sans';
       font-size: 25px;
       font-style: normal;
       font-weight: 400;

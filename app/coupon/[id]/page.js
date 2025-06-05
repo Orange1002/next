@@ -1,18 +1,21 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import Breadcrumb from '../_components/Breadcrumb/Breadcrumb'
 import ProductDescription from '../_components/ProductDescription/ProductDescription'
 import ProductSpecs from '../_components/ProductSpecs/ProductSpecs'
 import RelatedProductList from '../_components/RelatedProductList/RelatedProductList'
 import styles from '../_styles/Page.module.scss'
 import CouponCard from '../_components/couponCard/CouponCard'
+import { categorySlugMap } from '../../product/category/_categoryMap'
 
 export default function ProductDetailPage() {
   const { id } = useParams()
   const [coupon, setCoupon] = useState(null)
   const [relatedProducts, setRelatedProducts] = useState([])
+  const [memberId, setMemberId] = useState(null)
+  const router = useRouter()
 
   useEffect(() => {
     if (!id) return
@@ -28,8 +31,8 @@ export default function ProductDetailPage() {
         const data = await res.json()
 
         // 正確解構資料
-        const couponData = data.data?.coupon?.coupon
-        const productList = data.data?.coupon?.products || []
+        const couponData = data.data?.coupon
+        const productList = data.data?.products || []
 
         setCoupon(couponData || null)
         setRelatedProducts(productList || [])
@@ -40,6 +43,41 @@ export default function ProductDetailPage() {
 
     fetchCoupon()
   }, [id])
+
+  useEffect(() => {
+    const fetchMember = async () => {
+      try {
+        const res = await fetch('http://localhost:3005/api/me/me', {
+          credentials: 'include',
+        })
+        const data = await res.json()
+        setMemberId(data?.id || null)
+      } catch (err) {
+        console.error('❌ 無法取得會員資訊', err)
+      }
+    }
+
+    fetchMember()
+  }, [])
+
+  const handleCheckMore = () => {
+    if (coupon.usageTypeId === 2) {
+      router.push('/sitter')
+      return
+    }
+
+    const categoryId = coupon.categoryCouponMap?.[0]?.categoryId
+    if (!categoryId) return
+
+    const foundEntry = Object.entries(categorySlugMap).find(
+      ([slug, data]) => data.id === categoryId
+    )
+
+    if (foundEntry) {
+      const slug = foundEntry[0]
+      router.push(`/product/category/${slug}`)
+    }
+  }
 
   const usageText =
     coupon && coupon.usageType ? coupon.usageType.name : '使用範圍未指定'
@@ -67,6 +105,9 @@ export default function ProductDetailPage() {
               minSpend={coupon.minPurchase}
               image={coupon.image || '/coupon_img/DefaultCoupon.png'}
               categoryId={coupon.categoryCouponMap?.[0]?.categoryId}
+              isClaimed={coupon.isClaimed}
+              memberId={memberId}
+              usageTypeId={coupon.usageTypeId}
             />
           </div>
           <section className={styles.productDetailSection11}></section>
@@ -114,14 +155,27 @@ export default function ProductDetailPage() {
                   ]}
                 />
               </div>
+
               <RelatedProductList
-                title="此優惠券可用的商品"
+                title={
+                  coupon.usageTypeId === 2 ? '預約保母' : '此優惠券可用的商品'
+                }
                 products={relatedProducts.map((p) => ({
+                  id: p.id,
                   image: p.product_images?.[0]?.image || '/fallback.jpg',
                   name: p.name,
                   price: `NT$${p.price}`,
                 }))}
               />
+
+              <div className={styles.btnContainer}>
+                <button
+                  className={styles.checkMoreButton}
+                  onClick={handleCheckMore}
+                >
+                  查看更多
+                </button>
+              </div>
             </div>
           </div>
         </section>

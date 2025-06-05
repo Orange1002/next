@@ -21,13 +21,13 @@ export default function Breadcrumb({
     <nav className={styles.breadcrumbNav} aria-label="breadcrumb">
       <ol>
         <li>
-          <Link href="/">HOME</Link>
+          <Link href="/">首頁</Link>
         </li>
         <li>
           <ChevronIcon />
         </li>
         <li>
-          <Link href="/product">Products</Link>
+          <Link href="/product">商品</Link>
         </li>
 
         {categoryName && categorySlug && (

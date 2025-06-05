@@ -116,7 +116,7 @@ export default function MemberAvatarDropdown() {
                 className="dropdown-item text-center"
                 onClick={() => setShowDropdown(false)}
               >
-                優惠券與會員等級
+                優惠券 & VIP
               </Link>
               <button
                 className="logout-btn text-center mx-4 text-decoration-none"

@@ -8,6 +8,7 @@ import { FaChevronCircleRight } from 'react-icons/fa'
 import { IoMdHeart } from 'react-icons/io'
 import { IoIosHeartEmpty } from 'react-icons/io'
 import { IoCart } from 'react-icons/io5'
+import ProductList from '../product/_components/ProductList/ProductList2'
 
 const productData = [
   {
@@ -70,14 +71,14 @@ export default function MyProductCard() {
     })
   }
 
-  useEffect(() => {
-    if (window.innerWidth > 575.98) {
-      const scrollContainer = scrollContainerRef.current
-      scrollContainer.addEventListener('scroll', handleScroll)
-      handleScroll() // 初始狀態
-      return () => scrollContainer.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (window.innerWidth > 575.98) {
+  //     const scrollContainer = scrollContainerRef.current
+  //     scrollContainer.addEventListener('scroll', handleScroll)
+  //     handleScroll() // 初始狀態
+  //     return () => scrollContainer.removeEventListener('scroll', handleScroll)
+  //   }
+  // }, [])
 
   return (
     <>
@@ -88,7 +89,6 @@ export default function MyProductCard() {
               最新商品
             </div>
             <div className="product-body d-flex justify-content-center align-items-center">
-              {/* 左箭頭 */}
               <div
                 role="button"
                 tabIndex={0}
@@ -104,7 +104,7 @@ export default function MyProductCard() {
               </div>
 
               {/* 商品卡片群組 */}
-              <div
+              {/* <div
                 className="product-card-group row d-lg-flex align-items-center flex-lg-nowrap"
                 ref={scrollContainerRef}
               >
@@ -139,7 +139,8 @@ export default function MyProductCard() {
                     </div>
                   </div>
                 ))}
-              </div>
+              </div> */}
+              <ProductList />
 
               {/* 右箭頭 */}
               <div

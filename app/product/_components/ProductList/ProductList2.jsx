@@ -1,10 +1,10 @@
 'use client'
 import { useEffect, useState } from 'react'
-import section2Styles from './ProductList.module.scss'
+import section2Styles from './ProductList2.module.scss'
 import ProductCard from '../card/ProductCard'
 import Pagination from '../pagination/Pagination'
 
-export default function ProductList({
+export default function ProductList2({
   categoryId,
   subcategoryId,
   priceGte,
@@ -66,12 +66,6 @@ export default function ProductList({
           />
         ))}
       </div>
-
-      <Pagination
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        totalPages={totalPages}
-      />
     </>
   )
 }
