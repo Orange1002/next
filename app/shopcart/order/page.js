@@ -46,6 +46,7 @@ export default function OrderPage() {
     orderServices: [],
   })
 
+  // 載入會員資訊
   useEffect(() => {
     if (!memberId) return
 
@@ -61,6 +62,9 @@ export default function OrderPage() {
           recipientCity: data.city || '',
           recipientTown: matchedTown?.name || '',
           recipientAddress: data.address || '',
+          recipientName: data.realname || '',
+          recipientPhone: data.phone || '',
+          recipientEmail: data.email || '',
         }))
       })
       .catch((err) => {
@@ -561,7 +565,9 @@ export default function OrderPage() {
 
               <div className="flex-grow-1">
                 <div className="bg-white px-30 py-10 mb-30 mt-30">
-                  <div className="text-center fs-20 mb-3">使用優惠卷</div>
+                  <div className="text-center fs-20 mb-3">
+                    {formData.couponId ? '更改優惠卷' : '選擇優惠卷'}
+                  </div>
                   <div className="row align-items-center">
                     <div className="col mb-3 mb-lg-0">
                       <button
@@ -569,7 +575,7 @@ export default function OrderPage() {
                         className="btn box9 d-flex align-items-center justify-content-center w-100"
                         onClick={handleOpenCouponModal}
                       >
-                        選擇優惠卷
+                        {formData.couponId ? '更改優惠卷' : '選擇優惠卷'}
                       </button>
                     </div>
                   </div>
@@ -580,9 +586,11 @@ export default function OrderPage() {
                 >
                   <div className="coupon-modal">
                     <div className="d-flex align-items-center justify-content-center mb-3">
-                      <h3 className="fs-32">選擇優惠卷</h3>
+                      <h3 className="fs-32">
+                        {formData.couponId ? '更改優惠卷' : '選擇優惠卷'}
+                      </h3>
                     </div>
-                    <div className="p-5 overflow-auto box12">
+                    <div className="p-lg-5  overflow-auto box12">
                       {filteredCoupons.length > 0 ? (
                         filteredCoupons.map((coupon) => (
                           <div

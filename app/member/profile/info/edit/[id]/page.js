@@ -244,7 +244,7 @@ export default function InfoPage() {
                       value={formData.username}
                       onChange={handleChange}
                       name="username"
-                      autoComplete="name"
+                      autoComplete="username"
                     />
                   </div>
                   {/* 真實姓名 */}
@@ -257,7 +257,7 @@ export default function InfoPage() {
                       placeholder="請輸入真實姓名"
                       value={formData.realname}
                       onChange={handleChange}
-                      name="name"
+                      name="realname"
                       autoComplete="name"
                     />
                   </div>

@@ -7,6 +7,7 @@ import Link from 'next/link'
 import NotificationBell from './NotificationBell'
 import { useCart } from '@/hooks/use-cart'
 import MemberAvatarDropdown from './navbar-avatar'
+import MobileMenu from './MobileMenu'
 
 export default function MyNavbar() {
   const pathname = usePathname()
@@ -24,6 +25,8 @@ export default function MyNavbar() {
     if (pathname.startsWith('/about')) return '/about'
     return ''
   }
+
+  const [showMobileMenu, setShowMobileMenu] = useState(false)
 
   // ✅ 點空白處收起 dropdown
   useEffect(() => {
@@ -78,7 +81,19 @@ export default function MyNavbar() {
           </Link>
         </Navbar.Brand>
 
-        <Navbar.Toggle aria-controls="navbarMain" />
+        <Navbar.Toggle
+          aria-controls="navbarMain"
+          onClick={() => {
+            if (window.innerWidth < 992) {
+              setShowMobileMenu(true)
+            }
+          }}
+        />
+
+        {showMobileMenu && (
+          <MobileMenu onClose={() => setShowMobileMenu(false)} />
+        )}
+
         <Navbar.Collapse
           id="navbarMain"
           className="justify-content-end d-none d-lg-flex gap-4 align-items-center"

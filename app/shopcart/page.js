@@ -66,8 +66,8 @@ export default function ShopcartPage() {
       MySwal.fire({
         title: '未選擇項目',
         text: '請先選擇要刪除的商品或保母',
-        icon: 'info',
-        confirmButtonColor: '#3085d6',
+        icon: 'warning',
+        confirmButtonColor: '#fb966e',
       })
       return
     }
@@ -291,92 +291,95 @@ export default function ShopcartPage() {
             ))}
 
           {/* 手機版商品項目 */}
-          <div className="d-block d-lg-none bg-white">
-            <div className="p-3 fs-4 fw-semibold border-gray">商品 :</div>
-            <div className="py-10">
-              {items
-                .filter((item) => item.type === 'product')
-                .map((item) => (
-                  <div
-                    key={`product-${item.product_id}-${item.color}-${item.size}`}
-                    className="d-flex position-relative p-12 mb-2 mb-lg-0 border-gray2"
-                  >
-                    <div className="w-30 d-flex align-items-center">
-                      <input
-                        type="checkbox"
-                        checked={selectedProductKeys.includes(
-                          generateItemKey(item)
-                        )}
-                        onChange={() => toggleSelectProduct(item)}
-                      />
-                    </div>
-                    <div className="box6 me-10">
-                      <Image
-                        width={100}
-                        height={100}
-                        src={item.image}
-                        alt={item.name}
-                        className=""
-                      />
-                    </div>
-                    <div className="w-187">
-                      <div className="box7 h-25 d-flex align-items-center">
-                        {item.name}
+          {items.some((item) => item.type === 'product') && (
+            <div className="d-block d-lg-none bg-white">
+              <div className="p-3 fs-4 fw-semibold border-gray">商品 :</div>
+              <div className="py-10">
+                {items
+                  .filter((item) => item.type === 'product')
+                  .map((item) => (
+                    <div
+                      key={`product-${item.product_id}-${item.color}-${item.size}`}
+                      className="d-flex position-relative p-12 mb-2 mb-lg-0 border-gray2"
+                    >
+                      <div className="w-30 d-flex align-items-center">
+                        <input
+                          type="checkbox"
+                          checked={selectedProductKeys.includes(
+                            generateItemKey(item)
+                          )}
+                          onChange={() => toggleSelectProduct(item)}
+                        />
                       </div>
-                      <div className="d-flex flex-column gap-1 h-50">
-                        {item.color && (
-                          <div className="d-flex align-items-center">
-                            顏色: {item.color}
-                          </div>
-                        )}
-                        {item.size && (
-                          <div className="d-flex align-items-center">
-                            尺寸: {item.size}
-                          </div>
-                        )}
-                        {item.packing && (
-                          <div className="d-flex align-items-center">
-                            包裝: {item.packing}
-                          </div>
-                        )}
-                        {item.items_group && (
-                          <div className="d-flex align-items-center">
-                            內容物: {item.items_group}
-                          </div>
-                        )}
+                      <div className="box6 me-10">
+                        <Image
+                          width={100}
+                          height={100}
+                          src={item.image}
+                          alt={item.name}
+                          className=""
+                        />
                       </div>
+                      <div className="w-187">
+                        <div className="box7 h-25 d-flex align-items-center">
+                          {item.name}
+                        </div>
+                        <div className="d-flex flex-column gap-1 h-50">
+                          {item.color && (
+                            <div className="d-flex align-items-center">
+                              顏色: {item.color}
+                            </div>
+                          )}
+                          {item.size && (
+                            <div className="d-flex align-items-center">
+                              尺寸: {item.size}
+                            </div>
+                          )}
+                          {item.packing && (
+                            <div className="d-flex align-items-center">
+                              包裝: {item.packing}
+                            </div>
+                          )}
+                          {item.items_group && (
+                            <div className="d-flex align-items-center">
+                              內容物: {item.items_group}
+                            </div>
+                          )}
+                        </div>
 
-                      <div className="h-25 d-flex align-items-center justify-content-between">
-                        <div>
-                          NT${item.price * (item.count || 1).toLocaleString()}
-                        </div>
-                        <div className="text-center d-flex justify-content-center align-items-center gap-1">
-                          <button
-                            className="btn box3 d-flex justify-content-center align-items-center"
-                            onClick={() => {
-                              if (item.count <= 1) {
-                                confirmAndRemove('product', item.name, item)
-                              } else {
-                                onDecrease('product', item)
-                              }
-                            }}
-                          >
-                            -
-                          </button>
-                          {item.count || 1}
-                          <button
-                            className="btn box3 d-flex justify-content-center align-items-center"
-                            onClick={() => onIncrease('product', item)}
-                          >
-                            +
-                          </button>
+                        <div className="h-25 d-flex align-items-center justify-content-between">
+                          <div>
+                            NT$
+                            {(item.price * (item.count || 1)).toLocaleString()}
+                          </div>
+                          <div className="text-center d-flex justify-content-center align-items-center gap-1">
+                            <button
+                              className="btn box3 d-flex justify-content-center align-items-center"
+                              onClick={() => {
+                                if (item.count <= 1) {
+                                  confirmAndRemove('product', item.name, item)
+                                } else {
+                                  onDecrease('product', item)
+                                }
+                              }}
+                            >
+                              -
+                            </button>
+                            {item.count || 1}
+                            <button
+                              className="btn box3 d-flex justify-content-center align-items-center"
+                              onClick={() => onIncrease('product', item)}
+                            >
+                              +
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* 桌面版保姆表頭 */}
           {items.some((item) => item.sitter_id) && (
@@ -469,69 +472,71 @@ export default function ShopcartPage() {
             ))}
 
           {/* 手機版保姆項目 */}
-          <div className="d-block d-lg-none bg-white mt-4">
-            <div className="p-3 fs-4 fw-semibold border-gray">保姆 :</div>
-            <div className="py-10">
-              {items
-                .filter((item) => item.type === 'sitter')
-                .map((item) => (
-                  <div
-                    key={`product-${item.sitter_id}`}
-                    className="d-flex position-relative p-12 mb-2 mb-lg-0 border-gray2"
-                  >
-                    <div className="w-30 d-flex align-items-center">
-                      <input
-                        type="checkbox"
-                        checked={selectedSitterKeys.includes(
-                          generateItemKey(item)
-                        )}
-                        onChange={() => toggleSelectSitter(item)}
-                      />
-                    </div>
-                    <div className="box6 me-10">
-                      <Image
-                        width={100}
-                        height={100}
-                        src={item.image}
-                        alt={item.name}
-                        className=""
-                      />
-                    </div>
-                    <div className="w-187">
-                      <div className="box7 h-25 d-flex align-items-center">
-                        {item.name}
+          {items.some((item) => item.type === 'sitter') && (
+            <div className="d-block d-lg-none bg-white mt-4">
+              <div className="p-3 fs-4 fw-semibold border-gray">保姆 :</div>
+              <div className="py-10">
+                {items
+                  .filter((item) => item.type === 'sitter')
+                  .map((item) => (
+                    <div
+                      key={`product-${item.sitter_id}`}
+                      className="d-flex position-relative p-12 mb-2 mb-lg-0 border-gray2"
+                    >
+                      <div className="w-30 d-flex align-items-center">
+                        <input
+                          type="checkbox"
+                          checked={selectedSitterKeys.includes(
+                            generateItemKey(item)
+                          )}
+                          onChange={() => toggleSelectSitter(item)}
+                        />
                       </div>
-                      <div className="h-25 d-flex align-items-center">
-                        {item.petname}
+                      <div className="box6 me-10">
+                        <Image
+                          width={100}
+                          height={100}
+                          src={item.image}
+                          alt={item.name}
+                          className=""
+                        />
                       </div>
-                      <div className="h-25 d-flex align-items-center">
-                        {item.start_time}~{item.end_time}
-                      </div>
-                      <div className="h-25 d-flex align-items-center justify-content-between">
-                        <div>NT${item.price.toLocaleString()}</div>
-                        <div
-                          role="button"
-                          tabIndex={0}
-                          className="flex-item2 cursor-pointer d-flex align-items-center justify-content-center"
-                          onClick={() =>
-                            confirmAndRemove('sitter', item.name, item)
-                          }
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                              e.preventDefault()
+                      <div className="w-187">
+                        <div className="box7 h-25 d-flex align-items-center">
+                          {item.name}
+                        </div>
+                        <div className="h-25 d-flex align-items-center">
+                          {item.petname}
+                        </div>
+                        <div className="h-25 d-flex align-items-center">
+                          {item.start_time}~{item.end_time}
+                        </div>
+                        <div className="h-25 d-flex align-items-center justify-content-between">
+                          <div>NT${item.price.toLocaleString()}</div>
+                          <div
+                            role="button"
+                            tabIndex={0}
+                            className="flex-item2 cursor-pointer d-flex align-items-center justify-content-center"
+                            onClick={() =>
                               confirmAndRemove('sitter', item.name, item)
                             }
-                          }}
-                          aria-label={`刪除 ${item.name}`}
-                        >
-                          <FaTrash size={16} />
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault()
+                                confirmAndRemove('sitter', item.name, item)
+                              }
+                            }}
+                            aria-label={`刪除 ${item.name}`}
+                          >
+                            <FaTrash size={16} />
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* 購物車底部小計 */}

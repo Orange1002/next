@@ -101,7 +101,7 @@ export default function FavoriteSection() {
           ) : (
             <>
               {activeTab === 'products' && (
-                <div className="row g-0 gap-4 mt-4">
+                <div className="row g-0 gap-2 gap-lg-4 justify-content-center justify-content-lg-start mt-4">
                   <ProductsPage data={paginatedData} />
                 </div>
               )}

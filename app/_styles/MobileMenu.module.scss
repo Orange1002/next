@@ -1,0 +1,141 @@
+/* === 封裝的全域樣式 === */
+.mobileMenu {
+  width: 100%;
+  max-width: 500px;
+  background-color: #2b2b2b;
+  color: #ccc;
+  font-family: 'Inria Sans', sans-serif;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 30;
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  /* === LOGO 區塊 === */
+  .logo {
+    font-weight: bold;
+    font-size: 20px;
+    color: white;
+    // margin-bottom: 10px;
+
+    small {
+      font-size: 10px;
+      color: #ccc;
+    }
+  }
+
+  /* === 區塊標題 === */
+  .pageHeading {
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    width: 100%;
+    max-width: 315px;
+    margin: 20px 0 10px;
+    gap: 12px;
+
+    .line {
+      flex-grow: 1;
+      height: 2px;
+      background-color: #888;
+    }
+
+    .title {
+      font-size: 20px;
+      color: #929292;
+      letter-spacing: 2px;
+      text-transform: lowercase;
+    }
+
+    .circle {
+      width: 12px;
+      height: 12px;
+      background-color: #fff;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+  }
+
+  /* === 主選單 === */
+  .mainMenu {
+    width: 100%;
+    max-width: 315px;
+    padding: 0 15px;
+    margin-bottom: 20px;
+
+    .menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        font-family: 'Kiwi Maru', sans-serif;
+        font-size: 16px;
+        line-height: 28px;
+        letter-spacing: 0.3px;
+        margin-bottom: 13px;
+        color: #ccc;
+        cursor: pointer;
+
+        &.active {
+          color: #f36f45;
+          font-weight: bold;
+          border-bottom: 1px solid #f36f45;
+          display: inline-block;
+        }
+      }
+
+      li a {
+        color: #ccc;
+        text-decoration: none;
+      }
+    }
+  }
+
+  /* === 社群圖示 === */
+  .socialIcons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding: 40px 0;
+    width: 215px;
+
+    a {
+      svg {
+        width: 22px;
+        height: 22px;
+        color: #929292;
+        transition:
+          transform 0.2s ease,
+          opacity 0.2s ease,
+          color 0.2s ease;
+
+        &:hover {
+          transform: scale(1.1);
+          opacity: 0.9;
+          color: #cfcfcf;
+        }
+      }
+    }
+  }
+  .closeButton {
+    color: #ccc;
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+  }
+
+  .positionSize1 {
+    top: 40px;
+    left: 45px;
+    z-index: 100;
+  }
+}
