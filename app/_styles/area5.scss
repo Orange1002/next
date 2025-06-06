@@ -190,14 +190,41 @@
 }
 
 .product-btn {
+  color: white !important;
+  background-color: #fb966e;
   width: 225px;
   height: 50px;
   padding: 12px 75px;
   border-radius: 5px;
-  border: 1px solid #505050;
+  border: 1px solid #ff7e79;
 
   &:hover {
-    border: 1px solid #000;
-    transform: scale(1.05);
+    background-color: #ed784a !important;
+    cursor: pointer;
   }
+}
+
+.product-scroll-wrapper {
+  white-space: nowrap;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+
+  // 可選：讓子項目橫排
+  .row {
+    flex-wrap: nowrap !important; // Bootstrap 預設會換行
+  }
+
+  .card {
+    min-width: 260px; // 或依你卡片寬度設定
+    margin-right: 12px;
+  }
+}
+
+.scroll-container {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+.scroll-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }

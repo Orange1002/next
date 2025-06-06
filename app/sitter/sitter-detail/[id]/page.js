@@ -104,9 +104,9 @@ export default function SitterDetailPage() {
               }
               alt="Pet Sitter Profile"
               className="img-fluid rounded-5 justify-content-center"
-              width={100}
+              width={400}
               height={100}
-              style={{ width: 'auto' }}
+              // style={{ width: 'auto' }}
             />
           </figure>
 

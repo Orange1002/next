@@ -162,7 +162,7 @@ export default function OrderPage() {
   const discount =
     formData.discountType === 'fixed'
       ? formData.discountValue
-      : Math.floor(formData.totalAmount * (formData.discountValue / 100))
+      : Math.floor(totalAmount * (formData.discountValue / 100))
 
   const finalTotal = totalAmount + 60 - discount
 

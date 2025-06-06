@@ -22,13 +22,13 @@ export default function CategorySlider2() {
 
   return (
     <div className={styles.categoryWrapper}>
-      <button
+      {/* <button
         className={`${styles.categoryArrow} ${styles.leftArrow}`}
         onClick={scrollLeft}
         aria-label="Scroll left"
       >
         <BiChevronLeft />
-      </button>
+      </button> */}
 
       <div className={styles.categoryScroll} ref={scrollRef}>
         {Object.entries(categorySlugMap).map(([slug, { name }]) => {
@@ -55,13 +55,13 @@ export default function CategorySlider2() {
         })}
       </div>
 
-      <button
+      {/* <button
         className={`${styles.categoryArrow} ${styles.rightArrow}`}
         onClick={scrollRight}
         aria-label="Scroll right"
       >
         <BiChevronRight />
-      </button>
+      </button> */}
     </div>
   )
 }

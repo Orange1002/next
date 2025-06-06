@@ -46,7 +46,7 @@ const ProductList2 = forwardRef(
 
     return (
       <>
-        <div className={section2Styles.cardGroup + ' row'} ref={ref}>
+        <div className={section2Styles.cardGroup} ref={ref}>
           {products.map((product) => (
             <ProductCard
               key={product.id}
@@ -63,11 +63,6 @@ const ProductList2 = forwardRef(
             />
           ))}
         </div>
-        {/* <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        /> */}
       </>
     )
   }

@@ -99,7 +99,7 @@ export default function OrderDetailPage({ params }) {
           {items.map((item) => (
             <li key={item.id} className="box1 d-flex mb-3">
               <Image
-                src={item.img}
+                src={item.image}
                 alt={item.name}
                 width={100}
                 height={100}
@@ -124,7 +124,7 @@ export default function OrderDetailPage({ params }) {
           {services.map((services) => (
             <li key={services.id} className="box1 d-flex mb-3">
               <Image
-                src={services.img}
+                src={services.image}
                 alt={services.sitter_name}
                 width={100}
                 height={100}

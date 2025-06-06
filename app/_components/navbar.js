@@ -132,7 +132,7 @@ export default function MyNavbar() {
             <i className="bi bi-list nav-icon" />
           </Button> */}
 
-          <Form className="me-3 mb-0 d-flex search-group" role="search">
+          {/* <Form className="me-3 mb-0 d-flex search-group" role="search">
             <Form.Control type="search" name="search" placeholder="搜尋" />
             <Button
               className="search-btn"
@@ -141,7 +141,7 @@ export default function MyNavbar() {
             >
               <BiSearch style={{ color: '#cc543a' }} />
             </Button>
-          </Form>
+          </Form> */}
 
           <div className="d-flex align-items-center gap-4">
             {/*  */}

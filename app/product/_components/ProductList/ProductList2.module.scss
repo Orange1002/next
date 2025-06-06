@@ -1,21 +1,8 @@
 .cardGroup {
-  // display: flex;
-  // padding-bottom: 30px;
-  // padding-left: 86px;
-  // align-items: center;
-  // gap: 30px 20px;
-  // flex-wrap: nowrap;
-  // // min-width: 1120px;
-  // @media (max-width: 500px) {
-  //   padding-left: 5px;
-  //   min-width: 0px;
-  // }
-  width: 1095px;
-  // min-width: 500px;
   height: 480px;
   padding-inline: 15px;
   gap: 30px;
-  overflow-x: auto;
+  overflow-x: visible;
   scroll-behavior: smooth;
   scrollbar-width: none;
   scroll-snap-type: x mandatory;
@@ -24,19 +11,23 @@
   flex-wrap: nowrap;
 
   &::-webkit-scrollbar {
-    // display: none;
+    display: none;
+  }
+
+  & > * {
+    flex-shrink: 0; /* 避免被壓縮 */
+    width: 250px; /* 卡片寬度 */
   }
 
   @media (max-width: 575.98px) {
-    width: 342px;
     height: 615px;
     padding: 0;
     gap: 12px;
-    overflow-x: visible;
+    overflow: visible;
     scroll-behavior: auto;
     scrollbar-width: auto;
     scroll-snap-type: none;
-    overflow: hidden;
     flex-wrap: wrap;
+    justify-content: center;
   }
 }
