@@ -22,14 +22,6 @@ export default function CategorySlider2() {
 
   return (
     <div className={styles.categoryWrapper}>
-      {/* <button
-        className={`${styles.categoryArrow} ${styles.leftArrow}`}
-        onClick={scrollLeft}
-        aria-label="Scroll left"
-      >
-        <BiChevronLeft />
-      </button> */}
-
       <div className={styles.categoryScroll} ref={scrollRef}>
         {Object.entries(categorySlugMap).map(([slug, { name }]) => {
           const isActive = pathname.includes(`/category/${slug}`)
@@ -54,14 +46,6 @@ export default function CategorySlider2() {
           )
         })}
       </div>
-
-      {/* <button
-        className={`${styles.categoryArrow} ${styles.rightArrow}`}
-        onClick={scrollRight}
-        aria-label="Scroll right"
-      >
-        <BiChevronRight />
-      </button> */}
     </div>
   )
 }

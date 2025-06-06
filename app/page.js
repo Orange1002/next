@@ -125,50 +125,6 @@ export default function AppPage() {
 
       {/* 第二區塊 */}
       <section className="category-nav bg-white border-top py-4">
-        {/* <div className="container">
-          <div className="category-wrapper d-flex align-items-center position-relative">
-
-            <button
-              className="category-arrow left-arrow"
-              aria-label="Scroll left"
-              onClick={() => scroll(-150)}
-              style={{
-                opacity: atStart ? 0 : 1,
-                pointerEvents: atStart ? 'none' : 'auto',
-                transition: 'opacity 0.3s',
-              }}
-            >
-              <i className="bi bi-chevron-left"></i>
-            </button>
-
-          
-            <div
-              className="category-scroll d-flex align-items-center overflow-auto"
-              ref={scrollRef}
-            >
-              {categories.map((item, index) => (
-                <div className="category-item text-center me-3" key={index}>
-                  <Image src={item.src} alt={item.alt} width={50} height={50} />
-                  <div className="text-uppercase small mt-2">{item.label}</div>
-                </div>
-              ))}
-            </div>
-
-           
-            <button
-              className="category-arrow right-arrow"
-              aria-label="Scroll right"
-              onClick={() => scroll(150)}
-              style={{
-                opacity: atEnd ? 0 : 1,
-                pointerEvents: atEnd ? 'none' : 'auto',
-                transition: 'opacity 0.3s',
-              }}
-            >
-              <i className="bi bi-chevron-right"></i>
-            </button>
-          </div>
-        </div> */}
         <div className="d-flex justify-content-center">
           <CategorySlider />
         </div>

@@ -24,7 +24,7 @@ const eventCards = [
   {
     src: './images/AIRBUGGY1 4.webp',
     alt: 'event 4',
-    text: '達指定金額 運費$0元！',
+    text: '夏季外出，狗狗運動會!',
   },
 ]
 

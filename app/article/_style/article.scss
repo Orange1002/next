@@ -288,8 +288,13 @@
 }
 
 .card-s {
-  width: 16rem;
+  width: 240px; 
+  height: 320px; 
+  flex: 0 0 260px !important; 
   background-color: #f3f3f3;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .card-s:hover {
@@ -300,10 +305,17 @@
 }
 
 .card-s-p {
-  width: 160px;
-  font-weight: 300;
-  line-height: 24px;
   font-size: 15px;
+  font-weight: 300;
+  line-height: 1.5;
+  height: 3em; // ✅ 限制兩行的固定高度
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+  width: 100%;
 }
 
 .card-s:hover button {
@@ -593,9 +605,9 @@
   margin: 25px;
 }
 .cards-container > * {
-  flex: 0 0 calc((100% - (3 * 1.5rem)) / 4);
-  /* 4張卡，3個間距 (gap-4 約1.5rem)，計算每張寬度 */
-  box-sizing: border-box;
+  display: flex;
+  gap: 1.5rem;
+  height: 300px;
 }
 @media (max-width: 576px) {
   .event-card {

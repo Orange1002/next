@@ -117,7 +117,7 @@
 
   img {
     width: 100%;
-    height: auto;
+    height: 211.48px;
     display: block;
   }
 
@@ -125,6 +125,10 @@
     width: 303px;
     height: 205px;
     box-shadow: 1px 3px 5.5px rgba(0, 0, 0, 0.15);
+
+    img {
+      height: 133.84px;
+    }
   }
 }
 

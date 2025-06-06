@@ -14,26 +14,11 @@ html {
   line-height: 1.8;
   text-align: left;
   font-size: 18px;
- 
 }
 .custom-letter-spacing p {
   margin-bottom: 3em;
 }
-// .replay-btn {
-//   background-color: #ed784a;
-//   border: none;
-//   width: 60px;
-//   height: 35px;
-//   font-size: 14px;
-//   letter-spacing: 3px;
 
-//   &:hover {
-//     background-color: #d7633d;
-//     cursor: pointer;
-//     transform: scale(1.1);
-//     transition: all 0.3s ease;
-//   }
-// }
 .replay-btn {
   background-color: #ed784a;
   border: none;
@@ -41,220 +26,63 @@ html {
   height: 35px;
   font-size: 14px;
   letter-spacing: 3px;
+  transition: all 0.3s ease;
 
   &:hover {
     background-color: #d7633d;
     cursor: pointer;
     transform: scale(1.1);
-    transition: all 0.3s ease;
   }
 }
+
 .comment-section {
   font-family: 'Kiwi Maru', serif;
-}
-.loading-text,
-.no-comments-text {
-  font-size: 1.25rem;
-  font-weight: 500;
-  margin-top: 2rem; // 與留言區標題有距離
-}
-.replay-area {
-  padding: 0 10rem;
-  .comment-title {
+
+  .loading-text,
+  .no-comments-text {
     font-size: 1.25rem;
     font-weight: 500;
-    margin-bottom: 2rem;
+    margin-top: 2rem;
+    color: #666;
+    font-style: italic;
   }
-}
-// .comment-footer {
-//   position: fixed;
-//   bottom: 0;
-//   left: 0;
-//   right: 0;
-//   background: #f8f9fa;
-//   border-top: 1px solid #ddd;
-//   padding: 0.75rem 1rem;
-//   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
-//   z-index: 999;
 
-//   textarea {
-//     resize: none;
-//     height: 2rem;
-//   }
-// }
-.comment-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #f8f9fa;
-  border-top: 1px solid #ddd;
-  padding: 0.75rem 1rem;
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
-  z-index: 999;
-  display: flex;
-  gap: 0.5rem;
+  .replay-area {
+    padding: 0 10rem;
+    margin-top: 2rem;
 
-  textarea {
-    resize: none;
-    height: 2rem;
-    flex: 1;
-  }
-}
-.card-replay {
-  margin-top: 1rem;
-
-  .reply-list {
-    padding-left: 1rem;
-
-    .reply-box {
-      margin-bottom: 0.5rem;
-
-      .card-body {
-        padding: 0.5rem;
-      }
+    .comment-title {
+      font-size: 1.25rem;
+      font-weight: 500;
+      margin-bottom: 2rem;
     }
   }
 
-  form.reply-box {
-    margin-top: 0.5rem;
-
-    input.form-control {
-      height: 30px;
-    }
-
-    button.replay-btn {
-      width: 50px;
-      height: 28px;
-      font-size: 12px;
-      margin-top: 0.25rem;
-    }
-  }
-}
-
-// .share-area {
-//   padding: 0 240px;
-//   margin-bottom: 6rem;
-//   a {
-//     color: #505050;
-//     font-size: 20px;
-//   }
-// }
-
-// .share-heart {
-//   font-size: 20px;
-//   color: #505050;
-//   &:hover {
-//     color: #d7633d; // 懸停時改變顏色
-//     transform: scale(1.1); // 略微放大
-//     cursor: pointer; // 當滑鼠懸停時，顯示手指光標
-//     transition: all 0.3s ease; // 添加平滑過渡效果
-//   }
-// }
-.share-area {
-  padding: 0 240px;
-  margin-bottom: 6rem;
-
-  a {
-    color: #505050;
-    font-size: 20px;
-  }
-
-  .d-flex {
-    flex-wrap: nowrap; // ⭐ 不換行
+  .comment-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #f8f9fa;
+    border-top: 1px solid #ddd;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+    z-index: 999;
+    display: flex;
     gap: 0.5rem;
-    align-items: center;
-    overflow-x: auto; // ⭐ 確保不擠爆容器
-  }
 
-  @media (max-width: 768px) {
-    padding: 0 2rem;
-
-    .d-flex {
-      justify-content: flex-start;
-      gap: 1rem;
-
-      p,
-      a {
-        font-size: 16px;
-      }
-
-      .share-heart {
-        font-size: 18px;
-      }
+    textarea {
+      flex: 1;
+      resize: none;
+      height: 2rem;
     }
   }
-
-  @media (max-width: 576px) {
-    padding: 0 1rem;
-
-    .d-flex {
-      flex-direction: row; // ⭐ 確保是橫排
-      align-items: center;
-      gap: 0.75rem;
-
-      p {
-        margin-bottom: 0;
-      }
-    }
-  }
-}
-
-.detail-bread {
-  margin-top: 100px;
-  a,
-  svg {
-    color: #929292;
-  }
-}
-.custom-card {
-  max-width: 500px;
-  height: 180px;
-}
-.custom-card-photo {
-  margin-left: -15px;
-  height: 180px;
-}
-.card-text {
-  line-height: 1.4;
-  font-size: 14px;
-  p {
-    margin-bottom: 0.1rem;
-  }
-}
-
-.fab {
-  position: fixed;
-  bottom: 250px;
-  right: 20px;
-  width: 45px;
-  height: 45px;
-  border-radius: 12px;
-  background-color: #d7633d;
-  color: white;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: #a94b2a;
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-}
-.mb-footer-gap {
-  margin-bottom: 10rem; /* 你可以根據需求調整大小 */
-}
-
-
-.comment-section {
-  font-family: 'Kiwi Maru', serif;
 
   .card-replay {
     margin-top: 1rem;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
 
     .card-body {
       font-size: 16px;
@@ -285,27 +113,185 @@ html {
         height: 28px;
         font-size: 12px;
         margin-top: 0.25rem;
+        background-color: #ed784a;
+        border: none;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background-color: #d7633d;
+          transform: scale(1.1);
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .replay-area {
+      padding: 0 2rem;
+    }
+
+    .comment-footer {
+      flex-direction: column;
+
+      textarea {
+        height: auto;
+        min-height: 4rem;
+        font-size: 15px;
+      }
+
+      .replay-btn {
+        width: 100%;
+        height: 36px;
+        font-size: 14px;
+        margin-top: 0.5rem;
       }
     }
 
-    @media (max-width: 576px) {
+    .card-replay {
       .card-body {
         font-size: 14px;
       }
 
-      form.reply-box {
+      .reply-box {
         input.form-control {
-          font-size: 12px;
+          height: 28px;
+          font-size: 13px;
         }
 
         button.replay-btn {
-          font-size: 10px;
+          width: 100%;
+          height: 30px;
+          font-size: 13px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    .replay-area {
+      padding: 0 1rem;
+    }
+
+    .card-replay {
+      .reply-box {
+        input.form-control {
+          font-size: 12px;
           height: 26px;
+        }
+
+        button.replay-btn {
+          font-size: 12px;
+          height: 28px;
         }
       }
     }
   }
 }
+
+.share-area {
+  padding: 0 240px;
+  margin-bottom: 6rem;
+
+  a {
+    color: #505050;
+    font-size: 20px;
+  }
+
+  .d-flex {
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    align-items: center;
+    overflow-x: auto;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0 2rem;
+
+    .d-flex {
+      justify-content: flex-start;
+      gap: 1rem;
+
+      p,
+      a {
+        font-size: 16px;
+      }
+
+      .share-heart {
+        font-size: 18px;
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    padding: 0 1rem;
+
+    .d-flex {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.75rem;
+
+      p {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.detail-bread {
+  margin-top: 100px;
+  a,
+  svg {
+    color: #929292;
+  }
+}
+
+.custom-card {
+  max-width: 500px;
+  height: 180px;
+}
+
+.custom-card-photo {
+  margin-left: -15px;
+  height: 180px;
+}
+
+.card-text {
+  line-height: 1.4;
+  font-size: 14px;
+
+  p {
+    margin-bottom: 0.1rem;
+  }
+}
+
+.fab {
+  position: fixed;
+  bottom: 250px;
+  right: 20px;
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  background-color: #d7633d;
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #a94b2a;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+}
+
+.mb-footer-gap {
+  margin-bottom: 10rem;
+}
+
 .paw-btn {
   position: absolute;
   top: 50%;
@@ -320,7 +306,7 @@ html {
   align-items: center;
   transform-origin: center;
   transition: transform 0.2s ease, filter 0.2s ease;
-  transform: translateY(-50%) rotate(0deg);  // 預設直角
+  transform: translateY(-50%) rotate(0deg);
 
   &:hover {
     filter: drop-shadow(0 0 5px rgba(237, 120, 74, 0.7));
@@ -342,3 +328,314 @@ html {
     transform: translateY(-50%) rotate(20deg) scale(1.3);
   }
 }
+
+
+// html {
+//   font-family: 'Kiwi Maru', serif;
+// }
+
+// .article-p {
+//   margin-top: 100px;
+//   margin-bottom: 100px;
+// }
+
+// .custom-letter-spacing {
+//   margin-top: 32px;
+//   letter-spacing: 0.05em;
+//   max-width: 620px;
+//   line-height: 1.8;
+//   text-align: left;
+//   font-size: 18px;
+ 
+// }
+// .custom-letter-spacing p {
+//   margin-bottom: 3em;
+// }
+// // .replay-btn {
+// //   background-color: #ed784a;
+// //   border: none;
+// //   width: 60px;
+// //   height: 35px;
+// //   font-size: 14px;
+// //   letter-spacing: 3px;
+
+// //   &:hover {
+// //     background-color: #d7633d;
+// //     cursor: pointer;
+// //     transform: scale(1.1);
+// //     transition: all 0.3s ease;
+// //   }
+// // }
+// .replay-btn {
+//   background-color: #ed784a;
+//   border: none;
+//   width: 60px;
+//   height: 35px;
+//   font-size: 14px;
+//   letter-spacing: 3px;
+
+//   &:hover {
+//     background-color: #d7633d;
+//     cursor: pointer;
+//     transform: scale(1.1);
+//     transition: all 0.3s ease;
+//   }
+// }
+// .comment-section {
+//   font-family: 'Kiwi Maru', serif;
+// }
+// .loading-text,
+// .no-comments-text {
+//   font-size: 1.25rem;
+//   font-weight: 500;
+//   margin-top: 2rem; // 與留言區標題有距離
+// }
+// .replay-area {
+//   padding: 0 10rem;
+//   .comment-title {
+//     font-size: 1.25rem;
+//     font-weight: 500;
+//     margin-bottom: 2rem;
+//   }
+// }
+// .comment-footer {
+//   position: fixed;
+//   bottom: 0;
+//   left: 0;
+//   right: 0;
+//   background: #f8f9fa;
+//   border-top: 1px solid #ddd;
+//   padding: 0.75rem 1rem;
+//   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+//   z-index: 999;
+//   display: flex;
+//   gap: 0.5rem;
+
+//   textarea {
+//     resize: none;
+//     height: 2rem;
+//     flex: 1;
+//   }
+// }
+// .card-replay {
+//   margin-top: 1rem;
+
+//   .reply-list {
+//     padding-left: 1rem;
+
+//     .reply-box {
+//       margin-bottom: 0.5rem;
+
+//       .card-body {
+//         padding: 0.5rem;
+//       }
+//     }
+//   }
+
+//   form.reply-box {
+//     margin-top: 0.5rem;
+
+//     input.form-control {
+//       height: 30px;
+//     }
+
+//     button.replay-btn {
+//       width: 50px;
+//       height: 28px;
+//       font-size: 12px;
+//       margin-top: 0.25rem;
+//     }
+//   }
+// }
+
+// .share-area {
+//   padding: 0 240px;
+//   margin-bottom: 6rem;
+
+//   a {
+//     color: #505050;
+//     font-size: 20px;
+//   }
+
+//   .d-flex {
+//     flex-wrap: nowrap; // ⭐ 不換行
+//     gap: 0.5rem;
+//     align-items: center;
+//     overflow-x: auto; // ⭐ 確保不擠爆容器
+//   }
+
+//   @media (max-width: 768px) {
+//     padding: 0 2rem;
+
+//     .d-flex {
+//       justify-content: flex-start;
+//       gap: 1rem;
+
+//       p,
+//       a {
+//         font-size: 16px;
+//       }
+
+//       .share-heart {
+//         font-size: 18px;
+//       }
+//     }
+//   }
+
+//   @media (max-width: 576px) {
+//     padding: 0 1rem;
+
+//     .d-flex {
+//       flex-direction: row; // ⭐ 確保是橫排
+//       align-items: center;
+//       gap: 0.75rem;
+
+//       p {
+//         margin-bottom: 0;
+//       }
+//     }
+//   }
+// }
+
+// .detail-bread {
+//   margin-top: 100px;
+//   a,
+//   svg {
+//     color: #929292;
+//   }
+// }
+// .custom-card {
+//   max-width: 500px;
+//   height: 180px;
+// }
+// .custom-card-photo {
+//   margin-left: -15px;
+//   height: 180px;
+// }
+// .card-text {
+//   line-height: 1.4;
+//   font-size: 14px;
+//   p {
+//     margin-bottom: 0.1rem;
+//   }
+// }
+
+// .fab {
+//   position: fixed;
+//   bottom: 250px;
+//   right: 20px;
+//   width: 45px;
+//   height: 45px;
+//   border-radius: 12px;
+//   background-color: #d7633d;
+//   color: white;
+//   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   z-index: 1000;
+//   transition: background-color 0.3s;
+
+//   &:hover {
+//     background-color: #a94b2a;
+//     text-decoration: none;
+//     transition: color 0.3s ease;
+//   }
+// }
+// .mb-footer-gap {
+//   margin-bottom: 10rem; /* 你可以根據需求調整大小 */
+// }
+
+
+// .comment-section {
+//   font-family: 'Kiwi Maru', serif;
+
+//   .card-replay {
+//     margin-top: 1rem;
+
+//     .card-body {
+//       font-size: 16px;
+//     }
+
+//     .reply-list {
+//       padding-left: 1rem;
+
+//       .reply-box {
+//         margin-bottom: 0.5rem;
+
+//         .card-body {
+//           padding: 0.5rem;
+//         }
+//       }
+//     }
+
+//     form.reply-box {
+//       margin-top: 0.5rem;
+
+//       input.form-control {
+//         height: 30px;
+//         font-size: 14px;
+//       }
+
+//       button.replay-btn {
+//         width: 50px;
+//         height: 28px;
+//         font-size: 12px;
+//         margin-top: 0.25rem;
+//       }
+//     }
+
+//     @media (max-width: 576px) {
+//       .card-body {
+//         font-size: 14px;
+//       }
+
+//       form.reply-box {
+//         input.form-control {
+//           font-size: 12px;
+//         }
+
+//         button.replay-btn {
+//           font-size: 10px;
+//           height: 26px;
+//         }
+//       }
+//     }
+//   }
+// }
+// .paw-btn {
+//   position: absolute;
+//   top: 50%;
+//   background: transparent;
+//   border: none;
+//   color: #ed784a;
+//   font-size: 24px;
+//   cursor: pointer;
+//   padding: 0;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   transform-origin: center;
+//   transition: transform 0.2s ease, filter 0.2s ease;
+//   transform: translateY(-50%) rotate(0deg);  // 預設直角
+
+//   &:hover {
+//     filter: drop-shadow(0 0 5px rgba(237, 120, 74, 0.7));
+//   }
+// }
+
+// .paw-prev {
+//   left: -50px;
+
+//   &:hover {
+//     transform: translateY(-50%) rotate(-20deg) scale(1.3);
+//   }
+// }
+
+// .paw-next {
+//   right: -50px;
+
+//   &:hover {
+//     transform: translateY(-50%) rotate(20deg) scale(1.3);
+//   }
+// }

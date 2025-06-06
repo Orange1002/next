@@ -20,14 +20,19 @@
   }
 
   @media (max-width: 575.98px) {
-    height: 615px;
+    height: 350px;
     padding: 0;
     gap: 12px;
-    overflow: visible;
-    scroll-behavior: auto;
-    scrollbar-width: auto;
-    scroll-snap-type: none;
-    flex-wrap: wrap;
-    justify-content: center;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+
+    & > * {
+      flex-shrink: 0; /* 避免被壓縮 */
+      width: 200px; /* 卡片寬度 */
+    }
   }
 }

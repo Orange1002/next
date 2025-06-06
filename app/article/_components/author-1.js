@@ -65,7 +65,7 @@ const Author = ({ article = {} }) => {
           title: '尚未取得主人資料',
           text: '',
           image: null,
-          fallback: '/member/member_images/user-img.svg',
+          fallback: '/member/member_images/2025-04-22153116.png',
           onClick: () => {},
         }
       : {
@@ -73,7 +73,7 @@ const Author = ({ article = {} }) => {
           title: `作者：${article.member_username || '未知作者'}`,
           text: '',
           image: authorImage,
-          fallback: '/member/member_images/user-img.svg',
+          fallback: '/member/member_images/2025-04-22153116.png',
           onClick: () =>
             handleClick(`作者 ${article.member_username || '未知作者'}`),
         },

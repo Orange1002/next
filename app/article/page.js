@@ -163,9 +163,12 @@ function ArticleHeaderPhoto() {
 
           <div className="col-6 mt-5">
             <div className="d-flex gap-3">
-              <button type="button" className="btn btn-primary c-s-btn pt-2">
+              <Link
+                href="/member/favorite"
+                className="btn btn-primary c-s-btn pt-2"
+              >
                 收藏
-              </button>
+              </Link>
             </div>
           </div>
 
