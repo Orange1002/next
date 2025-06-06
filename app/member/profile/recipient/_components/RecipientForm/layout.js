@@ -117,6 +117,8 @@ export default function RecipientForm({
           onChange={(e) => setRealname(e.target.value)}
           placeholder="請輸入收件人姓名"
           required
+          autoComplete="name"
+          name="name"
         />
       </div>
 
@@ -130,6 +132,8 @@ export default function RecipientForm({
           onChange={(e) => setPhone(e.target.value)}
           placeholder="請輸入聯絡電話"
           required
+          autoComplete="tel"
+          name="phone"
         />
       </div>
 
@@ -143,6 +147,7 @@ export default function RecipientForm({
           onChange={(e) => setEmail(e.target.value)}
           placeholder="請輸入 email"
           required
+          name="email"
         />
       </div>
 

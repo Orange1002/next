@@ -112,7 +112,7 @@ export default function MemberViewPage() {
                 value={member.realname || '未填寫真實姓名'}
                 icon="bi-person-lines-fill"
                 name="realname"
-                autoComplete="realname"
+                autoComplete="name"
               />
               <Field
                 label="性別"
@@ -158,6 +158,7 @@ export default function MemberViewPage() {
                   >
                     縣市
                     <select
+                      name="city"
                       value={member.city}
                       disabled
                       className="form-select"
@@ -172,7 +173,12 @@ export default function MemberViewPage() {
                     鄉鎮
                     <br />
                     市區
-                    <select value={member.zip} disabled className="form-select">
+                    <select
+                      name="zip"
+                      value={member.zip}
+                      disabled
+                      className="form-select"
+                    >
                       <option value="">
                         {getTownName(member.city, member.zip) ||
                           '未填寫鄉鎮市區'}
@@ -185,12 +191,14 @@ export default function MemberViewPage() {
                 <label className={`${styles.address} w-100 mt-2`}>
                   地址
                   <input
+                    name="address"
                     type="text"
                     value={member.address || '未填寫預設住址'}
                     readOnly
                     disabled
                     className="form-control"
                     placeholder="未填寫預設住址"
+                    autoComplete="street-address"
                   />
                 </label>
               </div>

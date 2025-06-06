@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import Swal from 'sweetalert2'
 import styles from './resetpassword.module.scss'
-import { FaLock } from 'react-icons/fa'
+import { FaLock, FaEye, FaEyeSlash } from 'react-icons/fa'
 import { useSearchParams, useRouter } from 'next/navigation'
 
 export default function ResetPasswordByLinkPage() {
@@ -16,6 +16,8 @@ export default function ResetPasswordByLinkPage() {
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [checked, setChecked] = useState(false)
+  const [showNewPassword, setShowNewPassword] = useState(false)
+  const [showRePassword, setShowRePassword] = useState(false)
 
   // 如果沒有 secret，可以直接跳回登入或顯示錯誤訊息
   useEffect(() => {
@@ -102,27 +104,48 @@ export default function ResetPasswordByLinkPage() {
           className="d-flex flex-column justify-content-center align-items-center"
           onSubmit={handleResetPassword}
         >
-          <div className={styles.inputField}>
+          {/* 新密碼欄位 */}
+          <div className={`${styles.inputField} position-relative`}>
             <FaLock className={`${styles.icon} fs-4 ms-2`} />
             <input
-              type="password"
+              type={showNewPassword ? 'text' : 'password'}
               placeholder="新密碼"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               minLength={6}
               required
             />
+            <button
+              type="button"
+              onClick={() => setShowNewPassword((prev) => !prev)}
+              aria-label={showNewPassword ? '隱藏密碼' : '顯示密碼'}
+              className={`${styles.iconeye} position-absolute end-0 top-50 translate-middle-y me-3 border-0 bg-transparent fs-4`}
+              style={{ cursor: 'pointer' }}
+            >
+              {showNewPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
           </div>
-          <div className={styles.inputField}>
+
+          {/* 確認密碼欄位 */}
+          <div className={`${styles.inputField} position-relative`}>
             <FaLock className={`${styles.icon} fs-4 ms-2`} />
             <input
-              type="password"
+              type={showRePassword ? 'text' : 'password'}
               placeholder="確認密碼"
               value={rePassword}
               onChange={(e) => setRePassword(e.target.value)}
               minLength={6}
               required
             />
+            <button
+              type="button"
+              onClick={() => setShowRePassword((prev) => !prev)}
+              aria-label={showRePassword ? '隱藏密碼' : '顯示密碼'}
+              className={`${styles.iconeye} position-absolute end-0 top-50 translate-middle-y me-3 border-0 bg-transparent fs-4`}
+              style={{ cursor: 'pointer' }}
+            >
+              {showRePassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
           </div>
 
           {error && <div className="text-danger mb-2">{error}</div>}

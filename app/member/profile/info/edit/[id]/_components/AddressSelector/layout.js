@@ -533,7 +533,7 @@ export default function AddressSelector({ value, onChange }) {
       <div className="d-flex flex-lg-row flex-column justify-content-between">
         <label className={`${styles.label} w-100 mb-3 ms-lg-3 me-lg-2`}>
           縣市
-          <select value={city} onChange={handleCityChange}>
+          <select name="city" value={city} onChange={handleCityChange}>
             <option value="">請選擇縣市</option>
             {AddressArray.map((c) => (
               <option key={c.city} value={c.city}>
@@ -548,6 +548,7 @@ export default function AddressSelector({ value, onChange }) {
           <br />
           市區
           <select
+            name="zip"
             value={town ? town.zip : ''}
             onChange={handleAreaChange}
             disabled={!city}
@@ -570,6 +571,8 @@ export default function AddressSelector({ value, onChange }) {
             value={address}
             onChange={handleDetailChange}
             placeholder="請輸入詳細地址"
+            autoComplete="street-address"
+            name="address"
           />
         </label>
       </div>

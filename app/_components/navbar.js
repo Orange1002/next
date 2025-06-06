@@ -58,7 +58,7 @@ export default function MyNavbar() {
 
   if (pathname.includes('/member/login')) return null
 
-  console.log('aaa')
+  // console.log('aaa')
 
   return (
     <Navbar
