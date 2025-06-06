@@ -1,13 +1,15 @@
 'use client'
+
 import { useAuth } from '../../hooks/use-auth'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import Breadcrumb from './_components/BreadCrumb/layout'
 import Sidebar from './_components/Sidebar/layout'
-import { useMemo, useEffect } from 'react'
+import { useMemo, useEffect, useState } from 'react'
+import Swal from 'sweetalert2'
 
 const breadcrumbMap = {
   '/member': '會員中心',
-  '/member/coupons': '我的優惠券',
+  '/member/coupons': '優惠券與會員等級',
   '/member/coupons/points-history': 'vip點數歷史',
   '/member/favorite': '我的收藏',
   '/member/favorite?type=products': '狗狗用品收藏',
@@ -30,9 +32,8 @@ const breadcrumbMap = {
 // 公開頁面白名單
 const publicPages = [
   '/member/login',
-  '/member/forgot-password',
-  '/member/reset-password',
-  '/member/register',
+  '/member/forgotpassword',
+  '/member/forgotpassword/resetpassword',
 ]
 
 export default function MemberLayout({ children }) {
@@ -40,11 +41,18 @@ export default function MemberLayout({ children }) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const router = useRouter()
+  const [redirecting, setRedirecting] = useState(false) // 控制跳轉中狀態
 
   const query = searchParams.toString()
   const fullPath = query ? `${pathname}?${query}` : pathname
 
-  // 檢查是否為公開頁
+  // /member 自動跳到 /member/profile/info
+  useEffect(() => {
+    if (!isReady) return
+    if (pathname === '/member') {
+      router.replace('/member/profile/info')
+    }
+  }, [pathname, isReady, router])
 
   const isPublicPage = useMemo(() => {
     return publicPages.includes(pathname)
@@ -52,10 +60,20 @@ export default function MemberLayout({ children }) {
 
   useEffect(() => {
     if (!isReady) return
-    if (!isAuth && !isPublicPage) {
-      router.replace('/member/login?type=signin')
+    if (!isAuth && !isPublicPage && !redirecting) {
+      setRedirecting(true)
+      Swal.fire({
+        icon: 'warning',
+        title: '請先登入',
+        showConfirmButton: false,
+        timer: 1500,
+        background: '#e3f2fd',
+        color: '#ed784a',
+      }).then(() => {
+        router.replace('/')
+      })
     }
-  }, [isAuth, isReady, isPublicPage, router])
+  }, [isAuth, isReady, isPublicPage, router, redirecting])
 
   const generateBreadcrumbItems = () => {
     const items = [{ label: '首頁', href: '/' }]
@@ -80,10 +98,10 @@ export default function MemberLayout({ children }) {
   // 尚未準備好資料時不渲染
   if (!isReady) return null
 
-  // 若是公開頁面（例如登入、忘記密碼等）直接渲染，不顯示 sidebar 與麵包屑
+  // 如果是公開頁面，直接渲染 children，不顯示 sidebar、breadcrumb
   if (isPublicPage) return children
 
-  // 不是公開頁又沒登入，不渲染（避免閃一下再導轉）
+  // 非公開頁且未登入，跳轉中不渲染任何內容，避免閃爍
   if (!isAuth) return null
 
   return (

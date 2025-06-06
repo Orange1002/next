@@ -129,7 +129,7 @@ export default function ComponentsCustomerFeedback(props) {
         <div className="text-center mt-5">
           <a
             href=""
-            className="btn btn-lg bgc-primary text-white fw-bold px-5 py-3"
+            className="bgc-primary text-white fw-bold px-5 py-3 fs-4 text-decoration-none rounded-2 sitterbbttnn"
             style={{ letterSpacing: 5 }}
           >
             查看更多

@@ -76,11 +76,11 @@ export default function AdminProductIndexPage() {
 
   const toggleValid = async (id, currentValid) => {
     const res = await fetch(
-      `http://localhost:3005/api/product/products/${id}/status`, // ← 修正網址
+      `http://localhost:3005/api/product/products/${id}/status`,
       {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include', // 加上這行保持一致
+        credentials: 'include',
         body: JSON.stringify({ valid: !currentValid }),
       }
     )

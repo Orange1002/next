@@ -59,7 +59,7 @@ export default function NotificationBell() {
         id="dropdown-notifications"
         title="通知"
       >
-        <i className="bi bi-bell fs-5" />
+        <i className="bi bi-bell fs-4" />
         {unreadCount > 0 && (
           <Badge
             bg="danger"

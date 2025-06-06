@@ -6,10 +6,10 @@ import Link from 'next/link'
 
 const imageList = [
   '/images/big-1.png',
-  '/images/big-1.png',
-  '/images/big-1.png',
-  '/images/big-1.png',
-  '/images/big-1.png',
+  '/images/big-2.webp',
+  '/images/big-3.webp',
+  '/images/big-4.webp',
+  '/images/big-5.webp',
 ]
 
 export default function MyCarousel() {

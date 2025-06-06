@@ -72,54 +72,64 @@ export default function DogCard({ dog, onDelete }) {
 
   return (
     <div className={`${styles.card}`}>
-      <div className={`${styles.img} d-flex flex-column w-100`}>
+      <div className={`${styles.img} d-flex flex-column w-100 border border-2`}>
         {/* 主圖 */}
-        <div className={`w-100 h-100`}>
+        <div
+          className="w-100"
+          style={{ height: '220px', position: 'relative', overflow: 'hidden' }}
+        >
           <Image
             src={imagePath.length > 0 ? imagePath[0] : DEFAULT_IMAGE}
             alt={dog.name}
-            width={200}
-            height={200}
-            className="w-100 h-100 object-fit-cover"
+            fill
+            style={{ objectFit: 'cover' }}
             priority
           />
         </div>
 
         {/* 副圖 */}
-        <div>
-          {imagePath.length > 1 && (
-            <div className="d-flex">
-              {imagePath.slice(1, 5).map((src, idx) => (
-                <div key={idx} style={{ width: '80px', height: '80px' }}>
-                  <Image
-                    src={src}
-                    alt={`${dog.name} 小圖 ${idx + 1}`}
-                    width={80}
-                    height={80}
-                    className="w-100 h-100 object-fit-cover"
-                    priority
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        {imagePath.length > 1 && (
+          <div className="d-flex border border-2">
+            {imagePath.slice(1, 5).map((src, idx) => (
+              <div
+                key={idx}
+                style={{ width: '80px', height: '80px', position: 'relative' }}
+              >
+                <Image
+                  src={src}
+                  alt={`${dog.name} 小圖 ${idx + 1}`}
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  priority
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
-      <div className="card-body p-3">
-        <h5 className="card-title">{dog.name || '（未命名）'}</h5>
-        <p className="card-text mb-1">
-          <strong>年齡：</strong> {dog.age || '未填寫'}
-        </p>
-        <p className="card-text mb-1">
-          <strong>品種：</strong> {dog.breed || '未填寫'}
-        </p>
-        <p className="card-text mb-1">
-          <strong>體型：</strong> {sizeLabels[dog.size_id] || '未填寫'}
-        </p>
-        <p className="card-text">
-          <strong>備註：</strong> {dog.description || '未填寫'}
-        </p>
+      <div
+        className="card-body p-3 d-flex flex-column justify-content-between"
+        style={{ height: '228.8px' }}
+      >
+        <div className="">
+          <h5 className="card-title">{dog.name || '（未命名）'}</h5>
+          <p className="card-text mb-1">
+            <strong>年齡：</strong> {dog.age || '未填寫'}
+          </p>
+          <p className="card-text mb-1">
+            <strong>品種：</strong> {dog.breed || '未填寫'}
+          </p>
+          <p className="card-text mb-1">
+            <strong>體型：</strong> {sizeLabels[dog.size_id] || '未填寫'}
+          </p>
+          <div className="d-flex justify-content-between card-text">
+            <strong className="text-nowrap">備註：</strong>
+            <span className="text-start text-wrap flex-grow-1 ms-1">
+              {dog.description || '未填寫'}
+            </span>
+          </div>
+        </div>
 
         <div className="d-flex justify-content-between mt-3">
           <button

@@ -8,13 +8,13 @@
   transition: transform 0.2s ease;
   overflow: hidden;
 
-
   &:hover {
     transform: scale(1.02);
-    box-shadow: var(--shadow-x, 1px) var(--shadow-y, 6px) var(--shadow-blur, 25.5px) 0px rgba(0, 0, 0, 0.25);
+    box-shadow: var(--shadow-x, 1px) var(--shadow-y, 6px)
+      var(--shadow-blur, 25.5px) 0px rgba(0, 0, 0, 0.25);
 
     .product-card-content {
-      background: var(--Frame-20, #F3F3F3);
+      background: var(--Frame-20, #f3f3f3);
     }
   }
 }
@@ -35,13 +35,13 @@
   align-items: flex-start;
   gap: 15px;
   flex-shrink: 0;
-  background: #FFF;
+  background: #fff;
 }
 
 .product-card-name {
   align-self: stretch;
   color: var(--Ellipse-8, #505050);
-  font-family: "Kiwi Maru";
+  font-family: 'Kiwi Maru';
   font-size: 18px;
   font-weight: 400;
   letter-spacing: 3.96px;
@@ -50,8 +50,8 @@
 .product-card-price {
   flex: 1 0 0;
   align-self: stretch;
-  color: var(--unnamed, #CC543A);
-  font-family: "Inria Sans";
+  color: var(--unnamed, #cc543a);
+  font-family: 'Inria Sans';
   font-size: 20px;
   font-weight: 400;
   letter-spacing: 4.4px;
@@ -73,7 +73,7 @@
 
 .product-card-icon p {
   color: var(--Ellipse-8, #505050);
-  font-family: "Inria Sans";
+  font-family: 'Inria Sans';
   font-size: 15px;
   letter-spacing: 3px;
   text-align: left;
@@ -82,12 +82,10 @@
   white-space: nowrap;
 }
 
-
 @media (max-width: 500px) {
   .product-card-link {
-  text-decoration: none;
-  
-}
+    text-decoration: none;
+  }
 
   .product-card {
     width: calc(50% - 12.5px);
@@ -106,7 +104,7 @@
     padding: 10px;
     gap: 10px;
     height: 140px;
-    background-color: #F3F3F3;
+    background-color: #f3f3f3;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -127,8 +125,25 @@
     gap: 8px !important;
   }
 
-  .product-card-icon p{
+  .product-card-icon p {
     font-size: 14px;
     letter-spacing: 2px;
+  }
+}
+
+@media (max-width: 430px) {
+  .product-card {
+    min-width: 190px;
+  }
+
+  .product-card-name {
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 430px) {
+  .product-card {
+    min-width: 170px;
   }
 }

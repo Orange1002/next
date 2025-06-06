@@ -7,6 +7,7 @@ import MyEvent from './_components/event.js'
 import MyProductCard from './_components/product-card.js'
 import MyCarousel from './_components/carousel.js'
 import MyArticleCard from './_components/article-card.js'
+import CategorySlider from './product/_components/categorySlider/CategorySlider2'
 
 const slides = [
   { src: '/images/hero-dog-1.jpg', alt: 'Dog 1' },
@@ -14,18 +15,6 @@ const slides = [
   { src: '/images/hero-dog-3.jpg', alt: 'Dog 3' },
   { src: '/images/hero-dog-4.jpg', alt: 'Dog 4' },
   { src: '/images/hero-dog-5.jpg', alt: 'Dog 5' },
-]
-
-const categories = [
-  { src: 'images/icon-food.png', alt: 'Food', label: 'FOOD' },
-  { src: 'images/icon-can.png', alt: 'Can', label: 'CAN' },
-  { src: 'images/icon-snack.png', alt: 'Snack', label: 'SNACK' },
-  { src: 'images/icon-bed.png', alt: 'Bed', label: 'BED' },
-  { src: 'images/icon-bath.png', alt: 'Bath', label: 'BATH' },
-  { src: 'images/icon-toy.png', alt: 'Toy', label: 'TOY' },
-  { src: 'images/icon-cloth.png', alt: 'Cloth', label: 'CLOTH' },
-  { src: 'images/icon-collar.png', alt: 'Collar', label: 'COLLAR' },
-  { src: 'images/icon-accessory.png', alt: 'Accessory', label: 'ACCESSORY' },
 ]
 
 export default function AppPage() {
@@ -136,49 +125,8 @@ export default function AppPage() {
 
       {/* 第二區塊 */}
       <section className="category-nav bg-white border-top py-4">
-        <div className="container">
-          <div className="category-wrapper d-flex align-items-center position-relative">
-            {/* 左箭頭 */}
-            <button
-              className="category-arrow left-arrow"
-              aria-label="Scroll left"
-              onClick={() => scroll(-150)}
-              style={{
-                opacity: atStart ? 0 : 1,
-                pointerEvents: atStart ? 'none' : 'auto',
-                transition: 'opacity 0.3s',
-              }}
-            >
-              <i className="bi bi-chevron-left"></i>
-            </button>
-
-            {/* 可橫向滑動的分類 */}
-            <div
-              className="category-scroll d-flex align-items-center overflow-auto"
-              ref={scrollRef}
-            >
-              {categories.map((item, index) => (
-                <div className="category-item text-center me-3" key={index}>
-                  <Image src={item.src} alt={item.alt} width={50} height={50} />
-                  <div className="text-uppercase small mt-2">{item.label}</div>
-                </div>
-              ))}
-            </div>
-
-            {/* 右箭頭 */}
-            <button
-              className="category-arrow right-arrow"
-              aria-label="Scroll right"
-              onClick={() => scroll(150)}
-              style={{
-                opacity: atEnd ? 0 : 1,
-                pointerEvents: atEnd ? 'none' : 'auto',
-                transition: 'opacity 0.3s',
-              }}
-            >
-              <i className="bi bi-chevron-right"></i>
-            </button>
-          </div>
+        <div className="d-flex justify-content-center">
+          <CategorySlider />
         </div>
       </section>
 
@@ -260,7 +208,7 @@ export default function AppPage() {
                     />
                     <div className="overlay position-absolute"></div>
                   </div>
-                  <div className="label position-absolute">HOTEL</div>
+                  <div className="label position-absolute">Sitter</div>
                 </div>
               </Link>
             </Col>

@@ -171,7 +171,7 @@ const ArticlePage = () => {
   return (
     <main>
       {/* 麵包屑 */}
-      <div className="d-flex align-items-center fw-light ms-5 detail-bread mb-5">
+      <div className="d-flex align-items-center fw-light ms-5 detail-bread mb-5 d-none d-xl-block">
         {breadcrumbItems.map((item, index) => (
           <React.Fragment key={index}>
             <a

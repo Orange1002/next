@@ -21,6 +21,8 @@ export default function ProductPage() {
     priceLte: undefined,
   })
   const [sortBy, setSortBy] = useState({ sort: 'created_at', order: 'desc' })
+  const [visibleCount, setVisibleCount] = useState(0)
+
   return (
     <>
       <div className={styles.productPage}>
@@ -55,7 +57,7 @@ export default function ProductPage() {
               >
                 <ol>
                   <li>
-                    <Link href="/">HOME</Link>
+                    <Link href="/">首頁</Link>
                   </li>
                   <li>
                     <svg
@@ -74,7 +76,7 @@ export default function ProductPage() {
                     </svg>
                   </li>
                   <li>
-                    <Link href="/product">Products</Link>
+                    <Link href="/product">商品</Link>
                   </li>
                 </ol>
               </nav>
@@ -107,7 +109,7 @@ export default function ProductPage() {
             <div className={section2Styles.productList}>
               <div className={section2Styles.listFilter}>
                 <div className={section2Styles.listFilterText}>
-                  1-24 items |
+                  顯示 {visibleCount} 項商品
                 </div>
 
                 <CategorySelectMobile />
@@ -119,6 +121,7 @@ export default function ProductPage() {
                 sortBy={sortBy}
                 priceGte={price.priceGte}
                 priceLte={price.priceLte}
+                onCountChange={setVisibleCount}
               />
             </div>
           </section>

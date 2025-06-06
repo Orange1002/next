@@ -258,6 +258,7 @@ export function CartProvider({ children }) {
   // 使用陣列的迭代方法reduce(歸納, 累加)
   // 稱為"衍生,派生"狀態(derived state)，意即是狀態的一部份，或是由狀態計算得來的值
   const totalQty = items.reduce((acc, v) => acc + v.count, 0)
+  // console.log(totalQty)
 
   const totalAmount = items.reduce((acc, item) => {
     const key = generateItemKey(item)

@@ -52,7 +52,7 @@
 }
 
 .scroll-btn:hover {
-  background: rgba(255, 255, 255, 0.95);
+  background: none;
   color: #ed784a;
   opacity: 1;
 }
@@ -82,5 +82,12 @@
 
   .scroll-btn {
     display: none !important;
+    background-color: none;
   }
+}
+
+.has-left-shadow.has-right-shadow {
+  box-shadow:
+    inset 20px 0 10px -10px rgba(0, 0, 0, 0.15),
+    inset -20px 0 10px -10px rgba(0, 0, 0, 0.15);
 }

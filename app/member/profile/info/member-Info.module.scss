@@ -17,7 +17,7 @@
   height: 55px;
   border-radius: 55px;
   display: grid;
-  grid-template-columns: 30% 70%;
+  grid-template-columns: 32% 68%;
   padding: 0 0.4rem;
   position: relative;
   align-items: center;
@@ -113,22 +113,26 @@
 }
 
 .address input {
-  background: none;
+  background: #f0f0f0;
   outline: none;
   border: none;
   line-height: 1;
   font-weight: 600;
   font-size: 1.1rem;
-  color: #505050;
+  color: #929292;
   padding-left: 5px;
 }
 
 .label select {
-  background: none;
+  background: #f0f0f0;
   outline: none;
   border: none;
   line-height: 1;
   font-weight: 600;
   font-size: 1.1rem;
-  color: #505050;
+  color: #929292;
+}
+
+.form-select {
+  background: #f0f0f0;
 }

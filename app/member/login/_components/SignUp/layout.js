@@ -10,6 +10,8 @@ import {
   FaUser,
   FaCheckCircle,
   FaTimesCircle,
+  FaEye,
+  FaEyeSlash,
 } from 'react-icons/fa'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '../../../../../hooks/use-auth'
@@ -33,6 +35,8 @@ export default function SignUpForm({ isSignUpMode }) {
   const [repassword, setRepassword] = useState('')
   const [otp, setOtp] = useState('')
   const [secret, setSecret] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [showRepassword, setShowRepassword] = useState(false)
 
   const [fieldErrors, setFieldErrors] = useState({
     username: '',
@@ -452,10 +456,11 @@ export default function SignUpForm({ isSignUpMode }) {
             <p className={styles.errorMsg}>{fieldErrors.username}</p>
           )}
 
+          {/* 密碼欄位 */}
           <div className={`${styles.inputField} position-relative`}>
             <FaLock className={`${styles.icon} ms-3 h-50 w-50`} />
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               placeholder="密碼"
               value={password}
               onChange={(e) => {
@@ -466,10 +471,20 @@ export default function SignUpForm({ isSignUpMode }) {
               className={styles.input}
               required
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className={`${styles.iconeye} position-absolute end-0 top-50 translate-middle-y me-4 border-0 bg-transparent fs-4`}
+              aria-label={showPassword ? '隱藏密碼' : '顯示密碼'}
+              style={{ cursor: 'pointer' }}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+
             <span
               style={{
                 position: 'absolute',
-                right: '10px',
+                right: '8px',
                 top: '50%',
                 transform: 'translateY(-50%)',
                 pointerEvents: 'none',
@@ -482,10 +497,11 @@ export default function SignUpForm({ isSignUpMode }) {
             <p className={styles.errorMsg}>{fieldErrors.password}</p>
           )}
 
+          {/* 再次輸入密碼欄位 */}
           <div className={`${styles.inputField} position-relative`}>
-            <FaLock className={`${styles.icon} ms-3 h-50 w-50`} />
+            <FaLock className={`${styles.iconeye} ms-3 h-50 w-50`} />
             <input
-              type="password"
+              type={showRepassword ? 'text' : 'password'}
               placeholder="再次輸入密碼"
               value={repassword}
               onChange={(e) => {
@@ -496,10 +512,20 @@ export default function SignUpForm({ isSignUpMode }) {
               className={styles.input}
               required
             />
+            <button
+              type="button"
+              onClick={() => setShowRepassword(!showRepassword)}
+              className={`${styles.iconeye} position-absolute end-0 top-50 translate-middle-y me-4 border-0 bg-transparent fs-4`}
+              aria-label={showRepassword ? '隱藏密碼' : '顯示密碼'}
+              style={{ cursor: 'pointer' }}
+            >
+              {showRepassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+
             <span
               style={{
                 position: 'absolute',
-                right: '10px',
+                right: '8px',
                 top: '50%',
                 transform: 'translateY(-50%)',
                 pointerEvents: 'none',

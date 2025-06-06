@@ -91,7 +91,7 @@ export default function SidebarFilter({ onPriceChange }) {
                     <li>
                       <Link href={`/product/category/${mainSlug}`}>
                         <div style={{ fontWeight: 'bold' }}>
-                          查看「{category.name}」全部商品
+                          「{category.name}」全部商品
                         </div>
                       </Link>
                     </li>

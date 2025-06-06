@@ -190,12 +190,12 @@ export default function InfoPage() {
               <div className="d-flex justify-content-center align-items-center flex-column col-12 col-lg-6 mb-3 mb-lg-0">
                 <div className="d-flex flex-column justify-content-center align-items-center">
                   <div
-                    className={`rounded-circle border-3 overflow-hidden d-flex justify-content-center align-items-center ${styles.memberImg}`}
+                    className={`rounded-circle overflow-hidden d-flex justify-content-center align-items-center ${styles.memberImg}`}
                   >
                     <Image
                       src={preview}
                       alt="使用者頭貼"
-                      className="object-fit-cover h-100 w-100"
+                      className="object-fit-cover h-100 w-100 rounded-circle border border-2"
                       width={100}
                       height={100}
                     />
@@ -244,6 +244,7 @@ export default function InfoPage() {
                       value={formData.username}
                       onChange={handleChange}
                       name="username"
+                      autoComplete="username"
                     />
                   </div>
                   {/* 真實姓名 */}
@@ -257,6 +258,7 @@ export default function InfoPage() {
                       value={formData.realname}
                       onChange={handleChange}
                       name="realname"
+                      autoComplete="name"
                     />
                   </div>
                   {/* 性別 */}
@@ -291,6 +293,7 @@ export default function InfoPage() {
                       name="email"
                       readOnly
                       disabled
+                      autoComplete="email"
                     />
                   </div>
                 </div>
@@ -306,6 +309,7 @@ export default function InfoPage() {
                       value={formData.phone}
                       onChange={handleChange}
                       name="phone"
+                      autoComplete="tel"
                     />
                   </div>
                   {/* 生日 */}

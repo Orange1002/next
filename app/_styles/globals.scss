@@ -13,3 +13,11 @@
 @import 'https://fonts.googleapis.com/css2?family=ABeeZee&display=swap';
 @import 'https://fonts.googleapis.com/css2?family=ABeeZee&family=Inria+Sans&display=swap';
 @import 'https://fonts.googleapis.com/css2?family=Kiwi+Maru&display=swap';
+
+.form-select:disabled {
+  background: #f0f0f0;
+}
+
+.form-control:disabled {
+  background: #f0f0f0;
+}

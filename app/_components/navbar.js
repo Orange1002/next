@@ -1,19 +1,32 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import { Navbar, Nav, Container, Button, Form } from 'react-bootstrap'
-import { BiSearch } from 'react-icons/bi'
-import Link from 'next/link'
+import { Navbar, Nav, Container } from 'react-bootstrap'
 import { useEffect, useState, useRef } from 'react'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import NotificationBell from './NotificationBell'
+import { useCart } from '@/hooks/use-cart'
+import MemberAvatarDropdown from './navbar-avatar'
+import MobileMenu from './MobileMenu'
 
 export default function MyNavbar() {
   const pathname = usePathname()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [showDropdown, setShowDropdown] = useState(false)
+  const dropdownRef = useRef(null)
+  const { totalQty = 0 } = useCart() || {}
 
-  const dropdownRef = useRef(null) // ✅ 加入 ref
+  const getActiveKey = () => {
+    if (pathname === '/') return '/'
+    if (pathname.startsWith('/product')) return '/product'
+    if (pathname.startsWith('/article')) return '/article'
+    if (pathname.startsWith('/sitter')) return '/sitter'
+    if (pathname.startsWith('/member/coupons')) return '/member/coupons'
+    if (pathname.startsWith('/about')) return '/about'
+    return ''
+  }
+
+  const [showMobileMenu, setShowMobileMenu] = useState(false)
 
   // ✅ 點空白處收起 dropdown
   useEffect(() => {
@@ -28,13 +41,13 @@ export default function MyNavbar() {
     }
   }, [])
 
-  // 進入頁面時檢查登入狀態
+  // ✅ 檢查登入狀態
   useEffect(() => {
     const checkAuth = async () => {
       try {
         const res = await fetch('http://localhost:3005/api/member/profile', {
           method: 'GET',
-          credentials: 'include', // 確保帶上 cookie
+          credentials: 'include',
         })
         if (res.ok) {
           const data = await res.json()
@@ -50,6 +63,7 @@ export default function MyNavbar() {
     checkAuth()
   }, [])
 
+  // ✅ 若為登入頁，Navbar 不渲染
   if (pathname.includes('/member/login')) return null
 
   return (
@@ -67,179 +81,60 @@ export default function MyNavbar() {
           </Link>
         </Navbar.Brand>
 
-        <Navbar.Toggle aria-controls="navbarMain" />
+        <Navbar.Toggle
+          aria-controls="navbarMain"
+          onClick={() => {
+            if (window.innerWidth < 992) {
+              setShowMobileMenu(true)
+            }
+          }}
+        />
+
+        {showMobileMenu && (
+          <MobileMenu onClose={() => setShowMobileMenu(false)} />
+        )}
+
         <Navbar.Collapse
           id="navbarMain"
           className="justify-content-end d-none d-lg-flex gap-4 align-items-center"
         >
-          <Nav className="gap-27 text-uppercase">
+          <Nav className="gap-27 text-uppercase" activeKey={getActiveKey()}>
             <Link href="/" passHref legacyBehavior>
-              <Nav.Link className={pathname === '/' ? 'active' : ''}>
-                首頁
-              </Nav.Link>
+              <Nav.Link eventKey="/">首頁</Nav.Link>
             </Link>
             <Link href="/product" passHref legacyBehavior>
-              <Nav.Link
-                className={pathname.startsWith('/product') ? 'active' : ''}
-              >
-                商品
-              </Nav.Link>
+              <Nav.Link eventKey="/product">商品</Nav.Link>
             </Link>
             <Link href="/article" passHref legacyBehavior>
-              <Nav.Link
-                className={pathname.startsWith('/article') ? 'active' : ''}
-              >
-                文章
-              </Nav.Link>
+              <Nav.Link eventKey="/article">文章</Nav.Link>
             </Link>
             <Link href="/sitter" passHref legacyBehavior>
-              <Nav.Link
-                className={pathname.startsWith('/sitter') ? 'active' : ''}
-              >
-                寵物保母
-              </Nav.Link>
+              <Nav.Link eventKey="/sitter">寵物保母</Nav.Link>
             </Link>
-            <Link href="/coupon" passHref legacyBehavior>
-              <Nav.Link
-                className={
-                  pathname.startsWith('/member/coupons') ? 'active' : ''
-                }
-              >
-                優惠卷
-              </Nav.Link>
+            <Link href="/member/coupons" passHref legacyBehavior>
+              <Nav.Link eventKey="/member/coupons">優惠卷</Nav.Link>
             </Link>
             <Link href="/about" passHref legacyBehavior>
-              <Nav.Link
-                className={pathname.startsWith('/about') ? 'active' : ''}
-              >
-                關於我們
-              </Nav.Link>
+              <Nav.Link eventKey="/about">關於我們</Nav.Link>
             </Link>
           </Nav>
 
-          <Button
-            variant="light"
-            className="burger-btn p-0 border-0 bg-transparent d-flex align-items-center"
-          >
-            <i className="bi bi-list nav-icon" />
-          </Button>
-
-          <Form className="me-3 mb-0 d-flex search-group" role="search">
-            <Form.Control type="search" name="search" placeholder="搜尋" />
-            <Button
-              className="search-btn"
-              type="submit"
-              onClick={(e) => setTimeout(() => e.currentTarget.blur(), 100)}
-            >
-              <BiSearch style={{ color: '#cc543a' }} />
-            </Button>
-          </Form>
-
           <div className="d-flex align-items-center gap-4">
-            <div
-              className="member-dropdown position-relative"
-              ref={dropdownRef}
-            >
-              {' '}
-              {/* ✅ 加上 ref */}
-              <button
-                className="icon-link btn border-0 bg-transparent p-0"
-                onClick={() => setShowDropdown((prev) => !prev)}
-              >
-                <i className="bi bi-person nav-icon" />
-              </button>
-              {showDropdown && (
-                <div className="dropdown-menu show">
-                  {isAuthenticated ? (
+            <MemberAvatarDropdown isAuthenticated={isAuthenticated} />
+            <Link href="/shopcart" passHref legacyBehavior>
+              <div className="position-relative">
+                <i className="bi bi-cart nav-icon" />
+                <div className="position-absolute circleSize">
+                  {totalQty > 9 ? (
                     <>
-                      <Link
-                        href="/member"
-                        className="dropdown-item text-center"
-                        onClick={() => setShowDropdown(false)} // ✅
-                      >
-                        會員中心
-                      </Link>
-                      <Link
-                        href="/member/profile/info"
-                        className="dropdown-item text-center"
-                        onClick={() => setShowDropdown(false)} // ✅
-                      >
-                        會員資料
-                      </Link>
-                      <Link
-                        href="/member/orders"
-                        className="dropdown-item text-center"
-                        onClick={() => setShowDropdown(false)} // ✅
-                      >
-                        我的訂單
-                      </Link>
-                      <Link
-                        href="/member/favorite"
-                        className="dropdown-item text-center"
-                        onClick={() => setShowDropdown(false)} // ✅
-                      >
-                        我的收藏
-                      </Link>
-                      <Link
-                        href="/member/coupons"
-                        className="dropdown-item text-center"
-                        onClick={() => setShowDropdown(false)} // ✅
-                      >
-                        我的優惠券
-                      </Link>
-                      <button
-                        className="logout-btn text-center mx-4"
-                        onClick={async () => {
-                          try {
-                            const res = await fetch(
-                              'http://localhost:3005/api/member/logout',
-                              {
-                                method: 'POST',
-                                credentials: 'include',
-                                headers: {
-                                  'Content-Type': 'application/json',
-                                },
-                              }
-                            )
-                            if (res.ok) {
-                              console.log('登出成功')
-                              setShowDropdown(false) // ✅
-                              window.location.href = '/'
-                            } else {
-                              console.error('登出失敗')
-                            }
-                          } catch (error) {
-                            console.error('登出錯誤', error)
-                          }
-                        }}
-                      >
-                        登出
-                      </button>
+                      <span>9</span>
+                      <span style={{ fontSize: '9px' }}>+</span>
                     </>
                   ) : (
-                    <>
-                      <Link
-                        href="/member/login?type=signin"
-                        className="logout-btn d-flex mx-4 text-decoration-none"
-                        onClick={() => setShowDropdown(false)} // ✅
-                      >
-                        登入
-                      </Link>
-                      <Link
-                        href="/member/login?type=signup"
-                        className="signup-btn d-flex mx-4 text-decoration-none mt-2"
-                        onClick={() => setShowDropdown(false)} // ✅
-                      >
-                        註冊
-                      </Link>
-                    </>
+                    <span>{totalQty}</span>
                   )}
                 </div>
-              )}
-            </div>
-
-            <Link href="/shopcart" passHref legacyBehavior>
-              <i className="bi bi-cart nav-icon" />
+              </div>
             </Link>
             <NotificationBell />
           </div>

@@ -34,7 +34,7 @@ export default function Sidebar() {
       {/* 頭貼 */}
       <div className="d-flex justify-content-center align-items-center flex-column mb-4">
         <div
-          className={`rounded-circle border-3 overflow-hidden d-flex justify-content-center align-items-center ${styles.memberImg}`}
+          className={`rounded-circle overflow-hidden d-flex justify-content-center align-items-center ${styles.memberImg}`}
         >
           <Image
             key={imageSrc}
@@ -42,7 +42,7 @@ export default function Sidebar() {
             alt="使用者頭貼"
             width={100}
             height={100}
-            className="object-fit-cover w-100 h-100"
+            className="object-fit-cover w-100 h-100 rounded-circle border border-2"
             priority
           />
         </div>
@@ -72,7 +72,7 @@ export default function Sidebar() {
           >
             會員狗狗資料
           </Link>
-          <Link
+          {/* <Link
             href="/member/profile/recipient"
             className={`border-bottom p-2 ${styles.listGroupItem} ${
               pathname.startsWith('/member/profile/recipient')
@@ -81,7 +81,7 @@ export default function Sidebar() {
             }`}
           >
             常用收件人
-          </Link>
+          </Link> */}
           <Link
             href="/member/profile/changepassword"
             className={`border-bottom p-2 ${styles.listGroupItem} ${
@@ -157,7 +157,7 @@ export default function Sidebar() {
               pathname.startsWith('/member/coupons') ? styles.active : ''
             }`}
           >
-            我的優惠券
+            優惠券與會員等級
           </Link>
         </div>
       </div>

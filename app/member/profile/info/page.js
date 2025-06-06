@@ -23,7 +23,7 @@ export default function MemberViewPage() {
         {iconComponent && <span className="me-2">{iconComponent}</span>}
         <input
           type="text"
-          className="form-control"
+          className="form-control ps-3"
           placeholder={label}
           value={value || ''}
           name={name}
@@ -112,7 +112,7 @@ export default function MemberViewPage() {
                 value={member.realname || '未填寫真實姓名'}
                 icon="bi-person-lines-fill"
                 name="realname"
-                autoComplete="realname"
+                autoComplete="name"
               />
               <Field
                 label="性別"
@@ -158,9 +158,10 @@ export default function MemberViewPage() {
                   >
                     縣市
                     <select
+                      name="city"
                       value={member.city}
                       disabled
-                      className="form-select mt-1"
+                      className="form-select"
                     >
                       <option value="">{member.city || '未填寫縣市'}</option>
                     </select>
@@ -173,9 +174,10 @@ export default function MemberViewPage() {
                     <br />
                     市區
                     <select
+                      name="zip"
                       value={member.zip}
                       disabled
-                      className="form-select mt-1"
+                      className="form-select"
                     >
                       <option value="">
                         {getTownName(member.city, member.zip) ||
@@ -185,16 +187,18 @@ export default function MemberViewPage() {
                   </label>
                 </div>
               </div>
-              <div className="d-flex w-100">
-                <label className={`${styles.address} mt-2 mb-2 mx-lg-3 w-100`}>
+              <div className="w-100 h-100 px-lg-3">
+                <label className={`${styles.address} w-100 mt-2`}>
                   地址
                   <input
+                    name="address"
                     type="text"
                     value={member.address || '未填寫預設住址'}
                     readOnly
                     disabled
-                    className="form-control mt-1"
+                    className="form-control"
                     placeholder="未填寫預設住址"
+                    autoComplete="street-address"
                   />
                 </label>
               </div>

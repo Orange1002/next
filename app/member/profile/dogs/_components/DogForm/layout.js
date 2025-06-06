@@ -234,18 +234,30 @@ export default function DogForm({
         </select>
       </div>
 
-      <div className={`${styles.inputField} mb-2`}>
+      <div className={`${styles.inputField} mb-2 position-relative`}>
         <p className="d-flex justify-content-center">備註</p>
         <textarea
           id="dogDesc"
           name="description"
           rows="2"
           placeholder="備註"
+          maxLength={50}
           value={formData.description}
           onChange={handleChange}
-          className="form-control border-0"
+          className="form-control border-0 pe-5"
           style={{ resize: 'none', backgroundColor: 'transparent' }}
         />
+        <p
+          className="position-absolute text-muted small"
+          style={{
+            bottom: '20px',
+            right: '10px',
+            margin: 0,
+            pointerEvents: 'none',
+          }}
+        >
+          {formData.description.length}/50
+        </p>
       </div>
 
       <div className="d-flex justify-content-center gap-3 gap-lg-5">

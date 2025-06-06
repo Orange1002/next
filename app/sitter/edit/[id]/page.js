@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
 import Image from 'next/image'
-import '../../_styles/sitter-detail.module.css'
+import '../../_styles/style-sitter-list.scss'
 
 export default function EditSitterPage() {
   const { id } = useParams()
@@ -295,7 +295,7 @@ export default function EditSitterPage() {
 
         <div className="d-flex justify-content-between">
           <button
-            className="btn bgc-primary px-4 text-white"
+            className="sitterbbttnn2 border-0 rounded-1 px-4 text-white "
             type="submit"
             disabled={loading}
           >
