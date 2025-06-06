@@ -11,4 +11,10 @@
       min-width: 0px;
 
   }
+
+  @media (max-width: 400px) {
+    padding: 0;
+    gap: 15px 15px;
+    justify-content: center;
+  }
 }

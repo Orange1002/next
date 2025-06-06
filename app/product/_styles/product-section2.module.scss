@@ -177,3 +177,23 @@
     }
   }
 }
+
+@media (max-width: 430px) {
+  .productList {
+    padding: 5px;
+    gap: 30px;
+  }
+  .section2 {
+    padding: 0;
+  }
+}
+
+@media (max-width: 400px) {
+  .productList {
+    padding: 0px;
+    gap: 30px;
+  }
+  .section2 {
+    padding: 0;
+  }
+}
