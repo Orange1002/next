@@ -96,7 +96,7 @@ export default function MyNavbar() {
             <Link href="/sitter" passHref legacyBehavior>
               <Nav.Link eventKey="/sitter">寵物保母</Nav.Link>
             </Link>
-            <Link href="/coupon" passHref legacyBehavior>
+            <Link href="/member/coupons" passHref legacyBehavior>
               <Nav.Link eventKey="/member/coupons">優惠卷</Nav.Link>
             </Link>
             <Link href="/about" passHref legacyBehavior>

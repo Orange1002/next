@@ -1,9 +1,11 @@
 'use client'
+
 import { useAuth } from '../../hooks/use-auth'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import Breadcrumb from './_components/BreadCrumb/layout'
 import Sidebar from './_components/Sidebar/layout'
-import { useMemo, useEffect } from 'react'
+import { useMemo, useEffect, useState } from 'react'
+import Swal from 'sweetalert2'
 
 const breadcrumbMap = {
   '/member': '會員中心',
@@ -39,11 +41,12 @@ export default function MemberLayout({ children }) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const router = useRouter()
+  const [redirecting, setRedirecting] = useState(false) // 控制跳轉中狀態
 
   const query = searchParams.toString()
   const fullPath = query ? `${pathname}?${query}` : pathname
 
-  // 新增這段，若是 /member 直接跳轉到 /member/profile/info
+  // /member 自動跳到 /member/profile/info
   useEffect(() => {
     if (!isReady) return
     if (pathname === '/member') {
@@ -51,17 +54,26 @@ export default function MemberLayout({ children }) {
     }
   }, [pathname, isReady, router])
 
-  // 檢查是否為公開頁
   const isPublicPage = useMemo(() => {
     return publicPages.includes(pathname)
   }, [pathname])
 
   useEffect(() => {
     if (!isReady) return
-    if (!isAuth && !isPublicPage) {
-      router.replace('/member/login?type=signin')
+    if (!isAuth && !isPublicPage && !redirecting) {
+      setRedirecting(true)
+      Swal.fire({
+        icon: 'warning',
+        title: '請先登入',
+        showConfirmButton: false,
+        timer: 1500,
+        background: '#e3f2fd',
+        color: '#ed784a',
+      }).then(() => {
+        router.replace('/')
+      })
     }
-  }, [isAuth, isReady, isPublicPage, router])
+  }, [isAuth, isReady, isPublicPage, router, redirecting])
 
   const generateBreadcrumbItems = () => {
     const items = [{ label: '首頁', href: '/' }]
@@ -86,10 +98,10 @@ export default function MemberLayout({ children }) {
   // 尚未準備好資料時不渲染
   if (!isReady) return null
 
-  // 若是公開頁面（例如登入、忘記密碼等）直接渲染，不顯示 sidebar 與麵包屑
+  // 如果是公開頁面，直接渲染 children，不顯示 sidebar、breadcrumb
   if (isPublicPage) return children
 
-  // 不是公開頁又沒登入，不渲染（避免閃一下再導轉）
+  // 非公開頁且未登入，跳轉中不渲染任何內容，避免閃爍
   if (!isAuth) return null
 
   return (

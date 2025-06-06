@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styles from './layout.module.scss'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FaEnvelope, FaLock, FaGoogle } from 'react-icons/fa'
+import { FaEnvelope, FaLock, FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '../../../../../hooks/use-auth'
 import useFirebase from '../../../../../hooks/use-firebase'
@@ -14,6 +14,7 @@ export default function SignInForm({ isSignUpMode }) {
   const [errorMsg, setErrorMsg] = useState('')
   const [isEmailLoading, setIsEmailLoading] = useState(false)
   const [isGoogleLoading, setIsGoogleLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const router = useRouter()
   const { loginGoogle } = useFirebase()
@@ -133,14 +134,22 @@ export default function SignInForm({ isSignUpMode }) {
         />
       </div>
 
-      <div className={styles.inputField}>
+      <div className={`${styles.inputField} position-relative`}>
         <FaLock className={`${styles.icon} ms-3 h-50 w-50`} />
         <input
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           placeholder="密碼"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <button
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+          className={`${styles.iconeye} position-absolute end-0 top-50 translate-middle-y me-3 border-0 bg-transparent fs-4`}
+          aria-label={showPassword ? '隱藏密碼' : '顯示密碼'}
+        >
+          {showPassword ? <FaEyeSlash /> : <FaEye />}
+        </button>
       </div>
 
       <input

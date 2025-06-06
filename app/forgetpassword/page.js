@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import Swal from 'sweetalert2'
 import styles from './forgetpassword.module.scss'
-import { FaEnvelope, FaLock } from 'react-icons/fa'
+import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -16,17 +16,22 @@ export default function ForgotPasswordPage() {
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [isSendingOtp, setIsSendingOtp] = useState(false)
+  const [isResettingPassword, setIsResettingPassword] = useState(false)
+  const [showNewPassword, setShowNewPassword] = useState(false)
+  const [showRePassword, setShowRePassword] = useState(false)
 
   const handleSendOtp = async (e) => {
     e.preventDefault()
     setError('')
     setMessage('')
+
     if (!email) {
       setError('請輸入電子信箱')
       return
     }
 
-    setIsLoading(true)
+    setIsSendingOtp(true)
     try {
       const res = await fetch('http://localhost:3005/api/member/requestotp', {
         method: 'POST',
@@ -44,7 +49,7 @@ export default function ForgotPasswordPage() {
     } catch (err) {
       setError('伺服器錯誤')
     } finally {
-      setIsLoading(false)
+      setIsSendingOtp(false)
     }
   }
 
@@ -68,7 +73,7 @@ export default function ForgotPasswordPage() {
       return
     }
 
-    setIsLoading(true)
+    setIsResettingPassword(true)
     try {
       const res = await fetch(
         'http://localhost:3005/api/member/resetpassword',
@@ -100,7 +105,7 @@ export default function ForgotPasswordPage() {
     } catch (err) {
       setError('伺服器錯誤')
     } finally {
-      setIsLoading(false)
+      setIsResettingPassword(false)
     }
   }
 
@@ -134,8 +139,9 @@ export default function ForgotPasswordPage() {
               required
             />
           </div>
-
-          {message && <div className="text-success mb-2">{message}</div>}
+          {step === 1 && error && (
+            <div className="text-danger mb-2">{error}</div>
+          )}
 
           {step === 2 && (
             <>
@@ -151,37 +157,58 @@ export default function ForgotPasswordPage() {
                 />
               </div>
 
-              {error && <div className="text-danger mb-2">{error}</div>}
-
-              <div className={styles.inputField}>
+              {/* 新密碼欄位 */}
+              <div className={`${styles.inputField} position-relative`}>
                 <FaLock className={`${styles.icon} fs-4 ms-2`} />
                 <input
-                  type="password"
+                  type={showNewPassword ? 'text' : 'password'}
                   placeholder="新密碼"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   minLength={6}
                   required
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowNewPassword(!showNewPassword)}
+                  aria-label={showNewPassword ? '隱藏密碼' : '顯示密碼'}
+                  className={`${styles.iconeye} position-absolute end-0 top-50 translate-middle-y me-3 border-0 bg-transparent fs-4`}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {showNewPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
               </div>
-              <div className={styles.inputField}>
+
+              {/* 確認密碼欄位 */}
+              <div className={`${styles.inputField} position-relative`}>
                 <FaLock className={`${styles.icon} fs-4 ms-2`} />
                 <input
-                  type="password"
+                  type={showRePassword ? 'text' : 'password'}
                   placeholder="確認密碼"
                   value={rePassword}
                   onChange={(e) => setRePassword(e.target.value)}
                   minLength={6}
                   required
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowRePassword(!showRePassword)}
+                  aria-label={showRePassword ? '隱藏密碼' : '顯示密碼'}
+                  className={`${styles.iconeye} position-absolute end-0 top-50 translate-middle-y me-3 border-0 bg-transparent fs-4`}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {showRePassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
               </div>
+              {message && <div className="text-success mb-2">{message}</div>}
+              {error && <div className="text-danger mb-2">{error}</div>}
               <button
                 type="button"
                 className={`${styles.btn}`}
                 onClick={handleSendOtp}
-                disabled={isLoading}
+                disabled={isSendingOtp}
               >
-                重新寄送驗證碼
+                {isSendingOtp ? '處理中...' : '重新寄送驗證碼'}
               </button>
             </>
           )}
@@ -189,9 +216,13 @@ export default function ForgotPasswordPage() {
           <button
             type="submit"
             className={`${styles.btn}`}
-            disabled={isLoading}
+            disabled={isSendingOtp || isResettingPassword}
           >
-            {isLoading ? '處理中...' : step === 1 ? '寄送驗證碼' : '重設密碼'}
+            {isResettingPassword
+              ? '處理中...'
+              : step === 1
+                ? '寄送驗證碼'
+                : '重設密碼'}
           </button>
         </form>
         <button className={`${styles.home}`}>

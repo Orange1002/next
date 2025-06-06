@@ -99,7 +99,7 @@ export default function DogsPage() {
       <SectionTitle>狗狗資料</SectionTitle>
       <div className="mt-3 h-100">
         <div
-          className={`${styles.block} d-flex flex-column justify-content-center g-0 p-0 p-lg-5 h-100`}
+          className={`${styles.block} d-flex flex-column justify-content-center g-0 p-0 px-lg-5  h-100`}
         >
           {showLeft && (
             <button

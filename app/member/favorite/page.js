@@ -106,7 +106,7 @@ export default function FavoriteSection() {
                 </div>
               )}
               {activeTab === 'articles' && (
-                <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-2">
+                <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-2 pb-lg-3">
                   <ArticlesPage data={paginatedData} />
                 </div>
               )}

@@ -4,8 +4,12 @@ import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useAuth } from '../../hooks/use-auth'
+import Swal from 'sweetalert2'
+import { useRouter, usePathname } from 'next/navigation'
 
 export default function MemberAvatarDropdown() {
+  const router = useRouter()
+  const pathname = usePathname()
   const [showDropdown, setShowDropdown] = useState(false)
   const dropdownRef = useRef(null)
   const { member, isReady, logout, isAuth } = useAuth()
@@ -46,14 +50,45 @@ export default function MemberAvatarDropdown() {
       })
 
       if (res.ok) {
-        console.log('登出成功')
         setShowDropdown(false)
         logout()
+
+        Swal.fire({
+          icon: 'warning',
+          title: '已登出',
+          showConfirmButton: false,
+          timer: 1500,
+          background: '#e9f7ef',
+          color: '#ed784a',
+        })
+
+        // 只有會員頁跳轉
+        if (pathname.startsWith('/member')) {
+          setTimeout(() => {
+            router.push('/')
+          }, 1500)
+        }
       } else {
         console.error('登出失敗')
+        Swal.fire({
+          icon: 'error',
+          title: '登出失敗',
+          text: '請稍後再試一次',
+          confirmButtonColor: '#d33',
+          background: '#fdecea',
+          color: '#b71c1c', // 深紅
+        })
       }
     } catch (err) {
       console.error('登出錯誤', err)
+      Swal.fire({
+        icon: 'error',
+        title: '登出錯誤',
+        text: '請檢查網路或稍後再試',
+        confirmButtonColor: '#d33',
+        background: '#fdecea',
+        color: '#b71c1c',
+      })
     }
   }
 

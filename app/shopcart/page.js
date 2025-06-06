@@ -130,7 +130,7 @@ export default function ShopcartPage() {
         return res.json()
       })
       .then((data) => {
-        console.log({ data })
+        // console.log({ data })
         if (data.status != 'error') {
           setIsLogin(true)
         }
