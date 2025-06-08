@@ -149,6 +149,7 @@
 
   .couponCard {
     gap: 5px;
+    position: relative;
   }
 
   .couponContent {
@@ -156,7 +157,16 @@
   }
 
   .couponActions {
-    display: none;
+    display: flex;
+    position: absolute;
+    right: 7px;
+    bottom: 13px;
+    width: 47.9px;
+    
+  }
+
+  .btnUse{
+    font-size: 10px;
   }
 
   .couponBody {

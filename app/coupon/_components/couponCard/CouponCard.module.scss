@@ -4,7 +4,7 @@
   justify-self: center;
   gap: 10px;
   border-radius: 4px;
-width: 90%;
+  width: 90%;
   position: relative;
 }
 
@@ -85,7 +85,7 @@ width: 90%;
 .badgeMultiplier {
   position: absolute;
   top: 8px;
-  right:-10px;
+  right: -10px;
   background-color: #ff8a5c;
   color: #fff;
   font-size: clamp(12px, 1.5vw, 20px);
@@ -135,8 +135,6 @@ width: 90%;
   }
 }
 
-
-
 @media (max-width: 576px) {
   .couponLeft {
     min-width: 190px;
@@ -166,6 +164,12 @@ width: 90%;
   padding: 0.5rem 1rem;
   right: 7px;
   bottom: 10px;
+
+  @media (max-width: 500px) {
+    right: -15px;
+    top: 85px;
+    height: 43px;
+  }
 }
 
 .useButton {
