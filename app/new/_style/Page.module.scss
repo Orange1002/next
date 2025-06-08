@@ -1,0 +1,207 @@
+.newMain {
+  display: flex;
+  max-width: 1920px;
+  box-sizing: border-box;
+  padding: 93px 0 0 0;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.firstContainer {
+  display: flex;
+  padding: 0;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.Image1 {
+  object-fit: cover;
+}
+
+.eventFirstContent {
+  display: flex;
+  width: 1920px;
+  padding: 21px;
+  align-items: center;
+  gap: 10px;
+
+  .eventText1 {
+    color: var(--Ellipse-8, #505050);
+    font-family: 'Kiwi Maru';
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 8.8px;
+  }
+}
+
+// 第二區
+.secondContainer {
+  display: flex;
+  width: 1920px;
+  height: 564px;
+  padding: 55px 0;
+  justify-content: center;
+  align-items: center;
+  gap: 104px;
+  flex-shrink: 0;
+  background: #50505086;
+
+  .Image2Container {
+    display: flex;
+    width: 690px;
+    height: 460px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .Image2 {
+    width: 690px;
+    height: 460px;
+    flex-shrink: 0;
+    aspect-ratio: 3 / 2;
+  }
+
+  .eventSecondContent {
+    display: flex;
+    width: 882px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    flex-shrink: 0;
+
+    .eventText2Container {
+      display: flex;
+      width: 882px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      flex-shrink: 0;
+
+      .idkWhy {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 46px;
+        align-self: stretch;
+
+        .eventText2TitleBg {
+          display: flex;
+          height: 52px;
+          justify-content: flex-end;
+          align-items: center;
+          background: var(--Frame-20, #f3f3f3);
+
+          .eventText2Title {
+            width: 827px;
+            color: var(--Ellipse-8, #505050);
+            font-family: 'Kiwi Maru';
+            font-size: 36px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            letter-spacing: 7.92px;
+          }
+        }
+
+        .eventText2 {
+          width: 827px;
+          color: #fff;
+          font-family: 'Kiwi Maru';
+          font-size: 24px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: normal;
+          letter-spacing: 5.28px;
+        }
+      }
+    }
+  }
+}
+
+.Image3Container {
+  position: relative;
+  overflow: hidden;
+  width: 1920px;
+  height: 893px;
+}
+
+.eventProductCard {
+  position: absolute;
+  top: 370px;
+  left: 230px;
+  border: #5050504f 1.5px solid;
+}
+
+.forthContainer {
+  position: relative;
+}
+
+.eventProductCard2 {
+  position: absolute;
+  top: 350px;
+  right: 120px;
+  border: #5050504f 1.5px solid;
+}
+
+.eventProductCard3 {
+  position: absolute;
+  top: 1120px;
+  left: 150px;
+  border: #5050504f 1.5px solid;
+}
+
+.fifthContainer {
+  position: relative;
+  margin-bottom: -2px;
+}
+
+.eventRelatedProducts {
+  position: absolute;
+  top: 30px;
+  left: 80px;
+}
+
+.btnMoreContainer {
+  position: absolute;
+  top: 300px;
+  right: 300px;
+  text-decoration: none;
+}
+
+.btnMore {
+  display: flex;
+  height: 50px;
+  padding: 12px 75px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 5px;
+  border: 1px solid var(--Ellipse-8, #505050);
+  background-color: #fff;
+
+  color: var(--Ellipse-8, #505050);
+  text-align: center;
+  font-family: 'Inria Sans';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 3.52px;
+
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.2s ease;
+
+  &:hover {
+    background-color: #505050;
+    color: #fff;
+    cursor: pointer;
+  }
+}

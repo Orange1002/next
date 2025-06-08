@@ -121,6 +121,8 @@ export default function CouponPage() {
           key={coupon.id}
           couponId={coupon.id}
           memberId={member?.id}
+          categoryId={coupon.categoryId}
+          usageTypeId={coupon.usageTypeId}
           {...formatted}
         />
       )
