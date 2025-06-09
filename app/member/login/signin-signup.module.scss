@@ -294,6 +294,18 @@
     bottom: 16%;
     left: 50%;
   }
+
+  .leftPanel {
+    pointer-events: none;
+  }
+
+  .logContainer.signUpMode .rightPanel {
+    pointer-events: none;
+  }
+
+  .btn {
+    pointer-events: all;
+  }
 }
 
 .home {

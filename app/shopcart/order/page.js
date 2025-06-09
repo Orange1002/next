@@ -39,7 +39,7 @@ export default function OrderPage() {
     storeAddress: '',
     paymentMethod: '1',
     totalAmount: 0,
-    couponId: '0',
+    couponId: '',
     discountType: '',
     discountValue: '',
     orderItems: [],
@@ -247,7 +247,7 @@ export default function OrderPage() {
         Swal.fire({
           icon: 'success',
           title: '訂單建立成功！',
-          text: `訂單編號：${result.orderId}`,
+          // text: `訂單編號：${result.orderId}`,
           confirmButtonText: '前往付款',
           confirmButtonColor: '#fb966e',
         }).then((res) => {
@@ -290,7 +290,7 @@ export default function OrderPage() {
               <div className="ms-4 fs-6">清單</div>
             </div>
             <div className="d-flex justify-content-center align-items-center">
-              <div className="shopcart-title-circle d-flex justify-content-center align-items-center bg-orange">
+              <div className="shopcart-title-circle d-flex justify-content-center align-items-center bg-orange text-white">
                 2
               </div>
               <div className="ms-4 fs-6">填寫資料</div>
@@ -590,7 +590,7 @@ export default function OrderPage() {
                         {formData.couponId ? '更改優惠卷' : '選擇優惠卷'}
                       </h3>
                     </div>
-                    <div className="p-lg-5  overflow-auto box12">
+                    <div className="p-lg-5  overflow-auto box12 d-flex flex-column gap-3">
                       {filteredCoupons.length > 0 ? (
                         filteredCoupons.map((coupon) => (
                           <div

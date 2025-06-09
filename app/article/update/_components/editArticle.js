@@ -20,6 +20,7 @@ function EditArticle() {
     { value: '行為與訓練', label: '行為與訓練' },
     { value: '健康與保健', label: '健康與保健' },
     { value: '戶外活動與探險', label: '戶外活動與探險' },
+    { value: '分享狗狗的一切', label: '分享狗狗的一切' },
   ])
   const [selectedCategory, setSelectedCategory] = useState(null)
 

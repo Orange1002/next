@@ -17,9 +17,11 @@
   flex-direction: column;
   gap: 12px;
   padding: 0 25px 0 10px !important;
-  min-height: 580px; // 預留空間
+  min-height: 500px; // 預留空間
 
   @media (max-width: 576px) {
+    min-height: 0px;
+
     :global(.container) {
       padding: 10px 5px !important;
     }

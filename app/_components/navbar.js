@@ -73,14 +73,16 @@ export default function MyNavbar() {
       fixed="top"
       className="border-bottom shadow-sm custom-navbar-padding"
     >
-      <Container fluid>
+      <Container fluid className="p-0">
         <Navbar.Brand>
           <Link href="/" className="text-decoration-none text-dark">
             <div className="logo-text">BARK &amp; BIJOU</div>
             <div className="logo-slogan">LUXURY &amp; LOVE FOR YOUR PUP</div>
           </Link>
         </Navbar.Brand>
-
+        <div className="d-flex d-lg-none align-items-center me-auto">
+          <MemberAvatarDropdown isAuthenticated={isAuthenticated} />
+        </div>
         <Navbar.Toggle
           aria-controls="navbarMain"
           onClick={() => {

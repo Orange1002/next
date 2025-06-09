@@ -37,6 +37,7 @@ export default function SignUpForm({ isSignUpMode }) {
   const [secret, setSecret] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [showRepassword, setShowRepassword] = useState(false)
+  const [agreeTerms, setAgreeTerms] = useState(false)
 
   const [fieldErrors, setFieldErrors] = useState({
     username: '',
@@ -218,7 +219,11 @@ export default function SignUpForm({ isSignUpMode }) {
       return
     }
 
-    // ...（前面欄位驗證略）
+    // 尚未勾選同意條款
+    if (!agreeTerms) {
+      setMessages(['請勾選同意服務條款與隱私政策'])
+      return
+    }
 
     setIsLoading(true)
     try {
@@ -284,9 +289,23 @@ export default function SignUpForm({ isSignUpMode }) {
           await refreshMember()
 
           if (data.isNew) {
-            // 不是 data.data.isNew，是 data.isNew
-            router.replace(`/member/profile/info/edit/${data.id}`) // 新會員導向補資料頁
+            // 新會員顯示成功通知後導向補資料頁
+            await Swal.fire({
+              icon: 'success',
+              title: '註冊成功！',
+              text: '歡迎加入 BARK & BIJOU！',
+              confirmButtonText: '前往編輯個人資料',
+              confirmButtonColor: '#ed784a',
+            })
+            router.replace(`/member/profile/info/edit/${data.id}`)
           } else {
+            // 舊會員登入成功通知後導向首頁
+            await Swal.fire({
+              icon: 'success',
+              title: '登入成功',
+              text: '歡迎回來！',
+              confirmButtonText: '確定',
+            })
             router.replace('/')
           }
         } else {
@@ -541,6 +560,25 @@ export default function SignUpForm({ isSignUpMode }) {
           {fieldErrors.repassword && (
             <p className={styles.errorMsg}>{fieldErrors.repassword}</p>
           )}
+          <div className="form-check mb-3 mt-3">
+            <input
+              type="checkbox"
+              id="agreeTerms"
+              className="form-check-input"
+              checked={agreeTerms}
+              onChange={(e) => setAgreeTerms(e.target.checked)}
+            />
+            <label htmlFor="agreeTerms" className="form-check-label">
+              我已閱讀並同意{' '}
+              <a href="/terms" target="_blank" rel="noopener noreferrer">
+                服務條款
+              </a>{' '}
+              與{' '}
+              <a href="/privacy" target="_blank" rel="noopener noreferrer">
+                隱私政策
+              </a>
+            </label>
+          </div>
 
           <button type="submit" className={styles.btn} disabled={isLoading}>
             {isLoading ? '註冊中...' : '完成註冊'}

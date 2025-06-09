@@ -4,27 +4,32 @@ import React, { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { FaChevronCircleLeft } from 'react-icons/fa'
 import { FaChevronCircleRight } from 'react-icons/fa'
+import Link from 'next/link'
 
 const eventCards = [
   {
     src: './images/AIRBUGGY1 1.png',
     alt: 'event 1',
     text: '春季_狗狗新裝上線!!',
+    href: '#',
   },
   {
     src: './images/AIRBUGGY1 2.png',
     alt: 'event 2',
     text: '外出必備!! 春日好禮大放送！',
+    href: '/new',
   },
   {
     src: './images/AIRBUGGY1 3.png',
     alt: 'event 3',
     text: '達指定金額 運費$0元！',
+    href: '#',
   },
   {
     src: './images/AIRBUGGY1 4.webp',
     alt: 'event 4',
     text: '夏季外出，狗狗運動會!',
+    href: '#',
   },
 ]
 
@@ -157,8 +162,8 @@ export default function MyEvent() {
                 ref={groupRef}
               >
                 {eventCards.map((card, index) => (
-                  <div
-                    role="button"
+                  <Link
+                    href={card.href}
                     className="event-card text-decoration-none object-fit-cover"
                     key={index}
                   >
@@ -169,7 +174,7 @@ export default function MyEvent() {
                       alt={card.alt}
                     />
                     <div className="event-card-content">{card.text}</div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>

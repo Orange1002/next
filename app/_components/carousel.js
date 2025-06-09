@@ -122,7 +122,7 @@ export default function MyCarousel() {
       >
         <div className="d-flex bigImg-group position-absolute" ref={groupRef}>
           {imageList.map((src, idx) => (
-            <Link className="bigImgCard" href="#" key={idx}>
+            <div className="bigImgCard" key={idx}>
               <Image
                 src={src}
                 alt={`image ${idx + 1}`}
@@ -130,7 +130,7 @@ export default function MyCarousel() {
                 height={440}
                 priority
               />
-            </Link>
+            </div>
           ))}
         </div>
       </div>

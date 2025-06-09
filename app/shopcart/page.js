@@ -159,7 +159,7 @@ export default function ShopcartPage() {
               >
                 <div
                   className={`shopcart-title-circle d-flex justify-content-center align-items-center ${
-                    i === 0 ? 'bg-orange' : ''
+                    i === 0 ? 'bg-orange text-white' : ''
                   }`}
                 >
                   {i + 1}

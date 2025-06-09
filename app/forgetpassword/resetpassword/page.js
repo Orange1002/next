@@ -92,74 +92,146 @@ export default function ResetPasswordByLinkPage() {
   }
 
   return (
-    <div
-      className={`${styles.bg} d-flex container-fluid justify-content-center align-items-center`}
-    >
+    <>
       <div
-        className={`${styles.resetContainer} d-flex flex-column justify-content-center align-items-center p-4`}
+        className={`${styles.bg} d-none d-lg-flex container-fluid justify-content-center align-items-center`}
       >
-        <h2 className={`${styles.title} text-center mb-4`}>重設密碼</h2>
-
-        <form
-          className="d-flex flex-column justify-content-center align-items-center"
-          onSubmit={handleResetPassword}
+        <div
+          className={`${styles.resetContainer} d-flex flex-column justify-content-center align-items-center p-4`}
         >
-          {/* 新密碼欄位 */}
-          <div className={`${styles.inputField} position-relative`}>
-            <FaLock className={`${styles.icon} fs-4 ms-2`} />
-            <input
-              type={showNewPassword ? 'text' : 'password'}
-              placeholder="新密碼"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              minLength={6}
-              required
-            />
-            <button
-              type="button"
-              onClick={() => setShowNewPassword((prev) => !prev)}
-              aria-label={showNewPassword ? '隱藏密碼' : '顯示密碼'}
-              className={`${styles.iconeye} position-absolute end-0 top-50 translate-middle-y me-3 border-0 bg-transparent fs-4`}
-              style={{ cursor: 'pointer' }}
-            >
-              {showNewPassword ? <FaEyeSlash /> : <FaEye />}
-            </button>
-          </div>
+          <h2 className={`${styles.title} text-center mb-4`}>重設密碼</h2>
 
-          {/* 確認密碼欄位 */}
-          <div className={`${styles.inputField} position-relative`}>
-            <FaLock className={`${styles.icon} fs-4 ms-2`} />
-            <input
-              type={showRePassword ? 'text' : 'password'}
-              placeholder="確認密碼"
-              value={rePassword}
-              onChange={(e) => setRePassword(e.target.value)}
-              minLength={6}
-              required
-            />
-            <button
-              type="button"
-              onClick={() => setShowRePassword((prev) => !prev)}
-              aria-label={showRePassword ? '隱藏密碼' : '顯示密碼'}
-              className={`${styles.iconeye} position-absolute end-0 top-50 translate-middle-y me-3 border-0 bg-transparent fs-4`}
-              style={{ cursor: 'pointer' }}
-            >
-              {showRePassword ? <FaEyeSlash /> : <FaEye />}
-            </button>
-          </div>
-
-          {error && <div className="text-danger mb-2">{error}</div>}
-          {message && <div className="text-success mb-2">{message}</div>}
-
-          <button
-            type="submit"
-            className={`${styles.btn} mt-3`}
-            disabled={isLoading}
+          <form
+            className="d-flex flex-column justify-content-center align-items-center"
+            onSubmit={handleResetPassword}
           >
-            {isLoading ? '處理中...' : '重設密碼'}
-          </button>
-        </form>
+            {/* 新密碼欄位 */}
+            <div className={`${styles.inputField} position-relative`}>
+              <FaLock className={`${styles.icon} fs-4 ms-2`} />
+              <input
+                type={showNewPassword ? 'text' : 'password'}
+                placeholder="新密碼"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                minLength={6}
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowNewPassword((prev) => !prev)}
+                aria-label={showNewPassword ? '隱藏密碼' : '顯示密碼'}
+                className={`${styles.iconeye} position-absolute end-0 top-50 translate-middle-y me-3 border-0 bg-transparent fs-4`}
+                style={{ cursor: 'pointer' }}
+              >
+                {showNewPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
+
+            {/* 確認密碼欄位 */}
+            <div className={`${styles.inputField} position-relative`}>
+              <FaLock className={`${styles.icon} fs-4 ms-2`} />
+              <input
+                type={showRePassword ? 'text' : 'password'}
+                placeholder="確認密碼"
+                value={rePassword}
+                onChange={(e) => setRePassword(e.target.value)}
+                minLength={6}
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowRePassword((prev) => !prev)}
+                aria-label={showRePassword ? '隱藏密碼' : '顯示密碼'}
+                className={`${styles.iconeye} position-absolute end-0 top-50 translate-middle-y me-3 border-0 bg-transparent fs-4`}
+                style={{ cursor: 'pointer' }}
+              >
+                {showRePassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
+
+            {error && <div className="text-danger mb-2">{error}</div>}
+            {message && <div className="text-success mb-2">{message}</div>}
+
+            <button
+              type="submit"
+              className={`${styles.btn} mt-3`}
+              disabled={isLoading}
+            >
+              {isLoading ? '處理中...' : '重設密碼'}
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+      {/* 手機板 */}
+      <div
+        className={`${styles.bg} d-flex d-lg-none container-fluid justify-content-center align-items-center`}
+      >
+        <div
+          className={`${styles.resetContainer} d-flex flex-column justify-content-center align-items-center p-4`}
+        >
+          <h2 className={`${styles.title} text-center mb-4`}>重設密碼</h2>
+
+          <form
+            className="d-flex flex-column justify-content-center align-items-center"
+            onSubmit={handleResetPassword}
+          >
+            {/* 新密碼欄位 */}
+            <div className={`${styles.inputField} position-relative`}>
+              <FaLock className={`${styles.icon} fs-4 ms-2`} />
+              <input
+                type={showNewPassword ? 'text' : 'password'}
+                placeholder="新密碼"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                minLength={6}
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowNewPassword((prev) => !prev)}
+                aria-label={showNewPassword ? '隱藏密碼' : '顯示密碼'}
+                className={`${styles.iconeye} position-absolute end-0 top-50 translate-middle-y me-3 border-0 bg-transparent fs-4`}
+                style={{ cursor: 'pointer' }}
+              >
+                {showNewPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
+
+            {/* 確認密碼欄位 */}
+            <div className={`${styles.inputField} position-relative`}>
+              <FaLock className={`${styles.icon} fs-4 ms-2`} />
+              <input
+                type={showRePassword ? 'text' : 'password'}
+                placeholder="確認密碼"
+                value={rePassword}
+                onChange={(e) => setRePassword(e.target.value)}
+                minLength={6}
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowRePassword((prev) => !prev)}
+                aria-label={showRePassword ? '隱藏密碼' : '顯示密碼'}
+                className={`${styles.iconeye} position-absolute end-0 top-50 translate-middle-y me-3 border-0 bg-transparent fs-4`}
+                style={{ cursor: 'pointer' }}
+              >
+                {showRePassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
+
+            {error && <div className="text-danger mb-2">{error}</div>}
+            {message && <div className="text-success mb-2">{message}</div>}
+
+            <button
+              type="submit"
+              className={`${styles.btn} mt-3`}
+              disabled={isLoading}
+            >
+              {isLoading ? '處理中...' : '重設密碼'}
+            </button>
+          </form>
+        </div>
+      </div>
+    </>
   )
 }

@@ -251,7 +251,7 @@ export default function DogForm({
           className="position-absolute text-muted small"
           style={{
             bottom: '20px',
-            right: '10px',
+            right: '30px',
             margin: 0,
             pointerEvents: 'none',
           }}

@@ -56,7 +56,7 @@
 /* 聊天按鈕獨立容器 */
 .fab-chat-container {
   bottom: 24px; /* 距離底部 */
-  right: 200px ; /* 往左偏移，避免跟編輯按鈕重疊 */
+  right: 200px; /* 往左偏移，避免跟編輯按鈕重疊 */
   z-index: 1000;
 }
 
@@ -66,7 +66,6 @@
   bottom: 24px;
   right: 24px;
 }
-
 
 .fab-container .fab-option {
   opacity: 0;
@@ -126,7 +125,9 @@
 .card-2:hover button {
   background-color: #cc543a;
 }
-
+.card-2:hover .doghouse {
+  animation: shake 0.5s ease-in-out infinite;
+}
 .icon {
   font-size: 16px;
   background-color: #7d7d7d;
@@ -146,21 +147,8 @@
 .icon:hover {
   background-color: #cc543a;
   transform: scale(1.05);
+  animation: shake 0.8s ease-in-out;
 }
-
-// .icon-link {
-//   display: inline-flex;
-//   text-decoration: none;
-//   color: inherit;
-//   border: none;
-//   padding: 0;
-//   cursor: pointer;
-//   outline: none;
-// }
-
-// .icon-link:hover .icon {
-//   background-color: #cc543a;
-// }
 
 .big-card {
   font-size: 14px;
@@ -211,29 +199,29 @@
   margin-bottom: 8rem; /* 你可以根據需求調整大小 */
 }
 
-@keyframes dog-run {
+@keyframes shake {
   0% {
-    left: -40px;
-    opacity: 0;
+    transform: rotate(0deg);
   }
-  20% {
-    opacity: 1;
+  25% {
+    transform: rotate(10deg);
   }
-  80% {
-    opacity: 1;
+  50% {
+    transform: rotate(-10deg);
+  }
+  75% {
+    transform: rotate(10deg);
   }
   100% {
-    left: 100%;
-    opacity: 0;
+    transform: rotate(0deg);
   }
 }
-
 // RWD
 /* 讓按鈕群可以自動換行 */
 .button-group-wrapper {
-  flex-wrap: wrap;       /* 允許換行 */
+  flex-wrap: wrap; /* 允許換行 */
   justify-content: center;
-  gap: 0.75rem 1.5rem;   /* 上下與左右間距 */
+  gap: 0.75rem 1.5rem; /* 上下與左右間距 */
   margin-top: 1rem;
 }
 
@@ -247,7 +235,7 @@
   font-weight: 500;
   transition: color 0.3s ease;
   letter-spacing: 0.2em;
-  white-space: nowrap;       /* 不自動斷行 */
+  white-space: nowrap; /* 不自動斷行 */
 }
 
 /* 手機與平板視窗自動調整大小（最多2~3個一排） */
@@ -265,4 +253,3 @@
     flex: 0 0 calc(100% - 1rem); /* 手機單排顯示（可選） */
   }
 }
-

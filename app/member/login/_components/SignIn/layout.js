@@ -122,8 +122,6 @@ export default function SignInForm({ isSignUpMode }) {
 
       <h2 className={styles.title}>登入</h2>
 
-      {errorMsg && <p style={{ color: 'red' }}>{errorMsg}</p>}
-
       <div className={styles.inputField}>
         <FaEnvelope className={`${styles.icon} ms-3 h-50 w-50`} />
         <input
@@ -151,7 +149,7 @@ export default function SignInForm({ isSignUpMode }) {
           {showPassword ? <FaEyeSlash /> : <FaEye />}
         </button>
       </div>
-
+      {errorMsg && <p style={{ color: 'red' }}>{errorMsg}</p>}
       <input
         type="submit"
         className={`${styles.btn} solid`}

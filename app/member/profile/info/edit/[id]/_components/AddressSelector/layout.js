@@ -495,18 +495,34 @@ export default function AddressSelector({ value, onChange }) {
 
   const handleCityChange = (e) => {
     const newCity = e.target.value
-    setCity(newCity)
-    setTown({ name: '', zip: '' })
-    setZip('')
+
+    // 如果沒選縣市，設為 null
+    if (newCity === '') {
+      setCity('')
+      setTown({ name: '', zip: '' })
+      setZip('')
+    } else {
+      setCity(newCity)
+      setTown({ name: '', zip: '' })
+      setZip('')
+    }
+
     setAddress('')
     isExternalUpdateRef.current = false
   }
 
   const handleAreaChange = (e) => {
     const selectedZip = e.target.value
-    const selectedTown = towns.find((t) => t.zip === selectedZip) || null
-    setTown(selectedTown)
-    setZip(selectedZip)
+
+    if (selectedZip === '') {
+      setTown({ name: '', zip: '' })
+      setZip('')
+    } else {
+      const selectedTown = towns.find((t) => t.zip === selectedZip) || null
+      setTown(selectedTown)
+      setZip(selectedZip)
+    }
+
     isExternalUpdateRef.current = false
   }
 
@@ -534,7 +550,9 @@ export default function AddressSelector({ value, onChange }) {
         <label className={`${styles.label} w-100 mb-3 ms-lg-3 me-lg-2`}>
           縣市
           <select name="city" value={city} onChange={handleCityChange}>
-            <option value="">請選擇縣市</option>
+            <option value="" disabled hidden>
+              請選擇縣市
+            </option>
             {AddressArray.map((c) => (
               <option key={c.city} value={c.city}>
                 {c.city}
@@ -549,11 +567,13 @@ export default function AddressSelector({ value, onChange }) {
           市區
           <select
             name="zip"
-            value={town ? town.zip : ''}
+            value={town?.zip || ''}
             onChange={handleAreaChange}
             disabled={!city}
           >
-            <option value="">請選擇鄉鎮市區</option>
+            <option value="" disabled hidden>
+              請選擇鄉鎮市區
+            </option>
             {towns.map((a, i) => (
               <option key={`${a.name}-${a.zip}-${i}`} value={a.zip}>
                 {a.name}

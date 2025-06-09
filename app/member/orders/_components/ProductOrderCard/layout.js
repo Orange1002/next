@@ -30,7 +30,7 @@ export default function ProductOrderCard({
         <div className="d-flex order-0 order-lg-0 justify-content-between justify-content-lg-start w-100">
           <div className="w-100">
             <p className={styles.zh}>
-              訂單編號 :
+              訂單編號:
               <span className={`${styles.en} ${styles.span} ps-1`}>
                 {orderNumber}
               </span>
@@ -109,16 +109,28 @@ export default function ProductOrderCard({
                       </div>
                       <div className="d-flex justify-content-between">
                         <div>
-                          <p className="zh">顏色:{product.color}</p>
-                          <p className="zh">
-                            規格:{product.size || product.packing}
-                          </p>
-                          <p className="zh">內容物:{product.items_group}</p>
+                          {product.color && (
+                            <p className="zh mb-1">顏色: {product.color}</p>
+                          )}
+                          {product.size && (
+                            <p className="zh mb-1">尺寸: {product.size}</p>
+                          )}
+                          {product.packing && (
+                            <p className="zh mb-1">包裝: {product.packing}</p>
+                          )}
+                          {product.items_group && (
+                            <p className="zh mb-1">
+                              內容物: {product.items_group}
+                            </p>
+                          )}
                         </div>
                         <div>
-                          <p className="en">x{product.quantity}</p>
+                          {product.quantity && (
+                            <p className="en">x{product.quantity}</p>
+                          )}
                         </div>
                       </div>
+
                       <div className="d-flex justify-content-end gap-1">
                         {product.originalPrice && (
                           <s className="en">${product.originalPrice}</s>
