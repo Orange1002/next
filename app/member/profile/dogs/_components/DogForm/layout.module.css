@@ -1,10 +1,10 @@
 .form {
   margin: 0 auto;
-  padding: 1.5rem;
-  border: 1px solid #929292;
+  padding: 1rem;
+  border: 2px solid #d9d9d999;
   border-radius: 1rem;
   background-color: transparent;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); */
 }
 
 .imagePreview {
@@ -148,6 +148,32 @@
   color: #505050;
 }
 
+.inputField select {
+  /* background: none; */
+  outline: none;
+  border: none;
+  line-height: 1;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 0 0.4rem;
+  color: #505050;
+}
+
+.inputField textarea {
+  /* background: none; */
+  outline: none;
+  border: none;
+  line-height: 1;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #505050;
+  padding-left: 5px;
+}
+
+.inputField textarea::placeholder {
+  font-weight: 500;
+}
+
 .inputField input::placeholder {
   color: #505050;
   font-weight: 500;
@@ -155,7 +181,7 @@
 
 input:-webkit-autofill {
   box-shadow: 0 0 0px 1000px #f0f0f0 inset !important;
-  -webkit-text-fill-color: #000 !important;
+  -webkit-text-fill-color: #505050 !important;
   font-size: inherit !important;
   font-family: inherit !important;
 }

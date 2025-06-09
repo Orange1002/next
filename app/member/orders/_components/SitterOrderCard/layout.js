@@ -29,7 +29,7 @@ export default function SitterOrderCard({
         <div className="d-flex order-0 order-lg-0 justify-content-between justify-content-lg-start w-100">
           <div>
             <p className={styles.zh}>
-              訂單編號 :
+              訂單編號:
               <span className={`${styles.en} ${styles.span} ps-1`}>
                 {orderNumber}
               </span>

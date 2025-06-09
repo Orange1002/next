@@ -138,7 +138,7 @@ export default function AppPage() {
         <Container>
           <Row className="my-96">
             <Col xs={12} lg={6} className="p-3">
-              <Link href="#">
+              <Link href="/product/category/food">
                 <div className="position-relative transform-size1">
                   <div className="position-relative">
                     <Image
@@ -155,7 +155,7 @@ export default function AppPage() {
             </Col>
 
             <Col xs={12} lg={6} className="p-3">
-              <Link href="#">
+              <Link href="/product/category/travel">
                 <div className="position-relative transform-size1">
                   <div className="position-relative">
                     <Image
@@ -176,7 +176,7 @@ export default function AppPage() {
             </Col>
 
             <Col xs={12} lg={4} className="p-3">
-              <Link href="#">
+              <Link href="/product/category/bed">
                 <div className="position-relative transform-size1">
                   <div className="position-relative">
                     <Image
@@ -197,7 +197,7 @@ export default function AppPage() {
             </Col>
 
             <Col xs={12} lg={4} className="p-3">
-              <Link href="#">
+              <Link href="/sitter">
                 <div className="position-relative transform-size1">
                   <div className="position-relative">
                     <Image
@@ -214,7 +214,7 @@ export default function AppPage() {
             </Col>
 
             <Col xs={12} lg={4} className="p-3">
-              <Link href="#">
+              <Link href="/product/category/health">
                 <div className="position-relative transform-size1">
                   <div className="position-relative">
                     <Image

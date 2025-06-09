@@ -54,7 +54,7 @@ export default function ProductCard({
             isActive={isFavorite}
             className="CardHeartIcon"
           />
-          <CartIcon className="CardIcon CardIcon2" isActive={isInCart} />
+          <CartIcon className="CardIcon" isActive={isInCart} />
         </div>
       </div>
     </div>

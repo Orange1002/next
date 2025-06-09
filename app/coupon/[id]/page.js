@@ -137,9 +137,9 @@ export default function ProductDetailPage() {
                     {
                       title: '適用範圍',
                       items: [
-                        coupon.usageTypeId === 1
+                        coupon.usageTypeId === 2
                           ? '此優惠券可套用於寵物保母服務'
-                          : coupon.usageTypeId === 2
+                          : coupon.usageTypeId === 1
                             ? '此優惠券可套用於商品結帳'
                             : '使用範圍未指定',
                       ],

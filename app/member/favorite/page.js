@@ -1,7 +1,7 @@
 'use client'
 
 import { useSearchParams, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import styles from './favorite.module.scss'
 import SectionTitle from '../_components/SectionTitle/layout'
 import Pagination from '../_components/Pagination/layout'
@@ -61,10 +61,21 @@ export default function FavoriteSection() {
   }, [activeTab, memberId])
 
   const totalPages = Math.max(1, Math.ceil(allData.length / itemsPerPage))
-  const paginatedData = allData.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  )
+
+  // ✅ 用 useMemo 計算 paginatedData，確保畫面能正確更新
+  const paginatedData = useMemo(() => {
+    return allData.slice(
+      (currentPage - 1) * itemsPerPage,
+      currentPage * itemsPerPage
+    )
+  }, [allData, currentPage])
+
+  // ✅ 若當前頁資料被刪光，自動跳回上一頁
+  useEffect(() => {
+    if (currentPage > 1 && paginatedData.length === 0) {
+      setCurrentPage(currentPage - 1)
+    }
+  }, [paginatedData, currentPage])
 
   const handleTabClick = (tabType) => {
     router.push(`/member/favorite?type=${tabType}`)
@@ -92,8 +103,6 @@ export default function FavoriteSection() {
           </div>
 
           {/* List */}
-          {/* List */}
-
           {paginatedData.length === 0 ? (
             <div className="text-center w-100 py-5 text-muted">
               尚未收藏任何{activeTab === 'products' ? '狗狗用品' : '文章'}
@@ -102,12 +111,12 @@ export default function FavoriteSection() {
             <>
               {activeTab === 'products' && (
                 <div className="row g-0 gap-2 gap-lg-4 justify-content-center justify-content-lg-start mt-4">
-                  <ProductsPage data={paginatedData} />
+                  <ProductsPage data={paginatedData} setAllData={setAllData} />
                 </div>
               )}
               {activeTab === 'articles' && (
                 <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-2 pb-lg-3">
-                  <ArticlesPage data={paginatedData} />
+                  <ArticlesPage data={paginatedData} setAllData={setAllData} />
                 </div>
               )}
             </>

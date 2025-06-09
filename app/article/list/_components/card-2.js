@@ -118,7 +118,7 @@ const Card2 = ({ article }) => {
         {/* 狗屋 icon - 僅在懸停時顯示 */}
         {isHovered && (
           <div
-            className="doghouse-icon position-absolute top-0 end-0 p-2"
+            className="doghouse-icon position-absolute top-0 end-0 p-2 "
             style={{
               fontSize: '20px',
               color: '#ed784a',
@@ -126,7 +126,7 @@ const Card2 = ({ article }) => {
               zIndex: 10,
             }} // 調整顏色和 z-index
           >
-            <GiDogHouse size={24} />
+            <GiDogHouse size={24} className="doghouse" />
           </div>
         )}
 

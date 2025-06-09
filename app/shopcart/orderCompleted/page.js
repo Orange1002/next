@@ -25,7 +25,7 @@ export default function OrderComplete() {
               <div className="ms-4 fs-6">填寫資料</div>
             </div>
             <div className="d-flex justify-content-center align-items-center">
-              <div className="shopcart-title-circle d-flex justify-content-center align-items-center bg-orange">
+              <div className="shopcart-title-circle d-flex justify-content-center align-items-center bg-orange text-white">
                 3
               </div>
               <div className="ms-4 fs-6">結帳完成</div>

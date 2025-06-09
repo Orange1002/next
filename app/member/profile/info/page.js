@@ -159,9 +159,9 @@ export default function MemberViewPage() {
                     縣市
                     <select
                       name="city"
-                      value={member.city}
+                      value={member.city || ''}
                       disabled
-                      className="form-select"
+                      className="form-select p-0"
                     >
                       <option value="">{member.city || '未填寫縣市'}</option>
                     </select>
@@ -175,9 +175,9 @@ export default function MemberViewPage() {
                     市區
                     <select
                       name="zip"
-                      value={member.zip}
+                      value={member.zip || ''}
                       disabled
-                      className="form-select"
+                      className="form-select p-0"
                     >
                       <option value="">
                         {getTownName(member.city, member.zip) ||
@@ -196,7 +196,7 @@ export default function MemberViewPage() {
                     value={member.address || '未填寫預設住址'}
                     readOnly
                     disabled
-                    className="form-control"
+                    className="form-control p-0"
                     placeholder="未填寫預設住址"
                     autoComplete="street-address"
                   />
