@@ -93,9 +93,12 @@ export default function SitterDetailPage() {
       </Link>
 
       {/* 基本資訊區 */}
-      <article className="container-sm py-5" style={{ maxWidth: '1080px' }}>
-        <div className="row g-5 align-items-center justify-content-center">
-          <figure className="col-12 col-lg-6 p-5">
+      <article
+        className="container-sm py-5"
+        style={{ maxWidth: '1080px', width: '100%' }}
+      >
+        <div className="row g-3 align-items-center justify-content-center">
+          <figure className="col-12 col-lg-6 p-3 mt-sm-5">
             <Image
               src={
                 sitter?.avatar_url
@@ -103,7 +106,7 @@ export default function SitterDetailPage() {
                   : '/images/default-avatar.png'
               }
               alt="Pet Sitter Profile"
-              className="img-fluid rounded-5 justify-content-center"
+              className="img-fluid rounded-5 justify-content-center "
               width={400}
               height={100}
               // style={{ width: 'auto' }}
