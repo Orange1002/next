@@ -38,6 +38,7 @@ export default function SignUpForm({ isSignUpMode }) {
   const [showPassword, setShowPassword] = useState(false)
   const [showRepassword, setShowRepassword] = useState(false)
   const [agreeTerms, setAgreeTerms] = useState(false)
+  const [agreeMessages, setAgreeMessages] = useState([])
 
   const [fieldErrors, setFieldErrors] = useState({
     username: '',
@@ -211,7 +212,7 @@ export default function SignUpForm({ isSignUpMode }) {
     )
   }
 
-  // 完成註冊（需 OTP 驗證成功才可送出）
+  // 完成註冊（需 OTP 驗證成功、勾選同意條款才可送出）
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!isOtpVerified) {
@@ -221,8 +222,10 @@ export default function SignUpForm({ isSignUpMode }) {
 
     // 尚未勾選同意條款
     if (!agreeTerms) {
-      setMessages(['請勾選同意服務條款與隱私政策'])
+      setAgreeMessages(['請勾選同意服務條款與隱私政策'])
       return
+    } else {
+      setAgreeMessages([])
     }
 
     setIsLoading(true)
@@ -560,7 +563,7 @@ export default function SignUpForm({ isSignUpMode }) {
           {fieldErrors.repassword && (
             <p className={styles.errorMsg}>{fieldErrors.repassword}</p>
           )}
-          <div className="form-check mb-3 mt-3">
+          <div className="form-check mb-3 mt-3 d-flex align-items-center">
             <input
               type="checkbox"
               id="agreeTerms"
@@ -568,7 +571,7 @@ export default function SignUpForm({ isSignUpMode }) {
               checked={agreeTerms}
               onChange={(e) => setAgreeTerms(e.target.checked)}
             />
-            <label htmlFor="agreeTerms" className="form-check-label">
+            <label htmlFor="agreeTerms" className="form-check-label ms-2">
               我已閱讀並同意{' '}
               <a href="/terms" target="_blank" rel="noopener noreferrer">
                 服務條款
@@ -579,7 +582,10 @@ export default function SignUpForm({ isSignUpMode }) {
               </a>
             </label>
           </div>
-
+          {/* ✅ 顯示錯誤訊息 */}
+          {agreeMessages.length > 0 && (
+            <div className="text-danger ms-4">{agreeMessages[0]}</div>
+          )}
           <button type="submit" className={styles.btn} disabled={isLoading}>
             {isLoading ? '註冊中...' : '完成註冊'}
           </button>

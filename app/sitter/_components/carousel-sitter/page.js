@@ -63,7 +63,7 @@ export default function MySitterCard() {
   }, [sitters])
 
   return (
-    <section>
+    <section className="d-none d-lg-block">
       <div className="container ">
         <div className="product-wrapper my-96">
           <div className="text-center mb-5">
