@@ -132,3 +132,13 @@ body {
   background-color: #cd5339;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
+.pagination {
+  flex-wrap: wrap;
+  gap: 0.25rem;
+
+  .page-link {
+    min-width: 36px;
+    padding: 0.5rem 0.75rem;
+    text-align: center;
+  }
+}

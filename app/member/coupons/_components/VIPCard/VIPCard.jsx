@@ -34,7 +34,9 @@ const VIPCard = ({
     nextLevelPoints = 8000
   }
 
-  const pointsToNextLevel = nextLevelPoints ? Math.max(nextLevelPoints - accumulatedPoints, 0) : 0
+  const pointsToNextLevel = nextLevelPoints
+    ? Math.max(nextLevelPoints - accumulatedPoints, 0)
+    : 0
 
   return (
     <section className={styles.myCardSection}>
@@ -80,7 +82,7 @@ const VIPCard = ({
 
               {nextLevelName ? (
                 <p className={styles.pointHint}>
-                  <span className={styles.pointHintText}>在滿</span>
+                  <span className={styles.pointHintText}>再</span>
                   <span className={styles.pointHintCurrent}>
                     {pointsToNextLevel.toLocaleString()}
                   </span>
@@ -90,15 +92,18 @@ const VIPCard = ({
                 </p>
               ) : (
                 <p className={styles.pointHint}>
-                  <span className={styles.pointHintText}>
-                    您已達最高等級
-                  </span>
+                  <span className={styles.pointHintText}>您已達最高等級</span>
                 </p>
               )}
             </div>
           </div>
         </div>
-        <Link href={'/member/coupons/points-history'} className={styles.pointsHistory}>點數紀錄</Link>
+        <Link
+          href={'/member/coupons/points-history'}
+          className={styles.pointsHistory}
+        >
+          點數紀錄
+        </Link>
       </div>
     </section>
   )

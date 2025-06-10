@@ -166,21 +166,23 @@ export default function SitterList() {
       {/* 分頁導覽 */}
       <nav
         aria-label="Page navigation"
-        className="d-flex justify-content-center mb-5 "
+        className="d-flex justify-content-center mb-5"
       >
-        <ul className="pagination pagination-primary">
-          <li className={`page-item ${currentPage === 1 && 'disabled'} `}>
+        <ul className="pagination pagination-primary flex-wrap justify-content-center">
+          <li className={`page-item ${currentPage === 1 && 'disabled'}`}>
             <button
-              className="page-link "
+              className="page-link"
               onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
             >
               «
             </button>
           </li>
+
+          {/* 中間頁碼僅在sm以上螢幕顯示 */}
           {Array.from({ length: totalPages }, (_, i) => (
             <li
               key={i}
-              className={`page-item ${currentPage === i + 1 && 'active'} `}
+              className={`page-item ${currentPage === i + 1 && 'active'} d-none d-sm-inline`}
             >
               <button
                 className="page-link"
@@ -190,6 +192,7 @@ export default function SitterList() {
               </button>
             </li>
           ))}
+
           <li
             className={`page-item ${currentPage === totalPages && 'disabled'}`}
           >
@@ -201,6 +204,11 @@ export default function SitterList() {
             </button>
           </li>
         </ul>
+
+        {/* 小螢幕目前頁數顯示 */}
+        <div className="d-block d-sm-none text-center mt-3 fs-6 text-muted">
+          第 {currentPage} / {totalPages} 頁
+        </div>
       </nav>
 
       <div className="d-flex justify-content-center d-none">
