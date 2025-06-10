@@ -11,8 +11,8 @@ export default function ComponentsSectionIntro(props) {
       className="container py-5 text-center "
       style={{ fontFamily: 'Kiwi Maru' }}
     >
-      <div className="text-center mb-5">
-        <div className="d-inline-flex align-items-center gap-3 mb-5">
+      <div className="text-center mb-md-5 ">
+        <div className="d-inline-flex align-items-center gap-3 mb-md-5 ">
           <div className="flex-grow-1 border-top border-3 border-dark title-line" />
           <h2 className="text-secondary section-title">專業服務平台</h2>
           <div className="rounded-circle bg-dark dot-circle" />
@@ -22,7 +22,7 @@ export default function ComponentsSectionIntro(props) {
       <div className="d-flex flex-column mt-5 w-100" style={{ maxWidth: 1280 }}>
         {/* 區塊 1 */}
         <div className="row w-100">
-          <div className="col-md-6 px-3 text-dark">
+          <div className="col-md-6 px-5 py-3 text-dark">
             <h2 className="fw-medium text-uppercase fs-2 mb-4">
               簡單預約，快速上手
             </h2>
@@ -44,8 +44,8 @@ export default function ComponentsSectionIntro(props) {
         </div>
 
         {/* 區塊 2 */}
-        <div className="row align-items-center justify-content-between mt-5">
-          <div className="col-md-6">
+        <div className="row align-items-start justify-content-between mt-5">
+          <div className="col-md-6 order-1 order-md-2">
             <Image
               src="/images/pet_walking.jpg"
               alt="專業服務"
@@ -56,7 +56,7 @@ export default function ComponentsSectionIntro(props) {
               priority
             />
           </div>
-          <div className="col-md-6 px-4 py-3 text-dark">
+          <div className="col-md-6 px-5 py-3 text-dark">
             <h2 className="fw-medium text-uppercase fs-2 mb-3">
               專業服務，值得信賴
             </h2>
