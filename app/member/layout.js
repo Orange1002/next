@@ -102,7 +102,16 @@ export default function MemberLayout({ children }) {
   if (isPublicPage) return children
 
   // 非公開頁且未登入，跳轉中不渲染任何內容，避免閃爍
-  if (!isAuth) return null
+  if (!isAuth) {
+    return (
+      <div
+        className="container"
+        style={{
+          height: '950px',
+        }}
+      ></div>
+    )
+  }
 
   return (
     <main>

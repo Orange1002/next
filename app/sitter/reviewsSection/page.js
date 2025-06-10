@@ -5,7 +5,7 @@ import styles from '../_components/swiper-card/reviewSection.module.css'
 import AnimatedDog from '../_components/animated-dog'
 export default function ReviewsSection() {
   return (
-    <section className={`${styles.reviewsSection} py-5 px-4`}>
+    <section className={`${styles.reviewsSection} py-5 px-4 d-none d-lg-block`}>
       <div className="container">
         <div className="d-flex flex-wrap gap-3 flex-lg-row flex-column align-items-center">
           <div className="flex-grow-1">
