@@ -396,7 +396,7 @@ export default function SignUpForm({ isSignUpMode }) {
           className={styles.btn}
           disabled={isLoading}
         >
-          {isLoading ? '寄送中...' : '取得 驗證碼'}
+          {isLoading ? '寄送中...' : '寄送驗證碼'}
         </button>
       )}
 
