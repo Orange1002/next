@@ -5,7 +5,7 @@ import SectionTitle from '../../_components/SectionTitle/layout'
 import BtnCustom from '../../_components/BtnCustom/layout'
 import styles from './changepassword.module.css'
 import { useAuth } from '../../../../hooks/use-auth'
-import { FaLock } from 'react-icons/fa'
+import { FaLock, FaEye, FaEyeSlash } from 'react-icons/fa'
 import Swal from 'sweetalert2'
 import MobileMemberMenu from '../../_components/mobileLinks/layout'
 
@@ -13,6 +13,10 @@ export default function ChangePasswordPage() {
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false)
+  const [showNewPassword, setShowNewPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   const { member, isAuth, loading } = useAuth()
 
@@ -104,39 +108,65 @@ export default function ChangePasswordPage() {
           <form onSubmit={handleSubmit}>
             <div className="d-flex flex-column align-items-center justify-content-between">
               {/* 舊密碼 */}
-              <div className={`${styles.inputField} mb-2`}>
-                <FaLock className={`${styles.icon} ms-3 h-50 w-50`} />
+              <div className={`${styles.inputField} mb-2 position-relative`}>
+                <FaLock className={`${styles.icon} ms-3`} />
                 <input
-                  type="password"
+                  type={showCurrentPassword ? 'text' : 'password'}
                   placeholder="請輸入舊密碼"
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
                   required
                 />
+                <button
+                  type="button"
+                  className={`${styles.iconeye} position-absolute end-0 top-50 translate-middle-y me-3 border-0 bg-transparent fs-4`}
+                  onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                  aria-label={showCurrentPassword ? '隱藏舊密碼' : '顯示舊密碼'}
+                >
+                  {showCurrentPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
               </div>
 
               {/* 新密碼 */}
-              <div className={`${styles.inputField} mb-2`}>
-                <FaLock className={`${styles.icon} ms-3 h-50 w-50`} />
+              <div className={`${styles.inputField} mb-2 position-relative`}>
+                <FaLock className={`${styles.icon} ms-3`} />
                 <input
-                  type="password"
+                  type={showNewPassword ? 'text' : 'password'}
                   placeholder="請輸入新密碼"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   required
                 />
+                <button
+                  type="button"
+                  className={`${styles.iconeye} position-absolute end-0 top-50 translate-middle-y me-3 border-0 bg-transparent fs-4`}
+                  onClick={() => setShowNewPassword(!showNewPassword)}
+                  aria-label={showNewPassword ? '隱藏新密碼' : '顯示新密碼'}
+                >
+                  {showNewPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
               </div>
 
               {/* 確認新密碼 */}
-              <div className={`${styles.inputField} mb-2`}>
-                <FaLock className={`${styles.icon} ms-3 h-50 w-50`} />
+              <div className={`${styles.inputField} mb-2 position-relative`}>
+                <FaLock className={`${styles.icon} ms-3`} />
                 <input
-                  type="password"
+                  type={showConfirmPassword ? 'text' : 'password'}
                   placeholder="再次輸入新密碼"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                 />
+                <button
+                  type="button"
+                  className={`${styles.iconeye} position-absolute end-0 top-50 translate-middle-y me-3 border-0 bg-transparent fs-4`}
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  aria-label={
+                    showConfirmPassword ? '隱藏確認新密碼' : '顯示確認新密碼'
+                  }
+                >
+                  {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
               </div>
 
               {/* 送出按鈕 */}
